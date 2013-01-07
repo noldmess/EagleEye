@@ -1,0 +1,11 @@
+<?php
+//require_once("../myfolder/myfunction.php");
+
+class TestAddTwo extends PHPUnit_Framework_TestCase {
+
+    public function testAddTwo(){
+        $this->assertEquals(5, 5);
+    }
+
+}
+?>

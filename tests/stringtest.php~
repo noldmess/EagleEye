@@ -1,0 +1,10 @@
+<?php
+echo "dsfsdf";
+require_once 'testcase.php';
+echo "dsfsdf";
+require_once 'PHPUnit/Autoload.php';
+$suite  = new PHPUnit_Framework_TestSuite("StringTest");
+$result = PHPUnit::run($suite);
+
+echo $result -> toString();
+?>

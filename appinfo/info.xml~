@@ -1,0 +1,16 @@
+<?xml version="1.0"?> 
+<info>
+	<id>facefinder</id>
+	<name>facefinder</name>
+	<licence>AGPL</licence>
+	<author>Aaron Messner</author>
+	<require>4.9</require>
+	<shipped>true</shipped>
+	<description>Dedicated pictures application</description>
+	<standalone/>
+	<default_enable/>
+	<types>
+		<!-- update thumbnails when saving file -->
+		<filesystem/>
+	</types>
+</info>
