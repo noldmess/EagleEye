@@ -14,6 +14,7 @@
 			<img alt="" src="">
 		</div>
 		<div id="tool_taggs">
+		<div>sdfsdf</div>
 		<textarea></textarea></div>
 	</div>
 	<div id="tool_righte">
