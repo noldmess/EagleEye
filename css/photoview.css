@@ -39,7 +39,6 @@ div.tool_title{
 }
 
 #photo{
-
 	position:relative;
 	text-align:center;
 	vertical-align:text-bottom;
@@ -50,6 +49,34 @@ div.tool_title{
 
 
 #tool_taggs{
+	display: block;
+	min-height:100px;
+	height:20%;
+	min-width:  70%;
+}
+
+#taggs{
+	float: left;
+}
+
+#taggs div.tag{
+	float: left;
+	padding-left: 5px;
+	padding-right: 5px;
+		box-shadow:2px 2px 2px #666;
+	-moz-box-shadow: 2px 2px 2px #666;
+	-webkit-box-shadow: 2px 2px 2px #666;
+}
+
+#taggs div.tag img {
+	 opacity: 0.5;
+}
+
+#taggs div.tag img:HOVER{
+	 opacity: 1;
+}
+
+#tool_taggs textarea{
 	min-height:100px;
 	height:20%;
 	min-width:  70%;
