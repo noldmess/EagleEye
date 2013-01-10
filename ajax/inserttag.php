@@ -1,18 +1,14 @@
 <?php
+
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('facefinder');
-
-
-//SELECT * FROM oc_facefinder_tag_module  inner  join oc_facefinder_tag_photo_module on(oc_facefinder_tag_module.id=oc_facefinder_tag_photo_module.tag_id) inner join oc_facefinder on(oc_facefinder.photo_id=oc_facefinder_tag_photo_module.photo_id)
-$stmt = \OCP\DB::prepare('SELECT * FROM oc_facefinder_tag_module  inner  join oc_facefinder_tag_photo_module on(oc_facefinder_tag_module.id=oc_facefinder_tag_photo_module.tag_id) inner join oc_facefinder on(oc_facefinder.photo_id=oc_facefinder_tag_photo_module.photo_id) where uid_owner LIKE ? And oc_facefinder.path=?');
-$result = $stmt->execute(array(\OCP\USER::getUser(),$_GET['image']));
-
-while (($row = $result->fetchRow())!= false) {
-	if("2#025"==$row['name']){
-			//echo "#keyword ".$row['tag'].'<br>';
-			$tagarray[]=array('name'=>'#keyword',"tag"=>$row['tag']);
-	}
-
-}
-echo json_encode($tagarray);
+$writemodul=new OC_Module_Maneger();
+$moduleclasses=$writemodul->getModuleClass();
+$tmp=new OC_FaceFinder_Photo($_GET['image']);
+$id=$tmp->getID();
+$tag_module =new Tag_Module("ff");
+$tagid=$tag_module->insertTag("2#025",$_GET['tag']);
+$tag_module->setForingKey($id);
+$tag_module->insertTagPhoto($tagid);
+echo json_encode(array(a=>"DFDSF"));
 ?>
