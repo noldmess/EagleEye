@@ -4,29 +4,8 @@
 	 <create>true</create>
 	 <overwrite>false</overwrite>
 	 <charset>utf8</charset>
-	  <table>
-     <name>*dbprefix*facefinder_exif_module_kamera</name>
-    <declaration>
-       <field>
-	    <name>id</name>
-	    <type>integer</type>
-	    <default>0</default>
-	    <notnull>true</notnull>
-		<autoincrement>1</autoincrement>
-	    <length>8</length>
-      </field>
-      <field>
-	    <name>make</name>
-	    <type>text</type>
-      </field>
-     <field>
-	    <name>model</name>
-	    <type>text</type>
-      </field>
-  </declaration>
- </table>
   <table>
-     <name>*dbprefix*facefinder_exif_module</name>
+     <name>*dbprefix*facefinder_exif_date_module</name>
     <declaration>
        <field>
 	    <name>id</name>
@@ -40,54 +19,58 @@
 	    <name>date</name>
 	    <type>timestamp</type>
       </field>
-      <field>
-	    <name>whitebalance</name>
-	    <type>integer</type>
-	    <length>4</length>
-      </field>
-       <field>
-	    <name>iso</name>
-	    <type>integer</type>
-	    <length>4</length>
-      </field>
-       <field>
-	    <name>flash</name>
-	    <type>integer</type>
-	    <length>4</length>
-      </field>
-       <field>
-	    <name>focallength</name>
-	    <type>integer</type>
-	    <length>4</length>
-      </field>
-      <field>
-	    <name>fnumber</name>
-	    <type>integer</type>
-	    <length>4</length>
-      </field>
-      <field>
-	    <name>focallengthin35mmfilm</name>
-	    <type>integer</type>
-	    <length>4</length>
-      </field>
-      <field>
-	    <name>exposuretime</name>
-	    <type>integer</type>
-	    <length>4</length>
-      </field>
        <field>
 	    <name>photo_id</name>
 	    <type>integer</type>
 	    <notnull>true</notnull>
 	    <length>64</length>
       </field>
+  </declaration>
+ </table>
+   <table>
+     <name>*dbprefix*facefinder_exif_module</name>
+    <declaration>
+       <field>
+	    <name>id</name>
+	    <type>integer</type>
+	    <default>0</default>
+	    <notnull>true</notnull>
+		<autoincrement>1</autoincrement>
+	    <length>8</length>
+      </field>
+      <field>
+	    <name>name</name>
+	    <type>text</type>
+      </field>
+     <field>
+	    <name>valued</name>
+	    <type>text</type>
+      </field>
+  </declaration>
+ </table>
+  <table>
+     <name>*dbprefix*facefinder_exif_photo_module</name>
+    <declaration>
+       <field>
+	    <name>id</name>
+	    <type>integer</type>
+	    <default>0</default>
+	    <notnull>true</notnull>
+		<autoincrement>1</autoincrement>
+	    <length>8</length>
+      </field>
+      <field>
+	    <name>photo_id</name>
+	    <type>integer</type>
+	    <notnull>false</notnull>
+	    <length>64</length>
+      </field>
         <field>
-	    <name>kamera_id</name>
+	    <name>exif_id</name>
 	    <type>integer</type>
 	    <notnull>false</notnull>
 	    <length>64</length>
       </field>
   </declaration>
  </table>
-
 </database>

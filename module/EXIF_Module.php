@@ -20,43 +20,129 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-require_once('/var/www/owncloud/apps/facefinder/lib/moduleinterface.php');
+
 class EXIF_Module implements OC_Module_Interface{
 	
 		private  $paht;
-		private  static $version='0.0.9';
+		private  static $version='0.4.5';
 		private $ForingKey=null;
 		private $exif;
+		private $lang=null;
 		public  function __construct($path) {
+			$this->lang =new OC_l10n('facefinder');
 			$this->paht=$path;
 		}
 		
 		public static function getVersion(){
 			return self::$version;
 		}
+		
+		public function  getExifId($key,$valued){
+			$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_exif_module` WHERE `name` LIKE ? AND `valued` LIKE ?');
+			$result=$stmt->execute(array($key,$valued));
+			$rownum=0;
+			$id;
+			while (($row = $result->fetchRow())!= false) {
+				$id=$row['id'];
+				$rownum++;
+			}
+			if($rownum==1){
+				return  $id;
+			}else{
+				return null;
+			}
+		}
+		
+		public function insertExif($key,$valued){
+			$key=($this->lang->t($key));
+			$valued=$this->getFormat($key,$valued);
+			$exif_id=$this->getExifId($key,$valued);
+			if($exif_id!=null){
+				return  $exif_id;
+			}else{
+				$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_exif_module` ( `name`, `valued`) VALUES ( ?, ?)');
+				$result=$stmt->execute(array($key,$valued));
+				$exif_id=$this->getExifId($key,$valued);
+				if($exif_id!=null)
+					return  $exif_id;
+			}
+				
+		}
+		
+		public function  issetExiPhotoId($photo_id,$exif_id){
+			$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_exif_photo_module` WHERE `photo_id`  = ? and `exif_id` = ?');
+			$result=$stmt->execute(array($photo_id,$exif_id));
+			$rownum=0;
+			$id;
+			while (($row = $result->fetchRow())!= false) {
+				$id=$row['photo_id'];
+				$rownum++;
+			}
+			OCP\Util::writeLog("facefinder",$rownum,OCP\Util::DEBUG);
+			return ($rownum==1);
+				
+		}
+		
+		
+		public function  issetDatePhotoId($photo_id){
+			$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_exif_date_module` WHERE `photo_id`  = ?');
+			$result=$stmt->execute(array($photo_id));
+			$rownum=0;
+			$id;
+			while (($row = $result->fetchRow())!= false) {
+				$id=$row['photo_id'];
+				$rownum++;
+			}
+			OCP\Util::writeLog("facefinder",$rownum,OCP\Util::DEBUG);
+			return ($rownum==1);
+		
+		}
+		
+		
+		public function insertExifPhoto($id){
+			if(!$this->issetExiPhotoId($this->ForingKey,$id)){
+				if($id!=null){
+					$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_exif_photo_module` (`photo_id`, `exif_id`) VALUES ( ?, ?);');
+					$result=$stmt->execute(array($this->ForingKey,$id));
+				}
+			}
+		
+		
+		}
+		
+		
+		
 		/**
 		 * Insert the exif data in the EXIF module Table in the db 
 		 * If there is no "DateTimeOriginal" the "FileDateTime" will be  insert
 		 * @return null if no exif
 		 */
-		
 		public function insert(){
 			$exifheader=self::getExitHeader($this->paht);
-			$kamera_id=$this->insertKamera($exifheader);
 			if ($exifheader!=null) {
-				if($this->ForingKey!=null){
-					$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_exif_module` (`date`, `photo_id`,`kamera_id`,`fnumber`,`focallength`,`focallengthin35mmfilm`,`iso`,`whitebalance`,`flash`,`exposuretime`) VALUES ( ?, ?,?,?,?,?,?,?,?,?)');
+				if(isset($exifheader["EXIF"])){
+					foreach ($exifheader["EXIF"] as  $key => $section){
+						//if( strlen($section)>0){
+							$exif_if=$this->insertExif($key,$section);
+							$this->insertExifPhoto($exif_if);
+						//}
+					}
+				}
+			
+				if($this->ForingKey!=null && !$this->issetDatePhotoId($this->ForingKey)){
+					$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_exif_date_module` (`date`, `photo_id`) VALUES ( ?, ?)');
 					$date=self::getDateOfEXIF($exifheader);
-					$photo_info=self::getPhotoData($exifheader);
-					$stmt->execute(array($date,$this->ForingKey,$kamera_id,$photo_info['FNumber'],$photo_info['FocalLength'],$photo_info['FocalLengthIn35mmFilm'],$photo_info['ISOSpeedRatings'],$photo_info['WhiteBalance'],$photo_info['Flash'],$photo_info['ExposureTime']));
+					//$photo_info=self::getPhotoData($exifheader);
+					$stmt->execute(array($date,$this->ForingKey));
 				}else{
-					OCP\Util::writeLog("facefinder","No id set",OCP\Util::ERROR);
+					OCP\Util::writeLog("facefinder","No id set",OCP\Util::DEBUG);
 					
 						$error ='no foringkey set';
 						throw new Exception($error);
 					
 				}
 			}else{
+					OCP\Util::writeLog("facefinder","No Exif Heder:".$this->paht,OCP\Util::DEBUG);
 					return null;
 			}
 			$this->existe=true;
@@ -77,7 +163,6 @@ class EXIF_Module implements OC_Module_Interface{
 		 */
 		public static   function getExitHeader($path){
 			  if (OC_Filesystem::file_exists($path)) {
-				//@todo
 				return exif_read_data(OC_Filesystem::getLocalFile($path),'FILE', true);
 			}else{
 				return  null;
@@ -107,112 +192,18 @@ class EXIF_Module implements OC_Module_Interface{
 			return $date;
 		}
 		
-	
-	/**
-	 * the function returns the camera Make and the module and nall un not exist
-	 * @param $exifheader
-	 * @return Ambigous <multitype:, multitype:NULL , NULL>
-	 */
-	public  static function getKamera($exifheader){
-		$kamera=array();
-		if(isset($exifheader["IFD0"]["Make"]) && isset($exifheader["IFD0"]["Model"])){
-			$kamera=array($exifheader["IFD0"]["Make"],$exifheader["IFD0"]["Model"]);
-		}else{
-			$kamera=null;
-		}
-		return $kamera;
-	}
-	/**
-	 * 
-	 * @param unknown_type $kamera
-	 * @return unknown|NULL
-	 */
-	public function  getKameraId($kamera){
-		$stmt = OCP\DB::prepare('SELECT *FROM `*PREFIX*facefinder_exif_module_kamera` WHERE  `make` LIKE ? AND `model` LIKE ?');
-		$result=$stmt->execute($kamera);
-		$rownum=0;
-		$id;
+	public static function getExifData($photo_id){
+		$stmt = OCP\DB::prepare('SELECT * From *PREFIX*facefinder_exif_date_module inner  join *PREFIX*facefinder on (*PREFIX*facefinder_exif_date_module.photo_id= *PREFIX*facefinder.photo_id)   where uid_owner like ? and *PREFIX*facefinder.photo_id=?;');
+		$result=$stmt->execute(array(\OCP\USER::getUser(),$photo_id));
 		while (($row = $result->fetchRow())!= false) {
-			$id=$row['id'];
-			$rownum++;
-		}
-		if($rownum==1){
-			return  $id;	
-		}else{
-			return null;	
+			return array('whitebalance'=>$row['whitebalance'],'iso'=>$row['iso'],'flash'=>$row['flash'],'focallength'=>$row['focallength'],'fnumber'=>$row['fnumber'],'focallengthin35mmfilm'=>$row['focallengthin35mmfilm'],'exposuretime'=>$row['exposuretime'],'make'=>$row['make'],'model'=>$row['model']);
 		}
 	}
 	
-	/**
-	 * The funktion insert the date of the camera in the database a
-	 * @param $exifheader
-	 * @return $id of table or null if no camera information
-	 */
-	public function insertKamera($exifheader){
-		$kamera=$this->getKamera($exifheader);
-		if($kamera!=null){
-			$kamera_id=$this->getKameraId($kamera);
-			if($kamera_id!=null)
-				return  $kamera_id;
-			else{
-				//INSERT INTO `*PREFIX*facefinder_exif_module_kamera` ( `make`, `model`) VALUES (?,?);
-				$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_exif_module_kamera` ( `make`, `model`) VALUES (?,?)');
-				$result=$stmt->execute($kamera);
-				$kamera_id=$this->getKameraId($kamera);
-				if($kamera_id!=null)
-					return  $kamera_id;
-			}
-		}
-		return null;
-	} 
+
+
 	
 	
-	/**
-	 * The function returns the exif data from the photo
-	 * @param $exifheader
-	 * @return array of exif data
-	 */
-	public  static function getPhotoData($exifheader){
-		
-		/*return array('FNumber'=>$exifheader["EXIF"]["FNumber"],'FocalLength'=>$exifheader["EXIF"]["FocalLength"],'FocalLengthIn35mmFilm'=>$exifheader["EXIF"]["FocalLengthIn35mmFilm"],'ISOSpeedRatings'=>$exifheader["EXIF"]["ISOSpeedRatings"],'WhiteBalance'=>$exifheader["EXIF"]["WhiteBalance"],'Flash'=>$exifheader["EXIF"]["Flash"],'ExposureTime'=>$exifheader["EXIF"]["ISOSpeedRatings"]);*/
-		if(isset($exifheader["EXIF"]["FNumber"])) {
-			$Photo['FNumber']=$exifheader["EXIF"]["FNumber"];
-		}else{
-			$Photo['FNumber']=null;
-		}
-		if(isset($exifheader["EXIF"]["FocalLength"])) {
-			$Photo['FocalLength']=$exifheader["EXIF"]["FocalLength"];
-		}else{
-			$Photo['FocalLength']=null;
-		}
-		
-		if(isset($exifheader["EXIF"]["FocalLengthIn35mmFilm"])) {
-			$Photo['FocalLengthIn35mmFilm']=$exifheader["EXIF"]["FocalLengthIn35mmFilm"];
-		}else{
-			$Photo['FocalLengthIn35mmFilm']=null;
-		}
-		if(isset($exifheader["EXIF"]["ISOSpeedRatings"])) {
-			$Photo['ISOSpeedRatings']=$exifheader["EXIF"]["ISOSpeedRatings"];
-		}else{
-			$Photo['ISOSpeedRatings']=null;
-		}
-		if(isset($exifheader["EXIF"]["WhiteBalance"])) {
-			$Photo['WhiteBalance']=$exifheader["EXIF"]["WhiteBalance"];
-		}else{
-			$Photo['WhiteBalance']=null;
-		}
-		if(isset($exifheader["EXIF"]["Flash"])) {
-			$Photo['Flash']=$exifheader["EXIF"]["Flash"];
-		}else{
-			$Photo['Flash']=null;
-		}
-		if(isset($exifheader["EXIF"]["ExposureTime"])) {
-			$Photo['ExposureTime']=$exifheader["EXIF"]["ExposureTime"];
-		}else{
-			$Photo['ExposureTime']=null;
-		}
-		return $Photo;
-	}
 	
 		public function remove(){
 				/**
@@ -227,13 +218,219 @@ class EXIF_Module implements OC_Module_Interface{
 			
 		}
 	
-		public function search($query){
-			/**
-			 * @todo
-			 */
+		public static function autoComplit($query){
+		/*	$stmt = OCP\DB::prepare('select * From   *PREFIX*facefinder_exif_module_language where  oder  like ?');
+			$result=$stmt->execute(array($query."%"));
+			while (($row = $result->fetchRow())!= false) {
+				//OCP\Util::writeLog("---------------------->facefinder",$row['en'],OCP\Util::DEBUG);
+				return $row['en'];
+			}
+			return false;*/
+		}
+		
+		
+		public static function search($query){
+			$classname="EXIF_Module";
+			if($queryh=self::autoComplit($query))
+				$query=$queryh;
+			OCP\Util::writeLog("---------------------->facefinder",$query,OCP\Util::DEBUG);
+			$results=array();
+			$stmt = OCP\DB::prepare('select * From   *PREFIX*facefinder_exif_module where  valued  like ? or name like ?');
+			$result=$stmt->execute(array($query."%",$query."%"));
+			while (($row = $result->fetchRow())!= false) {
+				$link = OCP\Util::linkTo('facefinder', 'index.php').'?search='.urlencode($classname).'&name='.urlencode($row['name']).'&tag='.urlencode($row['valued']);
+				
+				$results[]=new OC_Search_Result("Exif",$row['name']."-".$row['valued'],$link,"FaF.");
+			}
+			return $results;
+		}
+		
+		
+		
+		
+		public static function searchArry($name,$value){
+			// select * from *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) inner join *PREFIX*facefinder on (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_tag_photo_module.photo_id);
+			$results=array();
+			$stmt = OCP\DB::prepare(' Select * From  *PREFIX*facefinder_exif_module  inner join  *PREFIX*facefinder_exif_photo_module on(*PREFIX*facefinder_exif_module.id=*PREFIX*facefinder_exif_photo_module.exif_id) inner join *PREFIX*facefinder on  (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_exif_photo_module.photo_id)where`valued` like ? and `name` like ?');
+			$result=$stmt->execute(array($value,$name));
+			while (($row = $result->fetchRow())!= false) {
+				$results[]=$row['path'];
+			}
+			return $results;
 		}
 	
+		public static function getFormat($name,$value){
+			$return=0;
+			switch ($name){
+				case 'ISOSpeedRatings':
+					$return=$value." ISO";
+				break;
+				
+				case 'Flash':
+					$return= self::getFlash($value);
+					break;
+					
+				case 'FNumber':
+					$return="f/".self::divi($value);
+					break;
+					
+				case 'WhiteBalance':
+					$return=self::getWhiteBalance($value)." White Balance";
+					break;
+					
+				case 'FocalLength':
+					$return=self::divi($value)." mm";
+					break;
+					
+				case 'FocalLengthIn35mmFilm':
+						$return=$value." mm(35mm)";
+						break;
+						
+				case 'ExposureTime':
+					$return=self::getExposureTime($value);
+					break;
+						
+				case 'WhiteBalance':
+					$return=self::getWhiteBalance($value).": White Balance";
+					break;
+					
+				case 'make':
+					$return=self::$value." Mark";
+					break;
+					
+				default:
+					$return=$value." ".$name;
+					break;
+					
+			}
+			return $return;
+		}
 	
+		public static function divi($value){
+			$first_token  = strtok($value, '/');
+			$second_token = strtok('/');
+			return $first_token/$second_token;
+		}
+		public static function getExposureTime($value){
+			$first_token  = strtok($value, '/');
+			$second_token = strtok('/');
+			if ($first_token > $second_token) {
+				return $first_token."s";
+			}else{
+				return ($first_token/10).'/'.($second_token/10)."s";
+			}
+		}
+		
+		
+		public static function getFlash($value){
+			//http://bueltge.de/exif-daten-mit-php-aus-bildern-auslesen/486/
+			switch($value) {
+				case 0:
+					$fbexif_flash = 'Flash did not fire';
+					break;
+				case 1:
+					$fbexif_flash = 'Flash fired';
+					break;
+				case 5:
+					$fbexif_flash = 'Strobe return light not detected';
+					break;
+				case 7:
+					$fbexif_flash = 'Strobe return light detected';
+					break;
+				case 9:
+					$fbexif_flash = 'Flash fired, compulsory flash mode';
+					break;
+				case 13:
+					$fbexif_flash = 'Flash fired, compulsory flash mode, return light not detected';
+					break;
+				case 15:
+					$fbexif_flash = 'Flash fired, compulsory flash mode, return light detected';
+					break;
+				case 16:
+					$fbexif_flash = 'Flash did not fire, compulsory flash mode';
+					break;
+				case 24:
+					$fbexif_flash = 'Flash did not fire, auto mode';
+					break;
+				case 25:
+					$fbexif_flash = 'Flash fired, auto mode';
+					break;
+				case 29:
+					$fbexif_flash = 'Flash fired, auto mode, return light not detected';
+					break;
+				case 31:
+					$fbexif_flash = 'Flash fired, auto mode, return light detected';
+					break;
+				case 32:
+					$fbexif_flash = 'No flash function';
+					break;
+				case 65:
+					$fbexif_flash = 'Flash fired, red-eye reduction mode';
+					break;
+				case 69:
+					$fbexif_flash = 'Flash fired, red-eye reduction mode, return light not detected';
+					break;
+				case 71:
+					$fbexif_flash = 'Flash fired, red-eye reduction mode, return light detected';
+					break;
+				case 73:
+					$fbexif_flash = 'Flash fired, compulsory flash mode, red-eye reduction mode';
+					break;
+				case 77:
+					$fbexif_flash = 'Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected';
+					break;
+				case 79:
+					$fbexif_flash = 'Flash fired, compulsory flash mode, red-eye reduction mode, return light detected';
+					break;
+				case 89:
+					$fbexif_flash = 'Flash fired, auto mode, red-eye reduction mode';
+					break;
+				case 93:
+					$fbexif_flash = 'Flash fired, auto mode, return light not detected, red-eye reduction mode';
+					break;
+				case 95:
+					$fbexif_flash = 'Flash fired, auto mode, return light detected, red-eye reduction mode';
+					break;
+				default:
+					$fbexif_flash = '';
+					break;
+			}
+			return $fbexif_flash;
+		}
+		
+		public static function getWhiteBalance($value){
+			switch($value) {
+				case 0:
+					$fbwhitebalance = "Auto";
+					break;
+				case 1:
+					$fbwhitebalance = "Daylight";
+					break;
+				case 2:
+					$fbwhitebalance = "Fluorescent";
+					break;
+				case 3:
+					$fbwhitebalance = "Incandescent";
+					break;
+				case 4:
+					$fbwhitebalance = "Flash";
+					break;
+				case 9:
+					$fbwhitebalance = "Fine Weather";
+					break;
+				case 10:
+					$fbwhitebalance = "Cloudy";
+					break;
+				case 11:
+					$fbwhitebalance = "Shade";
+					break;
+				default:
+					$fbwhitebalance = '';
+					break;
+			}
+			return $fbwhitebalance;
+		}
+		
 		public function equivalent(){
 			/**
 			 * @todo
@@ -252,32 +449,39 @@ class EXIF_Module implements OC_Module_Interface{
 		 * @param String of $classname
 		 */
 		private static function createDBtabels($classname){
-			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_exif_module`');
+			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_exif_date_module`');
 			$stmt->execute();
-			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_exif_module_kamera`');
+			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_exif_language`');
+			$stmt->execute();
+			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_exif_photo_module`');
+			$stmt->execute();
+			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_exif_module');
 			$stmt->execute();
 			OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/'.$classname.'.xml');
-			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_exif_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
-			$stmt->execute();
-			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_exif_module`  ADD FOREIGN KEY (kamera_id) REFERENCES *PREFIX*facefinder_exif_module_kamera(id) ON UPDATE CASCADE ON DELETE SET NULL');
+			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_exif_date_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
 			$stmt->execute();
 		}
+		
+		
 		
 		/**
 		 * Create the DB of the Module the if the module hase an new Version numper
 		 */
 		public static  function  initialiseDB(){
+			OCP\Util::writeLog("facefinder","EXIF_Module 2",OCP\Util::DEBUG);
 			$classname="EXIF_Module";
 			if(OC_Appconfig::hasKey('facefinder',$classname)){
-				$appkey=OC_Appconfig::getValue('facefinder',$classname);
 
 				/**
 				 * @todo check korektnes
 				 */
-				if (version_compare($appkey, self::getVersion(), '<') || !self::AllTableExist()){
+				if (self::checkVersion() || !self::AllTableExist()){
 						OCP\Util::writeLog("facefinder","need update",OCP\Util::DEBUG);
 						OC_Appconfig::setValue('facefinder',$classname,self::getVersion());
 						self::createDBtabels($classname);
+						return true;
+				}else{
+					return false;
 				}
 			}else{
 				/**
@@ -286,6 +490,7 @@ class EXIF_Module implements OC_Module_Interface{
 				OCP\Util::writeLog("facefinder","not jet used ".self::getVersion(),OCP\Util::INFO);
 				OC_Appconfig::setValue('facefinder',$classname,self::getVersion());
 				self::createDBtabels($classname);
+				return true;
 			}
 		}
 		
@@ -301,16 +506,27 @@ class EXIF_Module implements OC_Module_Interface{
 				$rownum++;
 			}
 			 $table_exif=($rownum==1);
-			$stmt = OCP\DB::prepare('SHOW TABLES LIKE \'*PREFIX*facefinder_exif_module_kamera\'');
+			$stmt = OCP\DB::prepare('SHOW TABLES LIKE \'*PREFIX*facefinder_exif_date_module\'');
 			$result=$stmt->execute();
 			$rownum=0;
 			while (($row = $result->fetchRow())!= false) {
 				$rownum++;
 			}
-			$table_kamera=($rownum==1);
-			return ($table_exif && $table_kamera);
+			$table_date=($rownum==1);
+			$stmt = OCP\DB::prepare('SHOW TABLES LIKE \'*PREFIX*facefinder_exif_photo_module\'');
+			$result=$stmt->execute();
+			$rownum=0;
+			while (($row = $result->fetchRow())!= false) {
+				$rownum++;
+			}
+			$table=($rownum==1);
+			return ($table_exif && $table_date && $table);
 		}
 		
-		
+		public static function checkVersion(){
+			$classname="EXIF_Module";
+			$appkey=OC_Appconfig::getValue('facefinder',$classname);
+			return version_compare($appkey, self::getVersion(), '<');
+		}
 
 	}

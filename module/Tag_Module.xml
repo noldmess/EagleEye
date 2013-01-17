@@ -48,6 +48,26 @@
 	    <notnull>false</notnull>
 	    <length>64</length>
       </field>
+       <field>
+	    <name>x1</name>
+	    <type>integer</type>
+	    <length>64</length>
+      </field>
+       <field>
+	    <name>x2</name>
+	    <type>integer</type>
+	    <length>64</length>
+      </field>
+       <field>
+	    <name>y1</name>
+	    <type>integer</type>
+	    <length>64</length>
+      </field>
+       <field>
+	    <name>y2</name>
+	    <type>integer</type>
+	    <length>64</length>
+      </field>
   </declaration>
  </table>
 
