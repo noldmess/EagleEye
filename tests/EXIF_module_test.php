@@ -5,9 +5,10 @@
 //require_once(dirname(__FILE__) . '/../../../../simpletest/autorun.php');
 //require_once(dirname(__FILE__) .'/../../lib/photo_test.php');
 //require_once(dirname(__FILE__) .'/../');
+require_once('/var/www/owncloud/apps/facefinder/lib/moduleinterface.php');
 require_once('/var/www/owncloud/apps/facefinder/module/EXIF_Module.php');
 OC_App::loadApp('facefinder');
-
+require_once('/var/www/owncloud/apps/facefinder/lib/moduleinterface.php');
 class TestOfEXIF_modul extends PHPUnit_Framework_TestCase{
 
 	private $photoclass;
@@ -23,7 +24,6 @@ class TestOfEXIF_modul extends PHPUnit_Framework_TestCase{
 		
 
 		function  isInsert($id){
-			//$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `path` LIKE ?');
 			$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder_exif_module` WHERE `photo_id` = ? ');
 			$result = $stmt->execute(array($id));
 			$rownum=0;
