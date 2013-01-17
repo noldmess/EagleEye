@@ -34,7 +34,7 @@ class OC_FaceFinder_Hooks_Handlers {
 		$tmp=new OC_FaceFinder_Photo($path);
 		$tmp->insert();
 		$id=$tmp->getID();
-		
+		OCP\Util::writeLog("facefinder","<<<<<<$path",OCP\Util::DEBUG);
 		/*
 		* 	Implemetation of the module system 
 		 */
@@ -45,7 +45,6 @@ class OC_FaceFinder_Hooks_Handlers {
 				$class->setForingKey($id);
 				$class->insert();
 			}
-			//OCP\Util::writeLog("facefinder","Nfsdfsdfsdfo id set".$path,OCP\Util::DEBUG);
 		}	
 	}
 	/**

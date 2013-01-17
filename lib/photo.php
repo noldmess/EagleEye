@@ -66,6 +66,7 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 	public function remove(){
 		$id=$this->getID();
 		if($id!=-1){
+			
 			$stmt = OCP\DB::prepare('DELETE FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `photo_id` = ?');
 			$stmt->execute(array($this->getUser(),$id));
 		}else{
@@ -87,7 +88,7 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 		}
 	}
 	
-	public function search($query){
+	public static function  search($query){
 		/**
 		 * @todo
 		 */
@@ -131,6 +132,11 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 	 */
 	public static function AllTableExist(){
 			
+	}
+	
+	
+	public static function checkVersion(){
+		
 	}
 	
 }

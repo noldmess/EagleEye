@@ -42,7 +42,7 @@ interface OC_Module_Interface {
 	 * To search for in the module tables store information
 	 * @param String  $query
 	 */
-	public function search($query);
+	public static function search($query);
 	/**
 	 * The function returns the id of the last stored information
 	 * @return int Id
@@ -69,4 +69,11 @@ interface OC_Module_Interface {
 	 * @return boolean
 	 */
 	public static function AllTableExist();
+	
+	
+	/**
+	 +check if the Version is korekt
+	 * @return boolean
+	 */
+	public static function checkVersion();
 }
