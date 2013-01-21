@@ -62,13 +62,13 @@
       <field>
 	    <name>photo_id</name>
 	    <type>integer</type>
-	    <notnull>false</notnull>
+	    <notnull>true</notnull>
 	    <length>64</length>
       </field>
         <field>
 	    <name>exif_id</name>
 	    <type>integer</type>
-	    <notnull>false</notnull>
+	   <notnull>true</notnull>
 	    <length>64</length>
       </field>
   </declaration>

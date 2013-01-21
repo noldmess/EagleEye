@@ -13,7 +13,12 @@ class Tag_Module implements OC_Module_Interface{
 			$this->lang =new OC_l10n('facefinder');
 			$this->paht=$path;
 		}
-		
+		/**
+		 * Return the id or null id the tag and the name are not in the DB
+		 * @param String $key
+		 * @param String $tag
+		 * @return id  |NULL 
+		 */
 		public function  getTagId($key,$tag){
 			$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_module` WHERE `name` LIKE ? AND `tag` LIKE ?');
 			$result=$stmt->execute(array($key,$tag));
@@ -29,9 +34,14 @@ class Tag_Module implements OC_Module_Interface{
 				return null;
 			}
 		}
-		
+		/**
+		 * Checks if the "" are in the DB 
+		 * @param int $photo_id
+		 * @param int $tag_id
+		 * @return boolean
+		 */
 		public function  issetTagPhotoId($photo_id,$tag_id){
-			$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_photo_module` WHERE `photo_id`  = ? = `tag_id` = ?');
+			$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_photo_module` WHERE `photo_id`  = ? and `tag_id` = ?');
 			$result=$stmt->execute(array($photo_id,$tag_id));
 			$rownum=0;
 			$id;
@@ -43,6 +53,24 @@ class Tag_Module implements OC_Module_Interface{
 			return ($rownum==1);
 			
 		}
+		
+		/**
+		 * insert a TagPhoto realtiene in the DB 
+		 * @param id $id
+		 * @param int $x1
+		 * @param int $x2
+		 * @param int $y1
+		 * @param int $y2
+		 */
+		public function insertTagPhoto($id,$x1=0,$x2=0,$y1=0,$y2=0){
+			if(!$this->issetTagPhotoId($this->ForingKey,$id)){
+				$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_tag_photo_module` (`photo_id`, `tag_id`,x1,x2,y1,y2) VALUES ( ?, ?,?,?,?,?);');
+				$result=$stmt->execute(array($this->ForingKey,$id,$x1,$x2,$y1,$y2));
+			}
+		
+		
+		}
+		
 		/**
 		 * To issier create a table insert tis funktion nead the foreign key for the table
 		 * @param int $key
@@ -66,18 +94,7 @@ class Tag_Module implements OC_Module_Interface{
 				}
 			
 		}
-		/**
-		 * @param unknown_type $id
-		 * @return Ambigous <NULL, unknown>
-		 */
-		public function insertTagPhoto($id,$x1=0,$x2=0,$y1=0,$y2=0){
-				if(!$this->issetTagPhotoId($this->ForingKey,$id)){
-					$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_tag_photo_module` (`photo_id`, `tag_id`,x1,x2,y1,y2) VALUES ( ?, ?,?,?,?,?);');
-					$result=$stmt->execute(array($this->ForingKey,$id,$x1,$x2,$y1,$y2));
-				}
-		
-				
-		}
+	
 		
 		public static  function IPTCCodeToString($ipct){
 			$ipct_tmp = substr($ipct, 2);
@@ -133,31 +150,31 @@ class Tag_Module implements OC_Module_Interface{
 				case 'FIXTURE_IDENTIFIER':return 'FIXTURE_IDENTIFIER';
 				case 'KEYWORDS':return '025';
 				case 'RELEASE_DATE030':return '030';
-				case '035':return 'RELEASE_TIME';
-				case '040':return 'SPECIAL_INSTRUCTIONS';
-				case '045':return 'REFERENCE_SERVICE';
-				case '047':return 'REFERENCE_DATE';
-				case '050':return 'REFERENCE_NUMBER';
-				case '055':return 'CREATED_DATE';
-				case '060':return 'RELEASE_TIME';
-				case '062':return 'DigitalCreationDate';
-				case '063':return 'DigitalCreationTime';
-				case '065':return 'ORIGINATING_PROGRAM';
-				case '070':return 'PROGRAM_VERSION';
-				case '075':return 'OBJECT_CYCLE';
-				case '080':return 'BYLINE';
-				case '085':return 'BYLINE_TITLE';
-				case '090':return 'CITY';
-				case '095':return 'PROVINCE_STATE';
-				case '100':return 'COUNTRY_CODE';
-				case '101':return 'COUNTRY';
-				case '103':return 'ORIGINAL_TRANSMISSION_REFERENCE';
-				case '105':return 'HEADLINE';
-				case '110':return 'CREDIT';
-				case '115':return 'SOURCE';
-				case '116':return 'COPYRIGHT_STRING';
-				case '120':return 'CAPTION';
-				case '121':return 'LOCAL_CAPTION';
+				case 'RELEASE_TIME':return '035';
+				case 'SPECIAL_INSTRUCTIONS':return '040';
+				case 'REFERENCE_SERVICE':return '045';
+				case 'REFERENCE_DATE':return '047';
+				case 'REFERENCE_NUMBER':return '050';
+				case 'CREATED_DATE':return '055';
+				case 'RELEASE_TIME':return '060';
+				case 'DigitalCreationDate':return '062';
+				case 'DigitalCreationTime':return '063';
+				case 'ORIGINATING_PROGRAM':return '065';
+				case 'PROGRAM_VERSION':return '070';
+				case 'OBJECT_CYCLE':return '075';
+				case 'BYLINE':return '080';
+				case 'BYLINE_TITLE':return '085';
+				case 'CITY':return '090';
+				case 'PROVINCE_STATE':return '095';
+				case 'COUNTRY_CODE':return '100';
+				case 'COUNTRY':return '101';
+				case 'ORIGINAL_TRANSMISSION_REFERENCE':return '103';
+				case 'HEADLINE':return '105';
+				case 'CREDIT':return '110';
+				case 'SOURCE':return '115';
+				case 'COPYRIGHT_STRING':return '116';
+				case 'CAPTION':return '120';
+				case 'LOCAL_CAPTION':return '121';
 				default:return $ipct;
 			}
 		}
@@ -196,22 +213,22 @@ class Tag_Module implements OC_Module_Interface{
 			}
 			return $tagarray;
 		}
-		
+		/**
+		 * Write the tags from the DB in the IPTC header of the image 
+		 */
 		public function writeTag(){
 			if (\OC_Filesystem::file_exists($this->paht)) {
 				$help=$this->getTagPaht();
 				$iptc = array();
 				$i=1;
 				foreach ($help as $s){
-					$iptc=$iptc+array('2#025'.$i=>$s['tag']);
+					$iptc=$iptc+array("2#".$this->StringToIPTCCode($s['name']).$i=>$s['tag']);
 					$i++;
 				}
 				$data = '';
 			foreach($iptc as $tag => $string){
-					OCP\Util::writeLog("facefinder","$tag $string",OCP\Util::ERROR);
     				$tag = str_replace("2#", "", $tag);
     				$tag = substr($tag, 0, 3);
-    				OCP\Util::writeLog("facefinder","$tag $string",OCP\Util::ERROR);
     				$data .= $this->iptc_make_tag(2, $tag, $string);
 				}
 				$content = iptcembed($data,OC_Filesystem::getLocalFile($this->paht));
@@ -245,7 +262,7 @@ class Tag_Module implements OC_Module_Interface{
 		 * Update the data in the module DB
 		*/
 		public function update($newpaht){}
-		/*
+		/**
 		 * To search for in the module tables store information
 		 * @param String  $query
 		*/
@@ -262,7 +279,11 @@ class Tag_Module implements OC_Module_Interface{
 		}
 		
 
-		
+		/**
+		 * @param unknown_type $name
+		 * @param unknown_type $tag
+		 * @return multitype:unknown
+		 */
 		public static function searchArry($name,$tag){
 		 // select * from oc_facefinder_tag_module inner join oc_facefinder_tag_photo_module  on  (oc_facefinder_tag_module.id=oc_facefinder_tag_photo_module.tag_id) inner join oc_facefinder on (oc_facefinder.photo_id=oc_facefinder_tag_photo_module.photo_id);
 		$results=array();

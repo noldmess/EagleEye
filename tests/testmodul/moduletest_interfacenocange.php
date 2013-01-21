@@ -22,10 +22,11 @@ class moduletest_interfacenocange implements OC_Module_Interface{
 	* Update the data in the module DB
 	*/
 	public function update($newpaht){}
-	public function search($query){}
+	public static function search($query){}
 	public function getID(){}
 	public function equivalent(){}
 	public function setForingKey($key){}
+	public static function checkVersion(){}
 	/**
 	 * Create the DB of the Module the if the module hase an new Version numper
 	 */

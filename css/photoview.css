@@ -49,7 +49,7 @@ div.tool_title{
 
 
 #tool_taggs{
-	display: block;
+	display:block;
 	min-height:100px;
 	height:20%;
 	min-width:  70%;
@@ -57,6 +57,7 @@ div.tool_title{
 
 #taggs{
 	float: left;
+	width:100%;
 }
 
 #taggs div.tag{
@@ -77,12 +78,13 @@ div.tool_title{
 }
 
 #tool_taggs textarea{
-	min-height:100px;
-	height:20%;
-	min-width:  70%;
+	min-height: 100px;
+height: ;
+min-width: 70%;
 }
 
 #photo img{
+	position:relative;
 	max-width: 99%;
 	max-height:100%;
 }

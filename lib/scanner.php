@@ -2,7 +2,7 @@
 
 
 class OC_FaceFinder_Scanner{
-	public static function scan($d){
+	public static function scan(){
 		$dir='/';
 		$imagearray=array();
 		$imagearray=self::getdir($dir);

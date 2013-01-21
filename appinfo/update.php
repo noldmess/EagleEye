@@ -6,9 +6,5 @@ if (version_compare($currentVersion, '0.0.1', '>')) {
 	$stmt->execute();
 	OCP\Util::writeLog("facefinder---------------___>",OC_App::getAppPath($appid).'/appinfo/database.xml',OCP\Util::DEBUG);
 	\OC_DB::createDbFromStructure(OC_App::getAppPath($appid).'/appinfo/database.xml');
-	/**@todo
-	 * scanner dunktion to get all info nedet
-	 * 
-	 */
 }
 

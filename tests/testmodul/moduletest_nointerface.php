@@ -22,6 +22,7 @@ class moduletest_nointerface {
 	public function getID(){}
 	public function equivalent(){}
 	public function setForingKey($key){}
+	public static function checkVersion(){}
 	/**
 	 * Create the DB of the Module the if the module hase an new Version numper
 	 */

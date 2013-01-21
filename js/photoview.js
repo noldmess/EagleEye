@@ -1,12 +1,11 @@
 $(document).ready(function(){
 	$('#photoview').hide();
 	//$('#photoview img').attr("src", 'http://localhost/owncloud/?app=gallery&getfile=ajax%2FviewImage.php?img=DSC_0019.jpg');//+this.alt);
-	alert("dsfdf");
 	$('#photoview_load').hide();
 
 
 
-$('div.day a img ').click(function(event){
+$(' img ').click(function(event){
 				
 			$('#photoview_load').show();
 			$('#photoview img').attr("src", '/owncloud/?app=gallery&getfile=ajax%2FviewImage.php?img='+this.alt);
@@ -18,7 +17,7 @@ $('div.day a img ').click(function(event){
 				$('#photo p').remove(":contains('dsfsdfsdfsd')");
 				$('#photoview img').show();
 			});
-			$('#new_1').hide();
+			$('#search').hide();
 			$('#photoview').show();
 			
 			
@@ -34,10 +33,10 @@ $('div.tool_title').click(function(){
 });
 
 $(document).keypress(function(e) {
-  alert(e.keyCode);
+  //alert(e.keyCode);
    if ( e.keyCode== 27){
       $('#photoview').hide();
-      $('#new_1').show();
+      $('#search').show();
    }
 });
 
