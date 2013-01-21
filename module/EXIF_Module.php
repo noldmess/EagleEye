@@ -445,13 +445,13 @@ class EXIF_Module implements OC_Module_Interface{
 		 * @param String of $classname
 		 */
 		private static function createDBtabels($classname){
+			OCP\Util::writeLog("facefinder","No Esdfffffffffffxif Heder:".$this->paht,OCP\Util::DEBUG);
 			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_exif_date_module`');
 			$stmt->execute();
 			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_exif_photo_module`');
 			$stmt->execute();
 			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_exif_module');
 			$stmt->execute();
-			OCP\Util::writeLog("facefinder","No Esdfffffffffffxif Heder:".$this->paht,OCP\Util::DEBUG);
 			OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/'.$classname.'.xml');
 			/*$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_exif_date_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
 			$stmt->execute();
@@ -476,6 +476,7 @@ class EXIF_Module implements OC_Module_Interface{
 				 */
 				if (self::checkVersion() || !self::AllTableExist()){
 						OCP\Util::writeLog("facefinder","need update",OCP\Util::DEBUG);
+						OCP\Util::writeLog("facefinder","No Esdfffffffffffxif Heder:".$this->paht,OCP\Util::DEBUG);
 						OC_Appconfig::setValue('facefinder',$classname,self::getVersion());
 						self::createDBtabels($classname);
 						return true;
