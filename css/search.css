@@ -1,0 +1,11 @@
+#search{
+ position:relative; margin: 5px;  border: 0;  margin-top: 3em;
+ }
+
+
+#search img {
+	margin: 5px;
+	box-shadow:2px 2px 2px #666;
+	-moz-box-shadow: 2px 2px 2px #666;
+	-webkit-box-shadow: 2px 2px 2px #666;
+}
