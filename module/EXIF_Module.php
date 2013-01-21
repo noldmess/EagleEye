@@ -138,6 +138,7 @@ class EXIF_Module implements OC_Module_Interface{
 		 * @return null if no exif
 		 */
 		public function insert(){
+			OCP\Util::writeLog("facefinder","No Esdfffffffffffxif Heder:".$this->paht,OCP\Util::DEBUG);
 			$exifheader=self::getExitHeader($this->paht);
 			if ($exifheader!=null) {
 				if(isset($exifheader["EXIF"])){
@@ -450,13 +451,14 @@ class EXIF_Module implements OC_Module_Interface{
 			$stmt->execute();
 			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_exif_module');
 			$stmt->execute();
+			OCP\Util::writeLog("facefinder","No Esdfffffffffffxif Heder:".$this->paht,OCP\Util::DEBUG);
 			OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/'.$classname.'.xml');
-			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_exif_date_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
+			/*$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_exif_date_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
 			$stmt->execute();
 			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_exif_photo_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
 			$stmt->execute();
 			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_exif_photo_module`  ADD FOREIGN KEY (exif_id) REFERENCES *PREFIX*facefinder_exif_module(id)ON DELETE CASCADE');
-			$stmt->execute();
+			$stmt->execute();*/
 		}
 		
 		
