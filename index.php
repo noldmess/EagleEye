@@ -28,22 +28,42 @@ OCP\App::checkAppEnabled('facefinder');
 OCP\App::setActiveNavigationEntry( 'facefinder' );
 OCP\Util::addStyle('facefinder', 'styles');
 OCP\Util::addScript('facefinder', 'new_1');
-//OCP\Util::addStyle( 'gallery', 'supersized' );
-OCP\Util::addScript('facefinder', 'photoview');
 OCP\Util::addStyle('facefinder', 'photoview');
-/*if (!OCP\App::isEnabled('files_imageviewer')) {
-	OCP\Template::printUserPage('facefinder', 'no-image-app');
-	exit;
-}*/
-
-$root = !empty($_GET['root']) ? $_GET['root'] : '/';
-$files = \OC_Files::getDirectoryContent($root, 'image');
-
-/*$tl = new \OC\Pictures\TilesLine();
-$ts = new \OC\Pictures\TileStack(array(), '');*/
 
 
+
+//Initialise the moduls
+$Initialisemodul=new OC_Module_Maneger();
+$moduleclasses=$Initialisemodul->getModuleClass();
+/**
+ * @todo hier scanner
+*/
+//OC_FilesystemView('dsf');
+foreach ($moduleclasses as $moduleclass){
+	//@todo initialiseDB verbessern
+	//$moduleclass::initialiseDB();
+	if($moduleclass::initialiseDB()){
+		OCP\Util::writeLog("facefinder",$moduleclass."1",OCP\Util::DEBUG);
+	$phat=OC_FaceFinder_Scanner::scan("df");
+	foreach ($phat as $img){
+		$tmp=new OC_FaceFinder_Photo($img);
+		$id=$tmp->getID();
+		$class=new $moduleclass($img);
+		$class->setForingKey($id);
+		$class->insert();
+		OCP\Util::writeLog("facefinder",$moduleclass."->".$img." ".$id,OCP\Util::DEBUG);
+	}
+
+	}
+}
+
+
+if(isset($_GET['search'])){
+	OCP\Util::addStyle('facefinder', 'search');
+	$tmpl = new OCP\Template( 'facefinder', 'search', 'user' );
+	OCP\Util::addScript('facefinder', 'photoview');
+	$tmpl->printPage();	
+}else{
 $tmpl = new OCP\Template( 'facefinder', 'index', 'user' );
-//$tmpl->assign('root', $root, false);
-//$tmpl->assign('tl', $tl, false);
 $tmpl->printPage();
+}
