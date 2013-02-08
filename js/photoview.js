@@ -6,7 +6,7 @@ var PhotoView={
 		ClickImg:function(event){
 			//set PhotoView visible
 	 		$('#photo_load').show();
-			$('#photo img').attr("src", OC.linkTo('gallery', 'ajax/viewImage.php')+'?file=Aaron/DSC_0010.JPG');
+			$('#photo img').attr("src", OC.linkTo('gallery', 'ajax/image.php')+'?file=Aaron/DSC_0010.JPG');
 			$('#photo img').attr("name", event.alt);
 		
 			$('#photoview img').load(function(){
