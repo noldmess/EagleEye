@@ -87,6 +87,61 @@ min-width: 70%;
 	position:relative;
 	max-width: 99%;
 	max-height:100%;
+	cursor:crosshair
+}
+
+
+#photo div{
+	position:relative;
+	max-width: 99%;
+	max-height:100%;
+	cursor:move;
+}
+
+#photo .draggable{
+	height: 100px;
+	width: 100px;
+	opacity: 1;
+	border: solid 2px #778899;
+}
+
+#photo .draggable:HOVER{
+	height: 100px;
+	width: 100px;
+	opacity: 1;
+	border: solid 2px red;
+}
+
+#photo .draggable_fix{
+	height: 100px;
+	width: 100px;
+	opacity: 0.1;
+	border: dotted 2px red;
+}
+
+#photo .draggable_fix:HOVER{
+	opacity: 1;
+	border: dotted 2px red;
+}
+
+#photo .draggable input{
+	position:relative;
+	left:-25px;
+	top:100px;
+	opacity: 0.8;
+}
+
+
+#photo .draggable_tag{
+	cursor: pointer;
+	background:white;
+	position:relative;
+	top:78px;
+	opacity: 1.0;
+}
+
+#photo .draggable_tag img{
+	cursor: pointer;
 }
 
 div.tool_title{
@@ -119,10 +174,12 @@ div.tool_ico{
 }
 
 
- div.tool_item{
+#tool_righte  div.tool_items{
  	padding-left:5px;
 	width:100%;
+	overflow:auto;
+	max-height:200px;
 	background-color: gray;
-	display: inline;
+	/*display: inline;*/
 }
 
