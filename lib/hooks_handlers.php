@@ -29,7 +29,7 @@ class OC_FaceFinder_Hooks_Handlers {
 	 */
 	public static function write($params) {
 
-		$path = $params[OC_Filesystem::signal_param_path];
+		$path = $params['path'];
 		if(self::isPhoto($path)){
 		$tmp=new OC_FaceFinder_Photo($path);
 		$tmp->insert();
@@ -53,7 +53,7 @@ class OC_FaceFinder_Hooks_Handlers {
 	 * @param  $params
 	 */
 	public static function delete($params){
-		$path = $params[OC_Filesystem::signal_param_path];
+			$path = $params['path'];
 		if($path!=''&& self::isPhoto($path)){
 		OCP\Util::writeLog("facefinder","to delite".$path,OCP\Util::DEBUG);
 		$tmp=new OC_FaceFinder_Photo($path);
@@ -67,7 +67,7 @@ class OC_FaceFinder_Hooks_Handlers {
 	 * @param  $params
 	 */
 	public static function update($params){
-		$path = $params[OC_Filesystem::signal_param_oldpath];
+			$path = $params['path'];
 		$newpath = $params[OC_Filesystem::signal_param_newpath];
 		if($path!='' && $newpath!='' && self::isPhoto($path) && self::isPhoto($newpath)){
 			OCP\Util::writeLog("facefinder","to update".$path,OCP\Util::DEBUG);
