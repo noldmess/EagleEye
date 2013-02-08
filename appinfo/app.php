@@ -45,6 +45,6 @@ OCP\App::addNavigationEntry( array(
 
 //OCP\Util::addscript('facefinder', 'facefindersearch');
 OC_Search::registerProvider('OC_Search_Provider_FaceFinder');
-OCP\Util::connectHook(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_write,'OC_FaceFinder_Hooks_Handlers','write');
-OCP\Util::connectHook(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_delete,'OC_FaceFinder_Hooks_Handlers','delete');
-OCP\Util::connectHook(OC_Filesystem::CLASSNAME, OC_Filesystem::signal_post_rename,'OC_FaceFinder_Hooks_Handlers','update');
+OCP\Util::connectHook('OC_Filesystem', 'post_write','OC_FaceFinder_Hooks_Handlers','write');
+OCP\Util::connectHook('OC_Filesystem', 'post_delete','OC_FaceFinder_Hooks_Handlers','delete');
+OCP\Util::connectHook('OC_Filesystem', 'post_rename,'OC_FaceFinder_Hooks_Handlers','update');
