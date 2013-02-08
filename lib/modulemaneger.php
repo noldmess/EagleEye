@@ -36,7 +36,7 @@ class OC_Module_Maneger {
 		 * @todo make initialise
 		 */
 	function __construct() {
-		$this->ModuleClass=self::getModulsOfFolder($_SERVER['DOCUMENT_ROOT']."/owncloud/apps/facefinder/module/");
+		$this->ModuleClass=self::getModulsOfFolder($_SERVER['DOCUMENT_ROOT']."/facefinder/module/");
 		if(empty($this->ModuleClass)){ 
 			OCP\Util::writeLog("facefinder","No Module folder found ",OCP\Util::ERROR);
 		}
