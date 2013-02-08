@@ -1,6 +1,5 @@
 <?php
-if(isset($_GET['tag'])&&(isset($_GET['name']))){
-	echo "<h1>sdfsdf</h1>";
+if(isset($_GET['search'])&&isset($_GET['tag'])&&(isset($_GET['name']))){
 	$seachResult=$_GET['search']::searchArry($_GET['name'],$_GET['tag']);
 	$result=count($seachResult);
 	$searchbool=true;
@@ -24,7 +23,8 @@ if(isset($_GET['tag'])&&(isset($_GET['name']))){
 
 
 foreach ($seachResult as $img){
-	echo '<a><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?filepath='.urlencode($img).'" alt='.urlencode($img).'></a>';
+	echo '<a><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?filepath='.$img.'" alt='.$img.'></a>';
+	
 }
 ?>
 </div>

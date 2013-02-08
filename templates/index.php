@@ -11,98 +11,53 @@
 	<div id="tool_left">
 		<div id="photo">
 			<div id="photoview_load"></div>
-			<img alt="" src="">
+			<img id="img_img"alt="" src="">
 		</div>
 		<div id="tool_taggs">
 		<div id="taggs"></div>
 		<textarea></textarea></div>
 	</div>
 	<div id="tool_righte">
-			<div class="tool">
-			<div class="tool_title">
-				<div class="tool_ico"></div>
-				<h1>Modula A</h1>
-			</div>
-			<div class="tool_items">
-			<p>Kamera:dsfsdfds</p>
-			<p>Kamera:</p>
-			<p>Kamera:</p>
-			<p>Kamera:</p>
-			</div>
-	
+			<div class="tool Exif">
+				<div class="tool_title">
+					<div class="tool_ico"></div>
+					<h1>Exif</h1>
+				</div>
+				<div class="tool_items">
+				</div>
 		</div>
-		<div class="tool">
 		<div class="tool">
 			<div class="tool_title">
 				<div class="tool_ico"></div>
-				<h1>Modula A</h1>
+				<h1>GPS</h1>
 			</div>
-			<div class="tool_items">dsgfsfg
-			<p>Kamera:dsfsdfds</p>
-			<p>Kamera:</p>
-			<p>Kamera:</p>
-			<p>Kamera:</p>
+				<div class="tool_items">
+					<div id="demoMap" style="height:200px;width:auto;"></div>
+					<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+					<script>
+						 var lat            = 47.35387;
+					    var lon            = 8.43609;
+					    var zoom           = 18;
+					 
+					    var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+					    var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+					    var position       = new OpenLayers.LonLat(lon, lat).transform( fromProjection, toProjection);
+					 
+					    map = new OpenLayers.Map("demoMap");
+					    var mapnik         = new OpenLayers.Layer.OSM();
+					    map.addLayer(mapnik);
+					 
+					    var markers = new OpenLayers.Layer.Markers( "Markers" );
+					    map.addLayer(markers);
+					    markers.addMarker(new OpenLayers.Marker(position));
+					 
+					    map.setCenter(position, zoom);
+					</script>
+				</div>
 			</div>
-		</div>
-		<div class="tool">
-			<div class="tool">
-			<div class="tool_title">
-			<div class="tool_ico"></div><h1>Modula A</h1>
-		</div>
-		</div>
-		<div class="tool">
-		<div class="tool">
-			<div class="tool_title">
-			<div class="tool_ico"></div><h1>Modula A</h1>
 		</div>
 		</div>
 	</div>
 </div>
 
 
-<!-- start supersized block -->
-<div id="slideshow-content" style="display:none;">
-
-	<!--Thumbnail Navigation-->
-	<div id="prevthumb"></div>
-	<div id="nextthumb"></div>
-
-	<!--Arrow Navigation-->
-	<a id="prevslide" class="load-item"></a>
-	<a id="nextslide" class="load-item"></a>
-
-	<div id="thumb-tray" class="load-item">
-		<div id="thumb-back"></div>
-		<div id="thumb-forward"></div>
-	</div>
-
-	<!--Time Bar-->
-	<div id="progress-back" class="load-item">
-		<div id="progress-bar"></div>
-	</div>
-
-	<!--Control Bar-->
-	<div id="slideshow-controls-wrapper" class="load-item">
-		<div id="slideshow-controls">
-
-			<a id="play-button"><img id="pauseplay" src="<?php echo OCP\image_path('gallery', 'supersized/pause.png'); ?>"/></a>
-
-			<!--Slide counter-->
-			<div id="slidecounter">
-				<span class="slidenumber"></span> / <span class="totalslides"></span>
-			</div>
-
-			<!--Slide captions displayed here-->
-			<div id="slidecaption"></div>
-
-			<!--Thumb Tray button-->
-			<a id="tray-button"><img id="tray-arrow" src="<?php echo OCP\image_path('gallery', 'supersized/button-tray-up.png'); ?>"/></a>
-
-			<!--Navigation-->
-			<!--
-			<ul id="slide-list"></ul>
-			-->
-		</div>
-	</div>
-
-</div><!-- end supersized block -->
