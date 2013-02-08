@@ -28,7 +28,14 @@ OCP\App::checkAppEnabled('facefinder');
 OCP\App::setActiveNavigationEntry( 'facefinder' );
 OCP\Util::addStyle('facefinder', 'styles');
 OCP\Util::addScript('facefinder', 'new_1');
+OCP\Util::addScript('facefinder', 'facefinder');
+OCP\Util::addScript('facefinder', 'module');
+OCP\Util::addScript('facefinder', 'photoview');
 OCP\Util::addStyle('facefinder', 'photoview');
+
+// auslagern in modlue maneger
+OCP\Util::addScript('facefinder', 'tag');
+OCP\Util::addScript('facefinder', 'exif');
 
 
 
@@ -40,8 +47,6 @@ $moduleclasses=$Initialisemodul->getModuleClass();
 */
 //OC_FilesystemView('dsf');
 foreach ($moduleclasses as $moduleclass){
-	//@todo initialiseDB verbessern
-	//$moduleclass::initialiseDB();
 	if($moduleclass::initialiseDB()){
 		OCP\Util::writeLog("facefinder",$moduleclass."1",OCP\Util::DEBUG);
 	$phat=OC_FaceFinder_Scanner::scan("df");
@@ -57,13 +62,12 @@ foreach ($moduleclasses as $moduleclass){
 	}
 }
 
-
 if(isset($_GET['search'])){
 	OCP\Util::addStyle('facefinder', 'search');
 	$tmpl = new OCP\Template( 'facefinder', 'search', 'user' );
 	OCP\Util::addScript('facefinder', 'photoview');
 	$tmpl->printPage();	
 }else{
-$tmpl = new OCP\Template( 'facefinder', 'index', 'user' );
-$tmpl->printPage();
+	$tmpl = new OC_Template( 'facefinder', 'index', 'user' );
+	$tmpl->printPage();
 }
