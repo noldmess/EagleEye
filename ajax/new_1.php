@@ -29,7 +29,7 @@ while (($rowyear = $resultyear->fetchRow())!= false) {
 				$resultday = $stmta->execute(array(\OCP\USER::getUser(),$rowyear['year'],$rowmonth['month']));
 				while (($rowday = $resultday->fetchRow())!= false) {
 						if($day==$rowday['day']){
-							$images[]=array("imagstmp"=>\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.urlencode($rowday['path']),"imagsname"=>$rowday['path']);
+							$images[]=array("imagstmp"=>\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.urlencode(\OCP\USER::getUser()."/".$rowday['path']),"imagsname"=>$rowday['path']);
 							//echo "->".$rowday['day']." ".$rowday['path']."<br>";
 						}else{
 							//echo json_encode($images);
