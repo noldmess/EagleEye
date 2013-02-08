@@ -38,7 +38,7 @@ while (($rowyear = $resultyear->fetchRow())!= false) {
 							//echo json_encode(array('day'=>$day,"imags"=>$images));
 							$images=array();
 							$day=$rowday['day'];
-							$images[]=array("imagstmp"=>\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.urlencode($rowday['path']),"imagsname"=>$rowday['path']);
+							$images[]=array("imagstmp"=>\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.urlencode(\OCP\USER::getUser()."/".$rowday['path']),"imagsname"=>$rowday['path']);
 						}
 						
 					//}
