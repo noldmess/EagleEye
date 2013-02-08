@@ -22,10 +22,12 @@
 */
 class Kamera_Module implements OC_Module_Interface{
 
-	private  $paht;
 	private  static $version='0.0.2';
+	private static $classname="Kamera_Module";
+	
+	private  $paht;
 	private $ForingKey=null;
-	private $exif;
+	
 	public  function __construct($path) {
 		$this->paht=$path;
 	}
@@ -34,25 +36,24 @@ class Kamera_Module implements OC_Module_Interface{
 		return self::$version;
 	}
 
-
-	
-	public function  getKameraPhotoId($photo_id,$kamera_id){
-		$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_kamera_photo_module` WHERE `photo_id`  = ? = `kamera_id` = ?');
-		$result=$stmt->execute(array($photo_id,$kamera_id));
-		while (($row = $result->fetchRow())!= false) {
-			return $row['photo_id'];
-		}
-		return null;
-	
-	}
-
-	public function  issetKameraPhotoId($photo_id,$kamera_id){
-		return ($this->getKameraPhotoId($photo_id,$kamera_id)!=null);
+	/**
+	 * The function check if KameraPhoto is already inserted in the DB 
+	 * @param int  $kamera_id
+	 * @return boolean 
+	 */
+	public function  issetKameraPhotoId($kamera_id){
+		$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_kamera_photo_module` WHERE `photo_id`  = ? and  `kamera_id` = ?');
+		$result=$stmt->execute(array($this->ForingKey,$kamera_id));
+		return ($result->numRows()==1);
 		
 	}
 
+	/** 
+	 * The function insert  KameraPhoto in the DB
+	 * @param id  $id
+	 */
 	public function insertKameraPhoto($id){
-		if(!$this->issetKameraPhotoId($this->ForingKey,$id)){
+		if(!$this->issetKameraPhotoId($id)){
 			if($id!=null){
 				$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_kamera_photo_module` (`photo_id`, `kamera_id`) VALUES ( ?, ?);');
 				$result=$stmt->execute(array($this->ForingKey,$id));
@@ -65,26 +66,19 @@ class Kamera_Module implements OC_Module_Interface{
 
 
 	/**
-	 * Insert the exif data in the EXIF module Table in the db
-	 * If there is no "DateTimeOriginal" the "FileDateTime" will be  insert
-	 * @return null if no exif
+	 * Insert the exif data in the EXIF module Table in the DB
 	 */
 	public function insert(){
-		OCP\Util::writeLog("facefinder","insert_ Kamera",OCP\Util::DEBUG);
+		//get the Exif Header 
 		$exifheader=self::getExitHeader($this->paht);
-		$kamera=$this->getKamera($exifheader);
-		$kamera_id=$this->insertKamera($kamera[0],$kamera[1]);
 		if ($exifheader!=null) {
-			if($this->ForingKey!=null ){
-				$this->insertKameraPhoto($kamera_id);
-			}else{
-				OCP\Util::writeLog("facefinder","No id set",OCP\Util::ERROR);
-			}
-		}else{
-			OCP\Util::writeLog("facefinder","No Exif Heder:".$this->paht,OCP\Util::DEBUG);
-			return null;
+			// get the Camera make and model
+			$kamera=$this->getKamera($exifheader);
+			//insert Camera make and model in the DB
+			$kamera_id=$this->insertKamera($kamera[0],$kamera[1]);
+			//insert KameraPhoto in the DB
+			$this->insertKameraPhoto($kamera_id);
 		}
-		$this->existe=true;
 	}
 
 	/**
@@ -96,7 +90,7 @@ class Kamera_Module implements OC_Module_Interface{
 		 */
 	}
 	/**
-	 * the funktion extract  the exif data of an image
+	 * The funktion extract  the exif data of an image
 	 * @param Path to the image $paht
 	 * @return EXIF array or NULL if no EXIF header
 	 */
@@ -130,17 +124,10 @@ class Kamera_Module implements OC_Module_Interface{
 	public function  getKameraId($make, $model){
 		$stmt = OCP\DB::prepare('SELECT *FROM `*PREFIX*facefinder_kamera_module` WHERE  `make` LIKE ? AND `model` LIKE ?');
 		$result=$stmt->execute(array($make, $model));
-		$rownum=0;
-		$id;
 		while (($row = $result->fetchRow())!= false) {
-			$id=$row['id'];
-			$rownum++;
+			return$row['id'];
 		}
-		if($rownum==1){
-			return  $id;
-		}else{
-			return null;
-		}
+		return null;
 	}
 
 	/**
@@ -150,19 +137,16 @@ class Kamera_Module implements OC_Module_Interface{
 	 * @return Ambigous <$is, NULL, unknown>|NULL
 	 */
 	public function insertKamera($make, $model){
+			//checks if the camera  and the model is already inserted in the DB and returns the id
 			$kamera_id=$this->getKameraId($make, $model);
-			if($kamera_id!=null)
-				return  $kamera_id;
-			else{
+			if($kamera_id==null){
 				if($make!=null && $model!=null){
 					$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_kamera_module` ( `make`, `model`) VALUES (?,?)');
 					$result=$stmt->execute(array($make, $model));
 					$kamera_id=$this->getKameraId($make, $model);
-					if($kamera_id!=null)
-						return  $kamera_id;
 				}
 			}
-		return null;
+		return $kamera_id;
 	}
 
 
@@ -184,12 +168,11 @@ class Kamera_Module implements OC_Module_Interface{
 
 
 	public static function search($query){
-		$classname="Kamera_Module";
 		$results=array();
 		$stmt = OCP\DB::prepare('select * From   *PREFIX*facefinder_kamera_module where  model  like ? or make like ?');
 		$result=$stmt->execute(array($query."%",$query."%"));
 		while (($row = $result->fetchRow())!= false) {
-		$link = OCP\Util::linkTo('facefinder', 'index.php').'?search='.urlencode($classname).'&name='.urlencode($row['model']).'&tag='.urlencode($row['make']);
+				$link = OCP\Util::linkTo('facefinder', 'index.php').'?search='.urlencode(self::$classname).'&name='.urlencode($row['model']).'&tag='.urlencode($row['make']);
 				$results[]=new OC_Search_Result("Kamera",$row['model']."-".$row['make'],$link,"FaF.");
 		}
 				return $results;
@@ -199,7 +182,6 @@ class Kamera_Module implements OC_Module_Interface{
 
 
 	public static function searchArry($name,$value){
-	// select * from *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) inner join *PREFIX*facefinder on (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_tag_photo_module.photo_id);
 		$results=array();
 		$stmt = OCP\DB::prepare(' Select * From  *PREFIX*facefinder_kamera_module  inner join  *PREFIX*facefinder_kamera_photo_module on(*PREFIX*facefinder_kamera_module.id=*PREFIX*facefinder_kamera_photo_module.kamera_id) inner join *PREFIX*facefinder on  (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_kamera_photo_module.photo_id)where `make` like ? and `model` like ?');
 			$result=$stmt->execute(array($value,$name));
@@ -234,10 +216,7 @@ class Kamera_Module implements OC_Module_Interface{
 		 */
 		 private static function createDBtabels($classname){
 		 	
-			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_kamera_photo_module');
-			$stmt->execute();
-			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_kamera_module`');
-			$stmt->execute();
+			self::removeDBtabels();
 			OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/'.$classname.'.xml');
 			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_kamera_photo_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
 			$stmt->execute();
@@ -246,6 +225,15 @@ class Kamera_Module implements OC_Module_Interface{
 			OCP\Util::writeLog("facefinder","Kamera_Module 4",OCP\Util::DEBUG);
 			}
 
+			/**
+			 * Drop all Tables that are in contact with the Module
+			 */
+			public static function  removeDBtabels(){
+				$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_kamera_photo_module');
+				$stmt->execute();
+				$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_kamera_module`');
+				$stmt->execute();
+			}
 
 
 			/**
@@ -281,19 +269,11 @@ class Kamera_Module implements OC_Module_Interface{
 		   public static function AllTableExist(){
 			   $stmt = OCP\DB::prepare('SHOW TABLES LIKE \'*PREFIX*facefinder_kamera_photo_module\'');
 			   $result=$stmt->execute();
-			   $rownum=0;
-			   while (($row = $result->fetchRow())!= false) {
-			   	$rownum++;
-			   }
-			   $table_kamera=($rownum==1);
+			   $table_kamera=($result->numRows()==1);
 			   
 			   $stmt = OCP\DB::prepare('SHOW TABLES LIKE \'*PREFIX*facefinder_kamera_module\'');
 			   $result=$stmt->execute();
-			   $rownum=0;
-			   while (($row = $result->fetchRow())!= false) {
-					$rownum++;
-				}
-				$table_kamera_photo=($rownum==1);
+				$table_kamera_photo=($result->numRows()==1);
 				return ($table_kamera_photo && $table_kamera);
 			}
 

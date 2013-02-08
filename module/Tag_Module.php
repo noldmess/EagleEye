@@ -1,7 +1,7 @@
 <?php
 class Tag_Module implements OC_Module_Interface{
 	
-	
+	private static $classname='Tag_Module';
 	private  static $version='0.2.5';
 	private $ForingKey=null;
 	private $lang=null;
@@ -22,17 +22,11 @@ class Tag_Module implements OC_Module_Interface{
 		public function  getTagId($key,$tag){
 			$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_module` WHERE `name` LIKE ? AND `tag` LIKE ?');
 			$result=$stmt->execute(array($key,$tag));
-			$rownum=0;
-			$id;
 			while (($row = $result->fetchRow())!= false) {
-				$id=$row['id'];
-				$rownum++;
+				return$row['id'];
 			}
-			if($rownum==1){
-				return  $id;
-			}else{
-				return null;
-			}
+
+			return null;
 		}
 		/**
 		 * Checks if the "" are in the DB 
@@ -43,15 +37,7 @@ class Tag_Module implements OC_Module_Interface{
 		public function  issetTagPhotoId($photo_id,$tag_id){
 			$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_photo_module` WHERE `photo_id`  = ? and `tag_id` = ?');
 			$result=$stmt->execute(array($photo_id,$tag_id));
-			$rownum=0;
-			$id;
-			while (($row = $result->fetchRow())!= false) {
-				$id=$row['photo_id'];
-				$rownum++;
-			}
-			OCP\Util::writeLog("facefinder",$rownum,OCP\Util::DEBUG);
-			return ($rownum==1);
-			
+			return ($result->numRows()==1);
 		}
 		
 		/**
@@ -79,22 +65,243 @@ class Tag_Module implements OC_Module_Interface{
 			$this->ForingKey=$key;
 		}
 		
+		/**
+		 * Insert kay and tag in the DB and return the id of the new element 
+		 * @param String $key
+		 * @param String $tag
+		 * @return id
+		 */
 		public function insertTag($key,$tag){
+				//convert IPTC Code to a string  
 				$key=$this->IPTCCodeToString($key);
+				//language change 
 				$key=($this->lang->t($key));
 				$tag_id=$this->getTagId($key,$tag);
-				if($tag_id!=null){
-					return  $tag_id;
-				}else{
+				if($tag_id==null){
 					$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_tag_module` ( `name`, `tag`) VALUES ( ?, ?)');
 					$result=$stmt->execute(array($key,$tag));
 					$tag_id=$this->getTagId($key,$tag);
-					if($tag_id!=null)
-							return  $tag_id;
 				}
+			return  $tag_id;
 			
 		}
 	
+		
+	
+		
+		public function removeTagPhoto($id){
+			$stmt = OCP\DB::prepare('DELETE FROM `*PREFIX*facefinder_tag_photo_module` WHERE `photo_id` LIKE ? AND `tag_id` LIKE ?;');
+			$result=$stmt->execute(array($this->ForingKey,$id));		
+		}
+		
+		/**
+		 * Insert the data in the module DB
+		*/
+		public function insert(){
+			//check if the file exist
+			if (\OC_Filesystem::file_exists($this->paht)) {
+				getimagesize(OC_Filesystem::getLocalFile($this->paht),$info);
+				if(isset($info['APP13'])){
+					$iptc = iptcparse($info['APP13']);
+					foreach ($iptc as $key => $section) {
+						foreach ($section as $name => $val){
+							$id=$this->insertTag($key,$val);
+							$this->insertTagPhoto($id);
+						}
+					}
+				}
+			}
+		}
+		
+		public  function getTag(){
+			$stmt = \OCP\DB::prepare('SELECT * FROM *PREFIX*facefinder_tag_module  inner  join *PREFIX*facefinder_tag_photo_module on(*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) inner join *PREFIX*facefinder on(*PREFIX*facefinder.photo_id=*PREFIX*facefinder_tag_photo_module.photo_id) where uid_owner LIKE ? And *PREFIX*facefinder.path=?');
+			$result = $stmt->execute(array(\OCP\USER::getUser(),$this->paht));
+			$tagarray=array();
+			while (($row = $result->fetchRow())!= false) {
+				$tagarray[]=array('name'=>$row['name'],"tag"=>$row['tag'],"x1"=>$row['x1'],"x2"=>$row['x2'],"y1"=>$row['y1'],"y2"=>$row['y2']);
+			}
+			return $tagarray;
+		}
+		
+		
+		/**@todo refachter 
+		 * Write the tags from the DB in the IPTC header of the image 
+		 */
+		public function writeTag(){
+			if (\OC_Filesystem::file_exists($this->paht)) {
+				$help=$this->getTag();
+				$iptc = array();
+				$i=1;
+				foreach ($help as $s){
+					$iptc=$iptc+array("2#".$this->StringToIPTCCode($s['name']).$i=>$s['tag']);
+					$i++;
+				}
+				$data = '';
+			foreach($iptc as $tag => $string){
+    				$tag = str_replace("2#", "", $tag);
+    				$tag = substr($tag, 0, 3);
+    				$data .= $this->iptc_make_tag(2, $tag, $string);
+				}
+				$content = iptcembed($data,OC_Filesystem::getLocalFile($this->paht));
+				$fp=OC_Filesystem::fopen($this->paht,"wb");
+				if (!$fp) {
+					OCP\Util::writeLog("facefinder",OC_Filesystem:: getLocalFile("/")." sdfsdf",OCP\Util::ERROR);
+				}else{
+					fwrite($fp, $content);
+					fclose($fp);
+				}
+			}
+		}
+		
+			private function iptc_make_tag($rec, $data, $value)
+			{
+			    $length = strlen($value);
+			    $retval = chr(0x1C) . chr($rec) . chr($data);
+			    if($length < 0x8000){
+			   			        $retval .= chr($length >> 8) .  chr($length & 0xFF);
+			    }
+			    else{
+			        $retval .= chr(0x80).chr(0x04).chr(($length >> 24) & 0xFF).chr(($length >> 16) & 0xFF) . chr(($length >> 8) & 0xFF).chr($length & 0xFF);
+			    }
+			    return $retval . $value;
+			}
+			
+		/**
+		 * Remove the data in the module DB
+		*/
+		public function remove(){}
+		/**
+		 * Update the data in the module DB
+		*/
+		
+		public function update($newpaht){}
+
+		
+		
+		/**
+		 * The function receive a String and returns OC Search_Result
+		 * @param String $query
+		 * @return multitype:OC_Search_Result
+		 */
+		public static function search($query){
+			$classname="Tag_Module";
+			$results=array();
+			$stmt = OCP\DB::prepare('select DISTINCT`tag`,name From   *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) where tag like ? or name like ?');
+			$result=$stmt->execute(array($query."%",$query."%"));
+			while (($row = $result->fetchRow())!= false) {
+				$link = OCP\Util::linkTo('facefinder', 'index.php').'?search='.$classname.'&name='.urlencode($row['name']).'&tag='.$row['tag'];
+				$results[]=new OC_Search_Result("Tag",$row['tag'],$link,"FaF.");
+			}			
+			return $results;
+		}
+		
+
+		/**
+		 * The function return the path for the search request
+		 * @param String $name
+		 * @param String $tag
+		 * @return multitype:photo_phate
+		 */
+		public static function searchArry($name,$tag){
+			$results=array();
+			$stmt = OCP\DB::prepare('select * from *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) inner join *PREFIX*facefinder on (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_tag_photo_module.photo_id) where`tag` like ? and `name` like ?');
+			$result=$stmt->execute(array($tag,$name));
+			while (($row = $result->fetchRow())!= false) {
+				$results[]=$row['path'];
+			}
+			return $results;
+		}
+		
+		
+		/**
+		 * The function returns the id of the last stored information
+		 * @return int Id
+		*/
+		public function getID(){}
+		/**
+		 * To search for equivalents the function return a Array of the Ids and percent of equivalents
+		 * @return array of id and percent of equivalents
+		*/
+		public function equivalent(){}
+		
+		/**
+		 * Create the DB of the Module the if the module hase an new Version numper
+		 * @return boolean
+		 */
+		public static  function  initialiseDB(){
+			//check if module is already installed
+			if(OC_Appconfig::hasKey('facefinder',self::$classname)){
+				//check if the module is in the correct version and all Tables exist
+				if (self::checkVersion() || !self::AllTableExist()){
+					//create all tables and update version number
+						self::createDBtabels(self::$classname);
+						OC_Appconfig::setValue('facefinder',self::$classname,self::getVersion());
+						return true;
+				}else{
+					return false;
+				}
+			}else{
+				//create all tables and update version number
+				self::createDBtabels(self::$classname);
+				OC_Appconfig::setValue('facefinder',self::$classname,self::getVersion());
+				return true;
+			}
+		}
+		
+		public static function checkVersion(){
+			$classname="Tag_Module";
+			$appkey=OC_Appconfig::getValue('facefinder',$classname);
+			return version_compare($appkey, self::getVersion(), '<');
+		}
+	
+		public static function getVersion(){
+			return self::$version;
+		}
+		
+		public function getTagArray($path){
+			/**
+			 * SELECT * FROM `oc_facefinder_tag_module` inner join oc_facefinder_tag_photo_module on oc_facefinder_tag_module.id =oc_facefinder_tag_photo_module.tag_id inner join oc_facefinder on oc_facefinder.photo_id=oc_facefinder_tag_photo_module.photo_id
+			 * 
+			 * 
+			 */
+		}
+		
+		/**
+		 * check if all tables for module exist
+		 * @return boolean
+		*/
+		public static function AllTableExist(){
+			$stmt = OCP\DB::prepare('SHOW TABLES LIKE \'*PREFIX*facefinder_tag_module\'');
+			$result=$stmt->execute();
+			$table_exif=($result->numRows()==1);
+			
+			$stmt = OCP\DB::prepare('SHOW TABLES LIKE \'*PREFIX*facefinder_tag_photo_module\'');
+			$result=$stmt->execute();
+			$table_kamera=($result->numRows()==1);
+			
+			return ($table_exif && $table_kamera);
+		}
+	
+		private static function createDBtabels($classname){
+			self::removeDBtabels();
+			OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/'.$classname.'.xml');
+			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_tag_photo_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
+			$stmt->execute();
+			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_tag_photo_module`  ADD FOREIGN KEY (tag_id) REFERENCES *PREFIX*facefinder_tag_module(id) ON UPDATE CASCADE ON DELETE SET NULL');
+			$stmt->execute();
+		}
+		
+		
+		/**
+		 * Drop all Tables that are in contact with the Module
+		 */
+		public static function  removeDBtabels(){
+			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS `*PREFIX*facefinder_tag_photo_module`');
+			$stmt->execute();
+			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_tag_module`');
+			$stmt->execute();
+		}
+		
 		
 		public static  function IPTCCodeToString($ipct){
 			$ipct_tmp = substr($ipct, 2);
@@ -179,212 +386,4 @@ class Tag_Module implements OC_Module_Interface{
 			}
 		}
 		
-		public function removeTagPhoto($id){
-			$stmt = OCP\DB::prepare('DELETE FROM `*PREFIX*facefinder_tag_photo_module` WHERE `photo_id` LIKE ? AND `tag_id` LIKE ?;');
-			$result=$stmt->execute(array($this->ForingKey,$id));		
-		}
-		
-		/**
-		 * Insert the data in the module DB
-		*/
-		public function insert(){
-			if (\OC_Filesystem::file_exists($this->paht)) {
-				$size = getimagesize(OC_Filesystem::getLocalFile($this->paht),$info);
-				if(isset($info['APP13']))
-				{
-					$iptc = iptcparse($info['APP13']);
-					foreach ($iptc as $key => $section) {
-						foreach ($section as $name => $val){
-							$id=$this->insertTag($key,$val);
-							$this->insertTagPhoto($id);
-							OCP\Util::writeLog("facefinder",$this->paht."-".$key.$name.': '.$val,OCP\Util::ERROR);
-						}
-					}
-				}
-			}
-		}
-		
-		public  function getTagPaht(){
-			$stmt = \OCP\DB::prepare('SELECT * FROM oc_facefinder_tag_module  inner  join oc_facefinder_tag_photo_module on(oc_facefinder_tag_module.id=oc_facefinder_tag_photo_module.tag_id) inner join oc_facefinder on(oc_facefinder.photo_id=oc_facefinder_tag_photo_module.photo_id) where uid_owner LIKE ? And oc_facefinder.path=?');
-			$result = $stmt->execute(array(\OCP\USER::getUser(),$this->paht));
-			$tagarray=array();
-			while (($row = $result->fetchRow())!= false) {
-				$tagarray[]=array('name'=>$row['name'],"tag"=>$row['tag']);
-			}
-			return $tagarray;
-		}
-		/**
-		 * Write the tags from the DB in the IPTC header of the image 
-		 */
-		public function writeTag(){
-			if (\OC_Filesystem::file_exists($this->paht)) {
-				$help=$this->getTagPaht();
-				$iptc = array();
-				$i=1;
-				foreach ($help as $s){
-					$iptc=$iptc+array("2#".$this->StringToIPTCCode($s['name']).$i=>$s['tag']);
-					$i++;
-				}
-				$data = '';
-			foreach($iptc as $tag => $string){
-    				$tag = str_replace("2#", "", $tag);
-    				$tag = substr($tag, 0, 3);
-    				$data .= $this->iptc_make_tag(2, $tag, $string);
-				}
-				$content = iptcembed($data,OC_Filesystem::getLocalFile($this->paht));
-				$fp=OC_Filesystem::fopen($this->paht,"wb");
-				if (!$fp) {
-					OCP\Util::writeLog("facefinder",OC_Filesystem:: getLocalFile("/")." sdfsdf",OCP\Util::ERROR);
-				}else{
-					fwrite($fp, $content);
-					fclose($fp);
-				}
-			}
-		}
-		
-			public function iptc_make_tag($rec, $data, $value)
-			{
-			    $length = strlen($value);
-			    $retval = chr(0x1C) . chr($rec) . chr($data);
-			    if($length < 0x8000){
-			   			        $retval .= chr($length >> 8) .  chr($length & 0xFF);
-			    }
-			    else{
-			        $retval .= chr(0x80).chr(0x04).chr(($length >> 24) & 0xFF).chr(($length >> 16) & 0xFF) . chr(($length >> 8) & 0xFF).chr($length & 0xFF);
-			    }
-			    return $retval . $value;
-			}
-		/**
-		 * Remove the data in the module DB
-		*/
-		public function remove(){}
-		/**
-		 * Update the data in the module DB
-		*/
-		public function update($newpaht){}
-		/**
-		 * To search for in the module tables store information
-		 * @param String  $query
-		*/
-		public static function search($query){
-			$classname="Tag_Module";
-			$results=array();
-			$stmt = OCP\DB::prepare('select DISTINCT`tag`,name From   *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) where tag like ? or name like ?');
-			$result=$stmt->execute(array($query."%",$query."%"));
-			while (($row = $result->fetchRow())!= false) {
-				$link = OCP\Util::linkTo('facefinder', 'index.php').'?search='.$classname.'&name='.urlencode($row['name']).'&tag='.$row['tag'];
-				$results[]=new OC_Search_Result("Tag",$row['tag'],$link,"FaF.");
-			}			
-			return $results;
-		}
-		
-
-		/**
-		 * @param unknown_type $name
-		 * @param unknown_type $tag
-		 * @return multitype:unknown
-		 */
-		public static function searchArry($name,$tag){
-		 // select * from oc_facefinder_tag_module inner join oc_facefinder_tag_photo_module  on  (oc_facefinder_tag_module.id=oc_facefinder_tag_photo_module.tag_id) inner join oc_facefinder on (oc_facefinder.photo_id=oc_facefinder_tag_photo_module.photo_id);
-		$results=array();
-		$stmt = OCP\DB::prepare('select * from *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) inner join *PREFIX*facefinder on (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_tag_photo_module.photo_id) where`tag` like ? and `name` like ?');
-		$result=$stmt->execute(array($tag,$name));
-		while (($row = $result->fetchRow())!= false) {
-		$results[]=$row['path'];
-		}
-		return $results;
-		}
-		
-		
-		/**
-		 * The function returns the id of the last stored information
-		 * @return int Id
-		*/
-		public function getID(){}
-		/**
-		 * To search for equivalents the function return a Array of the Ids and percent of equivalents
-		 * @return array of id and percent of equivalents
-		*/
-		public function equivalent(){}
-		
-		/**
-		 * Create the DB of the Module the if the module hase an new Version numper
-		*/
-		public static function initialiseDB(){
-			$classname="Tag_Module";
-			if(OC_Appconfig::hasKey('facefinder',$classname)){
-			
-				/**
-				 * @todo check korektnes
-				*/
-				if (self::checkVersion()|| !self::AllTableExist()){
-					OCP\Util::writeLog("facefinder",$classname." need update",OCP\Util::DEBUG);
-					OC_Appconfig::setValue('facefinder',$classname,self::getVersion());
-					self::createDBtabels($classname);
-					return true;
-				}else{
-					return false;
-				}
-			}else{
-				/**
-				 * @todo
-				 */
-				OCP\Util::writeLog("facefinder","not jet used ".self::getVersion(),OCP\Util::INFO);
-				OC_Appconfig::setValue('facefinder',$classname,self::getVersion());
-				self::createDBtabels($classname);
-				
-			}
-		}
-		
-		public static function checkVersion(){
-			$classname="Tag_Module";
-			$appkey=OC_Appconfig::getValue('facefinder',$classname);
-			return version_compare($appkey, self::getVersion(), '<');
-		}
-	
-		public static function getVersion(){
-			return self::$version;
-		}
-		
-		public function getTagArray($path){
-			/**
-			 * SELECT * FROM `oc_facefinder_tag_module` inner join oc_facefinder_tag_photo_module on oc_facefinder_tag_module.id =oc_facefinder_tag_photo_module.tag_id inner join oc_facefinder on oc_facefinder.photo_id=oc_facefinder_tag_photo_module.photo_id
-			 * 
-			 * 
-			 */
-		}
-		
-		/**
-		 * check if all tables for module exist
-		 * @return boolean
-		*/
-		public static function AllTableExist(){
-			$stmt = OCP\DB::prepare('SHOW TABLES LIKE \'*PREFIX*facefinder_tag_module\'');
-			$result=$stmt->execute();
-			$rownum=0;
-			while (($row = $result->fetchRow())!= false) {
-				$rownum++;
-			}
-			$table_exif=($rownum==1);
-			$stmt = OCP\DB::prepare('SHOW TABLES LIKE \'*PREFIX*facefinder_tag_photo_module\'');
-			$result=$stmt->execute();
-			$rownum=0;
-			while (($row = $result->fetchRow())!= false) {
-				$rownum++;
-			}
-			$table_kamera=($rownum==1);
-			return ($table_exif && $table_kamera);
-		}
-	
-		private static function createDBtabels($classname){
-			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS `*PREFIX*facefinder_tag_photo_module`');
-			$stmt->execute();
-			$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_tag_module`');
-			$stmt->execute();
-			OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/'.$classname.'.xml');
-			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_tag_photo_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
-			$stmt->execute();
-			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_tag_photo_module`  ADD FOREIGN KEY (tag_id) REFERENCES *PREFIX*facefinder_tag_module(id) ON UPDATE CASCADE ON DELETE SET NULL');
-			$stmt->execute();
-		}
 }
