@@ -2,7 +2,7 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('facefinder');
 
-$stmt = \OCP\DB::prepare('SELECT DISTINCT  YEAR(date) as year FROM `*PREFIX*facefinder_exif_date_module` inner  join oc_facefinder on (*PREFIX*facefinder_exif_date_module.photo_id= *PREFIX*facefinder.photo_id) Where uid_owner LIKE ? order by date  DESC');
+$stmt = \OCP\DB::prepare('SELECT DISTINCT  YEAR(date_photo) as year FROM `*PREFIX*facefinder` Where uid_owner LIKE ? order by date_photo  DESC');
 $resultyear = $stmt->execute(array(\OCP\USER::getUser()));
 $year=1970;
 $month=-1;
@@ -16,7 +16,7 @@ $help=true;
 $yeararray=array();
 while (($rowyear = $resultyear->fetchRow())!= false) {
 		//echo $rowyear['year']."<br>";
-		$stmta = \OCP\DB::prepare('SELECT DISTINCT  MONTH(date) as month ,MONTHNAME(date) as monthname FROM `*PREFIX*facefinder_exif_date_module` inner  join *PREFIX*facefinder on (*PREFIX*facefinder_exif_date_module.photo_id= *PREFIX*facefinder.photo_id) Where uid_owner LIKE ? AND YEAR(date) = ? order by   date DESC');
+		$stmta = \OCP\DB::prepare('SELECT DISTINCT  MONTH(date_photo) as month ,MONTHNAME(date_photo) as monthname FROM `*PREFIX*facefinder` Where uid_owner LIKE ? AND YEAR(date_photo) = ? order by   date_photo DESC');
 		$resultmonth = $stmta->execute(array(\OCP\USER::getUser(),$rowyear['year']));
 		$montharray=array();
 		while (($rowmonth = $resultmonth->fetchRow())!= false) {
@@ -25,7 +25,7 @@ while (($rowyear = $resultyear->fetchRow())!= false) {
 				$day=0;
 				$images=array();
 				$rows=false;
-				$stmta = \OCP\DB::prepare('SELECT  Day(date) as day,path FROM `*PREFIX*facefinder_exif_date_module` inner  join oc_facefinder on (*PREFIX*facefinder_exif_date_module.photo_id= *PREFIX*facefinder.photo_id) Where uid_owner LIKE ? AND YEAR(date) = ? AND MONTH(date) = ? order by date ASC');
+				$stmta = \OCP\DB::prepare('SELECT  Day(date_photo) as day,path FROM`*PREFIX*facefinder`Where uid_owner LIKE ? AND YEAR(date_photo) = ? AND MONTH(date_photo) = ? order by date_photo ASC');
 				$resultday = $stmta->execute(array(\OCP\USER::getUser(),$rowyear['year'],$rowmonth['month']));
 				while (($rowday = $resultday->fetchRow())!= false) {
 						if($day==$rowday['day']){

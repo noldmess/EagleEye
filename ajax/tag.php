@@ -7,6 +7,6 @@ if(isset($_GET['image'])){
 	$writemodul=new OC_Module_Maneger();
 	$moduleclasses=$writemodul->getModuleClass();
 	$tag_module =new Tag_Module($_GET['image']);
-	echo json_encode($tag_module->getTagPaht());
+	echo json_encode($tag_module->getTag());
 }
 ?>
