@@ -38,12 +38,49 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 	 * Insert the Photo in the SQL Database
 	 */
 	public function insert(){
-			$id=$this->getID();
-			if($id==-1){
-				$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder` ( `uid_owner`, `path`) VALUES (?, ?)');
-				$stmt->execute(array($this->getUser(),$this->paht));
-				$this->existe=true;
+			if(!$this->issetPhotoId()){
+				$hash=hash_file("sha256",OC_Filesystem::getLocalFile($this->paht));
+				$exifheader=self::getExitHeader($this->paht);
+				$date=self::getDateOfEXIF($exifheader);
+				$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder` ( `uid_owner`, `path`,`hash`,`date_photo`)   VALUES (?, ?,?,?)');
+				$stmt->execute(array(\OCP\USER::getUser(),$this->paht,$hash,$date));
 			}
+	}
+	
+		/**
+		 * The funktion extract  the exif data of an image 
+		 * @param String  $paht
+		 * @return NULL | EXIFheader
+		 */
+	public static   function getExitHeader($path){
+		if (OC_Filesystem::file_exists($path)) {
+			return exif_read_data(OC_Filesystem::getLocalFile($path),'FILE', true);
+		}else{
+			return  null;
+		}
+	}
+	
+	
+	/**
+	 * Function return date of image
+	 * @param EXIF array $exifheader
+	 * @return Date of Image If there is no "DateTimeOriginal" the "FileDateTime" will be  used
+	 */
+	public static function getDateOfEXIF($exifheader){
+		if(!is_array($exifheader)|| !isset($exifheader['FILE'])){
+			return null;
+		}
+		if(isset($exifheader['EXIF'])){
+			$date=$exifheader['EXIF']['DateTimeOriginal'];
+		}else{
+			if(isset($exifheader['FILE'])){
+				$date=date('Y:m:d H:i:s',$exifheader['FILE']['FileDateTime']);
+			}else{
+				$date=date('Y:m:d H:i:s');
+					
+			}
+		}
+		return $date;
 	}
 	
 	/**
@@ -51,14 +88,27 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 	 */
 	public function getID(){
 			$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `path` LIKE ?');
-			$result = $stmt->execute(array($this->getUser(), $this->paht));
+			$result = $stmt->execute(array(\OCP\USER::getUser(), $this->paht));
 			$id=-1;
 				while (($row = $result->fetchRow())!= false) {
 					 $id=$row['photo_id'];
 				}
 				return  $id;
 			}
-		
+	
+	/**
+	 * The function check if the ExiPhoto already exist
+	 * @param int  $exif_id
+	 * @return boolean
+	 */
+	public function  issetPhotoId(){
+		$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `path` LIKE ?');
+		$result = $stmt->execute(array(\OCP\USER::getUser(), $this->paht));
+		return ($result->numRows()==1);
+	
+	}
+	
+
 	
 			/**
 			 * Temove the Photo from the SQL Database
@@ -66,9 +116,8 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 	public function remove(){
 		$id=$this->getID();
 		if($id!=-1){
-			
 			$stmt = OCP\DB::prepare('DELETE FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `photo_id` = ?');
-			$stmt->execute(array($this->getUser(),$id));
+			$stmt->execute(array(\OCP\USER::getUser(),$id));
 		}else{
 			/**
 			 * @todo use translation funktion
@@ -83,7 +132,7 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 		$id=$this->getID();
 		if($id!=-1){
 			$stmt = OCP\DB::prepare('UPDATE `*PREFIX*facefinder` SET `path` = ? WHERE `uid_owner` LIKE ? AND `photo_id` = ? ');
-			$stmt->execute(array($newpaht,$this->getUser(),$id));
+			$stmt->execute(array($newpaht,\OCP\USER::getUser(),$id));
 			$this->paht=$newpaht;
 		}
 	}
@@ -96,9 +145,28 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 
 	
 	public function equivalent(){
-		/**
-		 * @todo
-		 */
+		$stmt = OCP\DB::prepare('select * from *PREFIX*facefinder order by hash,date_photo');
+		$result=$stmt->execute();
+		$hash=null;
+		$date="";
+		$array=array();
+		$path="";
+		$help=array();
+		while (($row = $result->fetchRow())!= false) {
+			if($hash!=$row['hash']){
+				if($hash!=null) {
+					$array[]=array($path,$help);
+				}
+				$help=array();
+				//echo $row['hash']."<br>";
+				$hash=$row['hash'];
+				$path=$row['path'];
+			}else{
+				$help[]=$row['path'];;
+			}
+				
+		}
+		return $array;
 	}
 	
 	public function  setForingKey($key){
@@ -113,18 +181,10 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 		 */
 	}
 	
-	public  function  setUser($user){
-		$this->user=$user;
-	}
-	
-	public function  getUser(){
-		if($this->user!=null){
-			$user_tmp=$this->user;
-		}else{
-			$user_tmp=\OCP\USER::getUser();
-		}
-		return  $user_tmp;
-	}
+	/**
+	 * Drop all Tables that are in contact with the Module
+	 */
+	public static function  removeDBtabels(){}
 	
 	/**
 	 * check if all tables for module exist

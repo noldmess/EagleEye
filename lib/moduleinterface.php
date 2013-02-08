@@ -70,7 +70,10 @@ interface OC_Module_Interface {
 	 */
 	public static function AllTableExist();
 	
-	
+	/**
+	 * Drop all Tables that are in contact with the Module
+	 */
+	public static function  removeDBtabels();
 	/**
 	 +check if the Version is korekt
 	 * @return boolean
