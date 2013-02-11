@@ -230,12 +230,36 @@ class EXIF_Module implements OC_Module_Interface{
 				}else{
 					$help=$help+array($row['name']=>$row['valued']);
 				}
-			
+			}
+				//array whit the equivalent elements  
+				$array_eq=array();
+				$name=null;
+				//check all element
+				foreach($array as $f){
+					if($name!=null){
+						$array_eq[]=array($name=>$eq);
+					}
+					$eq=array();
+					$name=$f[0];
+					foreach($array as $string){
+						//not check if it has the same name
+						if($f[0]!=$string[0]){
+							$array_exif_elements=count($string[1]);
+							if($array_exif_elements>0){
+								//return the equal elements in both arrays
+								$equal_elment=array_intersect($f[1], $string[1]);
+								if(count($equal_elment)/$array_exif_elements>0.8) {
+									$eq[]=$string[0];
+								}
+							}
+						}
+					}
+				
 			}
 			
 			
 			
-			return $array;
+			return $array_eq;
 		}
 	
 		/**
