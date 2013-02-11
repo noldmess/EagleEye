@@ -155,10 +155,9 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 		while (($row = $result->fetchRow())!= false) {
 			if($hash!=$row['hash']){
 				if($hash!=null) {
-					$array[]=array($path,$help);
+					$array[]=array($path=>$help);
 				}
 				$help=array();
-				//echo $row['hash']."<br>";
 				$hash=$row['hash'];
 				$path=$row['path'];
 			}else{
