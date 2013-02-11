@@ -107,6 +107,16 @@ class Kamera_Module implements OC_Module_Interface{
 	 * @param $exifheader
 	 * @return Ambigous <multitype:, multitype:NULL , NULL>
 	 */
+	public  function getKameraData(){
+		// 
+		$stmt = OCP\DB::prepare('Select * From  *PREFIX*facefinder_kamera_module  inner join  *PREFIX*facefinder_kamera_photo_module on(*PREFIX*facefinder_kamera_module.id=*PREFIX*facefinder_kamera_photo_module.kamera_id) where *PREFIX*facefinder_kamera_photo_module.photo_id =?');
+		$result=$stmt->execute(array($this->ForingKey));
+		while (($row = $result->fetchRow())!= false) {
+			return array('make'=>$row['make'],"model"=>$row['model']);
+		}
+		return null;
+	}
+	
 	public  static function getKamera($exifheader){
 		$kamera=array();
 		if(isset($exifheader["IFD0"]["Make"]) && isset($exifheader["IFD0"]["Model"])){
