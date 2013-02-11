@@ -38,15 +38,6 @@ div.tool_title{
 	background-color: gray;
 }
 
-#photo{
-	position:relative;
-	text-align:center;
-	vertical-align:text-bottom;
-	height:80%;
-	width:auto;
-}
-
-
 
 #tool_taggs{
 	display:block;
@@ -83,7 +74,23 @@ height: ;
 min-width: 70%;
 }
 
+div#photo{
+	position:relative;
+	text-align:center;
+	vertical-align:text-bottom;
+	height:80%;
+	width:auto;
+}
+
+div#photo.loading{
+		background: url("../img/loader.gif") no-repeat center center;
+}
+
+
+
 #photo img{
+	margin-left: auto;
+    margin-right: auto;
 	position:relative;
 	max-width: 99%;
 	max-height:100%;
@@ -91,23 +98,25 @@ min-width: 70%;
 }
 
 
+
+
 #photo div{
-	position:relative;
 	max-width: 99%;
 	max-height:100%;
-	cursor:move;
+	/*cursor:move;*/
 }
 
 #photo .draggable{
+	position:relative;
 	height: 100px;
-	width: 100px;
+	width: 100px;*/
+	min-width:150px;
+	min-height:35px;
 	opacity: 1;
 	border: solid 2px #778899;
 }
 
 #photo .draggable:HOVER{
-	height: 100px;
-	width: 100px;
 	opacity: 1;
 	border: solid 2px red;
 }
@@ -126,17 +135,15 @@ min-width: 70%;
 
 #photo .draggable input{
 	position:relative;
-	left:-25px;
-	top:100px;
+	bottom:35px;
 	opacity: 0.8;
 }
 
 
 #photo .draggable_tag{
-	cursor: pointer;
+	/*cursor: pointer;*/
 	background:white;
 	position:relative;
-	top:78px;
 	opacity: 1.0;
 }
 
