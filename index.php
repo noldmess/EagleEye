@@ -36,6 +36,7 @@ OCP\Util::addStyle('facefinder', 'photoview');
 // auslagern in modlue maneger
 OCP\Util::addScript('facefinder', 'tag');
 OCP\Util::addScript('facefinder', 'exif');
+OCP\Util::addScript('facefinder', 'kamera');
 
 
 
@@ -64,10 +65,12 @@ foreach ($moduleclasses as $moduleclass){
 
 if(isset($_GET['search'])){
 	OCP\Util::addStyle('facefinder', 'search');
+	OCP\Util::addScript('facefinder', 'search');
 	$tmpl = new OCP\Template( 'facefinder', 'search', 'user' );
 	OCP\Util::addScript('facefinder', 'photoview');
 	$tmpl->printPage();	
 }else{
+
 	$tmpl = new OC_Template( 'facefinder', 'index', 'user' );
 	$tmpl->printPage();
 }
