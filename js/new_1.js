@@ -12,8 +12,11 @@ $(document).ready(function() {
 
 	$(document).keypress(function(e) {
 	   if ( e.keyCode== 27){
+		  // location.hash = "#/DSC_0010.JPG";//;
 	      $('#photoview').hide();
 	      $('#new_1').show();
+	      $('#search').show();
+	      location.href ="#"+$('#photo img').attr("name");
 	   }
 	});
 	

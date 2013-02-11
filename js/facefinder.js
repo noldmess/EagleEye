@@ -20,7 +20,7 @@ var FaceFinder={
 			    	   $("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+")").append('<div class="day"><h1>'+days.day+'</h1></div>');
 			    	   $.each(days.imags,function(index,image){//<a  ><a href="/owncloud/?app=gallery&getfile=ajax%2FviewImage.php?img=%252F'+image+'" title="'+image+'" rel="images"></a>
 			    		   															
-			    		   	$("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<a><img src="'+image.imagstmp+'"  alt="'+image.imagsname+'"></a>');
+			    		   	$("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<a name="'+image.imagsname+'"><img src="'+image.imagstmp+'"  alt="'+image.imagsname+'"></a>');
 			    		 	$("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+") a img:eq("+index+")").click(function(){
 			    		 		PhotoView.ClickImg(this)});
 			    		 	

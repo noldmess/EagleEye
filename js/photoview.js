@@ -4,24 +4,34 @@ var PhotoView={
 			$('#photoview').hide();
 		},
 		ClickImg:function(event){
+			
 			//set PhotoView visible
-	 		$('#photo_load').show();
-			$('#photo img').attr("src", OC.linkTo('gallery', 'ajax/image.php')+'?file=Aaron/'+event.alt);
-			$('#photo img').attr("name", event.alt);
-		
-			$('#photoview img').load(function(){
-				$('#photoview_load').hide();
-			});
+	 
+	 		$('#photo').addClass('loading');
+	 		$('#photo img').remove()
+			var img = new Image();
+			img.src=OC.linkTo('gallery', 'ajax/image.php')+'?file='+oc_current_user+'/'+event.alt;
+			img.name=event.alt;
+			img.id="img_img";
+			$(img).load(function(){
+				$(this).hide();
+				Module.load(event.alt);
+				$('#photo').removeClass('loading').append(this);
+				 $(this).fadeIn();
+			})
+			.error(function () {
+					alert("dsfsdf")    });
 			
 			/**
 			 * @todo hier modul js für eingehöngte js
 			 */
-			Module.load(event.alt);
+			
 			
 			$('#photoview img').ready(function(){
 				$('#photoview img').show();
 			});
 			$('#new_1').hide();
+			$('#search').hide();
 			$('#photoview').show();
 		}
 };
