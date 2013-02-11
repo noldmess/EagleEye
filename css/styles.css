@@ -17,7 +17,7 @@ div.gallery_div img.shrinker {width:80px !important;}
 div.title { opacity: 0; text-align: center; vertical-align: middle; font-family: Arial; font-size: 12px; border: 0; position: absolute; text-overflow: ellipsis; bottom: 20px; right:-5px; height:auto; padding: 5px; width: 140px; background-color: black; color: white; -webkit-transition: opacity 0.5s;  z-index:1000; border-radius: 7px}
 div.visible { opacity: 0.8;}
 
-#new_1 { position:relative; margin: 5px;  border: 0;  margin-top: 3em; }
+#new_1 { position:relative;  }
 
 
 div.year{
