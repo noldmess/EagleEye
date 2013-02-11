@@ -1,7 +1,10 @@
 
 <div id="controls">
-<div id="slideshow">
-	</div>
+	<span class="right">
+<button class="share"><?php echo $l->t("Share"); ?></button>
+<a  href="facefinder/" class="share" data-item-type="gallery" data-item="" title="<?php echo $l->t("Share"); ?>"
+data-possible-permissions="31">vv</a>
+</span>
 </div>
 
  <div id="new_1">
@@ -9,9 +12,8 @@
 <div id="photoview">
 
 	<div id="tool_left">
-		<div id="photo">
-			<div id="photoview_load"></div>
-			<img id="img_img"alt="" src="">
+		<div id="photo" >
+			<!-- <img id="img_img"alt="" src=""> -->
 		</div>
 		<div id="tool_taggs">
 		<div id="taggs"></div>
@@ -23,16 +25,22 @@
 					<div class="tool_ico"></div>
 					<h1>Exif</h1>
 				</div>
-				<div class="tool_items">
-				</div>
+				<div class="tool_items"></div>
 		</div>
-		<div class="tool">
+		<div class="tool Kamera">
+				<div class="tool_title">
+					<div class="tool_ico"></div>
+					<h1>Kamera</h1>
+				</div>
+				<div class="tool_items"></div>
+		</div>
+	<!--	<div class="tool">
 			<div class="tool_title">
 				<div class="tool_ico"></div>
 				<h1>GPS</h1>
 			</div>
 				<div class="tool_items">
-					<div id="demoMap" style="height:200px;width:auto;"></div>
+					  <div id="demoMap" style="height:200px;width:auto;"></div>
 					<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 					<script>
 						 var lat            = 47.35387;
@@ -55,7 +63,7 @@
 					</script>
 				</div>
 			</div>
-		</div>
+		</div>-->
 		</div>
 	</div>
 </div>
