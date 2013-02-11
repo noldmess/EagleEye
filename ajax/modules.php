@@ -1,3 +1,3 @@
 <?php
-echo json_encode(array("Tag","Exif"));
+echo json_encode(array("Tag","Exif","Kamera"));
 ?>
