@@ -20,12 +20,14 @@ class TestOfTag_modul extends PHPUnit_Framework_TestCase{
 	private $user='test';
 
 	function __construct() {
-		echo $path;
-		OC_Filesystem::init( '/' . $this->user . '/files'  );
+		//echo $path;
+	
 		$this->path="DSC_0317.jpg";
 		$this->photoclass=new OC_FaceFinder_Photo($this->path);
-		OC_User_Dummy::createUser ("test","test" );
+		$testUser=new OC_User_Dummy();
+		$testUser->createUser ("test","test" );
 		OC_User::login ("test","test" );
+		OC_Filesystem::init("test",'/' . $this->user . '/files'  );
 		$this->Tag_Module=new Tag_Module($this->path);
 		
 	}
@@ -68,7 +70,6 @@ class TestOfTag_modul extends PHPUnit_Framework_TestCase{
 	
 		//checks insert of a tag in the db
 		public function testTag(){
-			echo $path;
 			$key="test";
 			$tag="test";
 			$this->removeTag($key,$tag);
@@ -208,6 +209,24 @@ class TestOfTag_modul extends PHPUnit_Framework_TestCase{
 		
 	
 
+		public function testequivalent(){
+			$photoClass1=new OC_FaceFinder_Photo("/DSC_0317_test.jpg");
+			$photoClass2=new OC_FaceFinder_Photo("/DSC_0317.jpg");
+			$photoClass1->insert();
+			$photoClass2->insert();
+			$id1=$photoClass1->getID();
+			$id2=$photoClass2->getID();
+			$tagClass1=new Tag_Module("/DSC_0317_test.jpg");
+			$tagClass2=new Tag_Module("/DSC_0317.jpg");
+			$tagClass1->setForingKey($id1);
+			$tagClass2->setForingKey($id2);
+			$tagClass1->insert();
+			$tagClass2->insert();
+			$equalarray=$tagClass1->equivalent();		
+			$this->assertTrue($equalarray["/DSC_0317.jpg"][0]=="/DSC_0317_test.jpg");
+			$photoClass1->remove();
+			$photoClass2->remove();
+		}
 		
 
 

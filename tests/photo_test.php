@@ -26,13 +26,32 @@ class TestOfPhoto extends PHPUnit_Framework_TestCase {
 	}
 	
 	function __construct() {
-		$this->path=dirname(__FILE__)."/DSC01930.jpg";
-		$this->user='test';
+		
+		$this->user="test";
+		$testUser=new OC_User_Dummy();
+		$testUser->createUser ("test","test" );
+		OC_User::login ("test","test" );
+		OC_Filesystem::init("test",'/' . $this->user . '/files'  );
+		$this->path="DSC_0317.jpg";
 		$this->photoclass=new OC_FaceFinder_Photo($this->path);
-		$this->photoclass->setUser($this->user);
+		
 	}
 	
+	function __destruct(){
+			$testUser=new OC_User_Dummy();
+			$testUser->deleteUser ("test");
+			$this->photoclass->remove();
+	}
+	//check if the photo that name is already inserted in the DB
+	function  testissetPhotoId(){
+		$this->assertFalse($this->photoclass->issetPhotoId());
+		$this->photoclass->insert();
+		$this->assertTrue($this->photoclass->issetPhotoId());
+		$this->photoclass->remove();
+		$this->assertFalse($this->photoclass->issetPhotoId());
+	}
 	
+	// test if the insert works correct  
 	function testinsert() {
 		$rownum=$this->getNumnberResult($this->path);
 		$this->assertEquals($rownum,0);
@@ -62,15 +81,25 @@ class TestOfPhoto extends PHPUnit_Framework_TestCase {
 	}
 	
 	function testremove() {
+			$this->photoclass->remove();
 			$this->photoclass->insert();
 			$rownum=$this->getNumnberResult($this->path);
 			$this->assertEquals($rownum,1);
 			$this->photoclass->remove();
 			$rownum=$this->getNumnberResult($this->path);
 			$this->assertEquals($rownum,0);
-		}
+	}
 		
-
+	public function testequivalent(){
+		$photoClass1=new OC_FaceFinder_Photo("/DSC_0317_test.jpg");
+		$photoClass2=new OC_FaceFinder_Photo("/DSC_0317.jpg");
+		$photoClass1->insert();
+		$photoClass2->insert();
+		$equalarray=$photoClass2->equivalent();
+		$this->assertTrue($equalarray["/DSC_0317.jpg"][0]=="/DSC_0317_test.jpg");
+		$photoClass1->remove();
+		$photoClass2->remove();
+	}
 		
 
 

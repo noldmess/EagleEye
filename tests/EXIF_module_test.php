@@ -16,19 +16,31 @@ class TestOfEXIF_modul extends PHPUnit_Framework_TestCase{
 	private $user='test';
 	
 		  function __construct() {
-			$this->path="DSC_0528.JPG";
-			OC_User_Dummy::createUser ("test","test" );
+		  	//create dummy to test 
+			$testUser=new OC_User_Dummy();
+			$testUser->createUser ("test","test" );
 			OC_User::login ("test","test" );
-			$this->EXIF_Moduleclass=new EXIF_Module($this->path);
-			OC_Filesystem::init( '/' . $this->user . '/files'  );
-			$this->photoclass=new OC_FaceFinder_Photo($this->path);
-			$this->photoclass->insert();
+			//remove all DB tables
 			$this->removDB();
 			EXIF_Module::initialiseDB();
+			
+			//initial the FileSystem to use Owncloud funktions
+			OC_Filesystem::init("test",'/' . $this->user . '/files'  );
+				
+			
+			$this->path="DSC_0528.JPG";
+			$this->EXIF_Moduleclass=new EXIF_Module($this->path);
+			
+			//insert a photo to test the module
+			$this->photoclass=new OC_FaceFinder_Photo($this->path);
+			$this->photoclass->insert();
+
 		}
 		
 		function __destruct(){
-			OC_User_Dummy::createUser ("test");
+			//remove  dummy to test 
+			$testUser=new OC_User_Dummy();
+			$testUser->deleteUser ("test");
 			$this->photoclass->remove();
 		}
 		
@@ -44,21 +56,29 @@ class TestOfEXIF_modul extends PHPUnit_Framework_TestCase{
 		}
 		
 		public  function  testinitialiseDB(){
+			//remove DB "not necessary"
 			$this->removDB();
 			$this->assertFalse(EXIF_Module::AllTableExist());
 			EXIF_Module::initialiseDB();
 			$this->assertTrue(EXIF_Module::AllTableExist());
 			
+			
+			//remove DB module Function
 			EXIF_Module::removeDBtabels();
 			$this->assertFalse(EXIF_Module::AllTableExist());
 			EXIF_Module::initialiseDB();
 			$this->assertTrue(EXIF_Module::AllTableExist());
 			
+			//check if initialiseDB() works correct
+			$this->assertFalse(EXIF_Module::initialiseDB());
+			$this->removDB();
+			$this->assertTrue(EXIF_Module::initialiseDB());
+			//change version number
 			OC_Appconfig::setValue 	('facefinder','EXIF_Module','0.0.1');
 			$version=OC_Appconfig::getValue('facefinder','EXIF_Module');
-			$this->assertTrue(version_compare($version,'0.0.1' , '=='));
-			EXIF_Module::initialiseDB();
+			$this->assertTrue(EXIF_Module::initialiseDB());
 			$version=OC_Appconfig::getValue('facefinder','EXIF_Module');
+			//check if initialiseDB change version number 
 			$this->assertTrue(version_compare($version,EXIF_Module::getVersion() , '=='));
 		}
 		
@@ -67,7 +87,6 @@ class TestOfEXIF_modul extends PHPUnit_Framework_TestCase{
 				$key="test";
 				$valued="test";
 				$this->removeExif($key,$valued);
-				$class=new EXIF_Module("test");
 				$this->assertNull($this->EXIF_Moduleclass->getExifId($key,$valued));
 				$this->EXIF_Moduleclass->insertExif($key,$valued);
 				$this->assertNotNull($this->EXIF_Moduleclass->getExifId($key,$valued));
@@ -81,7 +100,6 @@ class TestOfEXIF_modul extends PHPUnit_Framework_TestCase{
 		
 			public function  testissetExiPhotoIdAndinsertExifPhoto(){
 				//inset a Photo in the DB 
-				
 				$id=$this->photoclass->getID();
 				//create the class 
 				$class=new EXIF_Module("test");
@@ -156,7 +174,27 @@ class TestOfEXIF_modul extends PHPUnit_Framework_TestCase{
 				
 			}
 			
-		
+			public function testequivalent(){
+				$photoClass1=new OC_FaceFinder_Photo("/DSC_0317_test.jpg");
+				$photoClass2=new OC_FaceFinder_Photo("DSC_0317.jpg");
+				$photoClass1->insert();
+				$photoClass2->insert();
+				$id1=$photoClass1->getID();
+				$id2=$photoClass2->getID();
+				$exifClass1=new EXIF_Module("/DSC_0317_test.jpg");
+				$exifClass2=new EXIF_Module("/DSC_0317.jpg");
+				$exifClass1->setForingKey($id1);
+				$exifClass2->setForingKey($id2);
+				$exifClass1->insert();
+				$exifClass2->insert();
+			
+				$equalarray=$exifClass1->equivalent();
+
+				$this->assertTrue($equalarray["/DSC_0317_test.jpg"][0]=="DSC_0317.jpg");
+				$this->assertEquals(count($equalarray["DSC_0528.JPG"]),0);
+				$photoClass1->remove();
+				$photoClass2->remove();
+			}
 		
 		}
 		?>

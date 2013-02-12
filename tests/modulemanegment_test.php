@@ -28,7 +28,7 @@ class TestOfModuleManeger extends PHPUnit_Framework_TestCase {
     	$classname=OC_Module_Maneger::checkCorrectModuleClass("/var/www/owncloud/apps/facefinder/tests/testmodul/moduletest_interface.php");
     		$this->assertNotNull($classname);
     		$this->assertEquals($classname, "moduletest_interface");
-    	$classname=OC_Module_Maneger::checkCorrectModuleClass("/var/www//owncloud/apps/facefinder/tests/testmodul/moduletest_nointerface.php");
+    	$classname=OC_Module_Maneger::checkCorrectModuleClass("/var/www/owncloud/apps/facefinder/tests/testmodul/moduletest_nointerface.php");
     		$this->assertNull($classname);
     		$this->assertNotEquals($classname, "moduletest_nointerface");
     	$classname=OC_Module_Maneger::checkCorrectModuleClass("/var/www//owncloud/apps/facefinder/tests/testmodul/moduletest_notcorrektclass.php");
