@@ -1,0 +1,17 @@
+#equivalent{
+		overflow: auto;
+		overflow-x: hidden;
+		text-align: justify;
+		display: block;
+}
+
+#equivalent div {
+	display: inline;
+}
+
+#equivalent div img{
+margin: 5px;
+	box-shadow:2px 2px 2px #666;
+	-moz-box-shadow: 2px 2px 2px #666;
+	-webkit-box-shadow: 2px 2px 2px #666;
+}
