@@ -222,7 +222,63 @@ class Tag_Module implements OC_Module_Interface{
 		 * To search for equivalents the function return a Array of the Ids and percent of equivalents
 		 * @return array of id and percent of equivalents
 		*/
-		public function equivalent(){}
+		public function equivalent(){
+			//get all information of a Photo from the DB
+			$stmt = OCP\DB::prepare('select path,name,tag    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_tag_photo_module as tagphoto on (base.photo_id=tagphoto.photo_id) inner join *PREFIX*facefinder_tag_module as tag on (tagphoto.tag_id=tag.id) order by path,name');
+			$result=$stmt->execute();
+			$array=array();
+			$path=null;
+			//build a new  array of all information for each Photo
+			while (($row = $result->fetchRow())!= false) {
+				if($path!=$row['path']){
+					if($path!=null) {
+						$array+=array($path=>$help);
+					}
+					$help=array();
+					$help=$help+array($row['name']=>$row['tag']);
+					$path=$row['path'];
+				}else{
+					$help=$help+array($row['name']=>$row['tag']);
+				}
+			}
+			$array+=array($path=>$help);
+			//array whit the equivalent elements;
+			$array_eq=array();
+			$name=null;
+			//echo json_encode($array);
+			while ($array_tag1 = current($array)) {
+     			   if($name!=null){
+     			   	$array_eq=$array_eq+array($name=>$eq);
+     			   }
+     			   $eq=array();
+     			   $name=key($array);
+     			  // echo $name;
+     			   $arrays=$array;
+     			   foreach($arrays as $helpNameCheach=>$array_tag2){
+     			   	//not check if it has the same name
+     			   	
+     			   //echo key($array);
+     			   	if($name!=$helpNameCheach){
+     			   		//echo $helpNameCheach;
+     			   		$array_exif_elements=count($array_tag1);
+     			   		if($array_exif_elements>0){
+     			   			//return the equal elements in both arrays
+     			   			$equal_elment=array_intersect($array_tag1, $array_tag2);
+     			   			if(count($equal_elment)/$array_exif_elements>0.8) {
+     			   				$eq[]=$helpNameCheach;
+     			   				unset($array[$helpNameCheach]);
+     			   					
+     			   			}
+     			   		}
+     			   	}
+     			   }
+     			   
+   				next($array);
+			}
+			$array_eq=$array_eq+array($name=>$eq);
+			
+			return $array_eq;
+		}
 		
 		/**
 		 * Create the DB of the Module the if the module hase an new Version numper

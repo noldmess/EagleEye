@@ -208,9 +208,61 @@ class Kamera_Module implements OC_Module_Interface{
 
 
 			public function equivalent(){
-			/**
-			* @todo
-			 */
+			//get all information of a Photo from the DB
+			$stmt = OCP\DB::prepare('select path,make,model    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_kamera_photo_module as kameraphoto on (base.photo_id=kameraphoto.photo_id) inner join *PREFIX*facefinder_kamera_module as kamera on (kameraphoto.kamera_id=kamera.id) order by path,make');
+			$result=$stmt->execute();
+			$array=array();
+			$path=null;
+			//build a new  array of all information for each Photo 
+			while (($row = $result->fetchRow())!= false) {
+				if($path!=$row['path']){
+					if($path!=null) {
+						$array[]=array($path,$help);
+					}
+					$help=array();
+					$help=$help+array($row['make']=>$row['model']);
+					$path=$row['path'];
+				}else{
+					$help=$help+array($row['make']=>$row['model']);
+				}
+			}
+			//$help=$help+array($row['make']=>$row['model']);
+				//array whit the equivalent elements  
+				$array_eq=array();
+				$name=null;
+				//check all element
+				while ($array_tag1 = current($array)) {
+     			   if($name!=null){
+     			   	$array_eq=$array_eq+array($name=>$eq);
+     			   }
+     			   $eq=array();
+     			   $name=key($array);
+     			  // echo $name;
+     			   $arrays=$array;
+     			   foreach($arrays as $helpNameCheach=>$array_tag2){
+     			   	//not check if it has the same name
+     			   	
+     			   //echo key($array);
+     			   	if($name!=$helpNameCheach){
+     			   		//echo $helpNameCheach;
+     			   		$array_exif_elements=count($array_tag1);
+     			   		if($array_exif_elements>0){
+     			   			//return the equal elements in both arrays
+     			   			$equal_elment=array_intersect($array_tag1, $array_tag2);
+     			   			if(count($equal_elment)/$array_exif_elements>0.8) {
+     			   				$eq[]=$helpNameCheach;
+     			   				unset($array[$helpNameCheach]);
+     			   				//@todo Oprimise no dpunle
+     			   					
+     			   			}
+     			   		}
+     			   	}
+     			   }
+     			   
+   				next($array);
+			}
+			$array_eq=$array_eq+array($name=>$eq);
+			return $array_eq;
 			}
 
 			/**
