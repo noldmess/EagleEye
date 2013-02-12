@@ -32,4 +32,5 @@ class moduletest_interfacenocange implements OC_Module_Interface{
 	 */
 	public static function initialiseDB(){}
 	public static function AllTableExist(){}
+	public static function  removeDBtabels(){}
 }
