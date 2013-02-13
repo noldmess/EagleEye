@@ -1,13 +1,11 @@
 
-<div id="controls">
+<div id="controls"  >
 	<span class="right">
-<button class="share"><?php echo $l->t("Share"); ?></button>
-<a  href="facefinder/" class="share" data-item-type="gallery" data-item="" title="<?php echo $l->t("Share"); ?>"
-data-possible-permissions="31">vv</a>
+<a  href="facedinder/equivalent.php" data-item="" title="<?php echo $l->t("Equality"); ?>"><button class="share"><?php echo $l->t("Equality"); ?></button></a>
 </span>
 </div>
 
- <div id="new_1">
+ <div id="new_1" class="hascontrols">
 </div>
 <div id="photoview">
 

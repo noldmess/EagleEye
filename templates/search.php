@@ -1,3 +1,4 @@
+
 <?php
 if(isset($_GET['search'])&&isset($_GET['tag'])&&(isset($_GET['name']))){
 	$seachResult=$_GET['search']::searchArry($_GET['name'],$_GET['tag']);
@@ -7,17 +8,12 @@ if(isset($_GET['search'])&&isset($_GET['tag'])&&(isset($_GET['name']))){
 	$searchbool=false;
 }
 ?>
-<div id="controls">
-<?php
-	if($searchbool){
-	echo '<h1>Suche nach:'.$_GET['tag'].' ergibt resultate '.$result.'</h1>';
-}else{
-	echo '<h1>Keine korekte suche </h1>';
-
-}
-?>
+<div id="controls" >
+	<span class="right">
+<a  href="facefinder/" data-item="" title="<?php echo $l->t("FaceFinder"); ?>"><button class="share"><?php echo $l->t("FaceFinder"); ?></button></a>
+</span>
 </div>
-<div id="search">
+<div id="search" class="hascontrols">
 <?php
 //<a><img src="'+image.imagstmp+'"  alt="'+image.imagsname+'"></a>
 

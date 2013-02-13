@@ -1,10 +1,14 @@
+<div id="controls" >
+	<span class="right">
+<a  href="../facefinder/" data-item="" title="<?php echo $l->t("FaceFinder"); ?>"><button class="share"><?php echo $l->t("FaceFinder"); ?></button></a>
+</span>
+</div>
 <?php
+
 $p= new OC_FaceFinder_Photo("");
 $Initialisemodul=new OC_Module_Maneger();
 $moduleclasses=$Initialisemodul->getModuleClass();
-/**
- * @todo hier scanner
-*/
+
 //OC_FilesystemView('dsf');
 $arrayAllEquivalent=array();
 $arrayAllEquivalent=$p->equivalent();
@@ -29,7 +33,7 @@ foreach ($moduleclasses as $moduleclass){
 
 	}
 }
-echo '<div id="equivalent">';
+echo '<div id="equivalent" class="hascontrols">';
 foreach ($arrayAllEquivalent as $ep=>$array){
 	if(count($array)>0){
 		echo '<div><a><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.\OCP\USER::getUser().$ep.'" alt='.$ep.'></a></div>-><div>';
