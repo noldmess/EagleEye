@@ -258,7 +258,6 @@ class EXIF_Module implements OC_Module_Interface{
      			   			if(count($equal_elment)/$array_exif_elements>0.8) {
      			   				$eq[]=$helpNameCheach;
      			   				unset($array[$helpNameCheach]);
-     			   				//@todo Oprimise no dpunle
      			   					
      			   			}
      			   		}
@@ -349,6 +348,15 @@ class EXIF_Module implements OC_Module_Interface{
 			return version_compare($appkey, self::getVersion(), '<');
 		}
 
+		
+		public static function getArrayOfStyle(){
+			return null;
+		}
+		
+		
+		public static function getArrayOfScript(){
+			return array("exif");
+		}
 		
 		
 		public static function getFormat($name,$value){

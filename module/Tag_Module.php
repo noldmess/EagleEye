@@ -359,6 +359,16 @@ class Tag_Module implements OC_Module_Interface{
 		}
 		
 		
+		public static function getArrayOfStyle(){
+			return null;
+		}
+			
+			
+		public static function getArrayOfScript(){
+			return array("tag");
+		}
+		
+		
 		public static  function IPTCCodeToString($ipct){
 			$ipct_tmp = substr($ipct, 2);
 			switch($ipct_tmp){

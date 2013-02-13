@@ -297,6 +297,15 @@ class Kamera_Module implements OC_Module_Interface{
 				$stmt->execute();
 			}
 
+			
+			public static function getArrayOfStyle(){
+				return null;
+			}
+			
+			
+			public static function getArrayOfScript(){
+				return array("kamera");
+			}
 
 			/**
 		 * Create the DB of the Module the if the module hase an new Version numper
