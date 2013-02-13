@@ -33,20 +33,29 @@ OCP\Util::addScript('facefinder', 'module');
 OCP\Util::addScript('facefinder', 'photoview');
 OCP\Util::addStyle('facefinder', 'photoview');
 
-// auslagern in modlue maneger
-OCP\Util::addScript('facefinder', 'tag');
-OCP\Util::addScript('facefinder', 'exif');
-OCP\Util::addScript('facefinder', 'kamera');
-
-
 
 //Initialise the moduls
 $Initialisemodul=new OC_Module_Maneger();
 $moduleclasses=$Initialisemodul->getModuleClass();
+//inport all Style and Script files
+foreach ($moduleclasses as $moduleclass){
+	$arrayScript=$moduleclass::getArrayOfScript();
+	$arrayStyle=$moduleclass::getArrayOfStyle();
+	//inport all Script files
+	foreach($arrayScript as $script){
+		OCP\Util::addScript('facefinder', $script);
+	}
+	//inport all Style  files
+	if($arrayStyle!=null){
+		foreach($arrayStyle as $style){
+			OCP\Util::addStyle('facefinder', $style);
+		}
+	}
+}
 /**
  * @todo hier scanner
 */
-//OC_FilesystemView('dsf');
+
 foreach ($moduleclasses as $moduleclass){
 	if($moduleclass::initialiseDB()){
 		OCP\Util::writeLog("facefinder",$moduleclass."1",OCP\Util::DEBUG);
