@@ -79,4 +79,9 @@ interface OC_Module_Interface {
 	 * @return boolean
 	 */
 	public static function checkVersion();
+	
+	public static function getArrayOfStyle();
+	
+	
+	public static function getArrayOfScript();
 }

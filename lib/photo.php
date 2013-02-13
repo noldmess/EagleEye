@@ -155,7 +155,7 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 		while (($row = $result->fetchRow())!= false) {
 			if($hash!=$row['hash']){
 				if($hash!=null) {
-					$array[]=array($path=>$help);
+					$array=$array+array($path=>$help);
 				}
 				$help=array();
 				$hash=$row['hash'];
@@ -165,6 +165,7 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 			}
 				
 		}
+		$array=$array+array($path=>$help);
 		return $array;
 	}
 	
@@ -197,5 +198,10 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 	public static function checkVersion(){
 		
 	}
+	
+	public static function getArrayOfStyle(){}
+	
+	
+	public static function getArrayOfScript(){}
 	
 }
