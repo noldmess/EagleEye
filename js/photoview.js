@@ -1,4 +1,8 @@
 
+
+
+
+
 var PhotoView={
 		load:function(){
 			$('#photoview').hide();
@@ -6,7 +10,6 @@ var PhotoView={
 		ClickImg:function(event){
 			
 			//set PhotoView visible
-	 
 	 		$('#photo').addClass('loading');
 	 		$('#photo img').remove()
 			var img = new Image();
@@ -20,12 +23,8 @@ var PhotoView={
 				 $(this).fadeIn();
 			})
 			.error(function () {
-					alert("dsfsdf")    });
-			
-			/**
-			 * @todo hier modul js für eingehöngte js
-			 */
-			
+					alert("Error")   
+			});
 			
 			$('#photoview img').ready(function(){
 				$('#photoview img').show();
