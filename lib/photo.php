@@ -145,8 +145,10 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 
 	
 	public function equivalent(){
-		$stmt = OCP\DB::prepare('select * from *PREFIX*facefinder order by hash,date_photo');
-		$result=$stmt->execute();
+		//hard coded value for each module and and the value of the eqaletti between 1 and 100
+		$value=100;
+		$stmt = OCP\DB::prepare('select * from *PREFIX*facefinder where  uid_owner like ?order by hash,date_photo');
+		$result=$stmt->execute(array(\OCP\USER::getUser()));
 		$hash=null;
 		$date="";
 		$array=array();
@@ -154,8 +156,8 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 		$help=array();
 		while (($row = $result->fetchRow())!= false) {
 			if($hash!=$row['hash']){
-				if($hash!=null) {
-					$array=$array+array($path=>$help);
+				if($hash!=null && count($help)>0) {
+						$array+=array($path=>array("value"=>$value,"equival"=>$help));
 				}
 				$help=array();
 				$hash=$row['hash'];
@@ -165,7 +167,9 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 			}
 				
 		}
-		$array=$array+array($path=>$help);
+		if(count($help)>0){
+			$array+=array($path=>array("value"=>$value,"equival"=>$help));
+		}
 		return $array;
 	}
 	
