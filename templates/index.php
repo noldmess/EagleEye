@@ -1,7 +1,7 @@
 
 <div id="controls"  >
 	<span class="right">
-<a  href="facedinder/equivalent.php" data-item="" title="<?php echo $l->t("Equality"); ?>"><button class="share"><?php echo $l->t("Equality"); ?></button></a>
+<a  href="<?php echo  OCP\Util::linkTo('facefinder', 'equivalent.php')?>" data-item="" title="<?php echo $l->t("Equality"); ?>"><button class="share"><?php echo $l->t("Equality"); ?></button></a>
 </span>
 </div>
 
