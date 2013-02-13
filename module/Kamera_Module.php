@@ -232,8 +232,8 @@ class Kamera_Module implements OC_Module_Interface{
 				$name=null;
 				//check all element
 				while ($array_tag1 = current($array)) {
-     			   if($name!=null){
-     			   	$array_eq=$array_eq+array($name=>$eq);
+     			   if($name!=null && count($eq)>0){
+					$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
      			   }
      			   $eq=array();
      			   $name=key($array);
@@ -261,7 +261,9 @@ class Kamera_Module implements OC_Module_Interface{
      			   
    				next($array);
 			}
-			$array_eq=$array_eq+array($name=>$eq);
+			if(count($eq)>0){
+				$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
+			}
 			return $array_eq;
 			}
 

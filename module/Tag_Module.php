@@ -223,6 +223,8 @@ class Tag_Module implements OC_Module_Interface{
 		 * @return array of id and percent of equivalents
 		*/
 		public function equivalent(){
+			//hard coded value for each module and and the value of the eqaletti between 1 and 100
+			$value=1;
 			//get all information of a Photo from the DB
 			$stmt = OCP\DB::prepare('select path,name,tag    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_tag_photo_module as tagphoto on (base.photo_id=tagphoto.photo_id) inner join *PREFIX*facefinder_tag_module as tag on (tagphoto.tag_id=tag.id) order by path,name');
 			$result=$stmt->execute();
@@ -247,8 +249,8 @@ class Tag_Module implements OC_Module_Interface{
 			$name=null;
 			//echo json_encode($array);
 			while ($array_tag1 = current($array)) {
-     			   if($name!=null){
-     			   	$array_eq=$array_eq+array($name=>$eq);
+     			   if($name!=null && count($eq)>0){
+						$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
      			   }
      			   $eq=array();
      			   $name=key($array);
@@ -275,7 +277,9 @@ class Tag_Module implements OC_Module_Interface{
      			   
    				next($array);
 			}
-			$array_eq=$array_eq+array($name=>$eq);
+		if(count($eq)>0){
+				$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
+			}
 			
 			return $array_eq;
 		}
