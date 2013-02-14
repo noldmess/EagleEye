@@ -26,13 +26,13 @@ foreach ($arrayAllEquivalent as $n=>$s){
 			//echo $index."=>".json_encode($array_modul)."<br>";
 				foreach($array_modul as $photo=>$array)
 				echo $photo."=>".json_encode($array)."<br>";
-				echo $photo."=>".json_encode($array[1])."<br>";
-				echo $key=array_search($dubb,$array[1]);
+				echo $photo."=>".json_encode($array['equival'])."<br>";
+				echo $key=array_search($dubb,$array['equival']);
 				if($key){
 					echo $dubb." ".$photo."<br>";
 					$arrayAllEquivalent[$n]['equival'] +=array($photo);//$array_modul[$dubb]['equival'];
 				 	$arrayAllEquivalent[$n]['value']+=$array_modul[$dubb]['value'];
-					unset($module[$index][$photo][1][$key]);
+					unset($module[$index][$photo]['equival'][$key]);
 				}
 			
 		}
