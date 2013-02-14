@@ -22,14 +22,14 @@ foreach ($arrayAllEquivalent as $n=>$s){
 	echo "Array".json_encode($arrayAllEquivalent)."<br>";
 	foreach ($s['equival'] as  $dubb){
 		foreach ($module as $index=>$array_modul){
-			foreach($array_modul[1] as $array){
+			
 				//echo $index." ".json_encode($array)."<br>";
 				echo $arry."<br>";
-				if(isset($array_modul[$dubb])){
+				if($key=array_search($dubb,$array_modul[1]){
 					echo $dubb."<br>";
-					$arrayAllEquivalent[$n]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
+					/*$arrayAllEquivalent[$n]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
 				 	$arrayAllEquivalent[$n]['value']+=$array_modul[$dubb]['value'];
-					unset($module[$index][$dubb]);
+					unset($module[$index][$dubb]);*/
 				}
 			}
 		}
