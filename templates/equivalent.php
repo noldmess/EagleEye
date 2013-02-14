@@ -25,7 +25,7 @@ foreach ($arrayAllEquivalent as $n=>$s){
 			
 				//echo $index." ".json_encode($array)."<br>";
 				echo $arry."<br>";
-				if($key=array_search($dubb,$array_modul[1]){
+				if($key=array_search($dubb,$array_modul[1])){
 					echo $dubb."<br>";
 					/*$arrayAllEquivalent[$n]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
 				 	$arrayAllEquivalent[$n]['value']+=$array_modul[$dubb]['value'];
