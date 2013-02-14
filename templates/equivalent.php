@@ -32,7 +32,7 @@ foreach ($arrayAllEquivalent as $n=>$s){
 				if($key>-1){
 					echo $dubb."=".$photo."->".$key."<br>";
 					$arrayAllEquivalent[$n]['equival'] +=array($photo);//$array_modul[$dubb]['equival'];
-				 	$arrayAllEquivalent[$n]['value']+=$array_modul['value'];
+				 	$arrayAllEquivalent[$n]['value']+=$array['value'];
 					unset($module[$index][$photo]['equival'][$key]);
 					echo "Array".json_encode($arrayAllEquivalent)."<br>";
 				}
