@@ -13,7 +13,12 @@ $moduleclasses=$Initialisemodul->getModuleClass();
 */
 //OC_FilesystemView('dsf');
 echo "<br><br><br><br><br><br><br><br><br><br><br><br>";
-$arrayAllEquivalent=$p->equivalent();
+$help=$p->equivalent();
+$arrayAllEquivalent=$help;
+foreach ($help as $photo=>$array){
+	$arrayAllEquivalent1[]=array($photo=>array($array))
+}
+echo "Array".json_encode($arrayAllEquivalent1)."<br>";
 foreach ($moduleclasses as $moduleclass){
 	$m=new $moduleclass("");
 	$module[]=$m->equivalent();
