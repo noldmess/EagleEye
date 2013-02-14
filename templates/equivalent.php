@@ -21,7 +21,7 @@ foreach ($arrayAllEquivalent as $n=>$s){
 	foreach ($s['equival'] as  $dubb){
 		foreach ($module as $index=>$array_modul){
 			if(isset($array_modul[$dubb])){
-				$arrayAllEquivalent[$n]['equival'] +=$array_modul[$dubb]['equival'];
+				$arrayAllEquivalent[$n]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
 				 $arrayAllEquivalent[$n]['value']+=$array_modul[$dubb]['value'];
 				unset($module[$index][$dubb]);
 			}
