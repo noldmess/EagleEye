@@ -16,7 +16,7 @@ echo "<br><br><br><br><br><br><br><br><br><br><br><br>";
 $help=$p->equivalent();
 $arrayAllEquivalent=$help;
 foreach ($help as $photo=>$array){
-	$arrayAllEquivalent1[]=array($photo=>array($array))
+	$arrayAllEquivalent1[]=array($photo=>array($array));
 }
 echo "Array".json_encode($arrayAllEquivalent1)."<br>";
 foreach ($moduleclasses as $moduleclass){
