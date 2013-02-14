@@ -12,6 +12,7 @@ $moduleclasses=$Initialisemodul->getModuleClass();
  * @todo hier scanner
 */
 //OC_FilesystemView('dsf');
+echo "<br><br><br><br><br><br>";
 $arrayAllEquivalent=$p->equivalent();
 foreach ($moduleclasses as $moduleclass){
 	$m=new $moduleclass("");
@@ -21,7 +22,7 @@ foreach ($arrayAllEquivalent as $n=>$s){
 	foreach ($s['equival'] as  $dubb){
 		foreach ($module as $index=>$array_modul){
 			if(isset($array_modul[$dubb])){
-				$arrayAllEquivalent[$n]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
+				echo $arrayAllEquivalent[$n]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
 				 $arrayAllEquivalent[$n]['value']+=$array_modul[$dubb]['value'];
 				unset($module[$index][$dubb]);
 			}
