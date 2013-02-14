@@ -55,7 +55,7 @@ echo "Array".json_encode($arrayAllEquivalent)."<br>";
 
 
 
-foreach ($arrayAllEquivalent as $n=>$s){
+/*foreach ($arrayAllEquivalent as $n=>$s){
 	foreach ($module as $index=>$array_modul){
 		if(isset($array_modul[$n]) &&(count($array_modul[$n]['equival'])>0) ){
 			$arrayAllEquivalent[$n]['equival'] = array_intersect($s['equival'],$array_modul[$n]['equival']);
@@ -63,7 +63,7 @@ foreach ($arrayAllEquivalent as $n=>$s){
 			unset($module[$index][$n]);
 		}
 	}
-}
+}*/
 $helpsprt=array();
 foreach ($module as $photo=>$array){
 	foreach ($array as $photo=>$array_modul){
