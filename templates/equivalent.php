@@ -66,12 +66,14 @@ foreach ($arrayAllEquivalent as $n=>$s){
 }
 $helpsprt=array();
 foreach ($module as $photo=>$array_modul){
+	foreach ($array as $photo=>$array_modul){
 	if(isset($arrayAllEquivalent[$photo])){
 		$arrayAllEquivalent[$photo]['equival'] = array_intersect($arrayAllEquivalent[$photo]['equival'],$array_modul[$photo]['equival']);
 		$arrayAllEquivalent[$photo]['value']+=$array_modul[$photo]['value'];
 	}else{
 		$arrayAllEquivalent+=array($photo=>$array_modul);
 	}
+}
 }
 
 foreach ($arrayAllEquivalent as $n=>$s){
