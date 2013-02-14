@@ -25,10 +25,10 @@ foreach ($arrayAllEquivalent as $n=>$s){
 		foreach ($module as $index=>$array_modul){
 			//echo $index."=>".json_encode($array_modul)."<br>";
 				foreach($array_modul as $photo=>$array){
-				echo $photo."=>".json_encode($array['equival'])."<br>";
-				echo $photo."=>".$key=array_search($dubb,$array['equival'])."<br>";;
+			//	echo $photo."=>".json_encode($array['equival'])."<br>";
+				//echo $photo."=>".$key=array_search($dubb,$array['equival'])."<br>";;
 				if($key){
-					echo $dubb." ".$photo."<br>";
+					echo $dubb."=".$photo."->".$key."<br>";
 					$arrayAllEquivalent[$n]['equival'] +=array($photo);//$array_modul[$dubb]['equival'];
 				 	$arrayAllEquivalent[$n]['value']+=$array_modul[$dubb]['value'];
 					unset($module[$index][$photo]['equival'][$key]);
