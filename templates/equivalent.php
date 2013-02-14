@@ -26,7 +26,8 @@ foreach ($arrayAllEquivalent as $n=>$s){
 			echo $index."=>".$array_modul."<br>";
 				foreach($array_module as $photo=>$array)
 				echo $photo."=>".$array."<br>";
-				if($key=array_search($dubb,$array[1])){
+				$key=array_search($dubb,$array[1]);
+				if($key){
 					echo $dubb." ".$photo."<br>";
 					/*$arrayAllEquivalent[$n]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
 				 	$arrayAllEquivalent[$n]['value']+=$array_modul[$dubb]['value'];*/
