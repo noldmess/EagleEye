@@ -21,7 +21,7 @@ foreach ($moduleclasses as $moduleclass){
 foreach ($arrayAllEquivalent as $n=>$s){
 	foreach ($s['equival'] as  $dubb){
 		foreach ($module as $index=>$array_modul){
-			echo php json_encode($module);
+			echo json_encode($module);
 			if(isset($array_modul[$dubb])){
 				echo $dubb."<br>";
 				$arrayAllEquivalent[$n]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
