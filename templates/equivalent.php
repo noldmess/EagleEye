@@ -69,8 +69,11 @@ foreach ($module as $photo=>$array){
 	foreach ($array as $photo=>$array_modul){
 		echo $photo."<br>";
 	if(isset($arrayAllEquivalent[$photo])){
-		$arrayAllEquivalent[$photo]['equival'] = array_intersect($arrayAllEquivalent[$photo]['equival'],$array_modul[$photo]['equival']);
-		$arrayAllEquivalent[$photo]['value']+=$array_modul[$photo]['value'];
+		//no equival dont nead to add fo equival array
+		if(count($array_modul['equival'])>0)
+			$arrayAllEquivalent[$photo]['equival'] {= array_intersect($arrayAllEquivalent[$photo]['equival'],$array_modul[$photo]['equival']);
+			$arrayAllEquivalent[$photo]['value']+=$array_modul[$photo]['value'];
+		}
 	}else{
 		$arrayAllEquivalent+=array($photo=>$array_modul);
 	}
