@@ -64,6 +64,8 @@ foreach ($module as $array_modul){
 foreach ($arrayAllEquivalent as $n=>$s){
 	$helpsort[]=$arrayAllEquivalent[$n]['value'];
 }
+
+echo "Array".json_encode($arrayAllEquivalent)."<br>";
 array_multisort($helpsort, SORT_DESC, $arrayAllEquivalent);
 
 
