@@ -18,8 +18,9 @@ foreach ($moduleclasses as $moduleclass){
 	$m=new $moduleclass("");
 	$module[]=$m->equivalent();
 }
-echo "Array".json_encode($arrayAllEquivalent)."<br>";
+//echo "Array".json_encode($arrayAllEquivalent)."<br>";
 foreach ($arrayAllEquivalent as $n=>$s){
+	echo "Array".json_encode($arrayAllEquivalent)."<br>";
 	foreach ($s['equival'] as  $dubb){
 		echo "------------------------<br>".$dubb."<br>";
 		foreach ($module as $index=>$array_modul){
@@ -32,14 +33,14 @@ foreach ($arrayAllEquivalent as $n=>$s){
 					echo $dubb."=".$photo."->".$key."<br>";
 					$arrayAllEquivalent[$n]['equival'] +=array($photo);//$array_modul[$dubb]['equival'];
 				 	$arrayAllEquivalent[$n]['value']+=$array_modul[$dubb]['value'];
-					unset($modul[$index][$photo]['equival'][$key]);
+					unset($module[$index][$photo]['equival'][$key]);
 				}
 				}
 			
 		}
 	}
 }
-echo json_encode($modul)."<br>";
+echo json_encode($module)."<br>";
 echo "Array".json_encode($arrayAllEquivalent)."<br>";
 
 
