@@ -21,7 +21,7 @@ foreach ($moduleclasses as $moduleclass){
 foreach ($arrayAllEquivalent as $n=>$s){
 	echo "Array".json_encode($arrayAllEquivalent)."<br>";
 	foreach ($s['equival'] as  $dubb){
-		foreach ($module as "$index=>$array_modul){
+		foreach ($module as $index=>$array_modul){
 			echo $index." ".json_encode($module)."<br>";
 			if(isset($array_modul[$dubb])){
 				echo $dubb."<br>";
