@@ -19,7 +19,7 @@ foreach ($moduleclasses as $moduleclass){
 	$module[]=$m->equivalent();
 }
 foreach ($arrayAllEquivalent as $n=>$s){
-	echo json_encode($arrayAllEquivalent)."<br>";
+	echo "Array".json_encode($arrayAllEquivalent)."<br>";
 	foreach ($s['equival'] as  $dubb){
 		foreach ($module as $index=>$array_modul){
 			echo json_encode($module)."<br>";
