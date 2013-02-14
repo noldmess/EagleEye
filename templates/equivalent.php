@@ -24,7 +24,7 @@ foreach ($arrayAllEquivalent as $n=>$s){
 		echo $dubb."<br>";
 		foreach ($module as $index=>$array_modul){
 			echo $index."=>".json_encode($array_modul)."<br>";
-				foreach($array_module as $photo=>$array)
+				foreach($array_modul as $photo=>$array)
 				echo $photo."=>".json_encode($array)."<br>";
 				$key=array_search($dubb,$array[1]);
 				if($key){
