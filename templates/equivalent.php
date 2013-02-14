@@ -65,7 +65,7 @@ foreach ($arrayAllEquivalent as $n=>$s){
 	}
 }
 $helpsprt=array();
-foreach ($module as $photo=>$array_modul){
+foreach ($module as $photo=>$array){
 	foreach ($array as $photo=>$array_modul){
 		echo $photo."<br>";
 	if(isset($arrayAllEquivalent[$photo])){
