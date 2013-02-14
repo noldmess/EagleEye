@@ -21,9 +21,9 @@ foreach ($moduleclasses as $moduleclass){
 echo "Array".json_encode($arrayAllEquivalent)."<br>";
 foreach ($arrayAllEquivalent as $n=>$s){
 	foreach ($s['equival'] as  $dubb){
-		echo $dubb."<br>";
+		echo "------------------------<br>".$dubb."<br>";
 		foreach ($module as $index=>$array_modul){
-			echo $index."=>".json_encode($array_modul)."<br>";
+			//echo $index."=>".json_encode($array_modul)."<br>";
 				foreach($array_modul as $photo=>$array)
 				echo $photo."=>".json_encode($array)."<br>";
 				echo $key=array_search($dubb,$array[1]);
