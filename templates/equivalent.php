@@ -26,7 +26,7 @@ foreach ($arrayAllEquivalent as $n=>$s){
 			echo $index."=>".json_encode($array_modul)."<br>";
 				foreach($array_modul as $photo=>$array)
 				echo $photo."=>".json_encode($array)."<br>";
-				$key=array_search($dubb,$array[1]);
+				echo $key=array_search($dubb,$array[1]);
 				if($key){
 					echo $dubb." ".$photo."<br>";
 					$arrayAllEquivalent[$n]['equival'] +=array($photo);//$array_modul[$dubb]['equival'];
