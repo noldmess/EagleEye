@@ -23,7 +23,8 @@ foreach ($arrayAllEquivalent as $n=>$s){
 	foreach ($s['equival'] as  $dubb){
 		foreach ($module as $index=>$array_modul){
 			foreach($array_modul[1] as $array){
-				echo $index." ".json_encode($array)."<br>";
+				//echo $index." ".json_encode($array)."<br>";
+				echo $arry."<br>";
 				if(isset($array_modul[$dubb])){
 					echo $dubb."<br>";
 					$arrayAllEquivalent[$n]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
