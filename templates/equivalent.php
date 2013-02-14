@@ -12,7 +12,7 @@ $moduleclasses=$Initialisemodul->getModuleClass();
  * @todo hier scanner
 */
 //OC_FilesystemView('dsf');
-echo "<br><br><br><br><br><br>";
+echo "<br><br><br><br><br><br><br><br><br><br><br><br>";
 $arrayAllEquivalent=$p->equivalent();
 foreach ($moduleclasses as $moduleclass){
 	$m=new $moduleclass("");
