@@ -34,6 +34,7 @@ foreach ($arrayAllEquivalent as $n=>$s){
 					$arrayAllEquivalent[$n]['equival'] +=array($photo);//$array_modul[$dubb]['equival'];
 				 	$arrayAllEquivalent[$n]['value']+=$array_modul[$dubb]['value'];
 					unset($module[$index][$photo]['equival'][$key]);
+					echo "Array".json_encode($arrayAllEquivalent)."<br>";
 				}
 				}
 			
