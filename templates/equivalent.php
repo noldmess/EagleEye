@@ -23,7 +23,7 @@ foreach ($arrayAllEquivalent as $n=>$s){
 	foreach ($s['equival'] as  $dubb){
 		echo "------------------------<br>".$dubb."<br>";
 		foreach ($module as $index=>$array_modul){
-			//echo $index."=>".json_encode($array_modul)."<br>";
+			echo $index."=>".json_encode($array_modul)."<br>";
 				foreach($array_modul as $photo=>$array){
 				echo $dubb."=>".json_encode($array['equival'])."<br>";
 				$key=array_search($dubb,$array['equival']);
@@ -39,6 +39,8 @@ foreach ($arrayAllEquivalent as $n=>$s){
 		}
 	}
 }
+echo json_encode($modul)."<br>";
+echo "Array".json_encode($arrayAllEquivalent)."<br>";
 
 
 
