@@ -31,7 +31,7 @@ foreach ($arrayAllEquivalent as $n=>$s){
 					echo $dubb." ".$photo."<br>";
 					$arrayAllEquivalent[$n]['equival'] +=array($photo);//$array_modul[$dubb]['equival'];
 				 	$arrayAllEquivalent[$n]['value']+=$array_modul[$dubb]['value'];
-					unset($module[$index][$photo][1]][$key]);
+					unset($module[$index][$photo][1][$key]);
 				}
 			
 		}
