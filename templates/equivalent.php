@@ -67,6 +67,7 @@ foreach ($arrayAllEquivalent as $n=>$s){
 $helpsprt=array();
 foreach ($module as $photo=>$array_modul){
 	foreach ($array as $photo=>$array_modul){
+		echo $photo."<br>";
 	if(isset($arrayAllEquivalent[$photo])){
 		$arrayAllEquivalent[$photo]['equival'] = array_intersect($arrayAllEquivalent[$photo]['equival'],$array_modul[$photo]['equival']);
 		$arrayAllEquivalent[$photo]['value']+=$array_modul[$photo]['value'];
