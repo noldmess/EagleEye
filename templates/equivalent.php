@@ -19,14 +19,15 @@ foreach ($moduleclasses as $moduleclass){
 	$module[]=$m->equivalent();
 }
 foreach ($arrayAllEquivalent as $n=>$s){
-	echo "Array".json_encode($arrayAllEquivalent)."<br>";
+	//echo "Array".json_encode($arrayAllEquivalent)."<br>";
 	foreach ($s['equival'] as  $dubb){
+		echo $dubb."<br>";
 		foreach ($module as $index=>$array_modul){
+			echo $index."=>".$array_modul."<br>";
 				foreach($array_module as $photo=>$array)
-				//echo $index." ".json_encode($array)."<br>";
-				echo $index."<br>";
+				echo $photo."=>".$array."<br>";
 				if($key=array_search($dubb,$array[1])){
-					echo $dubb."<br>";
+					echo $dubb." ".$photo."<br>";
 					/*$arrayAllEquivalent[$n]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
 				 	$arrayAllEquivalent[$n]['value']+=$array_modul[$dubb]['value'];*/
 				//unset($module[$index][$dubb]);
