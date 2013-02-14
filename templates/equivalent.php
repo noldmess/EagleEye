@@ -25,12 +25,14 @@ foreach ($arrayAllEquivalent as $n=>$s){
 		echo "------------------------<br>".$dubb."<br>";
 		foreach ($module as $index=>$array_modul){
 			echo $index."=>".json_encode($array_modul)."<br>";
+			//check if ther is a key whit has the same name like i nthe start arrayy 
 			if(isset($array_modul[$dubb])){
 					echo $dubb."<br>";
 					$arrayAllEquivalent[$n]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
 					$arrayAllEquivalent[$n]['value']+=$array_modul[$dubb]['value'];
 					unset($module[$index][$dubb]);
-				}
+			}
+				//check if ther is an value in the array the has the same name like the index 
 				foreach($array_modul as $photo=>$array){
 				echo $dubb."=>".json_encode($array['equival'])."<br>";
 				$key=array_search($dubb,$array['equival']);
