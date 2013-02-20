@@ -133,17 +133,22 @@ $moduleArray[]=$module2;
 $moduleArray[]=$module3;
 $moduleArray[]=$module4;
 $photo=OC_Equivalent_Result::equalety($photo,$moduleArray);
+echo '<div id="equivalent" class="hascontrols">';
 foreach($photo as $PhotoName=>$photoArray){
   $help=arsort($photoArray);
- echo "<div>".$PhotoName."<br>";
+ echo '<div>'.$array['value'].'<a><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.\OCP\USER::getUser().$PhotoName.'" alt='.$PhotoName.'></a></div>-><div>';
   $help=1000;
   foreach($photoArray as $s=>$d){
       if($help<=$d){
         echo "n->".$s."=".$d."<br>";
       }else{
 	$help=$d;
-	echo "1->".$s."=".$d."<br>";
+	echo '<a><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.\OCP\USER::getUser().$s.'" alt='.$s.$d.'></a>';
       }
   }
-  echo "</div>";
+  echo "</div><br>";
 }
+
+
+//}
+echo '</div>';
