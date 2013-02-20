@@ -35,8 +35,8 @@ foreach ($arrayAllEquivalent as $n=>$s){
 					echo $dubb."<br>";
 					$arrayAllEquivalent[$n]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
 					$arrayAllEquivalent[$n]['value']+=$array_modul[$dubb]['value'];
-					$arrayAllEquivalent1[$n][0]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
-					$arrayAllEquivalent1[$n][0]['value']+=$array_modul[$dubb]['value'];
+					//$arrayAllEquivalent1[$n][0]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
+					//$arrayAllEquivalent1[$n][0]['value']+=$array_modul[$dubb]['value'];
 					unset($module[$index][$dubb]);
 			}
 				//check if ther is an value in the array the has the same name like the index 
@@ -46,8 +46,8 @@ foreach ($arrayAllEquivalent as $n=>$s){
 				//echo $key."<br>";
 				if($key>-1){
 					echo $dubb."=".$photo."->".$key."<br>";
-					$arrayAllEquivalent1[$n][0]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
-					$arrayAllEquivalent1[$n][0]['value']+=$array_modul[$dubb]['value'];
+					//$arrayAllEquivalent1[$n][0]['equival'] +=array($dubb);//$array_modul[$dubb]['equival'];
+					//$arrayAllEquivalent1[$n][0]['value']+=$array_modul[$dubb]['value'];
 					$arrayAllEquivalent[$n]['equival'] +=array($photo);//$array_modul[$dubb]['equival'];
 				 	$arrayAllEquivalent[$n]['value']+=$array['value'];
 					unset($module[$index][$photo]['equival'][$key]);
