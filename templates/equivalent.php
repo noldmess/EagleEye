@@ -119,3 +119,17 @@ foreach ($arrayAllEquivalent as $ep=>$array){
 	
 //}
 echo '</div>';
+$module1=array("img1"=>array("img2"=>100,"img3"=>100,"img4"=>100,"img5"=>100),"img6"=>array("img7"=>100,"img8"=>100,"img9"=>100,"img10"=>100));
+
+$photo=array("img2"=>array("img1"=>100),"img6"=>array("img2"=>100,"img7"=>100,"img8"=>100,"img9"=>100,"img10"=>100));
+
+$module2=array("img2"=>array("img1"=>100,"img3"=>100),"img6"=>array("img7"=>100,"img8"=>100,"img9"=>100,"img10"=>100));
+
+$module3=array("img2"=>array("img1"=>100,"img11"=>100,"img6"=>10));
+
+$module4=array("img2"=>array("img1"=>1,"img11"=>100),"img1"=>array("img2"=>1,"img11"=>100));
+$moduleArray[]=$module1;
+$moduleArray[]=$module2;
+$moduleArray[]=$module3;
+$moduleArray[]=$module4;
+OC_Equivalent_Result::equalety($photo,$moduleArray);
