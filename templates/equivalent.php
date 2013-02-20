@@ -132,4 +132,18 @@ $moduleArray[]=$module1;
 $moduleArray[]=$module2;
 $moduleArray[]=$module3;
 $moduleArray[]=$module4;
-OC_Equivalent_Result::equalety($photo,$moduleArray);
+$photo=OC_Equivalent_Result::equalety($photo,$moduleArray);
+foreach($photo as $PhotoName=>$photoArray){
+  $help=arsort($photoArray);
+ echo "<div>".$PhotoName."<br>";
+  $help=1000;
+  foreach($photoArray as $s=>$d){
+      if($help<=$d){
+        echo "n->".$s."=".$d."<br>";
+      }else{
+	$help=$d;
+	echo "1->".$s."=".$d."<br>";
+      }
+  }
+  echo "</div>";
+}
