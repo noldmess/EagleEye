@@ -140,7 +140,7 @@ foreach($photo as $PhotoName=>$photoArray){
   $help=1000;
   foreach($photoArray as $s=>$d){
       if($help<=$d){
-        echo "n->".$s."=".$d."<br>";
+        	echo '<a><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.\OCP\USER::getUser().$s.'" alt='.$s.$d.'></a>';
       }else{
 	$help=$d;
 	echo '<a><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.\OCP\USER::getUser().$s.'" alt='.$s.$d.'></a>';
