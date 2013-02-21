@@ -133,7 +133,7 @@ $moduleArray[]=$module2;
 $moduleArray[]=$module3;
 $moduleArray[]=$module4;
 $photo=$p->equivalent();
-$photo=OC_Equivalent_Result::equalety($photo,$moduleArray);
+//$photo=OC_Equivalent_Result::equalety($photo,);
 echo '<div id="equivalent" class="hascontrols">';
 foreach($photo as $PhotoName=>$photoArray){
   $help=arsort($photoArray);
