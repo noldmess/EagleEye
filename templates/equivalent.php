@@ -132,6 +132,7 @@ $moduleArray[]=$module1;
 $moduleArray[]=$module2;
 $moduleArray[]=$module3;
 $moduleArray[]=$module4;
+$photo=$p->equivalent();
 $photo=OC_Equivalent_Result::equalety($photo,$moduleArray);
 echo '<div id="equivalent" class="hascontrols">';
 foreach($photo as $PhotoName=>$photoArray){
