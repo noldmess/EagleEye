@@ -96,12 +96,24 @@ foreach ($moduleArray as $modulIndex=>$modul){
 }*/
   echo "<br><br>".json_encode($moduleArray)."<br><br>";
 foreach($moduleArray  as $modulIndex=>$module){
- //if(isset($photo[$w]
-$photo+=$module;
+    foreach($module as $modulePhotoName=>$modulePhotoArray){
+	if(isset($photo[$modulePhotoName])){
+	  foreach($modulePhotoArray as  $modulePhotoArrayName=>$value){
+	      if($photo[$modulePhotoName][$modulePhotoArrayName]){
+		  $photo[$modulePhotoName][$modulePhotoArrayName]+=$value;
+	      }else{
+		  $photo[$modulePhotoName]+=array($modulePhotoArrayName=>$value);
+	      }
+	   }
+	}else{
+	  $photo+=array($modulePhotoName=>$modulePhotoArray);
+	  
+	}
+    }
 unset($moduleArray[$modulIndex]);
 }
-
-  echo "<br><br>".json_encode($photo)."<br><br>";
+  echo "<br><br>".json_encode($moduleArray)."<br><br>";
+  echo "<br><br>sss".json_encode($photo)."<br><br>";
  foreach($photo as $photoName=>$photoArray) {
        //go thru all modules array go thru all modules array
        foreach($photoArray as $photoArrayName=>$value){
@@ -115,11 +127,6 @@ unset($moduleArray[$modulIndex]);
 			  unset($photo[$photoArrayName]);
 		    }
 		}
-		
-		/*unset($photo[$photoArrayName][$photoName]);
-		if(empty($moduleArray[$modulIndex][$modulePhotoName])){
-		  unset($moduleArray[$modulIndex][$modulePhotoName]);
-		}*/
 	    } 
 	}	
     }
