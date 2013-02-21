@@ -25,6 +25,7 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 	
 	private  $paht;
 	private  static $version='0.0.1';
+	
 	private $user;
 
 	/**
@@ -146,7 +147,8 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 	
 	public function equivalent(){
 		//hard coded value for each module and and the value of the eqaletti between 1 and 100
-		$value=100;
+		//$value=100;
+		$eq=new OC_Equal(100);
 		$stmt = OCP\DB::prepare('select * from *PREFIX*facefinder where  uid_owner like ?order by hash,date_photo');
 		$result=$stmt->execute(array(\OCP\USER::getUser()));
 		$hash=null;
@@ -158,19 +160,21 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 			if($hash!=$row['hash']){
 				if($hash!=null && count($help)>0) {
 						$array+=array($path=>array("value"=>$value,"equival"=>$help));
+						$eq->addFileName($path);
 				}
 				$help=array();
 				$hash=$row['hash'];
 				$path=$row['path'];
 			}else{
-				$help[]=$row['path'];;
+				$eq->addSubFileName($row['path']);
 			}
 				
 		}
 		if(count($help)>0){
 			$array+=array($path=>array("value"=>$value,"equival"=>$help));
+			$eq->addFileName($path);
 		}
-		return $array;
+		return $eq->getEqualArray();
 	}
 	
 	public function  setForingKey($key){
