@@ -211,6 +211,7 @@ class Kamera_Module implements OC_Module_Interface{
 			//get all information of a Photo from the DB
 			$stmt = OCP\DB::prepare('select path,make,model    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_kamera_photo_module as kameraphoto on (base.photo_id=kameraphoto.photo_id) inner join *PREFIX*facefinder_kamera_module as kamera on (kameraphoto.kamera_id=kamera.id) order by path,make');
 			$result=$stmt->execute();
+			$s=new OC_Equal(10);
 			$array=array();
 			$path=null;
 			//build a new  array of all information for each Photo 
@@ -232,8 +233,8 @@ class Kamera_Module implements OC_Module_Interface{
 				$name=null;
 				//check all element
 				while ($array_tag1 = current($array)) {
-     			   if($name!=null && count($eq)>0){
-					$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
+     			   if($name!=null ){
+				$s->addFileName($name);
      			   }
      			   $eq=array();
      			   $name=key($array);
@@ -251,6 +252,7 @@ class Kamera_Module implements OC_Module_Interface{
      			   			$equal_elment=array_intersect($array_tag1, $array_tag2);
      			   			if(count($equal_elment)/$array_exif_elements>0.8) {
      			   				$eq[]=$helpNameCheach;
+     			   				$s->addSubFileName($helpNameCheach);
      			   				unset($array[$helpNameCheach]);
      			   				//@todo Oprimise no dpunle
      			   					
@@ -264,8 +266,7 @@ class Kamera_Module implements OC_Module_Interface{
 			if(count($eq)>0){
 				$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
 			}
-			return $array_eq;
-			}
+			$s->addSubFileName($helpNameCheach);
 
 			/**
 		 * Uset to set the ForingKey for the module tables
