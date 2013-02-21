@@ -2,7 +2,7 @@
 class OC_Equivalent_Result{
 	
 public static function equalety($photo,$moduleArray){
-	//go thru all photos in the array 
+/*	//go thru all photos in the array 
 	foreach($photo as $photoName=>$photoArray){
 	//go thru all photos in the equal  array 
 	  foreach($photoArray as $photoArrayName=>$value){
@@ -25,7 +25,7 @@ public static function equalety($photo,$moduleArray){
 	      echo "Phoro".json_encode($photo)."<br><br>";
 	    }
 	  }
-	}
+	}*/
   foreach($photo as $photoName=>$photoArray) {
        foreach($moduleArray as $modulIndex=>$modul){
 	  if(isset($moduleArray[$modulIndex][$photoName])){
