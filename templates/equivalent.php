@@ -137,7 +137,7 @@ $photo=$p->equivalent();
 	$m=new EXIF_module("");
 	$K=new Tag_Module("");
 	$module=$m->equivalent();
-$moduleArray=array($module,$K->equivalent(););
+$moduleArray=array($module,$K->equivalent());
 echo "Array".json_encode($photo)."<br>";
 $photo=OC_Equivalent_Result::equalety($photo,$moduleArray);
 echo '<div id="equivalent" class="hascontrols">';
