@@ -158,7 +158,7 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 		$help=array();
 		while (($row = $result->fetchRow())!= false) {
 			if($hash!=$row['hash']){
-				if($hash!=null && count($help)>0) {
+				if($hash!=null) {
 						$array+=array($path=>array("value"=>$value,"equival"=>$help));
 						$eq->addFileName($path);
 				}
