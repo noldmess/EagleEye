@@ -131,7 +131,7 @@ unset($moduleArray[$modulIndex]);
 	}	
     }
 
-  echo "<br><br>".json_encode($moduleArray)."<br><br>";
+  echo "<br><br>".json_encode($photo)."<br><br>";
 return $photo;
 }
 }
