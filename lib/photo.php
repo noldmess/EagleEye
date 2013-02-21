@@ -159,7 +159,7 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 		while (($row = $result->fetchRow())!= false) {
 			if($hash!=$row['hash']){
 				if($hash!=null) {
-						$array+=array($path=>array("value"=>$value,"equival"=>$help));
+						//$array+=array($path=>array("value"=>$value,"equival"=>$help));
 						$eq->addFileName($path);
 				}
 				$help=array();
@@ -170,10 +170,10 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 			}
 				
 		}
-		if(count($help)>0){
-			$array+=array($path=>array("value"=>$value,"equival"=>$help));
+	//	if(count($help)>0){
+			//$array+=array($path=>array("value"=>$value,"equival"=>$help));
 			$eq->addFileName($path);
-		}
+	//	}
 		return $eq->getEqualArray();
 	}
 	
