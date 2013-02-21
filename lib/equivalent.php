@@ -69,3 +69,34 @@ foreach ($moduleArray as $modulIndex=>$modul){
 return $photo;
 }
 }
+
+class OC_Equal{
+  private $array;
+  private $value;
+  private $tmpvSubArray;
+  /**
+   in value is set howe amoduel value  
+  */
+  function __construct($value) {
+	  $this->value=$value;
+	  $this->array= array();
+	  $this->tmpSubArray=array();
+   }
+  //add equality files 
+  function addFileName($name){
+      //files  where  no equal files are not relevant for equality  
+      if(!empty($this->tmpSubArray)){
+	$this->array+=array($name=>$this->tmpSubArray);
+	$this->tmpSubArray=array();
+      }
+  }
+  //add equality files 
+  function addSubFileName($name){
+      $this->tmpSubArray+=array($name=>$this->value);
+  }
+
+  function getEqualArray(){
+    return  $this->array;
+  }
+  
+}
