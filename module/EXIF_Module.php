@@ -258,7 +258,7 @@ class EXIF_Module implements OC_Module_Interface{
      			   			//return the equal elements in both arrays
      			   			$equal_elment=array_intersect($array_tag1, $array_tag2);
      			   			if(count($equal_elment)/$array_exif_elements>0.8) {
-     			   				$eq[]=$helpNameCheach;
+     			   				//$eq[]=$helpNameCheach;
      			   				$s->addSubFileName($helpNameCheach);
      			   				//if a photo is equal with another photo we don't need to recheck it
      			   				unset($array[$helpNameCheach]);
@@ -272,7 +272,7 @@ class EXIF_Module implements OC_Module_Interface{
 			}
 			//if there is no equal photo we dont net photo
 			$s->addFileName($name);	
-			return $array_eq;
+			return $s->getEqualArray();
 		}
 	
 		/**
