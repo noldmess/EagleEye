@@ -18,6 +18,7 @@ $arrayAllEquivalent=$help;
 foreach ($help as $photo=>$array){
 	$arrayAllEquivalent1[]=array($photo=>array($array));
 }
+/*
 echo "Array".json_encode($arrayAllEquivalent1)."<br>";
 foreach ($moduleclasses as $moduleclass){
 	$m=new $moduleclass("");
@@ -73,7 +74,7 @@ echo "Array".json_encode($arrayAllEquivalent)."<br>";
 			unset($module[$index][$n]);
 		}
 	}
-}*/
+}
 $helpsprt=array();
 foreach ($module as $photo=>$array){
 	foreach ($array as $photo=>$array_modul){
@@ -91,7 +92,7 @@ foreach ($module as $photo=>$array){
 				$help_array=$array_modul[$photo]['equival'];
 				$help_array = array_diff($help,$help);
 				$arrayAllEquivalent[$photo][$count]['value']+=$array_modul[$photo]['value'];
-			}while(count($help_array)>0);*/
+			}while(count($help_array)>0);
 		}
 	}else{
 		$arrayAllEquivalent+=array($photo=>$array_modul);
@@ -118,7 +119,7 @@ foreach ($arrayAllEquivalent as $ep=>$array){
 	}
 	
 //}
-echo '</div>';
+echo '</div>';*/
 $module1=array("img1"=>array("img2"=>100,"img3"=>100,"img4"=>100,"img5"=>100),"img6"=>array("img7"=>100,"img8"=>100,"img9"=>100,"img10"=>100));
 
 $photo=array("img2"=>array("img1"=>100),"img6"=>array("img2"=>100,"img7"=>100,"img8"=>100,"img9"=>100,"img10"=>100));
