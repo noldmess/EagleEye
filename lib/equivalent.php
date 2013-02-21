@@ -1,24 +1,31 @@
 <?php
 class OC_Equivalent_Result{
 	
-	public static function equalety($photo,$moduleArray){
-foreach($photo as $photoName=>$photoArray){
-  foreach($photoArray as $photoArrayName=>$value){
-    foreach($moduleArray as $modulIndex=>$modul){
-      echo $modulIndex." ".json_encode($moduleArray[$modulIndex])."<br>";
-      echo "Phoro".json_encode($photo)."<br><br>";
-      foreach($moduleArray[$modulIndex] as $modulePhotoName=>$modulePhotoArray){
-	  if($photoArrayName==$modulePhotoName && isset($modulePhotoArray[$photoName])){
-	      $photo[$photoName][$photoArrayName]+=$moduleArray[$modulIndex][$modulePhotoName][$photoName];
-	      unset($moduleArray[$modulIndex][$modulePhotoName][$photoName]);
-	      if(empty($moduleArray[$modulIndex][$modulePhotoName])){
-		unset($moduleArray[$modulIndex][$modulePhotoName]);
-	      }
+public static function equalety($photo,$moduleArray){
+	//go thru all photos in the array 
+	foreach($photo as $photoName=>$photoArray){
+	//go thru all photos in the equal  array 
+	  foreach($photoArray as $photoArrayName=>$value){
+	  //go thru all modules     array go thru all modules     array 
+	    foreach($moduleArray as $modulIndex=>$modul){
+
+	      echo $modulIndex." ".json_encode($moduleArray[$modulIndex])."<br>";
+	      echo "Phoro".json_encode($photo)."<br><br>";
+	     foreach($moduleArray[$modulIndex] as $modulePhotoName=>$modulePhotoArray){
+		  if($photoArrayName==$modulePhotoName && isset($moduleArray[$modulIndex][$photoName])){
+		  //if(isset($moduleArray[$modulIndex][$photoName])){
+		      $photo[$photoName][$photoArrayName]+=$moduleArray[$modulIndex][$modulePhotoName][$photoName];
+		      unset($moduleArray[$modulIndex][$modulePhotoName][$photoName]);
+		      if(empty($moduleArray[$modulIndex][$modulePhotoName])){
+			unset($moduleArray[$modulIndex][$modulePhotoName]);
+		      }
+		  }
+	     }
+	      echo $modulIndex." ".json_encode($moduleArray[$modulIndex])."<br>";
+	      echo "Phoro".json_encode($photo)."<br><br>";
+	    }
 	  }
-      }
-    }
-  }
-}
+	}
   foreach($photo as $photoName=>$photoArray) {
        foreach($moduleArray as $modulIndex=>$modul){
 	  if(isset($moduleArray[$modulIndex][$photoName])){
