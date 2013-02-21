@@ -266,7 +266,9 @@ class Kamera_Module implements OC_Module_Interface{
 			if(count($eq)>0){
 				$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
 			}
-			$s->addSubFileName($helpNameCheach);
+			$s->addFileName($helpNameCheach);
+			return $s->getEqualArray();
+}
 
 			/**
 		 * Uset to set the ForingKey for the module tables
