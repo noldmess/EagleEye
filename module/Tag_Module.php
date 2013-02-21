@@ -225,7 +225,7 @@ class Tag_Module implements OC_Module_Interface{
 		public function equivalent(){
 			//hard coded value for each module and and the value of the eqaletti between 1 and 100
 			$value=1;
-			$s=new OC_Equal(1);
+			$s=new OC_Equal(0.5);
 			//get all information of a Photo from the DB
 			$stmt = OCP\DB::prepare('select path,name,tag    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_tag_photo_module as tagphoto on (base.photo_id=tagphoto.photo_id) inner join *PREFIX*facefinder_tag_module as tag on (tagphoto.tag_id=tag.id) order by path,name');
 			$result=$stmt->execute();
@@ -271,7 +271,7 @@ class Tag_Module implements OC_Module_Interface{
      			   			if(count($equal_elment)/$array_exif_elements>0.8) {
      			   				$eq[]=$helpNameCheach;
      			   				$s->addSubFileName($helpNameCheach);
-     			   				unset($array[$helpNameCheach]);
+     			   				//unset($array[$helpNameCheach]);
      			   					
      			   			}
      			   		}
