@@ -225,6 +225,7 @@ class Tag_Module implements OC_Module_Interface{
 		public function equivalent(){
 			//hard coded value for each module and and the value of the eqaletti between 1 and 100
 			$value=1;
+			$s=new OC_Equal(1);
 			//get all information of a Photo from the DB
 			$stmt = OCP\DB::prepare('select path,name,tag    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_tag_photo_module as tagphoto on (base.photo_id=tagphoto.photo_id) inner join *PREFIX*facefinder_tag_module as tag on (tagphoto.tag_id=tag.id) order by path,name');
 			$result=$stmt->execute();
@@ -249,8 +250,9 @@ class Tag_Module implements OC_Module_Interface{
 			$name=null;
 			//echo json_encode($array);
 			while ($array_tag1 = current($array)) {
-     			   if($name!=null && count($eq)>0){
+     			   if($name!=null){
 						$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
+						$s->addFileName($name);
      			   }
      			   $eq=array();
      			   $name=key($array);
@@ -268,7 +270,8 @@ class Tag_Module implements OC_Module_Interface{
      			   			$equal_elment=array_intersect($array_tag1, $array_tag2);
      			   			if(count($equal_elment)/$array_exif_elements>0.8) {
      			   				$eq[]=$helpNameCheach;
-     			   				unset($array[$helpNameCheach]);
+     			   				$s->addSubFileName($helpNameCheach);
+     			   			//	unset($array[$helpNameCheach]);
      			   					
      			   			}
      			   		}
@@ -280,8 +283,9 @@ class Tag_Module implements OC_Module_Interface{
 		if(count($eq)>0){
 				$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
 			}
+			$s->addFileName($name);
 			
-			return $array_eq;
+			return $s->getEqualArray();
 		}
 		
 		/**
