@@ -139,7 +139,7 @@ $photo=$p->equivalent();
 	$module=$m->equivalent();
 $moduleArray=array();
 $moduleArray[]=$module;
-$moduleArray[]=$K->equivalent());
+$moduleArray[]=$K->equivalent();
 echo "Array".json_encode($photo)."<br>";
 $photo=OC_Equivalent_Result::equalety($photo,$moduleArray);
 echo '<div id="equivalent" class="hascontrols">';
