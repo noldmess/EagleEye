@@ -100,6 +100,30 @@ foreach($moduleArray  as $modulIndex=>$module){
 $photo+=$module;
 unset($moduleArray[$modulIndex]);
 }
+
+  echo "<br><br>".json_encode($photo)."<br><br>";
+ foreach($photo as $photoName=>$photoArray) {
+       //go thru all modules array go thru all modules array
+       foreach($photoArray as $photoArrayName=>$value){
+	    if(isset($photo[$photoArrayName])){
+	      foreach($photo[$photoArrayName] as $eq=>$s);
+		if($photoArrayName==$photoArrayName){
+		    echo $photoName."-".$photoArrayName."-".$eq."<br>";
+		    $photo[$photoName][$photoArrayName]+=$photo[$photoArrayName][$eq];
+		     unset($photo[$photoArrayName][$eq]);
+		    if(empty($photo[$photoArrayName])){
+			  unset($photo[$photoArrayName]);
+		    }
+		}
+		
+		/*unset($photo[$photoArrayName][$photoName]);
+		if(empty($moduleArray[$modulIndex][$modulePhotoName])){
+		  unset($moduleArray[$modulIndex][$modulePhotoName]);
+		}*/
+	    } 
+	}	
+    }
+
   echo "<br><br>".json_encode($moduleArray)."<br><br>";
 return $photo;
 }
