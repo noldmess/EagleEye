@@ -34,6 +34,7 @@ OC::$CLASSPATH['OC_FaceFinder_Hooks_Handlers'] = 'facefinder/lib/hooks_handlers.
 OC::$CLASSPATH['OC_Search_Provider_FaceFinder'] = 'facefinder/lib/search.php';
 OC::$CLASSPATH['OC_FaceFinder_Scanner'] = 'facefinder/lib/scanner.php';
 OC::$CLASSPATH['OC_Equivalent_Result'] = 'facefinder/lib/equivalent.php';
+OC::$CLASSPATH['OC_Equal'] = 'facefinder/lib/equivalent.php';
 //$l = OC_L10N::get('facefinder');
 //new OC_Module_Maneger();
 OCP\App::addNavigationEntry( array(
