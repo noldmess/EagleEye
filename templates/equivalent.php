@@ -134,9 +134,11 @@ $moduleArray[]=$module2;
 $moduleArray[]=$module3;
 $moduleArray[]=$module4;
 $photo=$p->equivalent();
-
+	$m=new EXIF_module("");
+	$module=$m->equivalent();
+$moduleArray=array($module);
 echo "Array".json_encode($photo)."<br>";
-//$photo=OC_Equivalent_Result::equalety($photo,);
+$photo=OC_Equivalent_Result::equalety($photo,$moduleArray);
 echo '<div id="equivalent" class="hascontrols">';
 foreach($photo as $PhotoName=>$photoArray){
   $help=arsort($photoArray);
