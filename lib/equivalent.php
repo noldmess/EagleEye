@@ -1,7 +1,7 @@
 <?php
 class OC_Equivalent_Result{
 	
-public static function ($photo,$moduleArray){
+public static function equalety($photo,$moduleArray){
 
     //go thru all photos in the array
   foreach($photo as $photoName=>$photoArray){
