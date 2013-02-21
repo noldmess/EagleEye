@@ -216,6 +216,7 @@ class EXIF_Module implements OC_Module_Interface{
 		public function equivalent(){
 			//hard coded value for each module and and the value of the eqaletti between 1 and 100
 			$value=1;
+			$s=new OC_Equal(1);
 			//get all information of a Photo from the DB
 			$stmt = OCP\DB::prepare('select path,name,valued    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_exif_photo_module as exifphoto on (base.photo_id=exifphoto.photo_id) inner join *PREFIX*facefinder_exif_module as exif on (exifphoto.exif_id=exif.id) order by path,name');
 			$result=$stmt->execute();
@@ -242,8 +243,9 @@ class EXIF_Module implements OC_Module_Interface{
 			//check all element
 			while ($array_tag1 = current($array)) {
 					//if there is no equal photo we dont net photo
-     			   if($name!=null && count($eq)>0){
+     			   if($name!=null ){
      			   		$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
+     			   		$s->addFileName($name);
      			   }
      			   $eq=array();
      			   $name=key($array);
@@ -257,6 +259,7 @@ class EXIF_Module implements OC_Module_Interface{
      			   			$equal_elment=array_intersect($array_tag1, $array_tag2);
      			   			if(count($equal_elment)/$array_exif_elements>0.8) {
      			   				$eq[]=$helpNameCheach;
+     			   				$s->addSubFileName($helpNameCheach);
      			   				//if a photo is equal with another photo we don't need to recheck it
      			   				unset($array[$helpNameCheach]);
      			   					
@@ -268,9 +271,7 @@ class EXIF_Module implements OC_Module_Interface{
    				next($array);
 			}
 			//if there is no equal photo we dont net photo
-			if(count($eq)>0){
-				$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
-			}
+			$s->addFileName($name);	
 			return $array_eq;
 		}
 	
