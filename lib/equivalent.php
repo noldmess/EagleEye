@@ -1,78 +1,106 @@
 <?php
 class OC_Equivalent_Result{
 	
-public static function equalety($photo,$moduleArray){
-	//go thru all photos in the array 
-	foreach($photo as $photoName=>$photoArray){
-	//go thru all photos in the equal  array 
-	  foreach($photoArray as $photoArrayName=>$value){
-	  //go thru all modules     array go thru all modules     array 
-	    foreach($moduleArray as $modulIndex=>$modul){
+public static function ($photo,$moduleArray){
 
-	      echo $modulIndex." ".json_encode($moduleArray[$modulIndex])."<br>";
-	      echo "Phoro".json_encode($photo)."<br><br>";
-	     foreach($moduleArray[$modulIndex] as $modulePhotoName=>$modulePhotoArray){
-		  if($photoArrayName==$modulePhotoName && isset($moduleArray[$modulIndex][$photoName])){
-		  //if(isset($moduleArray[$modulIndex][$photoName])){
-		      $photo[$photoName][$photoArrayName]+=$moduleArray[$modulIndex][$modulePhotoName][$photoName];
-		      unset($moduleArray[$modulIndex][$modulePhotoName][$photoName]);
-		      if(empty($moduleArray[$modulIndex][$modulePhotoName])){
-			unset($moduleArray[$modulIndex][$modulePhotoName]);
-		      }
-		  }
-	     }
-	      echo $modulIndex." ".json_encode($moduleArray[$modulIndex])."<br>";
-	      echo "Phoro".json_encode($photo)."<br><br>";
-	    }
+    //go thru all photos in the array
+  foreach($photo as $photoName=>$photoArray){
+  echo "new $photoName<br>";
+    //go thru all photos in the equal array
+    foreach($photoArray as $photoArrayName=>$value){
+    echo "new -------------->$photoArrayName<br>";
+    //go thru all modules array go thru all modules array
+    foreach($moduleArray as $modulIndex=>$modul){
+
+      echo $modulIndex." a".json_encode($moduleArray[$modulIndex])."<br>";
+      echo "Phoro".json_encode($photo)."<br><br>";
+	if(isset($moduleArray[$modulIndex][$photoArrayName][$photoName])){
+	  echo $photoName."-".$photoArrayName."-".$modulIndex."<br>";
+	  $photo[$photoName][$photoArrayName]+=$moduleArray[$modulIndex][$photoArrayName][$photoName];
+	  unset($moduleArray[$modulIndex][$photoArrayName][$photoName]);
+	   if(empty($moduleArray[$modulIndex][$photoArrayName])){
+	      unset($moduleArray[$modulIndex][$photoArrayName]);
 	  }
-	}
+	//}
+	//}
+      }
+      echo $modulIndex." b".json_encode($moduleArray[$modulIndex])."<br>";
+      echo "Phoro".json_encode($photo)."<br><br>";
+      }
+    }
+  }
+//go thru all photos in the array
   foreach($photo as $photoName=>$photoArray) {
+       //go thru all modules array go thru all modules array
        foreach($moduleArray as $modulIndex=>$modul){
-	  if(isset($moduleArray[$modulIndex][$photoName])){
-	      foreach($moduleArray[$modulIndex][$photoName] as $modulePhotoName=>$value){
-		if(isset($photo[$photoName][$modulePhotoName])){
-		    $photo[$photoName][$modulePhotoName]+=$moduleArray[$modulIndex][$photoName][$modulePhotoName];
-		    unset($moduleArray[$modulIndex][$photoName][$modulePhotoName]);
-		     if(empty($moduleArray[$modulIndex][$photoName])){
-			unset($moduleArray[$modulIndex][$photoName]);
-		      }
-		}
-	      }
-	   }
-	}
-     }
-foreach ($moduleArray as $modulIndex=>$modul){
-	foreach($modul as $modulePhotoName=>$modulePhotoArray){
-	    if(isset($photo[$modulePhotoName])){
-		foreach($moduleArray[$modulIndex][$modulePhotoName] as $w=>$f){
-	
-	
-		if(isset($photo[$modulePhotoName][$w])){
-		    $photo[$modulePhotoName][$w]+=$moduleArray[$modulIndex][$modulePhotoName][$w];
-		    unset($moduleArray[$modulIndex][$modulePhotoName][$w]);
-		     if(empty($moduleArray[$modulIndex][$modulePhotoName])){
-			unset($moduleArray[$modulIndex][$modulePhotoName]);
-		      }
-		}else{
-		  echo $modulePhotoName."=>".$w."=>".$f."<br>";
-		  if(isset($photo[$w][$modulePhotoName])){
-		  $photo[$w][$modulePhotoName]+=$moduleArray[$modulIndex][$modulePhotoName][$w];
-		    unset($moduleArray[$modulIndex][$w][$modulePhotoName]);
-		     if(empty($moduleArray[$modulIndex][$modulePhotoName])){
-			unset($moduleArray[$modulIndex][$modulePhotoName]);
-		      }
-		  }else{
-		      echo "sdsfdfsdf<br>";	
-		      $photo[$modulePhotoName]+=array($w=>$f);
-		  }
-		}
+	//check if the photo and the module array hawe the same array key   
+	if(isset($moduleArray[$modulIndex][$photoName])){
+	  //compare the arrays and put them together
+	  foreach($moduleArray[$modulIndex][$photoName] as $modulePhotoName=>$value){
+	    if(isset($photo[$photoName][$modulePhotoName])){
+	      $photo[$photoName][$modulePhotoName]+=$moduleArray[$modulIndex][$photoName][$modulePhotoName];
+	      unset($moduleArray[$modulIndex][$photoName][$modulePhotoName]);
+	      if(empty($moduleArray[$modulIndex][$photoName])){
+		unset($moduleArray[$modulIndex][$photoName]);
 	      }
 	    }else{
-		$photo+=array($modulePhotoName=>$modulePhotoArray);
-		 unset($moduleArray[$modulIndex][$modulePhotoName]);
+		if(isset($photo[$modulePhotoName][$photoName])){
+		    $photo[$modulePhotoName][$photoName]+=$moduleArray[$modulIndex][$photoName][$modulePhotoName];
+		     unset($moduleArray[$modulIndex][$photoName][$modulePhotoName]);
+		    if(empty($moduleArray[$modulIndex][$photoName])){
+		      unset($moduleArray[$modulIndex][$photoName]);
+		    }
+		  }
+		$photo[$photoName]+=array($modulePhotoName=>$value);
+		unset($moduleArray[$modulIndex][$photoName][$modulePhotoName]);
+		if(empty($moduleArray[$modulIndex][$photoName])){
+		  unset($moduleArray[$modulIndex][$photoName]);
+		}
 	    }
+	 }
 	}
+    }
+   }
+
+      echo json_encode($moduleArray)."<br>";
+      echo "Phoro".json_encode($photo)."<br><br>";
+
+/*
+foreach ($moduleArray as $modulIndex=>$modul){
+  foreach($modul as $modulePhotoName=>$modulePhotoArray){
+    if(isset($photo[$modulePhotoName])){
+      foreach($moduleArray[$modulIndex][$modulePhotoName] as $w=>$f){
+	if(isset($photo[$modulePhotoName][$w])){
+	    $photo[$modulePhotoName][$w]+=$moduleArray[$modulIndex][$modulePhotoName][$w];
+	    unset($moduleArray[$modulIndex][$modulePhotoName][$w]);
+	    if(empty($moduleArray[$modulIndex][$modulePhotoName])){
+	      unset($moduleArray[$modulIndex][$modulePhotoName]);
+	    }
+	}else{
+	  echo $modulePhotoName."=>".$w."=>".$f."<br>";
+	  if(isset($photo[$w][$modulePhotoName])){
+	    $photo[$w][$modulePhotoName]+=$moduleArray[$modulIndex][$modulePhotoName][$w];
+	    unset($moduleArray[$modulIndex][$w][$modulePhotoName]);
+	    if(empty($moduleArray[$modulIndex][$modulePhotoName])){
+	      unset($moduleArray[$modulIndex][$modulePhotoName]);
+	  }
+	 }else{
+	  echo "sdsfdfsdf<br>";
+	  $photo[$modulePhotoName]+=array($w=>$f);
+	  }
+	}
+      }
+  
+   }
+  }
+}*/
+  echo "<br><br>".json_encode($moduleArray)."<br><br>";
+foreach($moduleArray  as $modulIndex=>$module){
+ //if(isset($photo[$w]
+$photo+=$module;
+unset($moduleArray[$modulIndex]);
 }
+  echo "<br><br>".json_encode($moduleArray)."<br><br>";
 return $photo;
 }
 }
