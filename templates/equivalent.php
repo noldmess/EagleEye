@@ -146,6 +146,24 @@ $moduleArray[]=$module;
 $moduleArray[]=$K->equivalent();*/
 echo "Array".json_encode($photo)."<br>";
 $photo=OC_Equivalent_Result::equalety($photo,$moduleArray);
+
+
+foreach($photo as $PhotoName=>$photoArray){
+  $help=arsort($photoArray);
+ echo "<div>".$PhotoName."<br>";
+  $help=1000;
+  foreach($photoArray as $s=>$d){
+      if($help<=$d){
+        echo "n->".$s."=".$d."<br>";
+      }else{
+	$help=$d;
+	echo "1->".$s."=".$d."<br>";
+      }
+  }
+  echo "</div>";
+}
+
+
 echo '<div id="equivalent" class="hascontrols">';
 foreach($photo as $PhotoName=>$photoArray){
   $help=arsort($photoArray);
