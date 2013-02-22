@@ -1,7 +1,8 @@
 <?php
 class OC_Equivalent_Result{
 
-function addValueKeySwitch(&$photo,&$moduleArray,$modulIndex,$photoArrayName,$photoName){	
+
+public static function addValueKeySwitch(&$photo,&$moduleArray,$modulIndex,$photoArrayName,$photoName){	
   $photo[$photoName][$photoArrayName]+=$moduleArray[$modulIndex][$photoArrayName][$photoName];
   unset($moduleArray[$modulIndex][$photoArrayName][$photoName]);
   if(empty($moduleArray[$modulIndex][$photoArrayName])){
@@ -9,7 +10,8 @@ function addValueKeySwitch(&$photo,&$moduleArray,$modulIndex,$photoArrayName,$ph
 	  }
 }
 
-function addValueKeyIdentik(&$photo,&$moduleArray,$modulIndex,$photoArrayName,$photoName){
+
+public static function addValueKeyIdentik(&$photo,&$moduleArray,$modulIndex,$photoArrayName,$photoName){
   $photo[$photoArrayName][$photoName]+=$moduleArray[$modulIndex][$photoArrayName][$photoName];
   unset($moduleArray[$modulIndex][$photoArrayName][$photoName]	);
   if(empty($moduleArray[$modulIndex][$photoArrayName])){
@@ -28,7 +30,7 @@ echo "Module1".json_encode($moduleArray)."<br><br>";
       foreach($photoArray as $photoArrayName=>$value){
 	 //chech if in the module ther is a interchanges versien 
 	if(isset($moduleArray[$modulIndex][$photoArrayName][$photoName])){
-	  addValueKeySwitch($photo,$moduleArray,$modulIndex,$photoArrayName,$photoName);
+	  self::addValueKeySwitch($photo,$moduleArray,$modulIndex,$photoArrayName,$photoName);
 	}
       }
      //chech if ther is a ther is a key identich whit the photo key
@@ -36,9 +38,9 @@ echo "Module1".json_encode($moduleArray)."<br><br>";
 	  //compare the arrays and put them together
 	  foreach($moduleArray[$modulIndex][$photoName] as $modulePhotoName=>$value){
 	    if(isset($photo[$photoName][$modulePhotoName])){
-	      addValueKeyIdentik($photo,$moduleArray,$modulIndex,$photoName,$modulePhotoName);
+	      self::addValueKeyIdentik($photo,$moduleArray,$modulIndex,$photoName,$modulePhotoName);
 	    }elseif(isset($photo[$modulePhotoName][$photoName])){
-	      addValueKeyIdentik($photo,$moduleArray,$modulIndex,$photoName,$modulePhotoName);
+	      self::addValueKeyIdentik($photo,$moduleArray,$modulIndex,$photoName,$modulePhotoName);
 	    }else{	
 		$photo[$photoName]+=array($modulePhotoName=>$value);
 		unset($moduleArray[$modulIndex][$photoName][$modulePhotoName]);
