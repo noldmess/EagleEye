@@ -67,8 +67,8 @@ class OC_FaceFinder_Hooks_Handlers {
 	 * @param  $params
 	 */
 	public static function update($params){
-			$path = $params['path'];
-		$newpath = $params[OC_Filesystem::signal_param_newpath];
+			$path = $params['oldpath'];
+		$newpath = $params['newpath'];
 		if($path!='' && $newpath!='' && self::isPhoto($path) && self::isPhoto($newpath)){
 			OCP\Util::writeLog("facefinder","to update".$path,OCP\Util::DEBUG);
 			$tmp=new OC_FaceFinder_Photo($path);
