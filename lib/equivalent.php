@@ -92,6 +92,8 @@ foreach($moduleArray  as $modulIndex=>$module){
 	    //echo $j."dsdfdsf ".json_encode($modulePhotoArray)."<br><br>";
 	   
 	}
+	echo " ".json_encode($photo)."<br><br>";
+unset($moduleArray[$modulIndex]);
     }
 echo " ".json_encode($photo)."<br><br>";
 unset($moduleArray[$modulIndex]);
