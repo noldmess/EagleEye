@@ -15,3 +15,4 @@ foreach($photo as $PhotoName=>$photoArray){
   $help=arsort($photoArray);
 }
 echo json_encode($photo);
+?>
