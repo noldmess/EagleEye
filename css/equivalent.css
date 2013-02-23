@@ -18,4 +18,6 @@ margin: 5px;
 
 div.equival{
 	display: inline;
+	height:auto;
+	width:auto;
 }
