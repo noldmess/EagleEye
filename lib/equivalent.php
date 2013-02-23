@@ -107,12 +107,14 @@ unset($moduleArray[$modulIndex]);
 	$help=arsort($photoArray);
 	$equalArray=array();
 	foreach($photoArray as $key=>$value){
-		$equalArray[]=array("img_eq"=$key,"value"=>$value);
+		$equalArray[]=array("img_eq"=>$key,"value"=>$value);
 	}
 	$array[]=array("img"=>$PhotoName,"array"=>$equalArray);
 }
 return $array;
 }
+
+
 }
 
 class OC_Equal{
