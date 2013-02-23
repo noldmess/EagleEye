@@ -1,5 +1,5 @@
 <?php
-
+echo "dsfdsfdsfs";
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('facefinder');
 $photo= new OC_FaceFinder_Photo("");
