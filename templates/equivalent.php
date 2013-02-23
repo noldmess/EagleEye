@@ -167,12 +167,12 @@ foreach($photo as $PhotoName=>$photoArray){
 echo '<div id="equivalent" class="hascontrols">';
 foreach($photo as $PhotoName=>$photoArray){
   $help=arsort($photoArray);
-  echo '<div class="equival">'.$array['value'].'<a><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.\OCP\USER::getUser().$PhotoName.'" alt='.$PhotoName.'></a>';
+  echo '<div class="equival"><div>'.$array['value'].'<a><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.\OCP\USER::getUser().$PhotoName.'" alt='.$PhotoName.'></a>';
   $help=1000;
   foreach($photoArray as $s=>$d){
       if($help>$d ){
-  		echo '<div class="">'.$help.'</div><br>';
-	$help=$d;
+      		$help=$d;
+  		echo '</div><div class="">'.$help.'</div><div>';
       }
 	echo '<a><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.\OCP\USER::getUser().$s.'" alt='.$s.'-'.$d.'>'.$d.'</a>';
       
