@@ -102,7 +102,12 @@ unset($moduleArray[$modulIndex]);
 //echo "Module3".json_encode($moduleArray)."<br><br>";
 
   //echo "<br><br>dddd".json_encode($photo)."<br><br>";
-return $photo;
+  $array=array();
+ foreach($photo as $PhotoName=>$photoArray){
+	$help=arsort($photoArray);
+	$array[]=array("img"=>$PhotoName,"array"=>$help);
+}
+return $array;
 }
 }
 
