@@ -27,8 +27,9 @@ public static function Ajaxequalety($photoArray,$moduleArray){
 		$equalArray[]=array("img_eq"=>$key,"value"=>$value);
 	}
 	$array[]=array("img"=>$PhotoName,"array"=>$equalArray);
-	return $array
-}
+
+	}
+		return $array;
 }
 public static function equalety($photo,$moduleArray){
 //echo "Phoro1".json_encode($photo)."<br><br>";
