@@ -105,7 +105,11 @@ unset($moduleArray[$modulIndex]);
   $array=array();
  foreach($photo as $PhotoName=>$photoArray){
 	$help=arsort($photoArray);
-	$array[]=array("img"=>$PhotoName,"array"=>$photoArray);
+	$equalArray=array();
+	foreach($photoArray as $key=>$value){
+		$equalArray[]=array("img_eq"=$key,"value"=>$value);
+	}
+	$array[]=array("img"=>$PhotoName,"array"=>$equalArray);
 }
 return $array;
 }
