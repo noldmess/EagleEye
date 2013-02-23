@@ -19,9 +19,9 @@ public static function addValueKeyIdentik(&$photo,&$moduleArray,$modulIndex,$pho
 	  }
 }
 
-public static function equalety($photo,$moduleArray){
-echo "Phoro1".json_encode($photo)."<br><br>";
-echo "Module1".json_encode($moduleArray)."<br><br>";
+public static function equalety($photo,$moduleArray){0
+//echo "Phoro1".json_encode($photo)."<br><br>";
+//echo "Module1".json_encode($moduleArray)."<br><br>";
     //go thru all photos in the array
   foreach($photo as $photoName=>$photoArray){
     //go thru all modules array go thru all modules array
@@ -52,16 +52,16 @@ echo "Module1".json_encode($moduleArray)."<br><br>";
 	}
     }
   }
-echo "Phoro2".json_encode($photo)."<br><br>";
-echo "Module2".json_encode($moduleArray)."<br><br>";
+//echo "Phoro2".json_encode($photo)."<br><br>";
+//echo "Module2".json_encode($moduleArray)."<br><br>";
 
 foreach($moduleArray  as $modulIndex=>$module){
     foreach($module as $modulePhotoName=>$modulePhotoArray){
-	echo "-->$modulePhotoName<br>";
+	//echo "-->$modulePhotoName<br>";
 	if(isset($photo[$modulePhotoName])){
 	  foreach($moduleArray[$modulIndex][$modulePhotoName] as $s=>$g){
 		   if(isset($photo[$s])){
-		      echo "dfsdfsd$s<br>";
+	//	      echo "dfsdfsd$s<br>";
 		      $photo[$s][$modulePhotoName]+=$g;
 		    }else{
 			
@@ -79,7 +79,7 @@ foreach($moduleArray  as $modulIndex=>$module){
 	    
 	     foreach($moduleArray[$modulIndex][$modulePhotoName] as $s=>$g){
 		   if(isset($photo[$s])){
-		      echo "dfsdfsd$s<br>";
+	//	      echo "dfsdfsd$s<br>";
 		      $photo[$s][$modulePhotoName]+=$g;
 		    }else{
 			if(isset($photo[$modulePhotoName])){
@@ -92,16 +92,16 @@ foreach($moduleArray  as $modulIndex=>$module){
 	    //echo $j."dsdfdsf ".json_encode($modulePhotoArray)."<br><br>";
 	   
 	}
-	echo " ".json_encode($photo)."<br><br>";
+	//echo " ".json_encode($photo)."<br><br>";
 unset($moduleArray[$modulIndex]);
     }
-echo " ".json_encode($photo)."<br><br>";
+//echo " ".json_encode($photo)."<br><br>";
 unset($moduleArray[$modulIndex]);
 }
-echo "Phoro3".json_encode($photo)."<br><br>";
-echo "Module3".json_encode($moduleArray)."<br><br>";
+//echo "Phoro3".json_encode($photo)."<br><br>";
+//echo "Module3".json_encode($moduleArray)."<br><br>";
 
-  echo "<br><br>dddd".json_encode($photo)."<br><br>";
+  //echo "<br><br>dddd".json_encode($photo)."<br><br>";
 return $photo;
 }
 }
