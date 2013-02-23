@@ -19,7 +19,7 @@ public static function addValueKeyIdentik(&$photo,&$moduleArray,$modulIndex,$pho
 	  }
 }
 
-public static function equalety($photo,$moduleArray){0
+public static function equalety($photo,$moduleArray){
 //echo "Phoro1".json_encode($photo)."<br><br>";
 //echo "Module1".json_encode($moduleArray)."<br><br>";
     //go thru all photos in the array
