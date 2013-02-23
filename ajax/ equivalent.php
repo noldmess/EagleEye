@@ -1,6 +1,6 @@
 <?php
 echo "dsfdsfdsfs";
-OCP\JSON::checkLoggedIn();
+/*OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('facefinder');
 $photo= new OC_FaceFinder_Photo("");
 $Initialisemodul=new OC_Module_Maneger();
@@ -14,5 +14,5 @@ $photo=OC_Equivalent_Result::equalety($photoArray,$moduleArray);
 foreach($photo as $PhotoName=>$photoArray){
   $help=arsort($photoArray);
 }
-echo json_encode($photo);
+echo json_encode($photo);*/
 ?>
