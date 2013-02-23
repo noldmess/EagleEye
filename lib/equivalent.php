@@ -18,7 +18,18 @@ public static function addValueKeyIdentik(&$photo,&$moduleArray,$modulIndex,$pho
 	      unset($moduleArray[$modulIndex][$photoArrayName]);
 	  }
 }
-
+public static function Ajaxequalety($photoArray,$moduleArray){
+	$photo=self::equalety($photo,$moduleArray);
+	$array=array();
+	foreach($photo as $PhotoName=>$photoArray){
+	$equalArray=array();
+	foreach($photoArray as $key=>$value){
+		$equalArray[]=array("img_eq"=>$key,"value"=>$value);
+	}
+	$array[]=array("img"=>$PhotoName,"array"=>$equalArray);
+	return $array
+}
+}
 public static function equalety($photo,$moduleArray){
 //echo "Phoro1".json_encode($photo)."<br><br>";
 //echo "Module1".json_encode($moduleArray)."<br><br>";
@@ -105,13 +116,9 @@ unset($moduleArray[$modulIndex]);
   $array=array();
  foreach($photo as $PhotoName=>$photoArray){
 	$help=arsort($photoArray);
-	$equalArray=array();
-	foreach($photoArray as $key=>$value){
-		$equalArray[]=array("img_eq"=>$key,"value"=>$value);
-	}
-	$array[]=array("img"=>$PhotoName,"array"=>$equalArray);
+
 }
-return $array;
+return $photo;
 }
 
 
