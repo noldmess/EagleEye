@@ -172,7 +172,7 @@ foreach($photo as $PhotoName=>$photoArray){
   foreach($photoArray as $s=>$d){
       if($help>$d ){
       		$help=$d;
-  		echo '</div><div class="">'.$help.'</div><div>';
+  		echo '</div><div class="equival_value">'.$help.'</div><div>';
       }
 	echo '<a><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.\OCP\USER::getUser().$s.'" alt='.$s.'></a>';
       
