@@ -15,6 +15,7 @@ margin: 5px;
 }
 
 div.equival{
+	border-left: 10px solid rgb(29, 45, 68);
 	display: inline;
 	height:auto;
 	width:auto;
