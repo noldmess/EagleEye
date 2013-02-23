@@ -57,6 +57,9 @@ class OC_Module_Maneger {
 			OCP\Util::writeLog("facefinder","Class not exist or not identik like file name:".$classname,OCP\Util::ERROR);
 			return  null;
 		}else{
+			/**
+			 *@todo public static  function checkCorrectModuleClass($classPath){
+			 */
 			$interfaceArray=class_implements($classname);//&& self::CheckClass($classPath)
 			if(count($interfaceArray)>=1 && $interfaceArray['OC_Module_Interface']=='OC_Module_Interface' ) {
 					return $classname;
@@ -98,8 +101,10 @@ class OC_Module_Maneger {
 	public static  function getModulsOfFolder($modulpath){
 		$modulaArray=array();
 		$dir=$modulpath;
+		//check if the  module Folder exist 
 		if(is_dir($dir)){
 			$modulfolder=opendir($dir);
+			//go thru all files in the folder
 			while (($file = readdir($modulfolder)) !== false) {
 				$fileinfo=pathinfo($file);
 				if(!is_dir($modulpath.$file)){
@@ -111,9 +116,6 @@ class OC_Module_Maneger {
 					}
 			}
 			}
-		}else{
-			OCP\Util::writeLog("facefinder","No Module folder found ".$modulpath,OCP\Util::ERROR);
-
 		}
 		return $modulaArray;
 	}
