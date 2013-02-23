@@ -22,5 +22,6 @@ div.equival{
 }
 
 div.equival_value{
-	width:100%;
+	width:100%;#
+	text-align:center;
 }
