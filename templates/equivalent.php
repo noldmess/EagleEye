@@ -178,7 +178,7 @@ foreach($photo as $PhotoName=>$photoArray){
       
   }
   
-  echo "</div><br>";
+  echo "</div></div><br>";
 }
 
 
