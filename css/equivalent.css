@@ -5,9 +5,7 @@
 		display: block;
 }
 
-#equivalent div {
-	display: inline;
-}
+#equivalent div {}
 
 #equivalent div img{
 margin: 5px;
