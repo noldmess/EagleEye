@@ -3,6 +3,7 @@
 <a  href="../facefinder/" data-item="" title="<?php echo $l->t("FaceFinder"); ?>"><button class="share"><?php echo $l->t("FaceFinder"); ?></button></a>
 </span>
 </div>
+<div id="equivalent_test" class="hascontrols"></div>
 <?php
 
 $p= new OC_FaceFinder_Photo("");
