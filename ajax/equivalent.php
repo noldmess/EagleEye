@@ -9,6 +9,6 @@ foreach ($moduleclasses as $moduleclass){
   $moduleopject=new $moduleclass("");
   $moduleArray[]=$moduleopject->equivalent();
 }
-$photo=OC_Equivalent_Result::equalety($photoArray,$moduleArray);
+$photo=OC_Equivalent_Result::Ajaxequalety($photoArray,$moduleArray);
 echo json_encode($photo);
 ?>
