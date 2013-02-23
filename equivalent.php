@@ -34,6 +34,7 @@ OCP\Util::addScript('facefinder', 'photoview');
 OCP\Util::addStyle('facefinder', 'photoview');
 OCP\Util::addScript('facefinder', 'photoview');
 OCP\Util::addStyle('facefinder', 'equivalent');
+OCP\Util::addScript('facefinder', 'equivalent');
 // auslagern in modlue maneger
 OCP\Util::addScript('facefinder', 'tag');
 OCP\Util::addScript('facefinder', 'exif');
