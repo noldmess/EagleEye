@@ -147,7 +147,7 @@ $moduleArray[]=$module;
 $moduleArray[]=$K->equivalent();*/
 echo "Array".json_encode($photo)."<br>";
 $photo=OC_Equivalent_Result::equalety($photo,$moduleArray);
-
+echo "Array".json_encode($photo)."<br>";
 
 foreach($photo as $PhotoName=>$photoArray){
   $help=arsort($photoArray);
