@@ -98,7 +98,7 @@ foreach($moduleArray  as $modulIndex=>$module){
 			if(isset($photo[$modulePhotoName])){
 			      $photo[$modulePhotoName]+=array($s=>$g);
 			}else{
-			       $photo+=array($modulePhotoName=>array($s=>$g));
+			       $photo[$modulePhotoName]+=array(=>array($s=>$g));
 			}
 		    }
 }
