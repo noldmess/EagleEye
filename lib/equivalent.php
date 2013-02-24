@@ -20,7 +20,7 @@ public static function addValueKeyIdentik(&$photo,&$moduleArray,$modulIndex,$pho
 }
 public static function Ajaxequalety($photoArray,$moduleArray){
 	echo "dfdsfd";
-	$photo=self::equalety($photo,$moduleArray);
+	$photo=self::equalety($photoArray,$moduleArray);
 	echo "Array".json_encode($photo)."<br>";
 	$array=array();
 	foreach($photo as $PhotoName=>$photoArray){
