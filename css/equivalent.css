@@ -5,6 +5,13 @@
 		display: block;
 }
 
+#equivalent_test{
+		overflow: auto;
+		overflow-x: hidden;
+		text-align: justify;
+		display: block;
+}
+
 #equivalent div {}
 
 #equivalent div img{
