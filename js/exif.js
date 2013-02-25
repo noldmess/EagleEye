@@ -2,7 +2,7 @@
 
 function Exif() {
 	this.load=function(image){
-		if(!$('#tool_righte').is(":visible")){
+		if($('#tool_righte').is(":visible")){
 			$('#tool_righte').show();
 		}
 		$("#tool_righte .tool.Exif .tool_items p").remove();
