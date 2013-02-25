@@ -1,6 +1,6 @@
 function Kamera() {
 	this.load=function(image){
-		if($('#tool_righte').is(":visible")){
+		if(!$('#tool_righte').is(":visible")){
 			$('#tool_righte').show();
 		}
 		$("#tool_righte .tool.Kamera .tool_items p").remove();
