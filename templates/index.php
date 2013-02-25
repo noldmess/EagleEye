@@ -13,9 +13,8 @@
 		<div id="photo" >
 			<!-- <img id="img_img"alt="" src=""> -->
 		</div>
-		<div id="tool_taggs">
-		<div id="taggs"></div>
-		<textarea></textarea></div>
+	<div id="tool_taggs">
+		</div>
 	</div>
 	<div id="tool_righte">
 			<div class="tool Exif">
