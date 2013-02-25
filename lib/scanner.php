@@ -3,7 +3,7 @@
 
 class OC_FaceFinder_Scanner{
 	public static function scan(){
-		$dir='/';
+		$dir='';
 		$imagearray=array();
 		$imagearray=self::getdir($dir);
 
@@ -16,7 +16,7 @@ class OC_FaceFinder_Scanner{
 		$f=\OC_Files::getDirectoryContent($dir);
 		foreach ($f as $g){
 			if ($g['type'] == 'file') {
-				$imagearray[]=$dir.$g['name'];
+				$imagearray[]=$dir.'/'.$g['name'];
 			}else{
 				$imagearray=array_merge($imagearray,self::getdir($dir.$g['name']));
 			}

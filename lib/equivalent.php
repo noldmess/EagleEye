@@ -105,7 +105,7 @@ foreach($moduleArray  as $modulIndex=>$module){
 	   
 	}
 	//echo " ".json_encode($photo)."<br><br>";
-unset($moduleArray[$modulIndex]);
+//unset($moduleArray[$modulIndex]);
     }
 //echo " ".json_encode($photo)."<br><br>";
 unset($moduleArray[$modulIndex]);
