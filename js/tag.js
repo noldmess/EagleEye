@@ -121,6 +121,7 @@ Tag.key=function(e){
 };
 
 $(document).ready(function() {
+	$("#tool_taggs").append('<div id="taggs"></div><textarea></textarea></div>');
 	$("#tool_taggs textarea").keyup(function(e){
 		Tag.key(e);
 	});

@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	PhotoView.load();
 	FaceFinder.test();
-
+	$('#tool_righte').hide();
 	$('div.tool_title').click(function(){
 		if( $(this).parent().children("div.tool_items").is(":visible")){
 			$(this).parent().children("div.tool_items").slideUp(500);

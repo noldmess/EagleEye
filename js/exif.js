@@ -2,6 +2,9 @@
 
 function Exif() {
 	this.load=function(image){
+		if(!$('#tool_righte').is(":visible")){
+			$('#tool_righte').show();
+		}
 		$("#tool_righte .tool.Exif .tool_items p").remove();
 		$.getJSON(OC.linkTo('facefinder', 'ajax/EXIF.php')+'?image='+image, function(data) {
 			if(data!=null){
