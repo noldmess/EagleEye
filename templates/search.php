@@ -31,17 +31,12 @@ foreach ($seachResult as $img){
 			<!-- <img id="img_img"alt="" src=""> -->
 		</div>
 		<div id="tool_taggs">
-		<div id="taggs"></div>
-		<textarea></textarea></div>
+			
+		</div>
 	</div>
 	<div id="tool_righte">
-			<div class="tool Exif">
-				<div class="tool_title">
-					<div class="tool_ico"></div>
-					<h1>Exif</h1>
-				</div>
-				<div class="tool_items"></div>
-		</div>
+			
+	
 	<!--	<div class="tool">
 			<div class="tool_title">
 				<div class="tool_ico"></div>
@@ -74,4 +69,3 @@ foreach ($seachResult as $img){
 		</div>-->
 		</div>
 	</div>
-</div>
