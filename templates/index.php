@@ -13,24 +13,13 @@
 		<div id="photo" >
 			<!-- <img id="img_img"alt="" src=""> -->
 		</div>
-	<div id="tool_taggs">
+		<div id="tool_taggs">
+			
 		</div>
 	</div>
 	<div id="tool_righte">
-			<div class="tool Exif">
-				<div class="tool_title">
-					<div class="tool_ico"></div>
-					<h1>Exif</h1>
-				</div>
-				<div class="tool_items"></div>
-		</div>
-		<div class="tool Kamera">
-				<div class="tool_title">
-					<div class="tool_ico"></div>
-					<h1>Kamera</h1>
-				</div>
-				<div class="tool_items"></div>
-		</div>
+			
+	
 	<!--	<div class="tool">
 			<div class="tool_title">
 				<div class="tool_ico"></div>
