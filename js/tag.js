@@ -1,9 +1,9 @@
-function Tag(){
+function tag(){
 		this.load=function(image){
 			$("#taggs div").remove();
 			$("#photo div").remove();
 			$("#tool_taggs textarea").val("");
-			Tag.getTag(image);
+			tag.getTag(image);
 			$('#photo img').click(function(e){
 				  var PosX = 0;
 				  var PosY = 0;
@@ -35,16 +35,17 @@ function Tag(){
 					 if ( e.keyCode== 13){
 						 var pos=findPosition(this.parentNode);
 						 var image=$('#photoview img').attr("name");
-						 var tag=$(this).val();
+						 var tag_name=$(this).val();
 						 var x1=(pos[0]/document.getElementById("img_img").offsetWidth);
 				 		 var y1=(pos[1]/document.getElementById("img_img").offsetHeight);
 				 		 var x2=($(this).parent().width()/document.getElementById("img_img").offsetWidth);
 				 		 var y2=($(this).parent().height()/document.getElementById("img_img").offsetHeight);
-							$.getJSON(OC.linkTo('facefinder', 'ajax/inserttagposition.php')+"?image="+image+"&tag="+tag+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2, function(data) {
+							$.getJSON(OC.linkTo('facefinder', 'ajax/inserttagposition.php')+"?image="+image+"&tag="+tag_name+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2, function(data) {
 								$("#taggs div").remove();
 								$("#photo div").remove();
-								Tag.getTag(image);
+								tag.getTag(image);
 							});
+							
 							$(this).parent().append('<div class="draggable_tag">'+tag+'</div>');
 							$(this).parent().draggable({ disabled: true });
 							$(this).parent().attr('class', 'draggable_fix');
@@ -65,15 +66,16 @@ function Tag(){
 				
 				});
 		};
-}
-Tag.getTag=function(img){
+};
+
+tag.getTag=function(img){
 	$.getJSON(OC.linkTo('facefinder', 'ajax/tag.php')+'?image='+img, function(data) {
 		$.each(data,function(index_tag,data){
 			 
 			if(data.x1==0 && data.x2==0 && data.y1==0 && data.y2==0){
 			$('#taggs').append('<div class="tag"><img alt="" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'">'+data.name+' '+data.tag+"</div>");
 			$('#taggs div.tag img').click(function(){
-				Tag.removeTag(this);
+				tag.removeTag(this);
 			});
 			}else{
 				 var x=(parseFloat(data.x1)*document.getElementById("img_img").offsetWidth);
@@ -84,7 +86,7 @@ Tag.getTag=function(img){
 				 var x1=(document.getElementById("img_img").offsetLeft+x);
 				$("#photo").append('<div class="draggable_fix" style="position: absolute; top: '+y1+'px; left: '+x1+'px; width: '+x2+'px; height:'+y2+'px;"><div class="draggable_tag"><img alt="" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'">'+data.tag+'</div></input></div>');
 				$('#photo div.draggable_fix img').click(function(){
-					Tag.removeTagDiv(this);
+					tag.removeTagDiv(this);
 					 
 				});
 			}
@@ -92,29 +94,29 @@ Tag.getTag=function(img){
 	});
 };
 
-Tag.removeTag=function(tagDiv){
+tag.removeTag=function(tagDiv){
 	var image=$('#photo img').attr("name");
 	var tag=$(tagDiv).attr("name");
 	 $(tagDiv).parent().remove();
 	 $.getJSON(OC.linkTo('facefinder', 'ajax/removetag.php')+"?image="+image+"&tag="+tag, function(data) {});
 };
 
-Tag.removeTagDiv=function(tagDiv){
+tag.removeTagDiv=function(tagDiv){
 	var image=$('#photo img').attr("name");
 	var tag=$(tagDiv).attr("name");
 	 $(tagDiv).parent().parent().remove();
 	 $.getJSON(OC.linkTo('facefinder', 'ajax/removetag.php')+"?image="+image+"&tag="+tag, function(data) {});
 };
 
-Tag.key=function(e){
+tag.key=function(e){
 	if ( e.keyCode== 13){
-		var tag=$("#tool_taggs textarea").val();
+		var tag_value=$("#tool_taggs textarea").val();
 		$("#tool_taggs textarea"). val("");
 		var image=$('#photoview img').attr("name");
-		$.getJSON(OC.linkTo('facefinder', 'ajax/inserttag.php')+"?image="+image+"&tag="+tag, function(data) {
+		$.getJSON(OC.linkTo('facefinder', 'ajax/inserttag.php')+"?image="+image+"&tag="+tag_value, function(data) {
 				$("#taggs div").remove();
 				$("#photo div").remove();
-				Tag.getTag(image);
+				tag.getTag(image);
 		});
  
 	}
@@ -123,12 +125,8 @@ Tag.key=function(e){
 $(document).ready(function() {
 	$("#tool_taggs").append('<div id="taggs"></div><textarea></textarea>');
 	$("#tool_taggs textarea").keyup(function(e){
-		Tag.key(e);
+		tag.key(e);
 	});
-	
-	
-	
-
 });
 
 function getCoordinates(e){
