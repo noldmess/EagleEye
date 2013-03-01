@@ -4,22 +4,55 @@ $(document).ready(function() {
 
 		$.each(data,function(index_year,data){
 
-			$("#equivalent").append('<div class="equival"><div class="equival_value">Equal</div><a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+data.img+'" alt="'+data.img+'"></a></div>');
-			//alert(data.img);
+			$("#equivalent").append('<div class="equival"><div class="equival_value">Equal</div><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+data.img+'" alt="'+data.img+'"></div>');
 			var tmp_value=1000;
+			var help=0;
 			$.each(data.array,function(index_yeaffr,data){
-				
 				  if(tmp_value>data.value){
+					  help++;
 					  tmp_value=data.value;
-					  $("#equivalent div.equival:eq("+index_year+")").append('<div class="equival_value">'+tmp_value+'</div><div>');
+					  $("#equivalent div.equival:eq("+index_year+")").append('<div class="equival_photos"><div class="equival_value">'+tmp_value+'</div></div>');
 				  }
-			  		
-				  $("#equivalent div.equival:eq("+index_year+")").append('<a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+data.img_eq+'" alt="'+data.img_eq+'"></a>').click(function(){
-	    		 		alert("asfdsdfd");    		 	
-	    	   });
-				//alert(data.img_eq+"-"+data.value);
+				  $("#equivalent div.equival:eq("+index_year+") div.equival_photos:eq("+(help-1)+") ").append('<a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+data.img_eq+'" alt="'+data.img_eq+'"></a>');
+					  $("#equivalent div.equival:eq("+index_year+") div.equival_photos:eq("+(help-1)+") a img").click(function(){
+						  var img=this;
+						  $( "#dialog-confirm" ).attr('title', "Remove Photo"+data.img_eq);
+						  Dialog(img);
+					  });
 			});
-			$('#equivalent').removeClass('loading');
+			
 		});
+		if(data.length==0){
+			$("#equivalent").append('<div class="equival_value">NO Equal Photos</div>');
+		}
+		$('#equivalent').removeClass('loading');
 	});
 });
+
+ function Dialog(img){
+	  $( "#dialog-confirm" ).dialog({
+		  resizable: false,
+		  height:100,
+		  width: 400,
+		  modal: true,
+		  buttons: {
+			  "Delete  Photo": function() {
+				  // $.getJSON(OC.linkTo('facefinder', 'ajax/removeequivalent.php')+"?img="+data.img_eq, function(data) {}); 
+				  var div_equal=$(img).parent().parent();
+				  var equival=$(div_equal).parent();
+				if($(div_equal).find("a ").length==1){
+					$(div_equal).remove();
+				}
+				if($(equival).find("div.equival_photos").length==0){
+				 $(equival).remove();
+				}
+				
+				  $(img).parent().remove();
+				  $( this ).dialog( "close" );
+			  },
+			  Cancel: function() {
+				  $( this ).dialog( "close" );
+			  }
+		  }
+	 });
+}
