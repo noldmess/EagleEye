@@ -2,22 +2,6 @@
 class OC_Equivalent_Result{
 
 
-public static function addValueKeySwitch(&$photo,&$moduleArray,$modulIndex,$photoArrayName,$photoName){	
-  $photo[$photoName][$photoArrayName]+=$moduleArray[$modulIndex][$photoArrayName][$photoName];
-  unset($moduleArray[$modulIndex][$photoArrayName][$photoName]);
-  if(empty($moduleArray[$modulIndex][$photoArrayName])){
-	      unset($moduleArray[$modulIndex][$photoArrayName]);
-	  }
-}
-
-
-public static function addValueKeyIdentik(&$photo,&$moduleArray,$modulIndex,$photoArrayName,$photoName){
-  $photo[$photoArrayName][$photoName]+=$moduleArray[$modulIndex][$photoArrayName][$photoName];
-  unset($moduleArray[$modulIndex][$photoArrayName][$photoName]	);
-  if(empty($moduleArray[$modulIndex][$photoArrayName])){
-	      unset($moduleArray[$modulIndex][$photoArrayName]);
-	  }
-}
 public static function Ajaxequalety($photoArray,$moduleArray){
 	$photo=self::equalety($photoArray,$moduleArray);
 	$array=array();
@@ -31,94 +15,64 @@ public static function Ajaxequalety($photoArray,$moduleArray){
 	}
 		return $array;
 }
-public static function equalety($photo,$moduleArray){
-//echo "Phoro1".json_encode($photo)."<br><br>";
-//echo "Module1".json_encode($moduleArray)."<br><br>";
-    //go thru all photos in the array
-  foreach($photo as $photoName=>$photoArray){
-    //go thru all modules array go thru all modules array
-    foreach($moduleArray as $modulIndex=>$modul){
-    //go thru all photos in the equal array
-      foreach($photoArray as $photoArrayName=>$value){
-	 //chech if in the module ther is a interchanges versien 
-	if(isset($moduleArray[$modulIndex][$photoArrayName][$photoName])){
-	  self::addValueKeySwitch($photo,$moduleArray,$modulIndex,$photoArrayName,$photoName);
-	}
-      }
-     //chech if ther is a ther is a key identich whit the photo key
-     if(isset($moduleArray[$modulIndex][$photoName])){
-	  //compare the arrays and put them together
-	  foreach($moduleArray[$modulIndex][$photoName] as $modulePhotoName=>$value){
-	    if(isset($photo[$photoName][$modulePhotoName])){
-	      self::addValueKeyIdentik($photo,$moduleArray,$modulIndex,$photoName,$modulePhotoName);
-	    }elseif(isset($photo[$modulePhotoName][$photoName])){
-	      self::addValueKeyIdentik($photo,$moduleArray,$modulIndex,$photoName,$modulePhotoName);
-	    }else{	
-		$photo[$photoName]+=array($modulePhotoName=>$value);
-		unset($moduleArray[$modulIndex][$photoName][$modulePhotoName]);
-		if(empty($moduleArray[$modulIndex][$photoName])){
-		unset($moduleArray[$modulIndex][$photoName]);
-		}
-	    }
-	    }
-	}
-    }
-  }
-//echo "Phoro2".json_encode($photo)."<br><br>";
-//echo "Module2".json_encode($moduleArray)."<br><br>";
 
-foreach($moduleArray  as $modulIndex=>$module){
-    foreach($module as $modulePhotoName=>$modulePhotoArray){
-	//echo "-->$modulePhotoName<br>";
-	if(isset($photo[$modulePhotoName])){
-	  foreach($moduleArray[$modulIndex][$modulePhotoName] as $s=>$g){
-		   if(isset($photo[$s])){
-	//	      echo "dfsdfsd$s<br>";
-		      $photo[$s][$modulePhotoName]+=$g;
-		    }else{
-			
-		    }
-	     }
-	      foreach($modulePhotoArray as  $modulePhotoArrayName=>$value){
-	      if($photo[$modulePhotoName][$modulePhotoArrayName]){
-		  $photo[$modulePhotoName][$modulePhotoArrayName]+=$value;
-	      }else{
-		  $photo[$modulePhotoName]+=array($modulePhotoArrayName=>$value);
-	      }
-	   }
-	}else{	
-	    //$tmp=array_intersect_key($photo,$modulePhotoArray);
-	    
-	     foreach($moduleArray[$modulIndex][$modulePhotoName] as $s=>$g){
-		   if(isset($photo[$s])){
-	//	      echo "dfsdfsd$s<br>";
-		      $photo[$s][$modulePhotoName]+=$g;
-		    }else{
-			if(isset($photo[$modulePhotoName])){
-			      $photo[$modulePhotoName]+=array($s=>$g);
+private  static function kayNotExist(&$photo,$modulArray,$modulePhotoName){
+	foreach($modulArray as $moduleArrayPhotoName=>$value){
+		//the key does not exist so we create it
+		if(!isset($photo[$moduleArrayPhotoName])){
+			//before creating a new element check if the inverse exist
+			if(!isset($photo[$modulePhotoName])){
+				$photo+=array($modulePhotoName=>array($moduleArrayPhotoName=>$value));
 			}else{
-			       $photo+=array($modulePhotoName=>array($s=>$g));
+				$photo[$modulePhotoName]+=array($moduleArrayPhotoName=>$value);
 			}
-		    }
-}
-	    //echo $j."dsdfdsf ".json_encode($modulePhotoArray)."<br><br>";
-	   
+		}elseif(isset($photo[$moduleArrayPhotoName][$modulePhotoName])){
+			//if the combination exist add the value else create it
+			$photo[$moduleArrayPhotoName][$modulePhotoName]+=$value;
+		}else{
+			$photo[$moduleArrayPhotoName]+=array($modulePhotoName=>$value);
+		}
 	}
-	//echo " ".json_encode($photo)."<br><br>";
-//unset($moduleArray[$modulIndex]);
-    }
-//echo " ".json_encode($photo)."<br><br>";
-unset($moduleArray[$modulIndex]);
 }
-//echo "Phoro3".json_encode($photo)."<br><br>";
-//echo "Module3".json_encode($moduleArray)."<br><br>";
 
-  //echo "<br><br>dddd".json_encode($photo)."<br><br>";
-  $array=array();
- foreach($photo as $PhotoName=>$photoArray){
-	$help=arsort($photoArray);
-
+private static function kayExist(&$photo,$modulArray,$modulePhotoName){
+		foreach($modulArray as $modulePhotoArrayName=>$value){
+			//check if the photo exist in the constellation
+			if(isset($photo[$modulePhotoName][$modulePhotoArrayName])){
+				$photo[$modulePhotoName][$modulePhotoArrayName]+=$value;
+			//else check if the photo inversian constellation exist 
+			}elseif(isset($photo[$modulePhotoArrayName][$modulePhotoName])){
+				$photo[$modulePhotoArrayName][$modulePhotoName]+=$value;
+			}else{
+				//else add a new Array
+				$photo[$modulePhotoName]+=array($modulePhotoArrayName=>$value);
+			}
+		}
 }
+
+
+public static function equalety($photo,$moduleArray1){
+	//get the array out of the OC Equal object
+	$photo=$photo->getEqualArray();
+	foreach($moduleArray1 as $modul){
+		$moduleArray[]=$modul->getEqualArray();
+	}
+ //go thru all modules array go
+	foreach($moduleArray  as $modulIndex=>$module){
+		//go thru all photos in the modulearray
+	    foreach($module as $modulePhotoName=>$modulePhotoArray){
+	    	//check if the $module PhotoName is a key in the photo Array
+			if(!isset($photo[$modulePhotoName])){
+				self::kayNotExist($photo,$moduleArray[$modulIndex][$modulePhotoName],$modulePhotoName);
+			}else{
+				self::kayExist($photo,$moduleArray[$modulIndex][$modulePhotoName],$modulePhotoName);
+			}
+	    }
+	}
+	//order the photos by the value
+	foreach($photo as $PhotoName=>$photoArray){
+		$help=arsort($photoArray);
+	}
 return $photo;
 }
 
