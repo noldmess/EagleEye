@@ -144,37 +144,38 @@ class OC_FaceFinder_Photo implements OC_Module_Interface{
 		 */
 	}
 
+	/**
+	 * 
+	 * @return OC_Equal
+	 */
 	
 	public function equivalent(){
 		//hard coded value for each module and and the value of the eqaletti between 1 and 100
 		//$value=100;
 		$eq=new OC_Equal(100);
-		$stmt = OCP\DB::prepare('select * from *PREFIX*facefinder where  uid_owner like ?order by hash,date_photo');
+		$stmt = OCP\DB::prepare('select * from *PREFIX*facefinder where  uid_owner like ?order by path,hash');
 		$result=$stmt->execute(array(\OCP\USER::getUser()));
-		$hash=null;
-		$date="";
 		$array=array();
-		$path="";
-		$help=array();
+		//create  a array where the ''path' is the key and ther hasch is the value 
 		while (($row = $result->fetchRow())!= false) {
-			if($hash!=$row['hash']){
-				if($hash!=null) {
-						//$array+=array($path=>array("value"=>$value,"equival"=>$help));
-						$eq->addFileName($path);
-				}
-				$help=array();
-				$hash=$row['hash'];
-				$path=$row['path'];
-			}else{
-				$eq->addSubFileName($row['path']);
-			}
-				
+			$array+=array($row['path']=>$row['hash']);
 		}
-	//	if(count($help)>0){
-			//$array+=array($path=>array("value"=>$value,"equival"=>$help));
-			$eq->addFileName($path);
-	//	}
-		return $eq->getEqualArray();
+		//go thru the array and search the keys with equal and hashes
+		while ($hash = current($array)) {
+			$name=key($array);
+			$equal_images=array_keys($array, $hash);
+			//create the Equal obiekt
+			foreach($equal_images as $imges){
+				if($name!=$imges){
+					$eq->addSubFileName($imges);
+					unset($array[$imges]);
+				}
+			}
+			$eq->addFileName($name);
+			next($array);
+		}
+
+		return $eq;
 	}
 	
 	public function  setForingKey($key){
