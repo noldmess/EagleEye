@@ -5,6 +5,13 @@
 		display: block;
 }
 
+
+#equivalent.loading{
+		background:url("../img/loader.gif") no-repeat center center;
+		height:100%;
+		width:100%;
+}
+
 #equivalent_test{
 		overflow: auto;
 		overflow-x: hidden;
@@ -15,14 +22,14 @@
 #equivalent div {}
 
 #equivalent div img{
-margin: 5px;
+	margin: 5px;
 	box-shadow:2px 2px 2px #666;
 	-moz-box-shadow: 2px 2px 2px #666;
 	-webkit-box-shadow: 2px 2px 2px #666;
 }
 
 div.equival{
-	margin-left: 5px;
+	margin: 10px;
 	border-left: 10px solid rgb(29, 45, 68);
 	height:auto;
 	width:auto;

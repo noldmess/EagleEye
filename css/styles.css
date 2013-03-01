@@ -19,6 +19,11 @@ div.visible { opacity: 0.8;}
 
 #new_1 { position:relative;  }
 
+#new_1.loading{
+		background:url("../img/loader.gif") no-repeat center center;
+		height:100%;
+		width:100%;
+}
 
 div.year{
 	display: block;
