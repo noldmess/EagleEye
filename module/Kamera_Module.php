@@ -206,68 +206,47 @@ class Kamera_Module implements OC_Module_Interface{
 
 
 
-
-			public function equivalent(){
+			/**
+			 * The funktion compares all kamera if 100% are equal add to the OC Equal object
+			 * @return OC_Equal
+			 */
+			public  function equivalent(){
 			//get all information of a Photo from the DB
-			$stmt = OCP\DB::prepare('select path,make,model    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_kamera_photo_module as kameraphoto on (base.photo_id=kameraphoto.photo_id) inner join *PREFIX*facefinder_kamera_module as kamera on (kameraphoto.kamera_id=kamera.id) order by path,make');
+			$stmt = OCP\DB::prepare('select path,make,model  from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_kamera_photo_module as kameraphoto on (base.photo_id=kameraphoto.photo_id) inner join *PREFIX*facefinder_kamera_module as kamera on (kameraphoto.kamera_id=kamera.id) order by path,make');
 			$result=$stmt->execute();
 			$s=new OC_Equal(10);
 			$array=array();
 			$path=null;
 			//build a new  array of all information for each Photo 
 			while (($row = $result->fetchRow())!= false) {
-				if($path!=$row['path']){
-					if($path!=null) {
-						$array[]=array($path,$help);
-					}
-					$help=array();
-					$help=$help+array($row['make']=>$row['model']);
-					$path=$row['path'];
-				}else{
-					$help=$help+array($row['make']=>$row['model']);
-				}
+						$array+=array($row['path']=>array($row['make']=>$row['model']));
 			}
-			//$help=$help+array($row['make']=>$row['model']);
 				//array whit the equivalent elements  
 				$array_eq=array();
 				$name=null;
 				//check all element
 				while ($array_tag1 = current($array)) {
      			   if($name!=null ){
-				$s->addFileName($name);
+						$s->addFileName($name);
      			   }
      			   $eq=array();
-     			   $name=key($array);
-     			  // echo $name;
+     				$name=key($array);
+     			   //echo $name." ".$array_tag1[1] ."<br>";
      			   $arrays=$array;
      			   foreach($arrays as $helpNameCheach=>$array_tag2){
-     			   	//not check if it has the same name
-     			   	
-     			   //echo key($array);
      			   	if($name!=$helpNameCheach){
-     			   		//echo $helpNameCheach;
-     			   		$array_exif_elements=count($array_tag1);
-     			   		if($array_exif_elements>0){
-     			   			//return the equal elements in both arrays
-     			   			$equal_elment=array_intersect($array_tag1, $array_tag2);
-     			   			if(count($equal_elment)/$array_exif_elements>1) {
-     			   				$eq[]=$helpNameCheach;
+     			   			if($array_tag1==$array_tag2) {
      			   				$s->addSubFileName($helpNameCheach);
-     			   				//unset($array[$helpNameCheach]);
-     			   				//@todo Oprimise no dpunle
-     			   					
+     			   				unset($array[$helpNameCheach]);	
      			   			}
-     			   		}
      			   	}
      			   }
      			   
    				next($array);
 			}
-			if(count($eq)>0){
-				$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
-			}
-			$s->addFileName($helpNameCheach);
-			return $s->getEqualArray();
+			
+				$s->addFileName($name);
+			return $s;
 }
 
 			/**
@@ -358,5 +337,7 @@ class Kamera_Module implements OC_Module_Interface{
 				$appkey=OC_Appconfig::getValue('facefinder',$classname);
 				return version_compare($appkey, self::getVersion(), '<');
 		}
+		
+		
 
 	}

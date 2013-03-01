@@ -218,10 +218,12 @@ class Tag_Module implements OC_Module_Interface{
 		 * @return int Id
 		*/
 		public function getID(){}
+
+		
 		/**
-		 * To search for equivalents the function return a Array of the Ids and percent of equivalents
-		 * @return array of id and percent of equivalents
-		*/
+		 * The funktion compares all taggs if 95% are equal add to the OC Equal object
+		 * @return OC_Equal
+		 */
 		public function equivalent(){
 			//hard coded value for each module and and the value of the eqaletti between 1 and 100
 			$value=1;
@@ -268,10 +270,10 @@ class Tag_Module implements OC_Module_Interface{
      			   		if($array_exif_elements>0){
      			   			//return the equal elements in both arrays
      			   			$equal_elment=array_intersect($array_tag1, $array_tag2);
-     			   			if(count($equal_elment)/$array_exif_elements>0.95) {
+     			   			if(count($equal_elment)/$array_exif_elements==1) {
      			   				$eq[]=$helpNameCheach;
      			   				$s->addSubFileName($helpNameCheach);
-     			   				unset($array[$helpNameCheach]);
+     			   				//unset($array[$helpNameCheach]);
      			   				
      			   					
      			   			}
@@ -286,7 +288,7 @@ class Tag_Module implements OC_Module_Interface{
 			}
 			$s->addFileName($name);
 			
-			return $s->getEqualArray();
+			return $s;
 		}
 		
 		/**
