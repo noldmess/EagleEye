@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /**
 * ownCloud - gallery application
@@ -26,19 +26,10 @@
 OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('facefinder');
 OCP\App::setActiveNavigationEntry( 'facefinder' );
-OCP\Util::addStyle('facefinder', 'styles');
-OCP\Util::addScript('facefinder', 'new_1');
-OCP\Util::addScript('facefinder', 'facefinder');
-OCP\Util::addScript('facefinder', 'module');
-OCP\Util::addScript('facefinder', 'photoview');
-OCP\Util::addStyle('facefinder', 'photoview');
-OCP\Util::addScript('facefinder', 'photoview');
+
 OCP\Util::addStyle('facefinder', 'equivalent');
 OCP\Util::addScript('facefinder', 'equivalent');
-// auslagern in modlue maneger
-OCP\Util::addScript('facefinder', 'tag');
-OCP\Util::addScript('facefinder', 'exif');
-OCP\Util::addScript('facefinder', 'kamera');
+
 
 	$tmpl = new OC_Template( 'facefinder', 'equivalent', 'user' );
 	$tmpl->printPage();
