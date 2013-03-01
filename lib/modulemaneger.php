@@ -48,8 +48,8 @@ class OC_Module_Maneger {
 	 * @param the Path to the class to check $classPath
 	 */
 	public static  function checkCorrectModuleClass($classPath){
+		require_once   $classPath;
 		$classname=self::getClassName($classPath);
-			require_once   $classPath;
 		if(!class_exists($classname)){
 			/**
 			 * @todo use translation funktion
