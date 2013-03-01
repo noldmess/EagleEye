@@ -4,3 +4,5 @@
 </span>
 </div>
 <div id="equivalent" class="hascontrols "></div>
+<div id="dialog-confirm" title="">
+</div>
