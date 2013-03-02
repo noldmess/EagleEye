@@ -9,11 +9,17 @@ class TestOfKamera_modul extends PHPUnit_Framework_TestCase{
 	private $path;
 	private $id;
 	private $Kamera_Moduleclass;
-	private $user='test';
+	private $user='sss';
 
-	function setUp() {
-		
-		OC_Filesystem::init( '/' . $this->user . '/files'  );
+	function __construct() {
+		$testUser=new OC_User_Dummy();
+		$testUser->createUser ($this->user,$this->user );
+		OC_User::login ($this->user,$this->user);
+		//remove all DB tables
+		$this->removDB();
+			
+		//initial the FileSystem to use Owncloud funktions
+		OC_Filesystem::init($this->user,'/' . $this->user . '/files'  );
 		$this->path="DSC_0528.JPG";
 		$this->photoclass=new OC_FaceFinder_Photo($this->path);
 		$this->photoclass->insert();
@@ -21,7 +27,7 @@ class TestOfKamera_modul extends PHPUnit_Framework_TestCase{
 		Kamera_Module::initialiseDB();
 	}
 	
-	function tearDown(){
+	function __destruct(){
 		$this->photoclass->remove();
 	}
 	
@@ -147,6 +153,32 @@ class TestOfKamera_modul extends PHPUnit_Framework_TestCase{
 	public function removDB(){
 		OC_DB::dropTable('oc_facefinder_kamera_module');
 		OC_DB::dropTable('oc_facefinder_kamera_photo_module');
+	}
+	
+	public function testequivalent(){
+		$img1array=array("/DSC_0528.JPG","/DSC_0135.JPG");
+		asort($img1array);
+		//insert photo
+		$photoClass1=new OC_FaceFinder_Photo($img1array[0]);
+		$photoClass2=new OC_FaceFinder_Photo($img1array[1]);
+		$photoClass1->insert();
+		$photoClass2->insert();
+	
+		//ge the foreign keys
+		$id1=$photoClass1->getID();
+		$id2=$photoClass2->getID();
+		//insert exif
+		$kameraClass1=new Kamera_Module($img1array[0]);
+		$kameraClass2=new Kamera_Module($img1array[1]);
+		$kameraClass1->setForingKey($id1);
+		$kameraClass2->setForingKey($id2);
+		$kameraClass1->insert();
+		$kameraClass2->insert();
+			
+		$equalarray=$kameraClass2->equivalent()->getEqualArray();
+		$this->assertEquals($equalarray[$img1array[1]][$img1array[0]],10);
+		$photoClass1->remove();
+		$photoClass2->remove();
 	}
 
 }

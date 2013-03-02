@@ -13,13 +13,13 @@ class TestOfEXIF_modul extends PHPUnit_Framework_TestCase{
 	private $photoclass;
 	private $path;
 	private $id;
-	private $user='test';
+	private $user='sss';
 	
 		  function __construct() {
 		  	//create dummy to test 
 			$testUser=new OC_User_Dummy();
-			$testUser->createUser ("test","test" );
-			OC_User::login ("test","test" );
+			$testUser->createUser ($this->user ,$this->user );
+			OC_User::login ($this->user ,$this->user  );
 			//remove all DB tables
 			$this->removDB();
 			EXIF_Module::initialiseDB();
@@ -165,6 +165,8 @@ class TestOfEXIF_modul extends PHPUnit_Framework_TestCase{
 		
 		
 			public  function testsearchArry(){
+				
+				
 				$id=$this->photoclass->getID();
 				$this->EXIF_Moduleclass->setForingKey($id);
 				$this->EXIF_Moduleclass->insert();
@@ -175,25 +177,38 @@ class TestOfEXIF_modul extends PHPUnit_Framework_TestCase{
 			}
 			
 			public function testequivalent(){
-				$photoClass1=new OC_FaceFinder_Photo("/DSC_0317_test.jpg");
-				$photoClass2=new OC_FaceFinder_Photo("DSC_0317.jpg");
+				$img1array=array("/DSC_0317_test.jpg","/DSC_0317.jpg","/DSC_0317_test2.jpg");
+				asort($img1array);
+				//insert photo 
+				$photoClass1=new OC_FaceFinder_Photo($img1array[0]);
+				$photoClass2=new OC_FaceFinder_Photo($img1array[1]);
+				$photoClass3=new OC_FaceFinder_Photo($img1array[2]);
 				$photoClass1->insert();
 				$photoClass2->insert();
+				$photoClass3->insert();
+	
+				//ge the foreign keys
 				$id1=$photoClass1->getID();
 				$id2=$photoClass2->getID();
-				$exifClass1=new EXIF_Module("/DSC_0317_test.jpg");
-				$exifClass2=new EXIF_Module("/DSC_0317.jpg");
+				$id3=$photoClass3->getID();
+				//insert exif
+				$exifClass1=new EXIF_Module($img1array[0]);
+				$exifClass2=new EXIF_Module($img1array[1]);
+				$exifClass3=new EXIF_Module($img1array[2]);
 				$exifClass1->setForingKey($id1);
 				$exifClass2->setForingKey($id2);
+				$exifClass3->setForingKey($id3);
 				$exifClass1->insert();
 				$exifClass2->insert();
+				$exifClass3->insert();
 			
-				$equalarray=$exifClass1->equivalent();
-
-				$this->assertTrue($equalarray["/DSC_0317_test.jpg"][0]=="DSC_0317.jpg");
-				$this->assertEquals(count($equalarray["DSC_0528.JPG"]),0);
+				$equalarray=$exifClass1->equivalent()->getEqualArray();
+				
+				$this->assertEquals($equalarray[$img1array[1]][$img1array[0]],1);
+				$this->assertEquals($equalarray[$img1array[1]][$img1array[2]],1);
 				$photoClass1->remove();
 				$photoClass2->remove();
+				$photoClass3->remove();
 			}
 		
 		}

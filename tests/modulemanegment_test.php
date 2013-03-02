@@ -3,7 +3,7 @@
 //require_once(dirname(__FILE__) . '/../../../../simpletest/autorun.php');
 //require_once (dirname(__FILE__) .'/../../../lib/base.php');
 OC_App::loadApp('facefinder');
-echo dirname(_FILE__);
+
 class TestOfModuleManeger extends PHPUnit_Framework_TestCase {
 
     
@@ -16,7 +16,7 @@ class TestOfModuleManeger extends PHPUnit_Framework_TestCase {
     }
     
  function  testgetModulsOfFolder(){
-    	$arrddday=OC_Module_Maneger::getModulsOfFolder($_SERVER['DOCUMENT_ROOT']."/var/www/owncloud/apps/facefinder/tests/testmodul/");
+    	$arrddday=OC_Module_Maneger::getModulsOfFolder("/apps/facefinder/tests/testmodul/");
     	$this->assertNotNull($arrddday);
     	foreach ($arrddday as $modul){
     		$this->assertTrue(file_exists(dirname(__FILE__) ."/testmodul/".$modul.".php"));
@@ -25,22 +25,22 @@ class TestOfModuleManeger extends PHPUnit_Framework_TestCase {
     
 
     function  testcheckCorrectModuleClass(){
-    	$classname=OC_Module_Maneger::checkCorrectModuleClass("/var/www/owncloud/apps/facefinder/tests/testmodul/moduletest_interface.php");
+    	$classname=OC_Module_Maneger::checkCorrectModuleClass(dirname(__FILE__)."/testmodul/moduletest_interface.php");
     		$this->assertNotNull($classname);
     		$this->assertEquals($classname, "moduletest_interface");
-    	$classname=OC_Module_Maneger::checkCorrectModuleClass("/var/www/owncloud/apps/facefinder/tests/testmodul/moduletest_nointerface.php");
+    	$classname=OC_Module_Maneger::checkCorrectModuleClass(dirname(__FILE__)."/testmodul/moduletest_nointerface.php");
     		$this->assertNull($classname);
     		$this->assertNotEquals($classname, "moduletest_nointerface");
-    	$classname=OC_Module_Maneger::checkCorrectModuleClass("/var/www//owncloud/apps/facefinder/tests/testmodul/moduletest_notcorrektclass.php");
+    	$classname=OC_Module_Maneger::checkCorrectModuleClass(dirname(__FILE__)."/testmodul/moduletest_notcorrektclass.php");
     		$this->assertNull($classname);
     		$this->assertNotEquals($classname, "moduletest_notcorrektclass");
     }
     
     function  testCheckClass(){
-    	$classname=OC_Module_Maneger::checkCorrectModuleClass("/var/www/owncloud/apps/facefinder/tests/testmodul/moduletest_interface.php");
+    	$classname=OC_Module_Maneger::checkCorrectModuleClass(dirname(__FILE__)."/testmodul/moduletest_interface.php");
     	$test=OC_Module_Maneger::CheckClass($classname);
     	$this->assertTrue($test);
-    	$classname=OC_Module_Maneger::checkCorrectModuleClass("/var/www/owncloud/apps/facefinder/tests/testmodul/moduletest_interfacenocange.php");
+    	$classname=OC_Module_Maneger::checkCorrectModuleClass(dirname(__FILE__)."/testmodul/moduletest_interfacenocange.php");
     	$test=OC_Module_Maneger::CheckClass($classname);
     	$this->assertTrue($test);
     }

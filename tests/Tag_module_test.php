@@ -17,7 +17,7 @@ class TestOfTag_modul extends PHPUnit_Framework_TestCase{
 	private $path;
 	private $id;
 	private $Tag_Modul;
-	private $user='test';
+	private $user='sss';
 
 	function __construct() {
 		//echo $path;
@@ -25,9 +25,9 @@ class TestOfTag_modul extends PHPUnit_Framework_TestCase{
 		$this->path="DSC_0317.jpg";
 		$this->photoclass=new OC_FaceFinder_Photo($this->path);
 		$testUser=new OC_User_Dummy();
-		$testUser->createUser ("test","test" );
-		OC_User::login ("test","test" );
-		OC_Filesystem::init("test",'/' . $this->user . '/files'  );
+		$testUser->createUser ($this->user,$this->user);
+		OC_User::login ($this->user,$this->user);
+		OC_Filesystem::init($this->user,'/' . $this->user . '/files'  );
 		$this->Tag_Module=new Tag_Module($this->path);
 		
 	}
@@ -126,83 +126,58 @@ class TestOfTag_modul extends PHPUnit_Framework_TestCase{
 		}
 		
 
-		public function insert(){
-			if (\OC_Filesystem::file_exists($this->paht)) {
-				$size = getimagesize(OC_Filesystem::getLocalFile($this->paht),$info);
-				if(isset($info['APP13']))
-				{
-					$iptc = iptcparse($info['APP13']);
-					foreach ($iptc as $key => $section) {
-						foreach ($section as $name => $val){
-							$id=$this->insertTag($key,$val);
-							$this->insertTagPhoto($id);
-							OCP\Util::writeLog("facefinder",$this->paht."-".$key.$name.': '.$val,OCP\Util::ERROR);
-						}
-					}
-				}
-			}
+		
+		
+		public function testwriteTag(){
+			$paht="testPhoto_tag.jpg";
+			OC_Filesystem::copy( "testPhoto.jpg",$paht);
+			$photoClass1=new OC_FaceFinder_Photo($paht);
+			$photoClass1->insert();
+			$id=$photoClass1->getID();
+			$Tag_Module =new Tag_Module($paht);
+			$Tag_Module->setForingKey($id);
+			$Tag_Module->insert();
+			$tagid=$Tag_Module->insertTag("KEYWORDS","test");
+			$tagid2=$Tag_Module->insertTag("COUNTRY","test");
+			$Tag_Module->insertTagPhoto($tagid);
+			$Tag_Module->insertTagPhoto($tagid2);
+			$Tag_Module->writeTag();
+			$size = getimagesize(OC_Filesystem::getLocalFile($paht),$info);
+			$iptc = iptcparse($info['APP13']);
+			$this->assertEquals($iptc["2#025"][0],"test");
+			$this->assertEquals($iptc["2#101"][0],"test");
+			$photoClass1->remove();
+			OC_Filesystem::unlink( $paht);
+			$photoClass1->remove();
 		}
 		
-		
-		public function writeTag(){
-			if (\OC_Filesystem::file_exists($this->paht)) {
-				$help=$this->getTagPaht();
-				$iptc = array();
-				$i=1;
-				foreach ($help as $s){
-					$iptc=$iptc+array('2#025'.$i=>$s['tag']);
-					$i++;
-				}
-				$data = '';
-			foreach($iptc as $tag => $string){
-					OCP\Util::writeLog("facefinder","$tag $string",OCP\Util::ERROR);
-    				$tag = str_replace("2#", "", $tag);
-    				$tag = substr($tag, 0, 3);
-    				OCP\Util::writeLog("facefinder","$tag $string",OCP\Util::ERROR);
-    				$data .= $this->iptc_make_tag(2, $tag, $string);
-				}
-				$content = iptcembed($data,OC_Filesystem::getLocalFile($this->paht));
-				$fp=OC_Filesystem::fopen($this->paht,"wb");
-				if (!$fp) {
-					OCP\Util::writeLog("facefinder",OC_Filesystem:: getLocalFile("/")." sdfsdf",OCP\Util::ERROR);
-				}else{
-					fwrite($fp, $content);
-					fclose($fp);
-				}
-			}
-		}
-		
-/*
+
 		public  function testsearch(){
-				$this->photoclass=new OC_FaceFinder_Photo($this->path);
-			
-				$this->photoclass->insert();
 				$id=$this->photoclass->getID();
-				$this->Tag_Moduleclass->setForingKey($id);
-				$this->Tag_Moduleclass->insert();
-				$result=Tag_Module::search('FNumber');
-				$this->assertEquals($result[0]->text,'FNumber-f/5.6');
+				$result=Tag_Module::search('Ven');
+				$this->assertEquals(count($result),1);
+				$this->assertEquals($result[0]->text,"Venedig");
 				$this->photoclass->remove();
 			}
-		*/
 		
-		/*
+		
+		
 		
 			public  function testsearchArry(){
-				$this->photoclass=new OC_FaceFinder_Photo($this->path);
-			
 				$this->photoclass->insert();
 				$id=$this->photoclass->getID();
-				$this->Tag_Moduleclass->setForingKey($id);
-				$this->Tag_Moduleclass->insert();
-				$result=Tag_Module::searchArry('FNumber','f/5.6');
+				$this->Tag_Module->setForingKey($id);
+				$this->Tag_Module->insert();
+				$result=Tag_Module::searchArry("KEYWORDS","Venedig");
+				
 				$this->assertEquals($result[0],$this->path);
+				
 				$this->photoclass->remove();
 			}
 		
 		
 
-	*/
+	
 
 
 
@@ -210,20 +185,22 @@ class TestOfTag_modul extends PHPUnit_Framework_TestCase{
 	
 
 		public function testequivalent(){
-			$photoClass1=new OC_FaceFinder_Photo("/DSC_0317_test.jpg");
-			$photoClass2=new OC_FaceFinder_Photo("/DSC_0317.jpg");
+			$img1array=array("/DSC_0317_test.jpg","/DSC_0317.jpg");
+			asort($img1array);
+			$photoClass1=new OC_FaceFinder_Photo($img1array[0]);
+			$photoClass2=new OC_FaceFinder_Photo($img1array[1]);
 			$photoClass1->insert();
 			$photoClass2->insert();
 			$id1=$photoClass1->getID();
 			$id2=$photoClass2->getID();
-			$tagClass1=new Tag_Module("/DSC_0317_test.jpg");
-			$tagClass2=new Tag_Module("/DSC_0317.jpg");
+			$tagClass1=new Tag_Module($img1array[0]);
+			$tagClass2=new Tag_Module($img1array[1]);
 			$tagClass1->setForingKey($id1);
 			$tagClass2->setForingKey($id2);
 			$tagClass1->insert();
 			$tagClass2->insert();
-			$equalarray=$tagClass1->equivalent();		
-			$this->assertTrue($equalarray["/DSC_0317.jpg"][0]=="/DSC_0317_test.jpg");
+			$equalarray=$tagClass1->equivalent()->getEqualArray();		
+			$this->assertEquals($equalarray[$img1array[1]][$img1array[0]],0.5);
 			$photoClass1->remove();
 			$photoClass2->remove();
 		}

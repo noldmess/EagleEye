@@ -12,7 +12,7 @@ class TestOfPhoto extends PHPUnit_Framework_TestCase {
 	private $photoclass;
 	private $path;
 	private $id;
-	private $user;
+	private $user="sss";
 
 	 function  getNumnberResult($path){
 		$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `path` LIKE ?');
@@ -27,11 +27,10 @@ class TestOfPhoto extends PHPUnit_Framework_TestCase {
 	
 	function __construct() {
 		
-		$this->user="test";
 		$testUser=new OC_User_Dummy();
-		$testUser->createUser ("test","test" );
-		OC_User::login ("test","test" );
-		OC_Filesystem::init("test",'/' . $this->user . '/files'  );
+		$testUser->createUser ($this->user,$this->user );
+		OC_User::login ($this->user,$this->user );
+		OC_Filesystem::init($this->user,'/' . $this->user . '/files'  );
 		$this->path="DSC_0317.jpg";
 		$this->photoclass=new OC_FaceFinder_Photo($this->path);
 		
@@ -91,12 +90,14 @@ class TestOfPhoto extends PHPUnit_Framework_TestCase {
 	}
 		
 	public function testequivalent(){
-		$photoClass1=new OC_FaceFinder_Photo("/DSC_0317_test.jpg");
-		$photoClass2=new OC_FaceFinder_Photo("/DSC_0317.jpg");
+		$img1array=array("/DSC_0317_test.jpg","/DSC_0317.jpg");
+		asort($img1array);
+		$photoClass1=new OC_FaceFinder_Photo("$img1array[0]");
+		$photoClass2=new OC_FaceFinder_Photo("$img1array[1]");
 		$photoClass1->insert();
 		$photoClass2->insert();
 		$equalarray=$photoClass2->equivalent();
-		$this->assertTrue($equalarray["/DSC_0317.jpg"][0]=="/DSC_0317_test.jpg");
+		$this->assertEquals($equalarray[$img1array[1]][$img1array[0]],100);
 		$photoClass1->remove();
 		$photoClass2->remove();
 	}
