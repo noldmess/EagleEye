@@ -253,6 +253,7 @@ class EXIF_Module implements OC_Module_Interface{
      			   $name=key($array);
      			   $arrays=$array;
      			   foreach($arrays as $helpNameCheach=>$array_tag2){
+
      			   	//not check if it has the same name
      			   	if($name!=$helpNameCheach){
      			   		$array_exif_elements=count($array_tag1);
@@ -266,7 +267,6 @@ class EXIF_Module implements OC_Module_Interface{
      			   		}
      			   	}
      			   }
-     			   
    				next($array);
 			}
 			//if there is no equal photo we dont net photo

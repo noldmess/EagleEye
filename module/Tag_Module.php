@@ -204,8 +204,8 @@ class Tag_Module implements OC_Module_Interface{
 		 */
 		public static function searchArry($name,$tag){
 			$results=array();
-			$stmt = OCP\DB::prepare('select * from *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) inner join *PREFIX*facefinder on (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_tag_photo_module.photo_id) where`tag` like ? and `name` like ?');
-			$result=$stmt->execute(array($tag,$name));
+			$stmt = OCP\DB::prepare('select * from *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) inner join *PREFIX*facefinder on (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_tag_photo_module.photo_id) where`tag` like ? and `name` like ? and uid_owner like ?');
+			$result=$stmt->execute(array($tag,$name,\OCP\USER::getUser()));
 			while (($row = $result->fetchRow())!= false) {
 				$results[]=$row['path'];
 			}
@@ -229,8 +229,8 @@ class Tag_Module implements OC_Module_Interface{
 			$value=1;
 			$s=new OC_Equal(0.5);
 			//get all information of a Photo from the DB
-			$stmt = OCP\DB::prepare('select path,name,tag    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_tag_photo_module as tagphoto on (base.photo_id=tagphoto.photo_id) inner join *PREFIX*facefinder_tag_module as tag on (tagphoto.tag_id=tag.id) order by path,name');
-			$result=$stmt->execute();
+			$stmt = OCP\DB::prepare('select path,name,tag    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_tag_photo_module as tagphoto on (base.photo_id=tagphoto.photo_id) inner join *PREFIX*facefinder_tag_module as tag on (tagphoto.tag_id=tag.id)where uid_owner like ?   order by path,name');
+			$result=$stmt->execute(array(\OCP\USER::getUser()));
 			$array=array();
 			$path=null;
 			//build a new  array of all information for each Photo

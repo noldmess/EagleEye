@@ -212,8 +212,8 @@ class Kamera_Module implements OC_Module_Interface{
 			 */
 			public  function equivalent(){
 			//get all information of a Photo from the DB
-			$stmt = OCP\DB::prepare('select path,make,model  from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_kamera_photo_module as kameraphoto on (base.photo_id=kameraphoto.photo_id) inner join *PREFIX*facefinder_kamera_module as kamera on (kameraphoto.kamera_id=kamera.id) order by path,make');
-			$result=$stmt->execute();
+			$stmt = OCP\DB::prepare('select path,make,model  from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_kamera_photo_module as kameraphoto on (base.photo_id=kameraphoto.photo_id) inner join *PREFIX*facefinder_kamera_module as kamera on (kameraphoto.kamera_id=kamera.id) where uid_owner like ?  order by path,make');
+			$result=$stmt->execute(array(\OCP\USER::getUser()));
 			$s=new OC_Equal(10);
 			$array=array();
 			$path=null;
