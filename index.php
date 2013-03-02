@@ -43,12 +43,12 @@ foreach ($moduleclasses as $moduleclass){
 	$arrayStyle=$moduleclass::getArrayOfStyle();
 	//inport all Script files
 	foreach($arrayScript as $script){
-		OCP\Util::addScript('facefinder', $script);
+		OCP\Util::addScript('facefinder/module', $script);
 	}
 	//inport all Style  files
 	if($arrayStyle!=null){
 		foreach($arrayStyle as $style){
-			OCP\Util::addStyle('facefinder', $style);
+			OCP\Util::addStyle('facefinder/module', $style);
 		}
 	}
 }
