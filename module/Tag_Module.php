@@ -273,7 +273,7 @@ class Tag_Module implements OC_Module_Interface{
      			   			if(count($equal_elment)/$array_exif_elements==1) {
      			   				$eq[]=$helpNameCheach;
      			   				$s->addSubFileName($helpNameCheach);
-     			   				//unset($array[$helpNameCheach]);
+     			   				unset($array[$helpNameCheach]);
      			   				
      			   					
      			   			}
