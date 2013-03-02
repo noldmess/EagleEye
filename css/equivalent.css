@@ -28,6 +28,11 @@
 	-webkit-box-shadow: 2px 2px 2px #666;
 }
 
+#equivalent div img.remove{
+	opacity: 0.5;
+	background:url("../img/images.jpeg") no-repeat center center;
+}
+
 div.equival{
 	margin: 10px;
 	border-left: 10px solid rgb(29, 45, 68);
