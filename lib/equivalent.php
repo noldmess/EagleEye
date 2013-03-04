@@ -17,6 +17,8 @@ public static function Ajaxequalety($photoArray,$moduleArray){
 }
 
 private  static function kayNotExist(&$photo,$modulArray,$modulePhotoName){
+	//echo "------------->".$modulePhotoName."--".json_encode($modulArray)."\n";
+	//self::searchInPhotoArray($photo,$modulArray,$modulePhotoName);
 	foreach($modulArray as $moduleArrayPhotoName=>$value){
 		//the key does not exist so we create it
 		if(!isset($photo[$moduleArrayPhotoName])){
@@ -34,6 +36,16 @@ private  static function kayNotExist(&$photo,$modulArray,$modulePhotoName){
 		}
 	}
 }
+
+/*private static function searchInPhotoArray(&$photo,$modulArray,$modulePhotoName){
+	foreach($photo as $s=>$d){
+		foreach($d as $g=>$u)
+		$modulArray+=array($modulePhotoName=>'a');
+
+		echo json_encode($d)."\n-";
+		echo json_encode(array_intersect_key($d,$modulArray))."\n";
+	}	
+}*/
 
 private static function kayExist(&$photo,$modulArray,$modulePhotoName){
 		foreach($modulArray as $modulePhotoArrayName=>$value){
