@@ -5,52 +5,29 @@
 OC_App::loadApp('facefinder');
 //echo dirname(_FILE__);
 class TestOfScanner extends PHPUnit_Framework_TestCase {
-
+	private $user='sss';
 
 	function __construct() {
+		
 		$testUser=new OC_User_Dummy();
-		$testUser->createUser ("test","test" );
-		OC_User::login ("test","test" );
-		OC_Filesystem::init( "test",'/test/files/test'  );
+		$testUser->createUser ($this->user ,$this->user  );
+		OC_User::login ($this->user , $this->user );
+		OC_Filesystem::init( $this->user,''  );
+		
 	}
 	
 	function testScan(){
-		$this->unlinkfile();
 		$arry=OC_FaceFinder_Scanner::scan();
-
-		//$this->assertEquals(count($arry),0);
-		$this->file();
+		$this->assertEquals(count($arry),12);
+		$paht="testPhoto_tag.jpg";
+		OC_Filesystem::copy( "testPhoto.jpg",$paht);
 		$arry=OC_FaceFinder_Scanner::scan();
-		$this->assertEquals(count($arry),8);
- 		$this->unlinkfile();
+		$this->assertEquals(count($arry),13);
+		OC_Filesystem::unlink( $paht);
+		$arry=OC_FaceFinder_Scanner::scan();
+		$this->assertEquals(count($arry),12);
 	}
-	
-	function file(){
-		for($i=0;$i<10;$i++){
-		OC_Filesystem::mkdir( 'test'.$i );
-		//$this->makeJPG( 'test'.$i );
-		OC_Filesystem::mkdir( 'test'.$i.'/test'.$i);
-		$this->makeJPG( 'test'.$i.'/test'.$i );
-		}
-	}
-	
-	function  makeJPG($dir){
-		$file=OC_Filesystem::fopen( $dir."/test.jpg","w" );
-		//fopen($file,"w");
-	}
-	
 
-	function unlinkfile(){
-		for($i=0;$i<10;$i++){
-			OC_Filesystem::rmdir( 'test'.$i );
-			OC_Filesystem::rmdir( 'test'.$i.'/test'.$i);
-		}
-	}
-	
-	function  removeJPG($dir){
-		$file=OC_Filesystem::fopen( $dir."/test.jpg","w" );
-		//fopen($file,"w");
-	}
 	
 
 
