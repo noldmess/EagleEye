@@ -59,7 +59,7 @@ foreach ($moduleclasses as $moduleclass){
 foreach ($moduleclasses as $moduleclass){
 	if($moduleclass::initialiseDB()){
 		OCP\Util::writeLog("facefinder",$moduleclass."1",OCP\Util::DEBUG);
-	$phat=OC_FaceFinder_Scanner::scan("df");
+	$phat=OC_FaceFinder_Scanner::scan("");
 	foreach ($phat as $img){
 		$tmp=new OC_FaceFinder_Photo($img);
 		$id=$tmp->getID();
