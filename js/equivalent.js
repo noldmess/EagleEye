@@ -3,9 +3,9 @@ $(document).ready(function() {
 	$("button.remove").click(function(){
 		var s=$("img[checked]");
 		$.each(s,function(index_yeaffr,data){
-			  // $.getJSON(OC.linkTo('facefinder', 'ajax/removeequivalent.php')+"?img="+data.img_eq, function(data) {}); 
+			 
 			if($(data).val()==="1"){
-				
+				 $.getJSON(OC.linkTo('facefinder', 'ajax/removeequivalent.php')+"?img="+$(data).attr("alt"), function(data) {}); 
 			//alert($(data).attr("alt"));
 			 var div_equal=$(data).parent().parent();
 			  var equival=$(div_equal).parent();
