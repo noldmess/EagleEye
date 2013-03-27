@@ -20,122 +20,88 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-include_once 'moduleinterface.php';
-class OC_FaceFinder_Photo implements OC_Module_Interface{
+class OC_FaceFinder_Photo{// implements OC_Module_Interface{
 	
 	private  $paht;
 	private  static $version='0.0.1';
-	
-	private $user;
 
 	/**
 	 * 
 	 * @param Insert the $paht in the facefinder tabel in the db
 	 */
-	public  function __construct($paht) {
+	public  function __construct() {
 		$this->paht=$paht;
 	}
 	/**
 	 * Insert the Photo in the SQL Database
 	 */
-	public function insert(){
-			if(!$this->issetPhotoId()){
-				$hash=hash_file("sha256",OC_Filesystem::getLocalFile($this->paht));
-				$exifheader=self::getExitHeader($this->paht);
-				$date=self::getDateOfEXIF($exifheader);
+	public static  function insert($photo){
 				$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder` ( `uid_owner`, `path`,`hash`,`date_photo`)   VALUES (?, ?,?,?)');
-				$stmt->execute(array(\OCP\USER::getUser(),$this->paht,$hash,$date));
-			}
+				$stmt->execute(array(\OCP\USER::getUser(),$photo->getPath(),$photo->getHash(),$photo->getDate()));
 	}
-	
-		/**
-		 * The funktion extract  the exif data of an image 
-		 * @param String  $paht
-		 * @return NULL | EXIFheader
-		 */
-	public static   function getExitHeader($path){
-		if (OC_Filesystem::file_exists($path)) {
-			return exif_read_data(OC_Filesystem::getLocalFile($path),'FILE', true);
-		}else{
-			return  null;
-		}
-	}
-	
-	
-	/**
-	 * Function return date of image
-	 * @param EXIF array $exifheader
-	 * @return Date of Image If there is no "DateTimeOriginal" the "FileDateTime" will be  used
-	 */
-	public static function getDateOfEXIF($exifheader){
-		if(!is_array($exifheader)|| !isset($exifheader['FILE'])){
-			return null;
-		}
-		if(isset($exifheader['EXIF'])){
-			$date=$exifheader['EXIF']['DateTimeOriginal'];
-		}else{
-			if(isset($exifheader['FILE'])){
-				$date=date('Y:m:d H:i:s',$exifheader['FILE']['FileDateTime']);
-			}else{
-				$date=date('Y:m:d H:i:s');
-					
-			}
-		}
-		return $date;
-	}
-	
+
 	/**
 	 * @return return the primary key sql table 
 	 */
-	public function getID(){
-			$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `path` LIKE ?');
-			$result = $stmt->execute(array(\OCP\USER::getUser(), $this->paht));
-			$id=-1;
+	public static function getPhotoClass($id){ 
+			$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND photo_id = ?');
+			$result = $stmt->execute(array(\OCP\USER::getUser(), $id));
+			$class=null;
+			if($result->numRows()==1){
 				while (($row = $result->fetchRow())!= false) {
-					 $id=$row['photo_id'];
+					$class= PhotoClass::getInstanceBySQL($row['photo_id'],$row['path'],$row['hash'],$row['date_photo']); 
 				}
-				return  $id;
+			}
+				return $class;
 			}
 	
+			
+			public static function getPhotoClassDir($paht){
+				$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `path` LIKE ?');
+				$result = $stmt->execute(array(\OCP\USER::getUser(), $paht."%"));
+				OCP\Util::writeLog("facefinder",$result->numRows(),OCP\Util::ERROR);
+				$class=array();
+					while (($row = $result->fetchRow())!= false) {
+						$class[]= PhotoClass::getInstanceBySQL($row['photo_id'],$row['path'],$row['hash'],$row['date_photo']);
+						OCP\Util::writeLog("facefinder",$row['path']." ".$row['hash'],OCP\Util::ERROR);
+					}
+				return $class;
+			}
+			
+			public static function getPhotoClassPath($paht){
+				$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `path` LIKE ?');
+				$result = $stmt->execute(array(\OCP\USER::getUser(), $paht));
+				while (($row = $result->fetchRow())!= false) {
+					$class= PhotoClass::getInstanceBySQL($row['photo_id'],$row['path'],$row['hash'],$row['date_photo']);
+				}
+				return $class;
+			}
 	/**
 	 * The function check if the ExiPhoto already exist
 	 * @param int  $exif_id
 	 * @return boolean
 	 */
-	public function  issetPhotoId(){
+	public static  function  issetPhotoId($paht){
 		$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `path` LIKE ?');
-		$result = $stmt->execute(array(\OCP\USER::getUser(), $this->paht));
+		$result = $stmt->execute(array(\OCP\USER::getUser(), $paht));
 		return ($result->numRows()==1);
 	
 	}
-	
 
-	
 			/**
 			 * Temove the Photo from the SQL Database
 			 */
-	public function remove(){
-		$id=$this->getID();
-		if($id!=-1){
+	public  static function remove($photo){
 			$stmt = OCP\DB::prepare('DELETE FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `photo_id` = ?');
-			$stmt->execute(array(\OCP\USER::getUser(),$id));
-		}else{
-			/**
-			 * @todo use translation funktion
-			 */
-			OCP\Util::writeLog("facefinder","No such file".$id,OCP\Util::ERROR);
-		}
+			$stmt->execute(array(\OCP\USER::getUser(),$photo->getID()));
 	}
 	/**
 	 * Update the Photo in the SQL Database
 	 */
-	public function  update($newpaht){
-		$id=$this->getID();
-		if($id!=-1){
+	public  static function  update($photo){
+		OCP\Util::writeLog("facefinder","to update".$photo->getID()."fdsfsdf",OCP\Util::DEBUG);
 			$stmt = OCP\DB::prepare('UPDATE `*PREFIX*facefinder` SET `path` = ? WHERE `uid_owner` LIKE ? AND `photo_id` = ? ');
-			$stmt->execute(array($newpaht,\OCP\USER::getUser(),$id));
-			$this->paht=$newpaht;
-		}
+			$stmt->execute(array($photo->getPath(),\OCP\USER::getUser(),$photo->getID()));
 	}
 	
 	public static function  search($query){

@@ -1,6 +1,6 @@
 <?php
 
-//namespace OC\FaceFinder;
+
 /**
  * The class OC_Module_Maneger instal and include the module automatically
  * ownCloud - faceFinder application
@@ -26,7 +26,7 @@
 
 class OC_Module_Maneger {
 		private $ModuleClass=array();
-		
+	static	private $ModuleManeger=null;
 	/**
 	 * The Constructor Initialize all in the Module folder store Module Classes
 	 * and check the functionality and correctness
@@ -35,12 +35,21 @@ class OC_Module_Maneger {
 		/**
 		 * @todo make initialise
 		 */
-	function __construct() {
+	 private function   __construct() {
 		$this->ModuleClass=self::getModulsOfFolder("apps/facefinder/module/");
 		if(empty($this->ModuleClass)){ 
 			OCP\Util::writeLog("facefinder","No Module folder found ",OCP\Util::ERROR);
 		}
 	}
+	
+	static public function  getInstance(){
+		if(self::$ModuleManeger===null){
+			self::$ModuleManeger=new self;
+		}
+		return self::$ModuleManeger;
+	} 
+	
+	
 	
 	/**
 	 * The funktion trialled if the Class implements the 'OC_Module_Interface' interface
@@ -51,17 +60,18 @@ class OC_Module_Maneger {
 		require_once   $classPath;
 		$classname=self::getClassName($classPath);
 		if(!class_exists($classname)){
-			/**
-			 * @todo use translation funktion
-			 */
 			OCP\Util::writeLog("facefinder","Class not exist or not identik like file name:".$classname,OCP\Util::ERROR);
 			return  null;
 		}else{
 			/**
 			 *@todo public static  function checkCorrectModuleClass($classPath){
 			 */
-			$interfaceArray=class_implements($classname);//&& self::CheckClass($classPath)
+			$interfaceArray=class_parents($classname);//&& self::CheckClass($classPath)
 			if(count($interfaceArray)>=1 && $interfaceArray['OC_Module_Interface']=='OC_Module_Interface' ) {
+					$fileinfo=pathinfo($classPath);
+					$tmp=$fileinfo['filename']."Class.php";
+					OCP\Util::writeLog("facefinder",$tmp,OCP\Util::ERROR);
+					require_once $fileinfo['dirname']."/".$tmp;
 					return $classname;
 			}else{
 				OCP\Util::writeLog("facefinder","The class:".$classname." not implements the OC_Module_Interface interface",OCP\Util::ERROR);
@@ -71,24 +81,7 @@ class OC_Module_Maneger {
 		}
 		
 	}
-	/**
-	 *@todo fine correkt folder name 
-	 */
-	public  static function getCorrectFolderName(){
-		$string=$_SERVER['SCRIPT_NAME'];
-		$help=strrpos($string,"/");
-		$string=substr($string, 0, $help);
-		$tok = strtok($string, "/");
-		$tok = strtok("/");
-		$Path_tmp="";
-		$i=2;
-		while ($tok !== false) {
-			$i++;
-			$tok = strtok("/");
-			$Path_tmp.="../";
-		}
-		return $Path_tmp;
-	} 
+
 
 	
 	/**
@@ -111,12 +104,14 @@ class OC_Module_Maneger {
 					if( $fileinfo['extension']=='php'){
 						$classname=self::checkCorrectModuleClass($dir . $file);
 						if($classname!=null){
-							$modulaArray[]=$classname;
+							$modulaArray[]=array("Mapper"=>$classname,"Class"=>$fileinfo['filename']."Class");
 						}
+						
 					}
 			}
 			}
 		}
+
 		return $modulaArray;
 	}
 	
@@ -147,7 +142,7 @@ class OC_Module_Maneger {
 		$boolen=true;
 		//$s=new ;
 		if(file_exists($path.$image)){
-			if(is_readable($path) &&is_writable($path)){
+			if(is_readable($path) && is_writable($path)){
 				if(!copy($path.$image,$path.$imagecopy)){
 					OCP\Util::writeLog("facefinder","The file can not been copyet ".$modulpath,OCP\Util::ERROR);
 				}
@@ -172,6 +167,10 @@ class OC_Module_Maneger {
 			}
 		}
 		return $boolen;
+	}
+	
+	public  function isModuleClass($className){
+		return false!==array_search($className,$this->ModuleClass);
 	}
 	
 	

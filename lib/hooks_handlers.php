@@ -31,21 +31,22 @@ class OC_FaceFinder_Hooks_Handlers {
 
 		$path = $params['path'];
 		if(self::isPhoto($path)){
-		$tmp=new OC_FaceFinder_Photo($path);
-		$tmp->insert();
-		$id=$tmp->getID();
-		OCP\Util::writeLog("facefinder","<<<<<<$path",OCP\Util::DEBUG);
-		/*
-		* 	Implemetation of the module system 
-		 */
-		$writemodul=new OC_Module_Maneger();
-		$moduleclasses=$writemodul->getModuleClass();
-			foreach ($moduleclasses as $moduleclass){
-				$class=new $moduleclass($path);
-				$class->setForingKey($id);
-				$class->insert();
+		$photoOpject=PhotoClass::getInstanceByPaht($path);
+		OC_FaceFinder_Photo::insert($photoOpject);
+		$photo=OC_FaceFinder_Photo::getPhotoClassPath($path);
+		if(!is_null($photo)){
+			OCP\Util::writeLog("facefinder","<<<<<<".$path,OCP\Util::DEBUG);
+			/*
+			* 	Implemetation of the module system 
+			 */
+			$writemodul=OC_Module_Maneger::getInstance();
+			$moduleclasses=$writemodul->getModuleClass();
+				foreach ($moduleclasses as $moduleclass){
+					$class=$moduleclass['Class']::getInstanceByPath($path,$photo->getID());
+					$moduleclass['Mapper']::insert($class);
+				}
 			}
-		}	
+		}
 	}
 	/**
 	 * The function is used in case of the delete of a file
@@ -53,13 +54,28 @@ class OC_FaceFinder_Hooks_Handlers {
 	 * @param  $params
 	 */
 	public static function delete($params){
-			$path = $params['path'];
+		$path = $params['path'];
 		if($path!=''&& self::isPhoto($path)){
-		OCP\Util::writeLog("facefinder","to delite".$path,OCP\Util::DEBUG);
-		$tmp=new OC_FaceFinder_Photo($path);
-		$tmp->remove();
+			OCP\Util::writeLog("facefinder","to delite".$path,OCP\Util::ERROR);
+			$photo=OC_FaceFinder_Photo::getPhotoClass($path);
+			if(!is_null($photo)){
+				OC_FaceFinder_Photo::remove($photo);
+			}
+		}else{
+			OCP\Util::writeLog("facefinder1a",$path,OCP\Util::ERROR);
+			$photoarray=OC_FaceFinder_Photo::getPhotoClassDir($path);
+			foreach($photoarray as $photo){
+				OCP\Util::writeLog("facefinder2",$photo->getID(),OCP\Util::ERROR);
+				if(!is_null($photo)){
+					OC_FaceFinder_Photo::remove($photo);
+				}
+			}
+			OCP\Util::writeLog("facefinder2",$path,OCP\Util::ERROR);
 		}
 	}
+	
+
+	
 	
 	/**
 	 * The function is used in case of the update of a file
@@ -67,12 +83,15 @@ class OC_FaceFinder_Hooks_Handlers {
 	 * @param  $params
 	 */
 	public static function update($params){
-			$path = $params['oldpath'];
+		$path = $params['oldpath'];
 		$newpath = $params['newpath'];
 		if($path!='' && $newpath!='' && self::isPhoto($path) && self::isPhoto($newpath)){
 			OCP\Util::writeLog("facefinder","to update".$path,OCP\Util::DEBUG);
-			$tmp=new OC_FaceFinder_Photo($path);
-			$tmp->update($newpath);
+			$photo=OC_FaceFinder_Photo::getPhotoClass($path);
+			if(!is_null($photo)){
+				$photo->setPath($newpath);
+				OC_FaceFinder_Photo::update($photo);
+			}
 		}
 	}
 	/**

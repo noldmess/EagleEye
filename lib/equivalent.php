@@ -17,7 +17,6 @@ public static function Ajaxequalety($photoArray,$moduleArray){
 }
 
 private  static function kayNotExist(&$photo,$modulArray,$modulePhotoName){
-	//echo "------------->".$modulePhotoName."--".json_encode($modulArray)."\n";
 	//self::searchInPhotoArray($photo,$modulArray,$modulePhotoName);
 	foreach($modulArray as $moduleArrayPhotoName=>$value){
 		//the key does not exist so we create it

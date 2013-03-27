@@ -23,10 +23,10 @@
 class OC_Search_Provider_FaceFinder extends  OC_Search_Provider{
 function search($query) {
 	$searchResultarray=array();
-	$Initialisemodul=new OC_Module_Maneger();
+	$Initialisemodul=OC_Module_Maneger::getInstance();
 	$moduleclasses=$Initialisemodul->getModuleClass();
 	foreach ($moduleclasses as $moduleclass){
-		$searchResultarray=array_merge($searchResultarray,$moduleclass::search($query));
+		$searchResultarray=array_merge($searchResultarray,$moduleclass['Mapper']::search($query));
 		}
 		return $searchResultarray;
 	}
