@@ -35,12 +35,12 @@ OCP\Util::addStyle('facefinder', 'photoview');
 
 
 //Initialise the moduls
-$Initialisemodul=new OC_Module_Maneger();
+$Initialisemodul= OC_Module_Maneger::getInstance();
 $moduleclasses=$Initialisemodul->getModuleClass();
 //inport all Style and Script files
 foreach ($moduleclasses as $moduleclass){
-	$arrayScript=$moduleclass::getArrayOfScript();
-	$arrayStyle=$moduleclass::getArrayOfStyle();
+	$arrayScript=$moduleclass['Mapper']::getArrayOfScript();
+	$arrayStyle=$moduleclass['Mapper']::getArrayOfStyle();
 	//inport all Script files
 	foreach($arrayScript as $script){
 		OCP\Util::addScript('facefinder/module', $script);
@@ -52,25 +52,22 @@ foreach ($moduleclasses as $moduleclass){
 		}
 	}
 }
-/**
- * @todo hier scanner
-*/
+$pathArray=OC_FaceFinder_Scanner::scan("");
+foreach ($pathArray as $path)
+	if(!OC_FaceFinder_Photo::issetPhotoId($path)){
+		$photoOpject=PhotoClass::getInstanceByPaht($path);
+		OC_FaceFinder_Photo::insert($photoOpject);
+		$photo=OC_FaceFinder_Photo::getPhotoClass($path);
+		foreach ($moduleclasses as $moduleclass){
+					if(!is_null($photo)){
+						$class=$moduleclass['Class']::getInstanceByPath($path,$photo->getID());
+						$moduleclass['Mapper']::insert($class);
+						OCP\Util::writeLog("facefinder",$moduleclass."->".$img." ".$id,OCP\Util::DEBUG);
+					}
+				}
+		
+			}
 
-foreach ($moduleclasses as $moduleclass){
-	if($moduleclass::initialiseDB()){
-		OCP\Util::writeLog("facefinder",$moduleclass."1",OCP\Util::DEBUG);
-	$phat=OC_FaceFinder_Scanner::scan("");
-	foreach ($phat as $img){
-		$tmp=new OC_FaceFinder_Photo($img);
-		$id=$tmp->getID();
-		$class=new $moduleclass($img);
-		$class->setForingKey($id);
-		$class->insert();
-		OCP\Util::writeLog("facefinder",$moduleclass."->".$img." ".$id,OCP\Util::DEBUG);
-	}
-
-	}
-}
 
 if(isset($_GET['search'])){
 	OCP\Util::addStyle('facefinder', 'search');
