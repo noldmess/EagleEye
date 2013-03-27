@@ -34,7 +34,7 @@ function tag(){
 					 
 					 if ( e.keyCode== 13){
 						 var pos=findPosition(this.parentNode);
-						 var image=$('#photoview img').attr("name");
+						 var image=$('#photoview img').attr("alt");
 						 var tag_name=$(this).val();
 						 var x1=(pos[0]/document.getElementById("img_img").offsetWidth);
 				 		 var y1=(pos[1]/document.getElementById("img_img").offsetHeight);
@@ -114,7 +114,7 @@ tag.key=function(e){
 	if ( e.keyCode== 13){
 		var tag_value=$("#tool_taggs textarea").val();
 		$("#tool_taggs textarea"). val("");
-		var image=$('#photoview img').attr("name");
+		var image=$('#photoview img').attr("alt");
 		$.getJSON(OC.linkTo('facefinder', 'ajax/inserttag.php')+"?image="+image+"&tag="+tag_value, function(data) {
 				$("#taggs div").remove();
 				$("#photo div").remove();
