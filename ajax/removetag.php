@@ -1,16 +1,21 @@
 <?php
 
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 OCP\JSON::checkAppEnabled('facefinder');
-$writemodul=new OC_Module_Maneger();
-$moduleclasses=$writemodul->getModuleClass();
-$tmp=new OC_FaceFinder_Photo($_GET['image']);
-echo $id=$tmp->getID();
-$tag_module =new Tag_Module($_GET['image']);
-$name = strtok($_GET['tag'], " ");
-$tag = strtok(" ");
-$tagid=$tag_module->getTagId($name,$tag);
-$tag_module->setForingKey($id);
-$tag_module->removeTagPhoto($tagid);
-$tag_module->writeTag();
+$id=(int)$_GET['image'];
+if($id>0){
+	$writemodul=OC_Module_Maneger::getInstance();
+	$moduleclasses=$writemodul->getModuleClass();
+	$photo=OC_FaceFinder_Photo::getPhotoClass($id);
+	$class=Tag_Module::getClass($photo->getID());
+	$tag_module =new Tag_Module($id);
+	$name = strtok($_GET['tag'], " ");
+	$tag = strtok(" ");
+	$tagid=$tag_module->getTagId($name,$tag);
+	$tag_module->removeTagPhoto($tagid,$class);
+	$tag_module->writeTag();
+}else{
+	OCP\JSON::error(array("message"=>"get image must be an intager"));
+}
 ?>

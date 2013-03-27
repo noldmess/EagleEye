@@ -2,7 +2,7 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('facefinder');
 $photo= new OC_FaceFinder_Photo("");
-$Initialisemodul=new OC_Module_Maneger();
+$Initialisemodul==OC_Module_Maneger::getInstance();
 $moduleclasses=$Initialisemodul->getModuleClass();
 $photoArray=$photo->equivalent();
 foreach ($moduleclasses as $moduleclass){
@@ -10,5 +10,5 @@ foreach ($moduleclasses as $moduleclass){
   $moduleArray[]=$moduleopject->equivalent();
 }
 $photo=OC_Equivalent_Result::Ajaxequalety($photoArray,$moduleArray);
-echo json_encode($photo);
+echo OCP\JSON::success($photo);
 ?>

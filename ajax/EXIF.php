@@ -1,11 +1,14 @@
 <?php
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 OCP\JSON::checkAppEnabled('facefinder');
-$writemodul=new OC_Module_Maneger();
-$moduleclasses=$writemodul->getModuleClass();
-$tmp=new OC_FaceFinder_Photo($_GET['image']);
-$id=$tmp->getID();
-$exif=new EXIF_Module($_GET['image']);
-$exif->setForingKey($id);
-echo json_encode($exif->getExif());
+$id=(int)$_GET['image'];
+if($id>0){
+	$writemodul =OC_Module_Maneger::getInstance();//$image=$file = str_replace(array('/', '\\'), '',  $_GET['file']);
+	$photo=OC_FaceFinder_Photo::getPhotoClass($_GET['image']);
+	$class=EXIF_Module::getClass($photo->getID());
+	echo OCP\JSON::success(array('data'=>$class->getJSON()));
+}else{
+	OCP\JSON::error(array("message"=>"get image must be an intager"));
+}
 ?>

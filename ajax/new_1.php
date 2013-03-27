@@ -25,11 +25,11 @@ while (($rowyear = $resultyear->fetchRow())!= false) {
 				$day=0;
 				$images=array();
 				$rows=false;
-				$stmta = \OCP\DB::prepare('SELECT  Day(date_photo) as day,path FROM`*PREFIX*facefinder`Where uid_owner LIKE ? AND YEAR(date_photo) = ? AND MONTH(date_photo) = ? order by date_photo ASC');
+				$stmta = \OCP\DB::prepare('SELECT  Day(date_photo) as day,path,photo_id FROM`*PREFIX*facefinder`Where uid_owner LIKE ? AND YEAR(date_photo) = ? AND MONTH(date_photo) = ? order by date_photo ASC');
 				$resultday = $stmta->execute(array(\OCP\USER::getUser(),$rowyear['year'],$rowmonth['month']));
 				while (($rowday = $resultday->fetchRow())!= false) {
 						if($day==$rowday['day']){
-							$images[]=array("imagstmp"=>$rowday['path'],"imagsname"=>$rowday['path']);
+							$images[]=array("imagsid"=>$rowday['photo_id'],"imagsname"=>$rowday['path']);
 							//echo "->".$rowday['day']." ".$rowday['path']."<br>";
 						}else{
 							//echo json_encode($images);
@@ -38,7 +38,7 @@ while (($rowyear = $resultyear->fetchRow())!= false) {
 							//echo json_encode(array('day'=>$day,"imags"=>$images));
 							$images=array();
 							$day=$rowday['day'];
-							$images[]=array("imagstmp"=>$rowday['path'],"imagsname"=>$rowday['path']);
+							$images[]=array("imagsid"=>$rowday['photo_id'],"imagsname"=>$rowday['path']);
 						}
 						
 					//}
@@ -54,5 +54,5 @@ while (($rowyear = $resultyear->fetchRow())!= false) {
 		$yeararray[]=array('year'=>$rowyear['year'],"month"=>$montharray);
 		
 }
-echo json_encode($yeararray);
+echo OCP\JSON::success(array('data'=>$yeararray));
 ?>

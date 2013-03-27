@@ -2,14 +2,14 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('facefinder');
 $scriptArray=array();
-$Initialisemodul=new OC_Module_Maneger();
+$Initialisemodul=OC_Module_Maneger::getInstance();
 $moduleclasses=$Initialisemodul->getModuleClass();
 
 foreach ($moduleclasses as $moduleclass){
-	$arrayScript=$moduleclass::getArrayOfScript();
+	$arrayScript=$moduleclass['Mapper']::getArrayOfScript();
 	foreach($arrayScript as $script){
 		$scriptArray[]=$script;
 	}
 }
-echo json_encode($scriptArray);
+echo OCP\JSON::success(array('data'=>$scriptArray));
 ?>
