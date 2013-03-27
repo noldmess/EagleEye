@@ -26,7 +26,10 @@
 //
 //$l = OC_L10N::get('gallery');
 //OC::$CLASSPATH['OC_Share_Backend_Photo'] = 'gallery/lib/share.php';
+//test 
+//OCP\Util::addscript( 'facefinder', 'test' );
 OC::$CLASSPATH['OC_Module_Maneger'] = 'facefinder/lib/modulemaneger.php';
+OC::$CLASSPATH['PhotoClass'] = 'facefinder/lib/photoclass.php';
 OC::$CLASSPATH['OC_Module_Interface'] = 'facefinder/lib/moduleinterface.php';
 OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'facefinder/lib/hooks_handlers.php';
 OC::$CLASSPATH['OC_FaceFinder_Photo'] = 'facefinder/lib/photo.php';
@@ -36,6 +39,7 @@ OC::$CLASSPATH['OC_FaceFinder_Scanner'] = 'facefinder/lib/scanner.php';
 OC::$CLASSPATH['OC_Equivalent_Result'] = 'facefinder/lib/equivalent.php';
 OC::$CLASSPATH['OC_Equal'] = 'facefinder/lib/equivalent.php';
 //$l = OC_L10N::get('facefinder');
+
 //new OC_Module_Maneger();
 OCP\App::addNavigationEntry( array(
  'id' => 'facefinder',

@@ -2,11 +2,11 @@
 
 $currentVersion=OC_Appconfig::getValue('facefinder', 'installed_version');
 if (version_compare($currentVersion, '0.0.1', '>')) {
-	$Initialisemodul=new OC_Module_Maneger();
+	$Initialisemodul=OC_Module_Maneger::getInstance();
 	$moduleclasses=$Initialisemodul->getModuleClass();
 	//remove alle modue Tables from DB
 	foreach ($moduleclasses as $moduleclass){
-		$moduleclass::removeDBtabels();
+		$moduleclass['Mapper']::removeDBtabels();
 	}
 	$stmt = OCP\DB::prepare('DROP TABLE  IF EXISTS `*PREFIX*facefinder`');
 	$stmt->execute();
@@ -14,20 +14,11 @@ if (version_compare($currentVersion, '0.0.1', '>')) {
 	\OC_DB::createDbFromStructure(OC_App::getAppPath($appid).'/appinfo/database.xml');
 	//Create alle modue Tables from DB
 	foreach ($moduleclasses as $moduleclass){
-		$moduleclass::initialiseDB();
+		echo $moduleclass['Mapper'];
+		$moduleclass['Mapper']::initialiseDB();
 	}
 	
-	$phat=OC_FaceFinder_Scanner::scan("");
-			foreach ($phat as $img){
-				$tmp=new OC_FaceFinder_Photo($img);
-				$tmp->insert();
-				$id=$tmp->getID();
-				foreach ($moduleclasses as $moduleclass){
-					$class=new $moduleclass($img);
-					$class->setForingKey($id);
-					$class->insert();
-				}
-			}
+
 	 
 }
 
