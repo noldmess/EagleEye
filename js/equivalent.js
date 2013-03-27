@@ -5,8 +5,8 @@ $(document).ready(function() {
 		$.each(s,function(index_yeaffr,data){
 			 
 			if($(data).val()==="1"){
+				
 				 $.getJSON(OC.linkTo('facefinder', 'ajax/removeequivalent.php')+"?img="+$(data).attr("alt"), function(data) {}); 
-			//alert($(data).attr("alt"));
 			 var div_equal=$(data).parent().parent();
 			  var equival=$(div_equal).parent();
 			if($(div_equal).find("a ").length==1){
@@ -17,7 +17,6 @@ $(document).ready(function() {
 			}
 			
 			$(data).parent().remove();
-			//  $( this ).dialog( "close" );
 			}
 		});
 		});
