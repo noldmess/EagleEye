@@ -133,7 +133,7 @@ class EXIF_Module extends OC_Module_Interface{
 			 */
 		}
 	
-		public function  update($newpaht){
+		public static function  update($newpaht){
 			/**
 			 * @todo
 			 */
@@ -268,7 +268,6 @@ class EXIF_Module extends OC_Module_Interface{
 		 */
 		public  static function createDBtabels($classname){
 			self::removeDBtabels();
-			
 			OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/'.self::$classname.'.xml');
 			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_exif_photo_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
 			$stmt->execute();

@@ -21,7 +21,7 @@ class Kamera_ModuleClass{
 		$class->setID($id);
 		$class->setForingkey($foringkey);
 		return $class;
-	}
+		
 	
 	public static function getInstanceByPath($path,$foringkey){
 		$class=new self();

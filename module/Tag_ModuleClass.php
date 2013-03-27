@@ -9,15 +9,12 @@ class Tag_ModuleClass{
 	}
 	
 	function  getJSON(){
-		$tagarray=array();
-		foreach ($this->tagarray as $key=>$value)
-			$tagarray[]=array('name'=>$key,"tag"=>$value);
-		return $tagarray;
+		return $this->tagArray;
 	}
 	
 	public static function getInstanceBySQL($id,$tagarray,$foringkey){
 		$class=new self();
-		$class->getTagArray($tagarray);
+		$class->setTagArray($tagarray);
 		//OCP\Util::writeLog("facefinder",json_encode($exitheader),OCP\Util::ERROR);
 		$class->setID($id);
 		$class->setForingkey($foringkey);
@@ -30,7 +27,7 @@ class Tag_ModuleClass{
 			getimagesize(OC_Filesystem::getLocalFile($path),$info);
 			if(isset($info['APP13'])){
 				$iptc = iptcparse($info['APP13']);
-				$class->getTagArray($iptc);
+				$class->setTagArray($iptc);
 			}
 		}
 		$class->setForingkey($foringkey);
@@ -62,8 +59,49 @@ class Tag_ModuleClass{
 		$this->foringkey=$foringkey;
 	}
 	
+	public function addTag($key,$tag,$x1=0,$x2=0,$y1=0,$y2=0){
+		$this->tagArray[]=array("name"=>self::IPTCCodeToString($key),"tag"=>$tag,"x1"=>$x1,"x2"=>$x2,"y1"=>$y1,"y2"=>$y2);
+	}
 	
 	
+	public function writeTag($paht){
+		if (\OC_Filesystem::file_exists($paht)) {
+			$help=$this->getTagArray();
+			$iptc = array();
+			$i=1;
+			foreach ($help as $s){
+				$iptc=$iptc+array("2#".self::StringToIPTCCode($s['name']).$i=>$s['tag']);
+				$i++;
+			}
+			$data = '';
+			foreach($iptc as $tag => $string){
+				$tag = str_replace("2#", "", $tag);
+				$tag = substr($tag, 0, 3);
+				$data .= $this->iptc_make_tag(2, $tag, $string);
+			}
+			$content = iptcembed($data,OC_Filesystem::getLocalFile($paht));
+			$fp=OC_Filesystem::fopen($paht,"wb");
+			if (!$fp) {
+				OCP\Util::writeLog("facefinder",OC_Filesystem:: getLocalFile("/")." sdfsdf",OCP\Util::ERROR);
+			}else{
+				fwrite($fp, $content);
+				fclose($fp);
+			}
+		}
+	}
+	
+	private function iptc_make_tag($rec, $data, $value)
+	{
+		$length = strlen($value);
+		$retval = chr(0x1C) . chr($rec) . chr($data);
+		if($length < 0x8000){
+			$retval .= chr($length >> 8) .  chr($length & 0xFF);
+		}
+		else{
+			$retval .= chr(0x80).chr(0x04).chr(($length >> 24) & 0xFF).chr(($length >> 16) & 0xFF) . chr(($length >> 8) & 0xFF).chr($length & 0xFF);
+		}
+		return $retval . $value;
+	}
 	
 
 	public static  function IPTCCodeToString($ipct){

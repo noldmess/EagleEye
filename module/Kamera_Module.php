@@ -27,8 +27,7 @@ class Kamera_Module extends OC_Module_Interface{
 	
 
 	
-	public  function __construct($path) {
-		$this->paht=$path;
+	public  function __construct() {
 	}
 
 	public static function getVersion(){
@@ -161,7 +160,7 @@ class Kamera_Module extends OC_Module_Interface{
 		 */
 	}
 
-	public function  update($newpaht){
+	public static function  update($newpaht){
 		/**
 		 * @todo
 		 */
@@ -248,7 +247,6 @@ class Kamera_Module extends OC_Module_Interface{
 		 * @param String of $classname
 		 */
 		 public  static function createDBtabels($classname){
-		 	
 			self::removeDBtabels();
 			OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/'.$classname.'.xml');
 			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_kamera_photo_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
@@ -267,6 +265,26 @@ class Kamera_Module extends OC_Module_Interface{
 				$stmt = OCP\DB::prepare('DROP TABLE IF EXISTS`*PREFIX*facefinder_kamera_module`');
 				$stmt->execute();
 			}
+			
+			public static  function  initialiseDB(){
+				//check if module is already installed
+				if(OC_Appconfig::hasKey('facefinder',self::$classname)){
+					//check if the module is in the correct version and all Tables exist
+					if (self::checkVersion() || !self::AllTableExist()){
+						//create all tables and update version number
+						self::createDBtabels(self::$classname);
+						OC_Appconfig::setValue('facefinder',self::$classname,self::getVersion());
+						return true;
+					}else{
+						return false;
+					}
+				}else{
+					//create all tables and update version number
+					self::createDBtabels(self::$classname);
+					OC_Appconfig::setValue('facefinder',self::$classname,self::getVersion());
+					return true;
+				}
+			}
 
 			
 			public static function getArrayOfStyle(){
@@ -284,7 +302,7 @@ class Kamera_Module extends OC_Module_Interface{
 		   * @return boolean
 		   */
 		   public static function AllTableExist(){
-			   $stmt = OCP\DB::prepare('SHOW TABLES LIKE \'*PREFIX*facefinder_kamera_photo_module\'');
+			  $stmt = OCP\DB::prepare('SHOW TABLES LIKE \'*PREFIX*facefinder_kamera_photo_module\'');
 			   $result=$stmt->execute();
 			   $table_kamera=($result->numRows()==1);
 			   
