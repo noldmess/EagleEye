@@ -1,10 +1,9 @@
 <?php
-class Tag_Module implements OC_Module_Interface{
+
+class Tag_Module extends OC_Module_Interface{
 	
 	private static $classname='Tag_Module';
 	private  static $version='0.2.5';
-	private $ForingKey=null;
-	private $lang=null;
 		/**
 		 * for the construction of the class you need the path
 		 * @param unknown_type $paht
@@ -19,13 +18,12 @@ class Tag_Module implements OC_Module_Interface{
 		 * @param String $tag
 		 * @return id  |NULL 
 		 */
-		public function  getTagId($key,$tag){
+		public static  function  getTagId($key,$tag){
 			$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_module` WHERE `name` LIKE ? AND `tag` LIKE ?');
 			$result=$stmt->execute(array($key,$tag));
 			while (($row = $result->fetchRow())!= false) {
-				return$row['id'];
+				return $row['id'];
 			}
-
 			return null;
 		}
 		/**
@@ -56,31 +54,24 @@ class Tag_Module implements OC_Module_Interface{
 		
 		
 		}
-		
-		/**
-		 * To issier create a table insert tis funktion nead the foreign key for the table
-		 * @param int $key
-		 */
-		public function  setForingKey($key){
-			$this->ForingKey=$key;
-		}
-		
+
 		/**
 		 * Insert kay and tag in the DB and return the id of the new element 
 		 * @param String $key
 		 * @param String $tag
 		 * @return id
 		 */
-		public function insertTag($key,$tag){
+		public static  function insertTag($key,$tag){
+				$this->lang =new OC_l10n('facefinder');
 				//convert IPTC Code to a string  
-				$key=$this->IPTCCodeToString($key);
+				$key=Tag_ModuleClass::IPTCCodeToString($key);
 				//language change 
 				$key=($this->lang->t($key));
-				$tag_id=$this->getTagId($key,$tag);
+				$tag_id=self::getTagId($key,$tag);
 				if($tag_id==null){
 					$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_tag_module` ( `name`, `tag`) VALUES ( ?, ?)');
 					$result=$stmt->execute(array($key,$tag));
-					$tag_id=$this->getTagId($key,$tag);
+					$tag_id=self::etTagId($key,$tag);
 				}
 			return  $tag_id;
 			
@@ -97,18 +88,11 @@ class Tag_Module implements OC_Module_Interface{
 		/**
 		 * Insert the data in the module DB
 		*/
-		public function insert(){
-			//check if the file exist
-			if (\OC_Filesystem::file_exists($this->paht)) {
-				getimagesize(OC_Filesystem::getLocalFile($this->paht),$info);
-				if(isset($info['APP13'])){
-					$iptc = iptcparse($info['APP13']);
-					foreach ($iptc as $key => $section) {
-						foreach ($section as $name => $val){
-							$id=$this->insertTag($key,$val);
-							$this->insertTagPhoto($id);
-						}
-					}
+		public  function insert($class){
+			foreach ($class->getTagArray as $key => $section) {
+				foreach ($section as $name => $val){
+					$id=self::insertTag($key,$val);
+					self:insertTagPhoto($id);
 				}
 			}
 		}
@@ -123,6 +107,19 @@ class Tag_Module implements OC_Module_Interface{
 			return $tagarray;
 		}
 		
+		
+		public static function getClass($foringkey){
+			$stmt = \OCP\DB::prepare('select * from oc_facefinder as base  inner join oc_facefinder_exif_photo_module as exifphoto on (base.photo_id=exifphoto.photo_id) inner join oc_facefinder_exif_module as exif on (exifphoto.exif_id=exif.id) where exifphoto.photo_id=?');
+			$result = $stmt->execute(array($foringkey));
+			$tagarray=array();
+			while (($row = $result->fetchRow())!= false) {
+				$tagarray+=array($row['name']=>$row['valued']);
+			}
+			//OCP\Util::writeLog("facefinder",json_encode($tagarray),OCP\Util::ERROR);
+			$class=EXIF_ModuleClass::getInstanceBySQL(1,$tagarray,$foringkey);
+				
+			return $class;
+		}
 		
 		/**@todo refachter 
 		 * Write the tags from the DB in the IPTC header of the image 
@@ -250,7 +247,6 @@ class Tag_Module implements OC_Module_Interface{
 			//array whit the equivalent elements;
 			$array_eq=array();
 			$name=null;
-			//echo json_encode($array);
 			while ($array_tag1 = current($array)) {
      			   if($name!=null){
 						$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
@@ -349,7 +345,7 @@ class Tag_Module implements OC_Module_Interface{
 			return ($table_exif && $table_kamera);
 		}
 	
-		private static function createDBtabels($classname){
+		public  static function createDBtabels($classname){
 			self::removeDBtabels();
 			OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/'.$classname.'.xml');
 			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_tag_photo_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
@@ -379,88 +375,6 @@ class Tag_Module implements OC_Module_Interface{
 			return array("tag");
 		}
 		
-		
-		public static  function IPTCCodeToString($ipct){
-			$ipct_tmp = substr($ipct, 2);
-			switch($ipct_tmp){
-				case '005':return 'OBJECT_NAME';
-				case '007':return 'EDIT_STATUS';
-				case '010':return 'PRIORITY';
-				case '015':return 'CATEGORY';
-				case '020':return 'SUPPLEMENTAL_CATEGORY';
-				case '022':return 'FIXTURE_IDENTIFIER';
-				case '025':return 'KEYWORDS';
-				case '030':return 'RELEASE_DATE';
-				case '035':return 'RELEASE_TIME';
-				case '040':return 'SPECIAL_INSTRUCTIONS';
-				case '045':return 'REFERENCE_SERVICE';
-				case '047':return 'REFERENCE_DATE';
-				case '050':return 'REFERENCE_NUMBER';
-				case '055':return 'CREATED_DATE';
-				case '060':return 'RELEASE_TIME';
-				case '062':return 'DigitalCreationDate';
-				case '063':return 'DigitalCreationTime';
-				case '065':return 'ORIGINATING_PROGRAM';
-				case '070':return 'PROGRAM_VERSION';
-				case '075':return 'OBJECT_CYCLE';
-				case '080':return 'BYLINE';
-				case '085':return 'BYLINE_TITLE';
-				case '090':return 'CITY';
-				case '095':return 'PROVINCE_STATE';
-				case '100':return 'COUNTRY_CODE';
-				case '101':return 'COUNTRY';
-				case '103':return 'ORIGINAL_TRANSMISSION_REFERENCE';
-				case '105':return 'HEADLINE';
-				case '110':return 'CREDIT';
-				case '115':return 'SOURCE';
-				case '116':return 'COPYRIGHT_STRING';
-				case '120':return 'CAPTION';
-				case '121':return 'LOCAL_CAPTION';
-				default:return $ipct;
-			}
-		}
-		/**
-		 * @ todo
-		 * @param unknown_type $ipct
-		 * @return string|unknown
-		 */
-		public static  function StringToIPTCCode($ipct){
-			switch($ipct){
-				case 'OBJECT_NAME':return '005';
-				case 'EDIT_STATUS':return '007';
-				case 'PRIORITY':return '010';
-				case 'CATEGORY':return '015';
-				case 'SUPPLEMENTAL_CATEGORY':return '020';
-				case 'FIXTURE_IDENTIFIER':return 'FIXTURE_IDENTIFIER';
-				case 'KEYWORDS':return '025';
-				case 'RELEASE_DATE030':return '030';
-				case 'RELEASE_TIME':return '035';
-				case 'SPECIAL_INSTRUCTIONS':return '040';
-				case 'REFERENCE_SERVICE':return '045';
-				case 'REFERENCE_DATE':return '047';
-				case 'REFERENCE_NUMBER':return '050';
-				case 'CREATED_DATE':return '055';
-				case 'RELEASE_TIME':return '060';
-				case 'DigitalCreationDate':return '062';
-				case 'DigitalCreationTime':return '063';
-				case 'ORIGINATING_PROGRAM':return '065';
-				case 'PROGRAM_VERSION':return '070';
-				case 'OBJECT_CYCLE':return '075';
-				case 'BYLINE':return '080';
-				case 'BYLINE_TITLE':return '085';
-				case 'CITY':return '090';
-				case 'PROVINCE_STATE':return '095';
-				case 'COUNTRY_CODE':return '100';
-				case 'COUNTRY':return '101';
-				case 'ORIGINAL_TRANSMISSION_REFERENCE':return '103';
-				case 'HEADLINE':return '105';
-				case 'CREDIT':return '110';
-				case 'SOURCE':return '115';
-				case 'COPYRIGHT_STRING':return '116';
-				case 'CAPTION':return '120';
-				case 'LOCAL_CAPTION':return '121';
-				default:return $ipct;
-			}
-		}
+
 		
 }

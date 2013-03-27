@@ -70,27 +70,29 @@ function tag(){
 
 tag.getTag=function(img){
 	$.getJSON(OC.linkTo('facefinder', 'ajax/tag.php')+'?image='+img, function(data) {
-		$.each(data,function(index_tag,data){
-			 
-			if(data.x1==0 && data.x2==0 && data.y1==0 && data.y2==0){
-			$('#taggs').append('<div class="tag"><img alt="" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'">'+data.name+' '+data.tag+"</div>");
-			$('#taggs div.tag img').click(function(){
-				tag.removeTag(this);
-			});
-			}else{
-				 var x=(parseFloat(data.x1)*document.getElementById("img_img").offsetWidth);
-		 		 var y=(parseFloat(data.y1)*document.getElementById("img_img").offsetHeight);
-		 		 var x2=(parseFloat(data.x2)*document.getElementById("img_img").offsetWidth);
-		 		 var y2=(parseFloat(data.y2)*document.getElementById("img_img").offsetHeight);
-				 var y1=(document.getElementById("img_img").offsetTop+y);
-				 var x1=(document.getElementById("img_img").offsetLeft+x);
-				$("#photo").append('<div class="draggable_fix" style="position: absolute; top: '+y1+'px; left: '+x1+'px; width: '+x2+'px; height:'+y2+'px;"><div class="draggable_tag"><img alt="" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'">'+data.tag+'</div></input></div>');
-				$('#photo div.draggable_fix img').click(function(){
-					tag.removeTagDiv(this);
-					 
+		if (data.status == 'success'){
+			$.each(data.data,function(index_tag,data){
+				 
+				if(data.x1==0 && data.x2==0 && data.y1==0 && data.y2==0){
+				$('#taggs').append('<div class="tag"><img alt="" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'">'+data.name+' '+data.tag+"</div>");
+				$('#taggs div.tag img').click(function(){
+					tag.removeTag(this);
 				});
-			}
-		});
+				}else{
+					 var x=(parseFloat(data.x1)*document.getElementById("img_img").offsetWidth);
+			 		 var y=(parseFloat(data.y1)*document.getElementById("img_img").offsetHeight);
+			 		 var x2=(parseFloat(data.x2)*document.getElementById("img_img").offsetWidth);
+			 		 var y2=(parseFloat(data.y2)*document.getElementById("img_img").offsetHeight);
+					 var y1=(document.getElementById("img_img").offsetTop+y);
+					 var x1=(document.getElementById("img_img").offsetLeft+x);
+					$("#photo").append('<div class="draggable_fix" style="position: absolute; top: '+y1+'px; left: '+x1+'px; width: '+x2+'px; height:'+y2+'px;"><div class="draggable_tag"><img alt="" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'">'+data.tag+'</div></input></div>');
+					$('#photo div.draggable_fix img').click(function(){
+						tag.removeTagDiv(this);
+						 
+					});
+				}
+			});
+	}
 	});
 };
 

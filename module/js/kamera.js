@@ -5,8 +5,9 @@ function kamera() {
 		}
 		$("#tool_righte .tool.Kamera .tool_items p").remove();
 		$.getJSON(OC.linkTo('facefinder', 'ajax/kamera.php')+'?image='+image, function(data) {
-			if(data!=null){
-				$("#tool_righte .tool.Kamera .tool_items").append('<p>'+data.make+':'+data.model+'</p>');
+			if (data.status == 'success'){
+				if (data.data!=null)
+				$("#tool_righte .tool.Kamera .tool_items").append('<p>'+data.data.make+':'+data.data.model+'</p>');
 			}
 		});
 	};

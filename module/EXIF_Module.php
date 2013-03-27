@@ -21,29 +21,21 @@
  *
  */
 
-class EXIF_Module implements OC_Module_Interface{
+class EXIF_Module extends OC_Module_Interface{
 	
-		private  $paht;
 		private static $classname="EXIF_Module";
 		private  static $version='0.4.5';
-		private $ForingKey=null;
-		private $exif;
-		private $lang=null;
-		public  function __construct($path) {
-			$this->lang =new OC_l10n('facefinder');
-			$this->paht=$path;
+		public  function __construct() {
+			
 		}
 		
-		public static function getVersion(){
-			return self::$version;
-		}
 		/**
 		 * The Funktion returne the id or NULL if ther is no result 
 		 * @param String $name
 		 * @param String $valued
 		 * @return ID|NULL
 		 */
-		public function  getExifId($key,$valued){
+		public static  function  getExifId($key,$valued){
 			$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_exif_module` WHERE `name` LIKE ? AND `valued` LIKE ?');
 			$result=$stmt->execute(array($key,$valued));
 			while (($row = $result->fetchRow())!= false) {
@@ -60,19 +52,20 @@ class EXIF_Module implements OC_Module_Interface{
 		 * @param String $valued
 		 * @return Ambigous <ID, NULL>
 		 */
-		public function insertExif($name,$valued){
+		public static function insertExif($name,$valued){
+			$lang =new OC_l10n('facefinder');
 			//Translate the Name
-			$name=($this->lang->t($name));
+			$name=($lang->t($name));
 			//return a value that is easier to read
-			$valued=$this->getFormat($name,$valued);
+			$valued=EXIF_ModuleClass::getFormat($name,$valued);
 			//check if name and the value is already inserted
-			$exif_id=$this->getExifId($name,$valued);
+			$exif_id=self::getExifId($name,$valued);
 			if($exif_id!=null){
 				return  $exif_id;
 			}else{
 				$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_exif_module` ( `name`, `valued`) VALUES ( ?, ?)');
 				$result=$stmt->execute(array($name,$valued));
-				$exif_id=$this->getExifId($name,$valued);
+				$exif_id=self::getExifId($name,$valued);
 				//insert the name and the value in the DB
 				if($exif_id!=null)
 					return  $exif_id;
@@ -85,9 +78,9 @@ class EXIF_Module implements OC_Module_Interface{
 		 * @param int  $exif_id
 		 * @return boolean
 		 */
-		public function  issetExiPhotoId($exif_id){
+		public static function  issetExiPhotoId($exif_id,$class){
 			$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_exif_photo_module` WHERE `photo_id`  = ? and `exif_id` = ?');
-			$result=$stmt->execute(array($this->ForingKey,$exif_id));
+			$result=$stmt->execute(array($class->getForingkey(),$exif_id));
 			//check if the result is a single row
 			return ($result->numRows()==1);
 				
@@ -98,12 +91,12 @@ class EXIF_Module implements OC_Module_Interface{
 		 * The function insert the ExifPhoto in the DB 
 		 * @param unknown_type $id
 		 */
-		public function insertExifPhoto($id){
+		public static  function insertExifPhoto($id,$class){
 			if($id!=null){
 				//check if id is NULL if NULL nothing to insert
-				if(!$this->issetExiPhotoId($id)){
+				if(!self::issetExiPhotoId($id,$class)){
 					$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_exif_photo_module` (`photo_id`, `exif_id`) VALUES ( ?, ?);');
-					$result=$stmt->execute(array($this->ForingKey,$id));
+					$result=$stmt->execute(array($class->getForingkey(),$id));
 				}
 			}
 		}
@@ -115,16 +108,13 @@ class EXIF_Module implements OC_Module_Interface{
 		 * Insert the exif data in the EXIF module Table in the DB
 		 * @return null if no exif
 		 */
-		public function insert(){
-			$exifheader=self::getExitHeader($this->paht);
-			//if the exif not isset  there is nothing to insert
-				if(isset($exifheader["EXIF"])){
-					foreach ($exifheader["EXIF"] as  $key => $section){
-							$exif_id=$this->insertExif($key,$section);
+		public function insert($class){
+					foreach ($class->getExitHeader() as  $key => $section){
+							$exif_id=self::insertExif($key,$section);
 							//@todo optimise multi insert
-							$this->insertExifPhoto($exif_id);
+							self::insertExifPhoto($exif_id,$class);
 					}
-				}
+				
 		}
 	
 		/**
@@ -135,19 +125,7 @@ class EXIF_Module implements OC_Module_Interface{
 			 * @todo
 			 */
 		}
-		/**
-		 * the funktion extract  the exif data of an image 
-		 * @param Path to the image $paht
-		 * @return EXIF array or NULL if no EXIF header
-		 */
-		public static   function getExitHeader($path){
-			  if (OC_Filesystem::file_exists($path)) {
-				return exif_read_data(OC_Filesystem::getLocalFile($path),'FILE', true);
-			}else{
-				return  null;
-			}
-		}
-		
+
 	
 		public function remove(){
 				/**
@@ -163,14 +141,17 @@ class EXIF_Module implements OC_Module_Interface{
 		}
 		
 		
-		public function getExif(){
+		public static function getClass($foringkey){
 			$stmt = \OCP\DB::prepare('select * from oc_facefinder as base  inner join oc_facefinder_exif_photo_module as exifphoto on (base.photo_id=exifphoto.photo_id) inner join oc_facefinder_exif_module as exif on (exifphoto.exif_id=exif.id) where exifphoto.photo_id=?');
-			$result = $stmt->execute(array($this->ForingKey));
+			$result = $stmt->execute(array($foringkey));
 			$tagarray=array();
 			while (($row = $result->fetchRow())!= false) {
-				$tagarray[]=array('name'=>$row['name'],"tag"=>$row['valued']);
+				$tagarray+=array($row['name']=>$row['valued']);
 			}
-			return $tagarray;
+			//OCP\Util::writeLog("facefinder",json_encode($tagarray),OCP\Util::ERROR);
+			$class=EXIF_ModuleClass::getInstanceBySQL(1,$tagarray,$foringkey);
+			
+			return $class;
 		}
 		
 
@@ -285,7 +266,7 @@ class EXIF_Module implements OC_Module_Interface{
 		 * Help Funktioen to create  module DB Tables
 		 * @param String of $classname
 		 */
-		private static function createDBtabels($classname){
+		public  static function createDBtabels($classname){
 			self::removeDBtabels();
 			
 			OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/'.self::$classname.'.xml');
@@ -363,174 +344,6 @@ class EXIF_Module implements OC_Module_Interface{
 		}
 		
 		
-		public static function getFormat($name,$value){
-			$return=0;
-			switch ($name){
-				case 'ISOSpeedRatings':
-					$return=$value." ISO";
-					break;
-		
-				case 'Flash':
-					$return= self::getFlash($value);
-					break;
-						
-				case 'FNumber':
-					$return="f/".self::divi($value);
-					break;
-						
-				case 'WhiteBalance':
-					$return=self::getWhiteBalance($value)." White Balance";
-					break;
-						
-				case 'FocalLength':
-					$return=self::divi($value)." mm";
-					break;
-						
-				case 'FocalLengthIn35mmFilm':
-					$return=$value." mm(35mm)";
-					break;
-		
-				case 'ExposureTime':
-					$return=self::getExposureTime($value);
-					break;
-		
-				case 'WhiteBalance':
-					$return=self::getWhiteBalance($value).": White Balance";
-					break;
-						
-				default:
-					$return=$value;
-					break;
-						
-			}
-			return $return;
-		}
-		
-		public static function divi($value){
-			$first_token  = strtok($value, '/');
-			$second_token = strtok('/');
-			return $first_token/$second_token;
-		}
-		
-		public static function getExposureTime($value){
-			$first_token  = strtok($value, '/');
-			$second_token = strtok('/');
-			if ($first_token > $second_token) {
-				return $first_token."s";
-			}else{
-				return ($first_token/10).'/'.($second_token/10)."s";
-			}
-		}
-		
-		
-		public static function getFlash($value){
-			//http://bueltge.de/exif-daten-mit-php-aus-bildern-auslesen/486/
-			switch($value) {
-				case 0:
-					$fbexif_flash = 'Flash did not fire';
-					break;
-				case 1:
-					$fbexif_flash = 'Flash fired';
-					break;
-				case 5:
-					$fbexif_flash = 'Strobe return light not detected';
-					break;
-				case 7:
-					$fbexif_flash = 'Strobe return light detected';
-					break;
-				case 9:
-					$fbexif_flash = 'Flash fired, compulsory flash mode';
-					break;
-				case 13:
-					$fbexif_flash = 'Flash fired, compulsory flash mode, return light not detected';
-					break;
-				case 15:
-					$fbexif_flash = 'Flash fired, compulsory flash mode, return light detected';
-					break;
-				case 16:
-					$fbexif_flash = 'Flash did not fire, compulsory flash mode';
-					break;
-				case 24:
-					$fbexif_flash = 'Flash did not fire, auto mode';
-					break;
-				case 25:
-					$fbexif_flash = 'Flash fired, auto mode';
-					break;
-				case 29:
-					$fbexif_flash = 'Flash fired, auto mode, return light not detected';
-					break;
-				case 31:
-					$fbexif_flash = 'Flash fired, auto mode, return light detected';
-					break;
-				case 32:
-					$fbexif_flash = 'No flash function';
-					break;
-				case 65:
-					$fbexif_flash = 'Flash fired, red-eye reduction mode';
-					break;
-				case 69:
-					$fbexif_flash = 'Flash fired, red-eye reduction mode, return light not detected';
-					break;
-				case 71:
-					$fbexif_flash = 'Flash fired, red-eye reduction mode, return light detected';
-					break;
-				case 73:
-					$fbexif_flash = 'Flash fired, compulsory flash mode, red-eye reduction mode';
-					break;
-				case 77:
-					$fbexif_flash = 'Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected';
-					break;
-				case 79:
-					$fbexif_flash = 'Flash fired, compulsory flash mode, red-eye reduction mode, return light detected';
-					break;
-				case 89:
-					$fbexif_flash = 'Flash fired, auto mode, red-eye reduction mode';
-					break;
-				case 93:
-					$fbexif_flash = 'Flash fired, auto mode, return light not detected, red-eye reduction mode';
-					break;
-				case 95:
-					$fbexif_flash = 'Flash fired, auto mode, return light detected, red-eye reduction mode';
-					break;
-				default:
-					$fbexif_flash = '';
-					break;
-			}
-			return $fbexif_flash;
-		}
-		
-		public static function getWhiteBalance($value){
-			switch($value) {
-				case 0:
-					$fbwhitebalance = "Auto";
-					break;
-				case 1:
-					$fbwhitebalance = "Daylight";
-					break;
-				case 2:
-					$fbwhitebalance = "Fluorescent";
-					break;
-				case 3:
-					$fbwhitebalance = "Incandescent";
-					break;
-				case 4:
-					$fbwhitebalance = "Flash";
-					break;
-				case 9:
-					$fbwhitebalance = "Fine Weather";
-					break;
-				case 10:
-					$fbwhitebalance = "Cloudy";
-					break;
-				case 11:
-					$fbwhitebalance = "Shade";
-					break;
-				default:
-					$fbwhitebalance = '';
-					break;
-			}
-			return $fbwhitebalance;
-		}
 		
 		
 	}

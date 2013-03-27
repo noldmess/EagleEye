@@ -20,13 +20,12 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
-class Kamera_Module implements OC_Module_Interface{
+class Kamera_Module extends OC_Module_Interface{
 
 	private  static $version='0.0.2';
 	private static $classname="Kamera_Module";
 	
-	private  $paht;
-	private $ForingKey=null;
+
 	
 	public  function __construct($path) {
 		$this->paht=$path;
@@ -41,9 +40,9 @@ class Kamera_Module implements OC_Module_Interface{
 	 * @param int  $kamera_id
 	 * @return boolean 
 	 */
-	public function  issetKameraPhotoId($kamera_id){
+	public static function  issetKameraPhotoId($kamera_id,$class){
 		$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_kamera_photo_module` WHERE `photo_id`  = ? and  `kamera_id` = ?');
-		$result=$stmt->execute(array($this->ForingKey,$kamera_id));
+		$result=$stmt->execute(array($class->getForingkey(),$kamera_id));
 		return ($result->numRows()==1);
 		
 	}
@@ -52,11 +51,11 @@ class Kamera_Module implements OC_Module_Interface{
 	 * The function insert  KameraPhoto in the DB
 	 * @param id  $id
 	 */
-	public function insertKameraPhoto($id){
-		if(!$this->issetKameraPhotoId($id)){
+	public static function insertKameraPhoto($id,$class){
+		if(!self::issetKameraPhotoId($id,$class)){
 			if($id!=null){
 				$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_kamera_photo_module` (`photo_id`, `kamera_id`) VALUES ( ?, ?);');
-				$result=$stmt->execute(array($this->ForingKey,$id));
+				$result=$stmt->execute(array($class->getForingkey(),$id));
 			}
 		}
 
@@ -68,19 +67,11 @@ class Kamera_Module implements OC_Module_Interface{
 	/**
 	 * Insert the exif data in the EXIF module Table in the DB
 	 */
-	public function insert(){
-		//get the Exif Header 
-		$exifheader=self::getExitHeader($this->paht);
-		if ($exifheader!=null) {
-			// get the Camera make and model
-			$kamera=$this->getKamera($exifheader);
-			//insert Camera make and model in the DB
-			$kamera_id=$this->insertKamera($kamera[0],$kamera[1]);
-			//insert KameraPhoto in the DB
-			$this->insertKameraPhoto($kamera_id);
+	public  function insert($class){
+			$kamera_id=self::insertKamera($class->getMark(),$class->getModel());
+			self::insertKameraPhoto($kamera_id,$class);
 		}
-	}
-
+	
 	/**
 	 * @return return the primary key sql table
 	 */
@@ -89,6 +80,17 @@ class Kamera_Module implements OC_Module_Interface{
 		 * @todo
 		 */
 	}
+	
+	public static function getClass($foringkey){
+		$stmt = \OCP\DB::prepare('select * from oc_facefinder as base  inner join oc_facefinder_kamera_photo_module as kameraphoto on (base.photo_id=kameraphoto.photo_id) inner join oc_facefinder_kamera_module as kamera on (kameraphoto.kamera_id=kamera.id) where kameraphoto.photo_id=?');
+		$result = $stmt->execute(array($foringkey));
+		$tagarray=array();
+		while (($row = $result->fetchRow())!= false) {
+			$class=Kamera_ModuleClass::getInstanceBySQL(1,$row['model'],$row['make'],$foringkey);
+		}
+		return $class;
+	}
+	
 	/**
 	 * The funktion extract  the exif data of an image
 	 * @param Path to the image $paht
@@ -117,21 +119,13 @@ class Kamera_Module implements OC_Module_Interface{
 		return null;
 	}
 	
-	public  static function getKamera($exifheader){
-		$kamera=array();
-		if(isset($exifheader["IFD0"]["Make"]) && isset($exifheader["IFD0"]["Model"])){
-			$kamera=array($exifheader["IFD0"]["Make"],$exifheader["IFD0"]["Model"]);
-		}else{
-			$kamera=null;
-		}
-		return $kamera;
-	}
+
 	/**
 	 *
 	 * @param unknown_type $kamera
 	 * @return $is|NULL
 	 */
-	public function  getKameraId($make, $model){
+	public static function  getKameraId($make, $model){
 		$stmt = OCP\DB::prepare('SELECT *FROM `*PREFIX*facefinder_kamera_module` WHERE  `make` LIKE ? AND `model` LIKE ?');
 		$result=$stmt->execute(array($make, $model));
 		while (($row = $result->fetchRow())!= false) {
@@ -146,14 +140,14 @@ class Kamera_Module implements OC_Module_Interface{
 	 * @param String $model name
 	 * @return Ambigous <$is, NULL, unknown>|NULL
 	 */
-	public function insertKamera($make, $model){
+	public static function insertKamera($make, $model){
 			//checks if the camera  and the model is already inserted in the DB and returns the id
-			$kamera_id=$this->getKameraId($make, $model);
+			$kamera_id=self::getKameraId($make, $model);
 			if($kamera_id==null){
 				if($make!=null && $model!=null){
 					$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_kamera_module` ( `make`, `model`) VALUES (?,?)');
 					$result=$stmt->execute(array($make, $model));
-					$kamera_id=$this->getKameraId($make, $model);
+					$kamera_id=self::getKameraId($make, $model);
 				}
 			}
 		return $kamera_id;
@@ -250,17 +244,10 @@ class Kamera_Module implements OC_Module_Interface{
 }
 
 			/**
-		 * Uset to set the ForingKey for the module tables
-		 * @param ForingKey
-		 */
-		 public function  setForingKey($key){
-			$this->ForingKey=$key;
-			}
-			/**
 		 * Help Funktioen to create  module DB Tables
 		 * @param String of $classname
 		 */
-		 private static function createDBtabels($classname){
+		 public  static function createDBtabels($classname){
 		 	
 			self::removeDBtabels();
 			OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/'.$classname.'.xml');
@@ -291,31 +278,6 @@ class Kamera_Module implements OC_Module_Interface{
 				return array("kamera");
 			}
 
-			/**
-		 * Create the DB of the Module the if the module hase an new Version numper
-		  */
-			public static  function  initialiseDB(){
-					OCP\Util::writeLog("facefinder","Kamera_Module 2",OCP\Util::DEBUG);
-			  $classname="Kamera_Module";
-				if(OC_Appconfig::hasKey('facefinder',$classname)){
-					 if (self::checkVersion() || !self::AllTableExist()){
-			  			OCP\Util::writeLog("facefinder","need update",OCP\Util::DEBUG);
-			  			OC_Appconfig::setValue('facefinder',$classname,self::getVersion());
-			  			self::createDBtabels($classname);
-			  			return true;
-			  		}else{
-						return false;
-					}
-				}else{
-						/**
-					 * @todo
-					 	*/
-					 	OCP\Util::writeLog("facefinder","not jet used ".self::getVersion(),OCP\Util::INFO);
-					 	OC_Appconfig::setValue('facefinder',$classname,self::getVersion());
-					 	self::createDBtabels($classname);
-					 	return true;
-				}
-			}
 
 		  /**
 		   * check if all tables for module exist
@@ -332,11 +294,6 @@ class Kamera_Module implements OC_Module_Interface{
 				return ($table_kamera_photo && $table_kamera);
 			}
 
-			public static function checkVersion(){
-				$classname="Kamera_Module";
-				$appkey=OC_Appconfig::getValue('facefinder',$classname);
-				return version_compare($appkey, self::getVersion(), '<');
-		}
 		
 		
 
