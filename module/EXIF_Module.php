@@ -164,7 +164,7 @@ class EXIF_Module extends OC_Module_Interface{
 		public static function search($query){
 			$results=array();
 			//search over value  and  name 
-			$stmt = OCP\DB::prepare('select * From   *PREFIX*facefinder_exif_module inner join  *PREFIX*facefinder_exif_photo_module on(*PREFIX*facefinder_exif_module.id=*PREFIX*facefinder_exif_photo_module.exif_id) inner join *PREFIX*facefinder on  (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_exif_photo_module.photo_id)  where (valued  like ? or name like ?) and uid_owner like ? ');
+			$stmt = OCP\DB::prepare('select name,valued From   *PREFIX*facefinder_exif_module inner join  *PREFIX*facefinder_exif_photo_module on(*PREFIX*facefinder_exif_module.id=*PREFIX*facefinder_exif_photo_module.exif_id) inner join *PREFIX*facefinder on  (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_exif_photo_module.photo_id)  where (valued  like ? or name like ?) and uid_owner like ? GROUP BY valued');
 			$result=$stmt->execute(array($query."%",$query."%",\OCP\USER::getUser()));
 			while (($row = $result->fetchRow())!= false) {
 				//create a link for the search 

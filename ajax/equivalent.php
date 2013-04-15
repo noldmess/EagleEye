@@ -12,3 +12,4 @@ foreach ($moduleclasses as $moduleclass){
 $photo=OC_Equivalent_Result::Ajaxequalety($photoArray,$moduleArray);
 echo OCP\JSON::success($photo);
 ?>
+lo

@@ -170,7 +170,12 @@ class OC_Module_Maneger {
 	}
 	
 	public  function isModuleClass($className){
-		return false!==array_search($className,$this->ModuleClass);
+		foreach ($this->getModuleClass() as $class){
+			if($class['Mapper']===$className){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	

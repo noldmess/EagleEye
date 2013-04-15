@@ -159,7 +159,7 @@ class Tag_Module extends OC_Module_Interface{
 		public static function search($query){
 			$classname="Tag_Module";
 			$results=array();
-			$stmt = OCP\DB::prepare('select DISTINCT`tag`,name From   *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) where tag like ? or name like ?');
+			$stmt = OCP\DB::prepare('select tag,name From   *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) where tag like ? or name like ? GROUP BY name');
 			$result=$stmt->execute(array($query."%",$query."%"));
 			while (($row = $result->fetchRow())!= false) {
 				$link = OCP\Util::linkTo('facefinder', 'index.php').'?search='.$classname.'&name='.urlencode($row['name']).'&tag='.$row['tag'];

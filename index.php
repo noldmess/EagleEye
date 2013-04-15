@@ -53,7 +53,11 @@ foreach ($moduleclasses as $moduleclass){
 	}
 }
 $pathArray=OC_FaceFinder_Scanner::scan("");
-foreach ($pathArray as $path)
+foreach ($moduleclasses as $moduleclass){
+		$class=$moduleclass['Mapper']::initialiseDB();//($path,$photo->getID());
+}
+	
+foreach ($pathArray as $path){
 	if(!OC_FaceFinder_Photo::issetPhotoId($path)){
 		$photoOpject=PhotoClass::getInstanceByPaht($path);
 		OC_FaceFinder_Photo::insert($photoOpject);
@@ -67,7 +71,7 @@ foreach ($pathArray as $path)
 				}
 		
 			}
-
+}
 
 if(isset($_GET['search'])){
 	OCP\Util::addStyle('facefinder', 'search');

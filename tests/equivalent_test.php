@@ -51,7 +51,6 @@ class OC_Equivalent_Result_test extends PHPUnit_Framework_TestCase{
 		$img_module6->addSubFileName("img2");
 		$img_module6->addFileName("img10");
 		//$img_module6=array("img10"=>array("img2"=>1,"img3"=>1,"img5"=>1));
-		//echo json_encode($img1)."\n";
 		$result=OC_Equivalent_Result::equalety($img1,array($img_module0,$img_module1,$img_module2,$img_module3,$img_module4,$img_module5,$img_module6));
 		$this->assertEquals($result["img1"],array("img2"=>300,"img3"=>100,"img4"=>100));
 		$this->assertEquals($result["img3"],array("img5"=>110,"img2"=>100,"img10"=>200));

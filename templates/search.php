@@ -1,12 +1,19 @@
 
 <?php
 if(isset($_GET['search'])&&isset($_GET['tag'])&&(isset($_GET['name']))){
-	$seachResult=$_GET['search']::searchArry($_GET['name'],$_GET['tag']);
-	$result=count($seachResult);
-	$searchbool=true;
-}else{
-	$searchbool=false;
+	$Initialisemodul=OC_Module_Maneger::getInstance();
+	if($Initialisemodul->isModuleClass($_GET['search'])){
+		//$tag=htmlspecialchars(str_replace(array('/', '\\'), '',  $_GET['tag']));
+		
+		//$name=htmlspecialchars(str_replace(array('/', '\\'), '',  ));
+		$seachResult=$_GET['search']::searchArry($_GET['name'],$_GET['tag']);
+		$result=count($seachResult);
+		$searchbool=true;
+	}
 }
+//lse{
+//	$searchbool=false;
+//}
 ?>
 <div id="controls" >
 	<span class="right">

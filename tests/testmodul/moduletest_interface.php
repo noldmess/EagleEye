@@ -34,4 +34,6 @@ class moduletest_interface implements OC_Module_Interface{
 	public static function initialiseDB(){}
 	public static function AllTableExist(){}
 	public static function  removeDBtabels(){}
+	public static function getArrayOfStyle(){}
+	public static function getArrayOfScript(){}
 }

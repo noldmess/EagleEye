@@ -27,4 +27,6 @@ class moduletest_nointerface {
 	 * Create the DB of the Module the if the module hase an new Version numper
 	 */
 	public static function initialiseDB(){}
+	public static function getArrayOfStyle(){}
+	public static function getArrayOfScript(){}
 }
