@@ -1,5 +1,7 @@
 <?php
-class OC_Equivalent_Result{
+
+namespace OCA\FaceFinder;
+class EquivalentResult{
 
 
 public static function Ajaxequalety($photoArray,$moduleArray){
@@ -89,7 +91,7 @@ return $photo;
 
 
 }
-
+namespace OCA\FaceFinder;
 class OC_Equal{
   private $array;
   private $value;

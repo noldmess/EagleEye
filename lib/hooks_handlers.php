@@ -1,4 +1,5 @@
 <?php
+namespace OCA\FaceFinder;
 /**
 * ownCloud - facefinder
 *
@@ -19,8 +20,8 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
-
-class OC_FaceFinder_Hooks_Handlers {
+use OCP;
+class HooksHandlers {
 
 	/**
 	 * The function is used in case of the upladet of a file
@@ -32,14 +33,14 @@ class OC_FaceFinder_Hooks_Handlers {
 		$path = $params['path'];
 		if(self::isPhoto($path)){
 		$photoOpject=PhotoClass::getInstanceByPaht($path);
-		OC_FaceFinder_Photo::insert($photoOpject);
-		$photo=OC_FaceFinder_Photo::getPhotoClassPath($path);
+		FaceFinderPhoto::insert($photoOpject);
+		$photo=FaceFinderPhoto::getPhotoClassPath($path);
 		if(!is_null($photo)){
 			OCP\Util::writeLog("facefinder","<<<<<<".$path,OCP\Util::DEBUG);
 			/*
 			* 	Implemetation of the module system 
 			 */
-			$writemodul=OC_Module_Maneger::getInstance();
+			$writemodul=ModuleManeger::getInstance();
 			$moduleclasses=$writemodul->getModuleClass();
 				foreach ($moduleclasses as $moduleclass){
 					$class=$moduleclass['Class']::getInstanceByPath($path,$photo->getID());
@@ -56,21 +57,22 @@ class OC_FaceFinder_Hooks_Handlers {
 	public static function delete($params){
 		$path = $params['path'];
 		if($path!=''&& self::isPhoto($path)){
-			OCP\Util::writeLog("facefinder","to delite".$path,OCP\Util::ERROR);
-			$photo=OC_FaceFinder_Photo::getPhotoClass($path);
+			OCP\Util::writeLog("facefinder","to delite".$path,OCP\Util::DEBUG);
+			$photo=FaceFinderPhoto::getPhotoClassPath($path);
+			//OCP\Util::writeLog("facefinder","image id".$photo->getID(),OCP\Util::DEBUG);
 			if(!is_null($photo)){
-				OC_FaceFinder_Photo::remove($photo);
+				FaceFinderPhoto::remove($photo);
 			}
 		}else{
-			OCP\Util::writeLog("facefinder1a",$path,OCP\Util::ERROR);
-			$photoarray=OC_FaceFinder_Photo::getPhotoClassDir($path);
+			OCP\Util::writeLog("facefinder1a",$path,OCP\Util::DEBUG);
+			$photoarray=FaceFinderPhoto::getPhotoClassDir($path);
 			foreach($photoarray as $photo){
-				OCP\Util::writeLog("facefinder2",$photo->getID(),OCP\Util::ERROR);
+				OCP\Util::writeLog("facefinder2",$photo->getID(),OCP\Util::DEBUG);
 				if(!is_null($photo)){
 					OC_FaceFinder_Photo::remove($photo);
 				}
 			}
-			OCP\Util::writeLog("facefinder2",$path,OCP\Util::ERROR);
+			OCP\Util::writeLog("facefinder2",$path,OCP\Util::DEBUG);
 		}
 	}
 	
@@ -87,10 +89,10 @@ class OC_FaceFinder_Hooks_Handlers {
 		$newpath = $params['newpath'];
 		if($path!='' && $newpath!='' && self::isPhoto($path) && self::isPhoto($newpath)){
 			OCP\Util::writeLog("facefinder","to update".$path,OCP\Util::DEBUG);
-			$photo=OC_FaceFinder_Photo::getPhotoClass($path);
+			$photo=FaceFinderPhoto::getPhotoClass($path);
 			if(!is_null($photo)){
 				$photo->setPath($newpath);
-				OC_FaceFinder_Photo::update($photo);
+				FaceFinderPhoto::update($photo);
 			}
 		}
 	}
@@ -102,6 +104,14 @@ class OC_FaceFinder_Hooks_Handlers {
 	private static function isPhoto ($path) {
 		$ext = strtolower(substr($path, strrpos($path, '.')+1));
 		return  $ext=='jpeg' || $ext=='jpg';
+	}
+	
+	public static function startBackgroundJob($id){
+		$array=json_decode($id,true);
+		$writemodul=ModuleManeger::getInstance();
+		$moduleclasses=$writemodul->getModuleClass();
+			$class=$array['class']::doBackgroundJob($id);
+
 	}
 	
 

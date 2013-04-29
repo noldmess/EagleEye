@@ -1,5 +1,5 @@
 <?php
-//namespace OC\FaceFinder;
+namespace OCA\FaceFinder;
 /**
  * The class OC_FaceFinder_Photo is the basic functionality for the module concept 
  * ownCloud - facefinder
@@ -20,8 +20,8 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-class OC_FaceFinder_Photo{// implements OC_Module_Interface{
-	
+use OCP;
+class FaceFinderPhoto{// implements OC_Module_Interface{
 	private  $paht;
 	private  static $version='0.0.1';
 
@@ -31,6 +31,10 @@ class OC_FaceFinder_Photo{// implements OC_Module_Interface{
 	 */
 	public  function __construct() {
 		$this->paht=$paht;
+	}
+	
+	public  function text() {
+		OCP\Util::writeLog("facefinder","write text",OCP\Util::ERROR);
 	}
 	/**
 	 * Insert the Photo in the SQL Database

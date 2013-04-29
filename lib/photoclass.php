@@ -1,5 +1,7 @@
 <?php
+namespace OCA\FaceFinder;
 
+use OC\Files\Filesystem;
 
 class PhotoClass{
 	private $id=null;
@@ -28,9 +30,9 @@ class PhotoClass{
 	
 	public static function getInstanceByPaht($path){
 		$class=new self();
-		if(OC_Filesystem::file_exists($path)){
+		if(\OC\Files\Filesystem::file_exists($path)){
 			$class->setPath($path);
-			$class->setHash(hash_file("sha256",OC_Filesystem::getLocalFile($path)));
+			$class->setHash(hash_file("sha256",\OC\Files\Filesystem::getLocalFile($path)));
 			$exifheader=self::getExitHeader($path);
 			$class->setDate(self::getDateOfEXIF($exifheader));
 			
@@ -46,8 +48,8 @@ class PhotoClass{
 	 * @return NULL | EXIFheader
 	 */
 	public static  function getExitHeader($path){
-		if (OC_Filesystem::file_exists($path)) {
-			return exif_read_data(OC_Filesystem::getLocalFile($path),'FILE', true);
+		if (\OC\Files\Filesystem::file_exists($path)) {
+			return exif_read_data(\OC\Files\Filesystem::getLocalFile($path),'FILE', true);
 		}else{
 			return  null;
 		}

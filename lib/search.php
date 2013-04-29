@@ -19,11 +19,11 @@
 * License along with this library. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-
+use OCA\FaceFinder;
 class OC_Search_Provider_FaceFinder extends  OC_Search_Provider{
 function search($query) {
 	$searchResultarray=array();
-	$Initialisemodul=OC_Module_Maneger::getInstance();
+	$Initialisemodul=OCA\FaceFinder\ModuleManeger::getInstance();
 	$moduleclasses=$Initialisemodul->getModuleClass();
 	foreach ($moduleclasses as $moduleclass){
 		$searchResultarray=array_merge($searchResultarray,$moduleclass['Mapper']::search($query));
