@@ -1,5 +1,5 @@
 <?php
-
+use OCA\FaceFinder;
 /**
  * ownCloud - facefinder
 *
@@ -20,7 +20,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
-class Kamera_Module extends OC_Module_Interface{
+class Kamera_Module implements OCA\FaceFinder\MapperInterface{
 
 	private  static $version='0.0.2';
 	private static $classname="Kamera_Module";
@@ -66,7 +66,7 @@ class Kamera_Module extends OC_Module_Interface{
 	/**
 	 * Insert the exif data in the EXIF module Table in the DB
 	 */
-	public  function insert($class){
+	public static function insert($class){
 			$kamera_id=self::insertKamera($class->getMark(),$class->getModel());
 			self::insertKameraPhoto($kamera_id,$class);
 		}
@@ -85,7 +85,7 @@ class Kamera_Module extends OC_Module_Interface{
 		$result = $stmt->execute(array($foringkey));
 		$tagarray=array();
 		while (($row = $result->fetchRow())!= false) {
-			$class=Kamera_ModuleClass::getInstanceBySQL(1,$row['model'],$row['make'],$foringkey);
+			$class=Kamera_ModuleClass::getInstanceBySQL(1,$row,$foringkey);
 		}
 		return $class;
 	}
@@ -154,7 +154,7 @@ class Kamera_Module extends OC_Module_Interface{
 
 
 
-	public function remove(){
+	public static function remove(){
 		/**
 		 * @todo
 		 */
@@ -189,8 +189,7 @@ class Kamera_Module extends OC_Module_Interface{
 		$stmt = OCP\DB::prepare(' Select * From  *PREFIX*facefinder_kamera_module  inner join  *PREFIX*facefinder_kamera_photo_module on(*PREFIX*facefinder_kamera_module.id=*PREFIX*facefinder_kamera_photo_module.kamera_id) inner join *PREFIX*facefinder on  (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_kamera_photo_module.photo_id)where `make` like ? and `model` like ?');
 			$result=$stmt->execute(array($value,$name));
 			while (($row = $result->fetchRow())!= false) {
-			$results[]=$row['path'];
-			OCP\Util::writeLog("facefinder",$row['path'],OCP\Util::DEBUG);
+			$results[]=array($row['path'],$row['photo_id']);
 		}
 		return $results;
 	}
@@ -207,7 +206,7 @@ class Kamera_Module extends OC_Module_Interface{
 			//get all information of a Photo from the DB
 			$stmt = OCP\DB::prepare('select path,make,model  from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_kamera_photo_module as kameraphoto on (base.photo_id=kameraphoto.photo_id) inner join *PREFIX*facefinder_kamera_module as kamera on (kameraphoto.kamera_id=kamera.id) where uid_owner like ?  order by path,make');
 			$result=$stmt->execute(array(\OCP\USER::getUser()));
-			$s=new OC_Equal(10);
+			$s=new OCA\FaceFinder\OC_Equal(10);
 			$array=array();
 			$path=null;
 			//build a new  array of all information for each Photo 
@@ -312,7 +311,10 @@ class Kamera_Module extends OC_Module_Interface{
 				return ($table_kamera_photo && $table_kamera);
 			}
 
-		
+			public static function checkVersion(){
+				$appkey=OC_Appconfig::getValue('facefinder',self::$classname);
+				return version_compare($appkey, self::getVersion(), '<');
+			}
 		
 
 	}

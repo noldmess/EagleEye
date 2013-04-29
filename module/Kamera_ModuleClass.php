@@ -1,7 +1,7 @@
 <?php
 
 
-class Kamera_ModuleClass{
+class Kamera_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	private $model;
 	private $mark;
 	private $id;
@@ -14,10 +14,10 @@ class Kamera_ModuleClass{
 		return array('make'=>$this->getMark(),"model"=>$this->getModel());
 	}
 	
-	public static function getInstanceBySQL($id,$model,$marks,$foringkey){
+	public static function getInstanceBySQL($id,$array,$foringkey){
 		$class=new self();
-		$class->setModel($model);
-		$class->setMark($marks);
+		$class->setModel($array['model']);
+		$class->setMark($array['make']);
 		$class->setID($id);
 		$class->setForingkey($foringkey);
 		return $class;

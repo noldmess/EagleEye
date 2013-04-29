@@ -1,6 +1,6 @@
 <?php
-
-class Tag_Module extends OC_Module_Interface{
+use OCA\FaceFinder;
+class Tag_Module implements OCA\FaceFinder\MapperInterface{
 	
 	private static $classname='Tag_Module';
 	private  static $version='0.2.5';
@@ -77,7 +77,7 @@ class Tag_Module extends OC_Module_Interface{
 		/**
 		 * Insert the data in the module DB
 		*/
-		public  function insert($class){
+		public static function insert($class){
 			foreach ($class->getTagArray() as $key => $section) {
 				foreach ($section as $name => $val){
 					if(strlen ($val)>2){
@@ -133,7 +133,7 @@ class Tag_Module extends OC_Module_Interface{
 		/**
 		 * Remove the data in the module DB
 		*/
-		public function remove(){}
+		public static function remove(){}
 		/**
 		 * Update the data in the module DB
 		*/
@@ -180,7 +180,7 @@ class Tag_Module extends OC_Module_Interface{
 			$stmt = OCP\DB::prepare('select * from *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) inner join *PREFIX*facefinder on (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_tag_photo_module.photo_id) where`tag` like ? and `name` like ? and uid_owner like ?');
 			$result=$stmt->execute(array($tag,$name,\OCP\USER::getUser()));
 			while (($row = $result->fetchRow())!= false) {
-				$results[]=$row['path'];
+				$results[]=array($row['path'],$row['photo_id']);
 			}
 			return $results;
 		}
@@ -200,7 +200,7 @@ class Tag_Module extends OC_Module_Interface{
 		public function equivalent(){
 			//hard coded value for each module and and the value of the eqaletti between 1 and 100
 			$value=1;
-			$s=new OC_Equal(0.5);
+			$s=new OCA\FaceFinder\OC_Equal(0.5);
 			//get all information of a Photo from the DB
 			$stmt = OCP\DB::prepare('select path,name,tag    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_tag_photo_module as tagphoto on (base.photo_id=tagphoto.photo_id) inner join *PREFIX*facefinder_tag_module as tag on (tagphoto.tag_id=tag.id)where uid_owner like ?   order by path,name');
 			$result=$stmt->execute(array(\OCP\USER::getUser()));
@@ -293,10 +293,7 @@ class Tag_Module extends OC_Module_Interface{
 			return version_compare($appkey, self::getVersion(), '<');
 		}
 	
-		public static function getVersion(){
-			return self::$version;
-		}
-		
+	
 		public function getTagArray($path){
 			/**
 			 * SELECT * FROM `oc_facefinder_tag_module` inner join oc_facefinder_tag_photo_module on oc_facefinder_tag_module.id =oc_facefinder_tag_photo_module.tag_id inner join oc_facefinder on oc_facefinder.photo_id=oc_facefinder_tag_photo_module.photo_id
@@ -351,6 +348,8 @@ class Tag_Module extends OC_Module_Interface{
 			return array("tag");
 		}
 		
-
+		public static function getVersion(){
+			return self::$version;
+		}
 		
 }

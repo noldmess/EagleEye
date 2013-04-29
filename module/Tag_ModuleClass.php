@@ -1,6 +1,6 @@
 <?php
 
-class Tag_ModuleClass{
+class Tag_ModuleClass  implements  OCA\FaceFinder\ClassInterface{
 	private $tagArray;
 	private $id;
 	private $foringkey;
@@ -15,7 +15,6 @@ class Tag_ModuleClass{
 	public static function getInstanceBySQL($id,$tagarray,$foringkey){
 		$class=new self();
 		$class->setTagArray($tagarray);
-		//OCP\Util::writeLog("facefinder",json_encode($exitheader),OCP\Util::ERROR);
 		$class->setID($id);
 		$class->setForingkey($foringkey);
 		return $class;
