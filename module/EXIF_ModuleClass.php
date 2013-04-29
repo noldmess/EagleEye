@@ -1,6 +1,6 @@
 <?php
 
-class EXIF_ModuleClass{
+class EXIF_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	
 	private $exitHeader;
 	private $id;
@@ -28,7 +28,11 @@ class EXIF_ModuleClass{
 	public static function getInstanceByPath($path,$foringkey){
 		$class=new self();
 		$exfi_tmp=self::getExitHeaderPath($path);
-		$class->setExitheader($exfi_tmp['EXIF']);
+		//for image without exif data
+		if(isset($exfi_tmp['EXIF']))
+			$class->setExitheader($exfi_tmp['EXIF']);
+		else
+			$class->setExitheader(null);
 		$class->setForingkey($foringkey);
 		return $class;
 	}

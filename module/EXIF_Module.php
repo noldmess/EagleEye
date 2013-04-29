@@ -1,5 +1,5 @@
 <?php
-
+use OCA\FaceFinder;
 /**
  * ownCloud - facefinder
  *
@@ -21,7 +21,7 @@
  *
  */
 
-class EXIF_Module extends OC_Module_Interface{
+class EXIF_Module implements OCA\FaceFinder\MapperInterface{
 	
 		private static $classname="EXIF_Module";
 		private  static $version='0.4.5';
@@ -108,12 +108,14 @@ class EXIF_Module extends OC_Module_Interface{
 		 * Insert the exif data in the EXIF module Table in the DB
 		 * @return null if no exif
 		 */
-		public function insert($class){
+		public static function insert($class){
+			//for image without exif data
+				if($exifarray=$class->getExitHeader()==!null){
 					foreach ($class->getExitHeader() as  $key => $section){
 							$exif_id=self::insertExif($key,$section);
-							//@todo optimise multi insert
 							self::insertExifPhoto($exif_id,$class);
 					}
+				}
 				
 		}
 	
@@ -127,7 +129,7 @@ class EXIF_Module extends OC_Module_Interface{
 		}
 
 	
-		public function remove(){
+		public static function remove(){
 				/**
 			 * @todo
 			 */
@@ -187,7 +189,7 @@ class EXIF_Module extends OC_Module_Interface{
 			$stmt = OCP\DB::prepare(' Select * From  *PREFIX*facefinder_exif_module  inner join  *PREFIX*facefinder_exif_photo_module on(*PREFIX*facefinder_exif_module.id=*PREFIX*facefinder_exif_photo_module.exif_id) inner join *PREFIX*facefinder on  (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_exif_photo_module.photo_id) where`valued` like ? and `name` like ? and uid_owner like ? ');
 			$result=$stmt->execute(array($value,$name,\OCP\USER::getUser()));
 			while (($row = $result->fetchRow())!= false) {
-				$results[]=$row['path'];
+				$results[]=array($row['path'],$row['photo_id']);
 			}
 			return $results;
 		}
@@ -200,7 +202,7 @@ class EXIF_Module extends OC_Module_Interface{
 		public function equivalent(){
 			//hard coded value for each module and and the value of the eqaletti between 1 and 100
 			$value=1;
-			$s=new OC_Equal(1);
+			$s=new OCA\FaceFinder\OC_Equal(1);
 			//get all information of a Photo from the DB
 			$stmt = OCP\DB::prepare('select path,name,valued    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_exif_photo_module as exifphoto on (base.photo_id=exifphoto.photo_id) inner join *PREFIX*facefinder_exif_module as exif on (exifphoto.exif_id=exif.id) where uid_owner like ?  order by path,name');
 			$result=$stmt->execute(array(\OCP\USER::getUser()));
@@ -343,6 +345,8 @@ class EXIF_Module extends OC_Module_Interface{
 		}
 		
 		
-		
+		public static function getVersion(){
+			return self::$version;
+		}
 		
 	}
