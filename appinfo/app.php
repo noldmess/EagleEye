@@ -28,19 +28,21 @@
 //OC::$CLASSPATH['OC_Share_Backend_Photo'] = 'gallery/lib/share.php';
 //test 
 //OCP\Util::addscript( 'facefinder', 'test' );
-OC::$CLASSPATH['OC_Module_Maneger'] = 'facefinder/lib/modulemaneger.php';
-OC::$CLASSPATH['PhotoClass'] = 'facefinder/lib/photoclass.php';
-OC::$CLASSPATH['OC_Module_Interface'] = 'facefinder/lib/moduleinterface.php';
+OC::$CLASSPATH['OCA\FaceFinder\ModuleManeger'] = 'facefinder/lib/modulemaneger.php';
+OC::$CLASSPATH['OCA\FaceFinder\ClassInterface'] = 'facefinder/lib/moduleClassInterface.php';
+OC::$CLASSPATH['OCA\FaceFinder\MapperInterface'] = 'facefinder/lib/moduleinterface.php';
+
+OC::$CLASSPATH['OCA\FaceFinder\PhotoClass'] = 'facefinder/lib/photoclass.php';
+
 OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'facefinder/lib/hooks_handlers.php';
-OC::$CLASSPATH['OC_FaceFinder_Photo'] = 'facefinder/lib/photo.php';
-OC::$CLASSPATH['OC_FaceFinder_Hooks_Handlers'] = 'facefinder/lib/hooks_handlers.php';
+OC::$CLASSPATH['OCA\FaceFinder\FaceFinderPhoto'] = 'facefinder/lib/photo.php';
+OC::$CLASSPATH['OCA\FaceFinder\HooksHandlers'] = 'facefinder/lib/hooks_handlers.php';
 OC::$CLASSPATH['OC_Search_Provider_FaceFinder'] = 'facefinder/lib/search.php';
 OC::$CLASSPATH['OC_FaceFinder_Scanner'] = 'facefinder/lib/scanner.php';
-OC::$CLASSPATH['OC_Equivalent_Result'] = 'facefinder/lib/equivalent.php';
-OC::$CLASSPATH['OC_Equal'] = 'facefinder/lib/equivalent.php';
+OC::$CLASSPATH['OCA\FaceFinder\EquivalentResult'] = 'facefinder/lib/equivalent.php';
+OC::$CLASSPATH['OCA\FaceFinder\OC_Equal'] = 'facefinder/lib/equivalent.php';
 //$l = OC_L10N::get('facefinder');
 
-//new OC_Module_Maneger();
 OCP\App::addNavigationEntry( array(
  'id' => 'facefinder',
  'order' => 20,
@@ -49,8 +51,9 @@ OCP\App::addNavigationEntry( array(
  'name' => "FaceFinder"
 ));
 
-//OCP\Util::addscript('facefinder', 'facefindersearch');
+//$array=OCP\BackgroundJob::allQueuedTasks ();
+//OCP\Util::writeLog("facefinder",json_encode($array),OCP\Util::DEBUG);
 OC_Search::registerProvider('OC_Search_Provider_FaceFinder');
-OCP\Util::connectHook('OC_Filesystem', 'post_write','OC_FaceFinder_Hooks_Handlers','write');
-OCP\Util::connectHook('OC_Filesystem', 'post_delete','OC_FaceFinder_Hooks_Handlers','delete');
-OCP\Util::connectHook('OC_Filesystem', 'post_rename','OC_FaceFinder_Hooks_Handlers','update');
+OCP\Util::connectHook('OC_Filesystem', 'post_write','OCA\FaceFinder\HooksHandlers','write');
+OCP\Util::connectHook('OC_Filesystem', 'post_delete','OCA\FaceFinder\HooksHandlers','delete');
+OCP\Util::connectHook('OC_Filesystem', 'post_rename','OCA\FaceFinder\HooksHandlers','update');

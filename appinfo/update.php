@@ -1,8 +1,8 @@
 <?php
-
+use OCA\FaceFinder;
 $currentVersion=OC_Appconfig::getValue('facefinder', 'installed_version');
 if (version_compare($currentVersion, '0.0.1', '>')) {
-	$Initialisemodul=OC_Module_Maneger::getInstance();
+	$Initialisemodul=OCA\FaceFinder\ModuleManeger::getInstance();
 	$moduleclasses=$Initialisemodul->getModuleClass();
 	//remove alle modue Tables from DB
 	foreach ($moduleclasses as $moduleclass){
