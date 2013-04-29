@@ -1,15 +1,15 @@
 <?php
+use OCA\FaceFinder;
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('facefinder');
-$photo= new OC_FaceFinder_Photo("");
-$writemodul=OC_Module_Maneger::getInstance();
+$photo= new OCA\FaceFinder\FaceFinderPhoto("");
+$writemodul=OCA\FaceFinder\ModuleManeger::getInstance();
 $moduleclasses=$writemodul->getModuleClass();
 $photoArray=$photo->equivalent();
 foreach ($moduleclasses as $moduleclass){
   $moduleopject=new $moduleclass['Mapper']("");
   $moduleArray[]=$moduleopject->equivalent();
 }
-$photo=OC_Equivalent_Result::Ajaxequalety($photoArray,$moduleArray);
-echo OCP\JSON::success($photo);
+$photo=OCA\FaceFinder\EquivalentResult::Ajaxequalety($photoArray,$moduleArray);
+echo OCP\JSON::success(array("data"=>$photo));
 ?>
-lo

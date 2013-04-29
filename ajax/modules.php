@@ -1,8 +1,9 @@
 <?php
+use OCA\FaceFinder;
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('facefinder');
 $scriptArray=array();
-$Initialisemodul=OC_Module_Maneger::getInstance();
+$Initialisemodul=OCA\FaceFinder\ModuleManeger::getInstance();
 $moduleclasses=$Initialisemodul->getModuleClass();
 
 foreach ($moduleclasses as $moduleclass){

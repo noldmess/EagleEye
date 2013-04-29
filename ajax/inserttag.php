@@ -1,13 +1,13 @@
 <?php
-
+use OCA\FaceFinder;
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 OCP\JSON::checkAppEnabled('facefinder');
 $id=(int)$_GET['image'];
 if($id>0){
-	$writemodul=OC_Module_Maneger::getInstance();
+		$writemodul=OCA\FaceFinder\ModuleManeger::getInstance();
 	$moduleclasses=$writemodul->getModuleClass();
-	$photo=OC_FaceFinder_Photo::getPhotoClass($_GET['image']);
+	$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($_GET['image']);
 	$class=Tag_Module::getClass($photo->getID());
 	$class->addTag("2#025",$_GET['tag']);
 	Tag_Module::update($class);
