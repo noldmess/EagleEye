@@ -69,7 +69,7 @@ class HooksHandlers {
 			foreach($photoarray as $photo){
 				OCP\Util::writeLog("facefinder2",$photo->getID(),OCP\Util::DEBUG);
 				if(!is_null($photo)){
-					OC_FaceFinder_Photo::remove($photo);
+					FaceFinderPhoto::remove($photo);
 				}
 			}
 			OCP\Util::writeLog("facefinder2",$path,OCP\Util::DEBUG);
