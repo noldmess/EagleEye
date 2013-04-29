@@ -23,7 +23,7 @@ var FaceFinder={
 				    	   $.each(days.imags,function(index,image){
 				    		   															
 				    		   	//$("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<li><a name="'+image.imagsname+'"><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagstmp+'"  alt="'+image.imagsname+'"></a></li>');
-				    		   $("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
+				    		   $("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
 				    		 	$("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")  img:eq("+index+")").click(function(){
 				    		 			PhotoView.ClickImg(this)});
 				    		 	

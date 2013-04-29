@@ -21,9 +21,10 @@ $(document).ready(function() {
 		});
 		});
 	$('#equivalent').addClass('loading');
+	
 	$.getJSON(OC.linkTo('facefinder', 'ajax/equivalent.php'), function(data) {
-
-		$.each(data,function(index_year,data){
+		if (data.status == 'success'){
+		$.each(data.data,function(index_year,data){
 
 			$("#equivalent").append('<div class="equival"><div class="equival_value">Equal</div><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+data.img+'" alt="'+data.img+'"></div>');
 			var tmp_value=1000;
@@ -52,12 +53,12 @@ $(document).ready(function() {
 					  });
 
 			});
-			
 		});
+		$('#equivalent').removeClass('loading');
 		if(data.length==0){
 			$("#equivalent").append('<div class="equival_value">NO Equal Photos</div>');
 		}
-		$('#equivalent').removeClass('loading');
+		}
 	});
 });
 
