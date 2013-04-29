@@ -21,7 +21,7 @@
 *
 */
 
-
+use OCA\FaceFinder;
 
 OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('facefinder');
@@ -35,7 +35,7 @@ OCP\Util::addStyle('facefinder', 'photoview');
 
 
 //Initialise the moduls
-$Initialisemodul= OC_Module_Maneger::getInstance();
+$Initialisemodul= OCA\FaceFinder\ModuleManeger::getInstance();
 $moduleclasses=$Initialisemodul->getModuleClass();
 //inport all Style and Script files
 foreach ($moduleclasses as $moduleclass){
@@ -58,10 +58,10 @@ foreach ($moduleclasses as $moduleclass){
 }
 	
 foreach ($pathArray as $path){
-	if(!OC_FaceFinder_Photo::issetPhotoId($path)){
-		$photoOpject=PhotoClass::getInstanceByPaht($path);
-		OC_FaceFinder_Photo::insert($photoOpject);
-		$photo=OC_FaceFinder_Photo::getPhotoClass($path);
+	if(!OCA\FaceFinder\FaceFinderPhoto::issetPhotoId($path)){
+		$photoOpject=OCA\FaceFinder\PhotoClass::getInstanceByPaht($path);
+		OCA\FaceFinder\FaceFinderPhoto::insert($photoOpject);
+		$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($path);
 		foreach ($moduleclasses as $moduleclass){
 					if(!is_null($photo)){
 						$class=$moduleclass['Class']::getInstanceByPath($path,$photo->getID());
