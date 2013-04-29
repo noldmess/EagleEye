@@ -1,5 +1,5 @@
 <?php
-
+use OCA\FaceFinder;
 
 class Kamera_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	private $model;
