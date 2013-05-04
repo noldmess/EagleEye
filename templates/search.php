@@ -1,7 +1,8 @@
 
 <?php
+use OCA\FaceFinder;
 if(isset($_GET['search'])&&isset($_GET['tag'])&&(isset($_GET['name']))){
-	$Initialisemodul=OC_Module_Maneger::getInstance();
+	$Initialisemodul=OCA\FaceFinder\ModuleManeger::getInstance();
 	if($Initialisemodul->isModuleClass($_GET['search'])){
 		//$tag=htmlspecialchars(str_replace(array('/', '\\'), '',  $_GET['tag']));
 		
@@ -26,7 +27,7 @@ if(isset($_GET['search'])&&isset($_GET['tag'])&&(isset($_GET['name']))){
 
 
 foreach ($seachResult as $img){
-	echo '<a><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.\OCP\USER::getUser().$img.'" alt='.$img.'></a>';
+	echo '<a><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.\OCP\USER::getUser().$img[0].'" alt='.$img[1].'></a>';
 	
 }
 ?>
