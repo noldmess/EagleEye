@@ -32,6 +32,7 @@ OCP\Util::addScript('facefinder', 'facefinder');
 OCP\Util::addScript('facefinder', 'module');
 OCP\Util::addScript('facefinder', 'photoview');
 OCP\Util::addStyle('facefinder', 'photoview');
+//OCP\Util::addStyle('facefinder', 'bootstrap.min');
 
 
 //Initialise the moduls
@@ -52,26 +53,27 @@ foreach ($moduleclasses as $moduleclass){
 		}
 	}
 }
-$pathArray=OC_FaceFinder_Scanner::scan("");
+
 foreach ($moduleclasses as $moduleclass){
 		$class=$moduleclass['Mapper']::initialiseDB();//($path,$photo->getID());
 }
-	
-foreach ($pathArray as $path){
-	if(!OCA\FaceFinder\FaceFinderPhoto::issetPhotoId($path)){
-		$photoOpject=OCA\FaceFinder\PhotoClass::getInstanceByPaht($path);
-		OCA\FaceFinder\FaceFinderPhoto::insert($photoOpject);
-		$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($path);
-		foreach ($moduleclasses as $moduleclass){
-					if(!is_null($photo)){
-						$class=$moduleclass['Class']::getInstanceByPath($path,$photo->getID());
-						$moduleclass['Mapper']::insert($class);
-						OCP\Util::writeLog("facefinder",$moduleclass."->".$img." ".$id,OCP\Util::DEBUG);
-					}
+	$pathArray=OC_FaceFinder_Scanner::scan("");
+	OCP\Util::writeLog("facefinder",json_encode($pathArray),OCP\Util::DEBUG);
+	foreach ($pathArray as $path){
+		OCP\Util::writeLog("facefinder",$path,OCP\Util::DEBUG);
+		if(!OCA\FaceFinder\FaceFinderPhoto::issetPhotoId($path)){
+			$photoOpject=OCA\FaceFinder\PhotoClass::getInstanceByPaht($path);
+			OCA\FaceFinder\FaceFinderPhoto::insert($photoOpject);
+			$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClassPath($path);
+			foreach ($moduleclasses as $moduleclass){
+				if(!is_null($photo)){
+					$class=$moduleclass['Class']::getInstanceByPath($path,$photo->getID());
+					$moduleclass['Mapper']::insert($class);
 				}
-		
 			}
-}
+	
+		}
+	}
 
 if(isset($_GET['search'])){
 	OCP\Util::addStyle('facefinder', 'search');
