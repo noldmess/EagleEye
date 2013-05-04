@@ -32,7 +32,7 @@ class Tag_Module implements OCA\FaceFinder\MapperInterface{
 		 * @param int $tag_id
 		 * @return boolean
 		 */
-		public function  issetTagPhotoId($photo_id,$tag_id){
+		public static function  issetTagPhotoId($photo_id,$tag_id){
 			$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_photo_module` WHERE `photo_id`  = ? and `tag_id` = ?');
 			$result=$stmt->execute(array($photo_id,$tag_id));
 			return ($result->numRows()==1);

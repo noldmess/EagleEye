@@ -2,6 +2,7 @@
 namespace OCA\FaceFinder;
 
 use OC\Files\Filesystem;
+use OCP\Util;
 
 class PhotoClass{
 	private $id=null;
@@ -35,9 +36,8 @@ class PhotoClass{
 			$class->setHash(hash_file("sha256",\OC\Files\Filesystem::getLocalFile($path)));
 			$exifheader=self::getExitHeader($path);
 			$class->setDate(self::getDateOfEXIF($exifheader));
-			
 		}else{
-			OCP\Util::writeLog("facefinder",$paht,OCP\Util::ERROR);
+			\OCP\Util::writeLog("facefinder",$paht,OCP\Util::ERROR);
 			 $class=null;
 		}
 		return $class;
@@ -61,16 +61,16 @@ class PhotoClass{
 	 */
 	public static function getDateOfEXIF($exifheader){
 		if(!is_array($exifheader)|| !isset($exifheader['FILE'])){
+			\OCP\Util::writeLog("facefinderssssssss","1",OCP\Util::DEBUG);
 			return null;
 		}
-		if(isset($exifheader['EXIF'])){
+		if(isset($exifheader['EXIF']['DateTimeOriginal'])){
 			$date=$exifheader['EXIF']['DateTimeOriginal'];
 		}else{
-			if(isset($exifheader['FILE'])){
+			if(isset($exifheader['FILE']['FileDateTime'])){
 				$date=date('Y:m:d H:i:s',$exifheader['FILE']['FileDateTime']);
 			}else{
 				$date=date('Y:m:d H:i:s');
-					
 			}
 		}
 		return $date;

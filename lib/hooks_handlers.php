@@ -33,18 +33,16 @@ class HooksHandlers {
 		$path = $params['path'];
 		if(self::isPhoto($path)){
 		$photoOpject=PhotoClass::getInstanceByPaht($path);
-		FaceFinderPhoto::insert($photoOpject);
-		$photo=FaceFinderPhoto::getPhotoClassPath($path);
-		if(!is_null($photo)){
-			OCP\Util::writeLog("facefinder","<<<<<<".$path,OCP\Util::DEBUG);
-			/*
-			* 	Implemetation of the module system 
-			 */
-			$writemodul=ModuleManeger::getInstance();
-			$moduleclasses=$writemodul->getModuleClass();
-				foreach ($moduleclasses as $moduleclass){
-					$class=$moduleclass['Class']::getInstanceByPath($path,$photo->getID());
-					$moduleclass['Mapper']::insert($class);
+		if(FaceFinderPhoto::insert($photoOpject)){
+			$photo=FaceFinderPhoto::getPhotoClassPath($path);
+			if(!is_null($photo)){
+				OCP\Util::writeLog("facefinder","<<<<<<".$path,OCP\Util::DEBUG);
+				$writemodul=ModuleManeger::getInstance();
+				$moduleclasses=$writemodul->getModuleClass();
+					foreach ($moduleclasses as $moduleclass){
+						$class=$moduleclass['Class']::getInstanceByPath($path,$photo->getID());
+						$moduleclass['Mapper']::insert($class);
+					}
 				}
 			}
 		}
@@ -56,6 +54,7 @@ class HooksHandlers {
 	 */
 	public static function delete($params){
 		$path = $params['path'];
+		OCP\Util::writeLog("facefinder2","delete".$path,OCP\Util::DEBUG);
 		if($path!=''&& self::isPhoto($path)){
 			OCP\Util::writeLog("facefinder","to delite".$path,OCP\Util::DEBUG);
 			$photo=FaceFinderPhoto::getPhotoClassPath($path);
@@ -87,14 +86,10 @@ class HooksHandlers {
 	public static function update($params){
 		$path = $params['oldpath'];
 		$newpath = $params['newpath'];
-		if($path!='' && $newpath!='' && self::isPhoto($path) && self::isPhoto($newpath)){
-			OCP\Util::writeLog("facefinder","to update".$path,OCP\Util::DEBUG);
-			$photo=FaceFinderPhoto::getPhotoClass($path);
-			if(!is_null($photo)){
-				$photo->setPath($newpath);
-				FaceFinderPhoto::update($photo);
-			}
-		}
+		OCP\Util::writeLog("facefinder2","update".$path,OCP\Util::DEBUG);
+		self::delete(array('path'=>$path));
+		OCP\Util::writeLog("facefinder2","update".$newpath,OCP\Util::DEBUG);
+		self::write(array('path'=>$newpath));
 	}
 	/**
 	 * Help funktien to check the file path no the type 

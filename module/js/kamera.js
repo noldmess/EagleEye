@@ -16,5 +16,5 @@ function kamera() {
 
 
 $(document).ready(function() {
-	$("#tool_righte").append('<div class="tool Kamera"><div class="tool_title"><div class="tool_ico"></div><h1>Kamera</h1></div><div class="tool_items"></div></div>');
+	$("#tool_righte").append('<div class="tool Kamera"><div class="tool_title"><i class="icon-info-sign"></i>Kamera<div class="tool_items"></div></div>');
 });

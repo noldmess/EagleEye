@@ -70,11 +70,11 @@ class ModuleManeger {
 			if(isset($interfaceArray['OCA\FaceFinder\MapperInterface']) ) {
 					$fileinfo=pathinfo($classPath);
 					$tmp=$fileinfo['filename']."Class.php";
-					OCP\Util::writeLog("facefinder",$tmp,OCP\Util::ERROR);
+					//OCP\Util::writeLog("facefinder",$tmp,OCP\Util::ERROR);
 					require_once $fileinfo['dirname']."/".$tmp;
 					return $classname;
 			}else{
-				OCP\Util::writeLog("facefinder","The class:".$classname." not implements the OC_Module_Interface interface",OCP\Util::ERROR);
+				OCP\Util::writeLog("facefinder","The class:".$classname." not implements the OCA\FaceFinder\MapperInterface interface",OCP\Util::ERROR);
 				return  null;
 			}
 				
@@ -89,18 +89,12 @@ class ModuleManeger {
 			OCP\Util::writeLog("facefinder","Class not exist or not identik like file name:".$classname,OCP\Util::ERROR);
 			return  null;
 		}else{
-			/**
-			 *@todo public static  function checkCorrectModuleClass($classPath){
-			 */
 			$interfaceArray=class_implements($classname);//&& self::CheckClass($classPath)
 			if(isset($interfaceArray['OCA\FaceFinder\ClassInterface'])){
 				$fileinfo=pathinfo($classPath);
-				/*$tmp=$fileinfo['filename']."Class.php";
-				OCP\Util::writeLog("facefinder",$tmp,OCP\Util::ERROR);
-				require_once $fileinfo['dirname']."/".$tmp;*/
 				return $classname;
 			}else{
-				OCP\Util::writeLog("facefinder","The class:".$classname." not implements the OC_Module_Interface interface",OCP\Util::ERROR);
+				OCP\Util::writeLog("facefinder","The class:".$classname." not implements the OCA\FaceFinder\ClassInterface interface",OCP\Util::ERROR);
 				return  null;
 			}
 	

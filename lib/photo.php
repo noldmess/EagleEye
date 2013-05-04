@@ -30,7 +30,6 @@ class FaceFinderPhoto{// implements OC_Module_Interface{
 	 * @param Insert the $paht in the facefinder tabel in the db
 	 */
 	public  function __construct() {
-		$this->paht=$paht;
 	}
 	
 	public  function text() {
@@ -40,8 +39,13 @@ class FaceFinderPhoto{// implements OC_Module_Interface{
 	 * Insert the Photo in the SQL Database
 	 */
 	public static  function insert($photo){
+			$existolrady=false;
+			if(self::getPhotoClassPath($photo->getPath())===null){
 				$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder` ( `uid_owner`, `path`,`hash`,`date_photo`)   VALUES (?, ?,?,?)');
 				$stmt->execute(array(\OCP\USER::getUser(),$photo->getPath(),$photo->getHash(),$photo->getDate()));
+				$existolrady=true;
+			}
+		return $existolrady;
 	}
 
 	/**
@@ -60,26 +64,28 @@ class FaceFinderPhoto{// implements OC_Module_Interface{
 			}
 	
 			
-			public static function getPhotoClassDir($paht){
-				$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `path` LIKE ?');
-				$result = $stmt->execute(array(\OCP\USER::getUser(), $paht."%"));
-				OCP\Util::writeLog("facefinder",$result->numRows(),OCP\Util::ERROR);
-				$class=array();
-					while (($row = $result->fetchRow())!= false) {
-						$class[]= PhotoClass::getInstanceBySQL($row['photo_id'],$row['path'],$row['hash'],$row['date_photo']);
-						OCP\Util::writeLog("facefinder",$row['path']." ".$row['hash'],OCP\Util::ERROR);
-					}
-				return $class;
+	public static function getPhotoClassDir($paht){
+		$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `path` LIKE ?');
+		$result = $stmt->execute(array(\OCP\USER::getUser(), $paht."%"));
+		OCP\Util::writeLog("facefinder",$result->numRows(),OCP\Util::ERROR);
+		$class=array();
+		OCP\Util::writeLog("facefindddddddddddddddder",$result->numRows(),OCP\Util::DEBUG);
+			while (($row = $result->fetchRow())!= false) {
+				$class[]= PhotoClass::getInstanceBySQL($row['photo_id'],$row['path'],$row['hash'],$row['date_photo']);
+				OCP\Util::writeLog("facefinder",$row['path']." ".$row['hash'],OCP\Util::ERROR);
 			}
-			
-			public static function getPhotoClassPath($paht){
-				$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `path` LIKE ?');
-				$result = $stmt->execute(array(\OCP\USER::getUser(), $paht));
-				while (($row = $result->fetchRow())!= false) {
-					$class= PhotoClass::getInstanceBySQL($row['photo_id'],$row['path'],$row['hash'],$row['date_photo']);
-				}
-				return $class;
-			}
+		return $class;
+	}
+	
+	public static function getPhotoClassPath($paht){
+		$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `path` LIKE ?');
+		$result = $stmt->execute(array(\OCP\USER::getUser(), $paht));
+		$class=null;
+		while (($row = $result->fetchRow())!= false) {
+			$class= PhotoClass::getInstanceBySQL($row['photo_id'],$row['path'],$row['hash'],$row['date_photo']);
+		}
+		return $class;
+	}
 	/**
 	 * The function check if the ExiPhoto already exist
 	 * @param int  $exif_id

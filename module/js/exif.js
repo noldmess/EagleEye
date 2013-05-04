@@ -21,5 +21,5 @@ function exif() {
 
 
 $(document).ready(function() {
-	$("#tool_righte").append('<div class="tool Exif"><div class="tool_title"><div class="tool_ico"></div><h1>Exif</h1></div><div class="tool_items"></div></div>');
+	$("#tool_righte").append('<div class="tool Exif"><div class="tool_title"><i class="icon-info-sign"></i>Exif</div><div class="tool_items"></div></div>');
 });
