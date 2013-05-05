@@ -125,7 +125,7 @@ div#photo.loading{
 	height: 100px;
 	width: 100px;
 	opacity: 0.1;
-	border: dotted 2px red;
+	
 }
 
 #photo .draggable_fix:HOVER{
