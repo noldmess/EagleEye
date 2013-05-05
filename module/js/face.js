@@ -20,32 +20,23 @@ face.getTag=function(img){
 					 var y1=(document.getElementById("img_img").offsetTop+y);
 					 var x1=(document.getElementById("img_img").offsetLeft+x);
 					 if(data.tag!=null && data.tag_id!=null ){
-						 //<img alt="'+data.face_id+'" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'"  ><
-						$("#photo").append('<div class="draggable_face_option" style="position: absolute; top: '+(y1+y2-20)+'px; left: '+(x1+(x2-20))+'px; width: '+20+'px; height:'+20+'px;"><a><i class="icon-edit" id="'+data.face_id+'" name="KEYWORDS '+data.tag+'"></i></a></div>');
-						$("#photo .draggable_face_option #"+data.face_id).click(function(){
-							 var face_id=$(this).attr("id");
-							 var name=$(this).attr("name");
-							 $.getJSON(OC.linkTo('facefinder', 'ajax/faceupdate.php')+"?face_id="+face_id, function(data) {});
-							 tag.removeTagDiv($('#photo div.draggable_fix draggable_tag i[name='+name+']'));
-						 });/*
-							 .hover(function(){
-									alert("sdffd");
-								 });*/
+						 face.create(data.face_id,data.tag,x1,y1,x2,y2);
 					 }else{
-						 $("#photo").append('<div class="draggable_face" style="position: absolute; top: '+y1+'px; left: '+x1+'px; width: '+x2+'px; height:'+y2+'px;"><img alt="'+data.face_id+'" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'"><input   type="text"  value="" id="'+data.face_id+'" alt="'+data.x1+'-'+data.y1+'-'+data.x2+'-'+data.y2+'"></input></div>');
-						 $("#photo .draggable_face input#"+data.face_id).keyup(function(e){ 
+						 $("#photo").append('<div class="draggable_face" style="position: absolute; top: '+y1+'px; left: '+x1+'px; width: '+x2+'px; height:'+y2+'px;"><i class="icon-remove-sign" alt="'+data.face_id+'" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'"></i><input   type="text"  value="" id="'+data.face_id+'" alt="'+data.x1+'-'+data.y1+'-'+data.x2+'-'+data.y2+'"></input></div>');
+						 $("input#"+data.face_id).keyup(function(e){ 
 							 if ( e.keyCode== 13){
 								 //e.delegateTarget.alt
 								 var tag_name=$(this).val();
 								 var image=$('#photoview img').attr("alt");
 								 var face_id=$(this).attr("id");
 								 var pos=$(this).attr("alt");
-								 $.getJSON(OC.linkTo('facefinder', 'ajax/faceinsert.php')+"?image="+image+"&tag="+tag_name+"&face_id="+face_id+"&pos="+pos, function(data) {});
-								 $(this).parent().remove();
-								 tag.getTag(image);
+								 $.getJSON(OC.linkTo('facefinder', 'ajax/faceinsert.php')+"?image="+image+"&tag="+tag_name+"&face_id="+face_id+"&pos="+pos, function(data) {
+									 $(this).parent().remove();
+									 tag.getTag(image);
+								 });
 							 }
 						 });
-					$('#photo div.draggable_face img').click(function(){
+					$('#photo div.draggable_face i').click(function(){
 						face.removeTagDiv(this);
 					});
 					
@@ -68,7 +59,21 @@ face.removeTagDiv=function(tagDiv){
 };
 
 
-
+face.create=function(face_id,tag,x1,y1,x2,y2){
+	$("#photo").append('<div class="draggable_face_option" style="position: absolute; top: '+(y1+y2-20)+'px; left: '+(x1+(x2-20))+'px; width: '+20+'px; height:'+20+'px;"><a><i class="icon-edit" id="'+face_id+'"></i></a></div>');
+	$("#photo .draggable_face_option #"+face_id).click(function(){
+		 var face_id=$(this).attr("id");
+		 var name=$(this).attr("name");
+		 var image=$('#photoview img').attr("alt");
+		 var tagDiv=$('i[name^="KEYWORDS '+name+'"]');
+		 removeTagDiv(tagDiv);
+		 $.getJSON(OC.linkTo('facefinder', 'ajax/faceupdate.php')+"?face_id="+face_id, function(data) {});
+		 face.getTag(image);
+	 });
+	/*hover(function(){
+		alert("sdffd");
+	 });*/
+}
 
 function getCoordinates(e){
 	 var PosX = 0;
@@ -121,6 +126,14 @@ function findPosition(oElement)
 }
 
 
+
+function removeTagDiv(tagDiv){
+	var image=$('#photo img').attr("alt");
+	var imagepaht=$('#photo img').attr("name");
+	var tag=$(tagDiv).attr("name");
+	 $(tagDiv).parent().parent().remove(".draggable_fix");
+	 $.getJSON(OC.linkTo('facefinder', 'ajax/removetag.php')+"?image="+image+"&tag="+tag+"&imagepaht="+imagepaht, function(data) {});
+};
 
 
 
