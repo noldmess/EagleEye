@@ -1,0 +1,56 @@
+#photo .draggable_face{
+	position:relative;
+	height: 100px;
+	width: 100px;*/
+	min-width:150px;
+	min-height:35px;
+	opacity: 0.1;
+	border: solid 2px #778899;
+}
+
+#photo .draggable_face:HOVER{
+	opacity: 0.8;
+	border: solid 2px red;
+}
+
+#photo .draggable_face{
+	height: 100px;
+	width: 100px;
+	opacity: 0.1;
+	border: dotted 2px red;
+}
+
+#photo .draggable_face:HOVER{
+	opacity: 0.5;
+	border: dotted 2px red;
+}
+
+#photo .draggable_face input{
+	position:relative;
+	bottom:35px;
+	opacity: 1;
+}
+
+
+#photo .draggable_face{
+	/*cursor: pointer;*/
+	background:white;
+	position:relative;
+	opacity: 0.1;
+}
+
+#photo .draggable_face img{
+	cursor: pointer;
+}
+
+
+
+#photo .draggable_face_option{
+	opacity: 0.1;
+}
+
+#photo .draggable_face_option:HOVER{
+	opacity: 1;
+	background-color:white;
+}
+
