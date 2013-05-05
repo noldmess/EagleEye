@@ -51,8 +51,8 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	}
 	
 	public  function getFaces(){
-		//$-cmd='/var/www/owncloud/apps/facefinder/module/facedetect --cascade="/var/www/owncloud/apps/facefinder/module/haarcascade_frontalface_alt.xml" -nested-cascade=="/var/www/owncloud/apps/facefinder/module/haarcascade_frontalface_alt2.xml" '.$this->path;
-		$cmd='/var/www/owncloud/apps/facefinder/module/facedetect --cascade="/var/www/owncloud/apps/facefinder/module/haarcascade_frontalface_alt.xml"  '.$this->path;
+		//$-cmd='/var/www/html/facefinder/module/facedetect --cascade="/var/www/html/facefinder/module/haarcascade_frontalface_alt.xml" -nested-cascade=="/var/www/html/facefinder/module/haarcascade_frontalface_alt2.xml" '.$this->path;
+		$cmd=' /var/www/html/facefinder/module/facedetect --cascade="/var/www/html/facefinder/module/haarcascade_frontalface_alt.xml"  '.$this->path;
 		$fp = popen($cmd,'r');
 		$faces=array();
 		if($fp!==false){
@@ -125,8 +125,8 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 		$path_parts =pathinfo($this->path);
 		$imgToSava=$path_parts['filename'];
 		$facefinderDir =self::getFaceFinderDir();
-		$learn_list = "/var/www/owncloud/apps/facefinder/module/test.sdfd";//tedfsf.ext";//$facefinderDir."/learn_list.ext";
-			$cmd='/var/www/owncloud/apps/facefinder/module/facerec '.$learn_list ." ".$facefinderDir.$imgToSava."-".$num.".png";
+		$learn_list = "/var/www/html/facefinder/module/test.sdfd";//tedfsf.ext";//$facefinderDir."/learn_list.ext";
+			$cmd='/var/www/html/facefinder/module/facerec '.$learn_list ." ".$facefinderDir.$imgToSava."-".$num.".png";
 			$fp = popen($cmd,'r');
 			$ret="fehler";
 			if($fp!==false){
@@ -160,8 +160,8 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 		
 		public static function classLearnFaceRec(){
 			$facefinderDir =self::getFaceFinderDir();
-			$learn_list = "/var/www/owncloud/apps/facefinder/module/startSet";//tedfsf.ext";//$facefinderDir."/learn_list.ext";
-			$cmd='/var/www/owncloud/apps/facefinder/module/facesave /var/www/owncloud/apps/facefinder/module/startSet /var/www/owncloud/apps/facefinder/module/test.sdfd';
+			$learn_list = "/var/www/html/facefinder/module/startSet";//tedfsf.ext";//$facefinderDir."/learn_list.ext";
+			$cmd='/var/www/html/facefinder/module/facesave /var/www/html/facefinder/module/startSet /var/www/html/facefinder/module/test.sdfd';
 			$fp = popen($cmd,'r');
 			if($fp!==false){
 				while(!feof($fp))
@@ -182,8 +182,8 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 		
 		public static function updateLearnFaceRec(){
 			$facefinderDir =self::getFaceFinderDir();
-			$learn_list = "/var/www/owncloud/apps/facefinder/module/startSet";//tedfsf.ext";//$facefinderDir."/learn_list.ext";
-			$cmd='/var/www/owncloud/apps/facefinder/module/faceupdate /var/www/owncloud/apps/facefinder/module/tedfsddf.ext /var/www/owncloud/apps/facefinder/module/test.sdfd /var/www/owncloud/apps/facefinder/module/test.sdfd';
+			$learn_list = "/var/www/html/facefinder/module/startSet";//tedfsf.ext";//$facefinderDir."/learn_list.ext";
+			$cmd='/var/www/html/facefinder/module/faceupdate /var/www/html/facefinder/module/tedfsddf.ext /var/www/html/facefinder/module/test.sdfd /var/www/html/facefinder/module/test.sdfd';
 			$fp = popen($cmd,'r');
 			if($fp!==false){
 				while(!feof($fp))
@@ -198,7 +198,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 			}else{
 				OCP\Util::writeLog("facefinder","Error to start Lerning",OCP\Util::ERROR);
 			}
-			$learn_list = "/var/www/owncloud/apps/facefinder/module/tedfsddf.ext";
+			$learn_list = "/var/www/html/facefinder/module/tedfsddf.ext";
 			//$image=OC_Filesystem::getLocalFile($path);
 			$fh = fopen($learn_list, 'w+');
 			fclose($fh);
@@ -223,7 +223,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 		 * @param string $image
 		 */
 		public static function addFaceToLearn($facePath,$faceClass){
-			$learn_list = "/var/www/owncloud/apps/facefinder/module/tedfsddf.ext";
+			$learn_list = "/var/www/html/facefinder/module/tedfsddf.ext";
 			//$image=OC_Filesystem::getLocalFile($path);
 			$fh = fopen($learn_list, 'a');
 			fwrite ($fh,self::getFaceFinderDir().$facePath.";".$faceClass."\n");
@@ -231,7 +231,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 		}
 		
 		public static function countNewFaces(){
-			$learn_list = "/var/www/owncloud/apps/facefinder/module/tedfsddf.ext";
+			$learn_list = "/var/www/html/facefinder/module/tedfsddf.ext";
 			return COUNT(FILE($learn_list));
 		}
 
