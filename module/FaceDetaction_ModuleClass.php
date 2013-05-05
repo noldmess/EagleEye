@@ -59,6 +59,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 		if($fp!==false){
 			while(!feof($fp))
 			{
+				sleep(2);
 				// send the current file part to the browser
 				$buffer = fgetss($fp, 4096);
 				//OCP\Util::writeLog("faceFinder_proces ",$buffer,OCP\Util::DEBUG);
