@@ -57,7 +57,7 @@ foreach ($moduleclasses as $moduleclass){
 foreach ($moduleclasses as $moduleclass){
 		$class=$moduleclass['Mapper']::initialiseDB();//($path,$photo->getID());
 }
-	$pathArray=OC_FaceFinder_Scanner::scan("");
+	//$pathArray=OC_FaceFinder_Scanner::scan("");
 	OCP\Util::writeLog("facefinder",json_encode($pathArray),OCP\Util::DEBUG);
 	foreach ($pathArray as $path){
 		OCP\Util::writeLog("facefinder",$path,OCP\Util::DEBUG);
@@ -82,7 +82,16 @@ if(isset($_GET['search'])){
 	OCP\Util::addScript('facefinder', 'photoview');
 	$tmpl->printPage();	
 }else{
-
 	$tmpl = new OC_Template( 'facefinder', 'index', 'user' );
+	//uset to get a start diferent folders
+	$path=array();
+	$dir=str_replace(OCP\User::getUser(), '', $_GET['dir']);
+	$tok= strtok($dir,"/");
+	while ($tok !== false) {
+		$path[]=$tok;
+		$tok = strtok("/");
+	}
+	$tmpl->assign('patharray', $path);
+	
 	$tmpl->printPage();
 }
