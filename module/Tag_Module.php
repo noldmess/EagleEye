@@ -12,6 +12,84 @@ class Tag_Module implements OCA\FaceFinder\MapperInterface{
 			$this->lang =new OC_l10n('facefinder');
 			$this->paht=$path;
 		}
+		
+		/**
+		 * the function returns all Photos order by their Tags
+		 */
+		public static function getAllPhotosJSON($dir,$tag=null){
+			$sqlvar=array();
+			$sql='select DISTINCT f.photo_id as id, path from *PREFIX*facefinder as f left outer join *PREFIX*facefinder_tag_photo_module as ftpm on (ftpm.photo_id=f.photo_id) left outer  join *PREFIX*facefinder_tag_module as ftm on (ftpm.tag_id=ftm.id)';
+			if(strlen($dir)==!0 || strlen($tag)==!0){
+				$sql.=' where';
+			}
+			if(strlen($dir)==!0){
+				$sql.=' f.path like ? ';
+				$sqlvar[]=$dir."%";
+			}
+			if(strlen($tag)==!0){
+				if($tag==='No Tag'){
+					$sql.=' and  tag is null  ';
+				}else{
+					$sql.=' and  tag like ? ';
+					$sqlvar[]=$tag;
+				}
+					
+				
+			}
+			$sql.='order by ftm.tag ASC;';
+			//echo json_encode($sql);
+			$stmt = OCP\DB::prepare($sql);
+			$result=$stmt->execute($sqlvar);
+			;
+			$arrayPhotos=array();
+			while (($row = $result->fetchRow())!= false) {
+				$arrayPhotos[]=array('id'=>$row['id'],'path'=>$row['path']);
+			}
+			return $arrayPhotos;
+		}
+		/**
+		 * the function returns all images order by their tags
+		 * @param Path $dir
+		 * @return unknown
+		 */
+		public static function getJSON($dir){
+			if(strlen($dir)===0){
+				$stmt = OCP\DB::prepare("select f.photo_id as id ,path,tag from *PREFIX*facefinder as f left outer join *PREFIX*facefinder_tag_photo_module as ftpm on (ftpm.photo_id=f.photo_id) left outer  join *PREFIX*facefinder_tag_module as ftm on (ftpm.tag_id=ftm.id)  order by ftm.tag ASC;");
+				$result=$stmt->execute();
+			}else{
+				$stmt = OCP\DB::prepare("select f.photo_id as id ,path,tag from *PREFIX*facefinder as f left outer join *PREFIX*facefinder_tag_photo_module as ftpm on (ftpm.photo_id=f.photo_id) left outer  join *PREFIX*facefinder_tag_module as ftm on (ftpm.tag_id=ftm.id) where f.path like ? order by ftm.tag ASC;");
+				$result=$stmt->execute(array($dir.'%'));
+			}
+						
+			$resuldt=array();
+			$d=0;
+			$tagtest='';
+			$count=0;
+			while (($row = $result->fetchRow())!= false) {
+				$count++;
+				$tag=$row['tag'];
+				if($tagtest==='' && $tag===NULL){
+					$tagtest='';
+					$tag='';
+				}
+				if(strcmp($tag,$tagtest)==!0){
+					if($d>0){
+						if($tagtest==='')
+							$tagtest='No Tag';
+						$resuldt[$tagtest]=$d;
+					}
+					$d=0;
+					//echo $tag."<br>";
+					
+					$tagtest=$tag;
+					//$resuldt[]=$row['path'];
+				}
+				$d++;
+			}
+			$resuldt[$tagtest]=$d;
+			return $resuldt;
+		} 
+		
 		/**
 		 * Return the id or null id the tag and the name are not in the DB
 		 * @param String $key
@@ -21,6 +99,15 @@ class Tag_Module implements OCA\FaceFinder\MapperInterface{
 		public static  function  getTagId($key,$tag){
 			$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_module` WHERE `name` LIKE ? AND `tag` LIKE ?');
 			$result=$stmt->execute(array($key,$tag));
+			while (($row = $result->fetchRow())!= false) {
+				return $row['id'];
+			}
+			return null;
+		}
+		
+		public static  function  getIDTag($tag){
+			$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_module` WHERE `tag` LIKE ?');
+			$result=$stmt->execute(array($tag));
 			while (($row = $result->fetchRow())!= false) {
 				return $row['id'];
 			}
@@ -296,7 +383,7 @@ class Tag_Module implements OCA\FaceFinder\MapperInterface{
 	
 		public function getTagArray($path){
 			/**
-			 * SELECT * FROM `oc_facefinder_tag_module` inner join oc_facefinder_tag_photo_module on oc_facefinder_tag_module.id =oc_facefinder_tag_photo_module.tag_id inner join oc_facefinder on oc_facefinder.photo_id=oc_facefinder_tag_photo_module.photo_id
+			 * SELECT * FROM `*PREFIX*facefinder_tag_module` inner join *PREFIX*facefinder_tag_photo_module on *PREFIX*facefinder_tag_module.id =*PREFIX*facefinder_tag_photo_module.tag_id inner join *PREFIX*facefinder on *PREFIX*facefinder.photo_id=*PREFIX*facefinder_tag_photo_module.photo_id
 			 * 
 			 * 
 			 */

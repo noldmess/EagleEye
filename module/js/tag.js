@@ -1,4 +1,10 @@
-function tag(){
+$(document).ready(function() {
+	$("span.right").append('<button class="tag" style=""> Tag </button>');
+	$("button.tag").click(function(e){
+		tag.click();
+	});
+});
+function tag(){	
 		this.load=function(image){
 			$("#taggs div").remove();
 			$("#photo div").remove();
@@ -111,6 +117,68 @@ tag.removeTagDiv=function(tagDiv){
 	 $.getJSON(OC.linkTo('facefinder', 'ajax/removetag.php')+"?image="+image+"&tag="+tag+"&imagepaht="+imagepaht, function(data) {});
 };
 
+tag.click=function(e){
+	var path=tag.getPath();
+	 $.getJSON(OC.linkTo('facefinder', 'ajax/allImagesTags.php')+'?dir='+path, function(data) {
+		 $('#photoOverView').addClass('loading');
+		 $('#photoOverView * ').remove();
+		 $('#tool_right ul li').remove();
+		 if (data!==null && data.status == 'success'){
+					tag.sidebar(data.tag);
+					tag.photoOverView(data.photo);	
+		     }
+		 $('#photoOverView').removeClass('loading');
+	});
+		 
+};
+
+
+tag.getPath=function(){
+	var list=$('.crumb');
+	var path;
+	$.each(list,function(index_tag,elemet){
+		path=elemet.title;
+	});
+	return path
+}
+
+
+tag.loadImagesTag=function(tagelement){
+	var path=tag.getPath();
+	tagelement=tagelement.id;
+	 $('#tool_right *').removeClass('active');
+	 $('#tool_right ul li[id^="'+tagelement+'"]').addClass('active');
+	 $.getJSON(OC.linkTo('facefinder', 'ajax/allImagesTags.php')+'?dir='+path+'&tag='+tagelement, function(data) {
+		 $('#photoOverView').addClass('loading');
+		 $('#photoOverView * ').remove();
+		 if (data!==null && data.status == 'success'){
+			 	var t= data.photo
+			 	tag.photoOverView(data.photo);	
+	     }
+		 $('#photoOverView').removeClass('loading');
+	 });
+}
+
+tag.sidebar=function(tags){
+	$.each(tags,function(index_tag,elemet){
+		 $('#tool_right ul').append('<li id="'+index_tag+'" class="">'+index_tag+'('+elemet+')</li>');
+		 $('#tool_right ul li[id^="'+index_tag+'"]').click(function(){
+			 tag.loadImagesTag(this)
+	 	});
+	});
+}
+
+tag.photoOverView=function(photos){
+	$.each(photos,function(index_tag,image){
+		 $('#photoOverView').append('<a name="'+image.path+'"><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.path+'"  alt="'+image.id+'"></a><input type="checkbox" original-title=""></input>');
+		 $('#photoOverView a[name^="'+image.path+'"] img').click(function(){
+	 			PhotoView.ClickImg(this)
+	 	});
+  });
+}
+
+
+
 tag.key=function(e){
 	if ( e.keyCode== 13){
 		var tag_value=$("#tool_taggs textarea").val();
@@ -125,12 +193,6 @@ tag.key=function(e){
 	}
 };
 
-$(document).ready(function() {
-	$("#tool_taggs").append('<div id="taggs"></div><textarea></textarea>');
-	$("#tool_taggs textarea").keyup(function(e){
-		tag.key(e);
-	});
-});
 
 function getCoordinates(e){
 	 var PosX = 0;
@@ -181,7 +243,6 @@ function findPosition(oElement)
       return [ oElement.x, oElement.y ];
     }
 }
-
 
 
 

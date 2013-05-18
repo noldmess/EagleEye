@@ -14,13 +14,13 @@ $(document).ready(function() {
 		if (e.keyCode == 27) {
 			// location.hash = "#/DSC_0010.JPG";//;
 			$('#photoview').hide();
-			$('#new_1').show();
+			$('#photoOverView').show();
 			$('#search').show();
 			location.href = "#" + $('#photo img').attr("name");
 		} else {
 			if (e.keyCode == 8) {
 				$('#photoview').hide();
-				$('#new_1').show();
+				$('#photoOverView').show();
 				$('#search').show();
 				location.href = "#" + $('#photo img').attr("name");
 				e.preventDefault();

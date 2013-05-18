@@ -42,7 +42,7 @@ OC::$CLASSPATH['OC_FaceFinder_Scanner'] = 'facefinder/lib/scanner.php';
 OC::$CLASSPATH['OCA\FaceFinder\EquivalentResult'] = 'facefinder/lib/equivalent.php';
 OC::$CLASSPATH['OCA\FaceFinder\OC_Equal'] = 'facefinder/lib/equivalent.php';
 //$l = OC_L10N::get('facefinder');
-
+OCP\Util::addscript( 'facefinder', 'test' );
 OCP\App::addNavigationEntry( array(
  'id' => 'facefinder',
  'order' => 20,

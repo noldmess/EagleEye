@@ -17,7 +17,7 @@ if (version_compare($currentVersion, '0.0.1', '>')) {
 		echo $moduleclass['Mapper'];
 		$moduleclass['Mapper']::initialiseDB();
 	}
-	$pathArray=OC_FaceFinder_Scanner::scan("");
+	//$pathArray=OC_FaceFinder_Scanner::scan("");
 	OCP\Util::writeLog("facefinder",json_encode($pathArray),OCP\Util::DEBUG);
 	foreach ($pathArray as $path){
 		OCP\Util::writeLog("facefinder",$path,OCP\Util::DEBUG);

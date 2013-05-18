@@ -1,55 +1,31 @@
+$(document).ready(function() {
+	$("button.time").click(function(e){
+		FaceFinder.test("");
+	});
+});
 var FaceFinder={
-		
-		test:function(){
-			$('#new_1').addClass('loading');
-			   $.getJSON(OC.linkTo('facefinder', 'ajax/new_1.php'), function(data) {
+		/*tag.sidebar=function(tags){
+			$.each(tags,function(index_tag,elemet){
+				 $('#tool_right ul').append('<li id="'+index_tag+'" class="">'+index_tag+'('+elemet+')</li>');
+				 $('#tool_right ul li[id^="'+index_tag+'"]').click(function(){
+					 tag.loadImagesTag(this)
+			 	});
+			});
+		}*/
+		test:function(data){
+			 $('#photoOverView * ').remove();
+			$('#tool_right ul * ').remove();
+			$('#photoOverView').addClass('loading');
+			   $.getJSON(OC.linkTo('facefinder', 'ajax/new_1.php')+"?dir="+FaceFinder.getPath(), function(data) {
 				   if (data.status == 'success'){
 				   		//Create the year divs 
-				   		$.each(data.data,function(index_year,data){
-				   		$("#new_1").append('<div class="year"></div>');
-				   		$("div.year:eq("+index_year+")").append('<div class="head_line"><div class="title_head">'+data.year+'</div><div class="ico_inline"></div></div>');
-				   		$("#new_1 div.year:eq("+index_year+")  div.head_line").click(function() {
-				   			FaceFinder.slide_month(this);
-			
-				   		});
-				   		$.each(data.month,function(index_month,data){
-				   			$("#new_1 div.year:eq("+index_year+")").append('<div class="month"></div>');
-				   			$("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+")").append('<div class="head_line"><div class="title_head">'+data.month+'</div><div class="ico_inline"></div></div>');
-			        	  	$("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+") div.head_line").click(function() {
-			        	  		FaceFinder.slide_day(this);
-			        	  	});
-				      $.each(data.days,function(index_day,days){
-				    	   $("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+")").append('<div class="day"><h1>'+days.day+'</h1></div>');
-				    	   $.each(days.imags,function(index,image){
-				    		   															
-				    		   	//$("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<li><a name="'+image.imagsname+'"><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagstmp+'"  alt="'+image.imagsname+'"></a></li>');
-				    		   $("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
-				    		 	$("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")  img:eq("+index+")").click(function(){
-				    		 			PhotoView.ClickImg(this)});
-				    		 	
-				    	   });
-				    		 	/*$("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+") a img:eq("+index+")").mousedown(function(evt) {
-						    		   if($(this).hasClass('div ui-selected')){
-						    			   alert("dfssd");
-						    		   }
-						    		   	});*/
-				    	
-			    		 	
-			    	   });
-				 
-				     //  });
-				      	//$("#new_1 div.year:eq("+index_year+") div.month:eq("+index_month+") div ").selectable();
-				        });
-				   		});
-				   		$('#new_1').bind("contextmenu",function(e){
-				   			PhotoView.ClickImg(this);
-					    	$( ".ui-selected", this ).each(function() {
-			   	  				var index = $( "#new_1 img" ).index(this);
-			   	  				alert( " #" + ( index + 1 ) );
-			   	  			});
-					    	 e.preventDefault();
-					    });
-				   		$('#new_1').removeClass('loading');
+					   FaceFinder.addYearSidebar(data.data);
+					   FaceFinder.addYearPhotoOverView(data.data);
+				   		$('#photoOverView').removeClass('loading');
+				   		var test=$('#tool_right li');
+				   				test.click(function(e) {
+				   					FaceFinder.loadData(e,this);
+				   				});
 				   }
 		        });
 				 
@@ -72,7 +48,88 @@ var FaceFinder={
 				$(div).children("div.ico_down").removeClass().addClass("ico_inline");
 				$(div).parent().children("div.month").slideDown(500);
 			}
+	},
+	getPath:function(){
+		var list=$('.crumb');
+		var path;
+		$.each(list,function(index_tag,elemet){
+			path=elemet.title;
+		});
+		return path
+	},
+	
+	
+	addYearSidebar:function(data){
+		$.each(data,function(index_year,data){
+	   		$('#tool_right ul.start').append('<li id="'+data.year+'" class="year2">'+data.year+'('+data.number+')<ul></ul></li>');
+	   		FaceFinder.addMonthSidebar(data.month,index_year);
+		});
+	},
+	addMonthSidebar:function(data,index_year){
+		$.each(data,function(index_month,data){
+				$('#tool_right ul li.year2:eq('+index_year+') ul[class!="month2"]').append('<li  class="month2" id="'+data.monthnumber+'">'+data.month+'('+data.number+')<ul class="month2"></ul></li>');
+    	  		FaceFinder.addDaySidebar(data.days,index_year,index_month);
+			});
+	},
+	addDaySidebar:function(data,index_year,index_month){
+		$.each(data,function(index_day,days){
+				$('#tool_right ul li.year2:eq('+index_year+') ul li.month2:eq('+index_month+') ul').append('<li id="'+days.day+'" class="day">'+days.day+'('+days.number+')</li>');
+		});
+	},
+	addYearPhotoOverView:function(data){
+		$.each(data,function(index_year,data){
+	   		$("#photoOverView").append('<div class="year"></div>');
+	   		//$("div.year:eq("+index_year+")").append('<div class="head_line"><div class="title_head">'+data.year+'</div><div class="ico_inline"></div></div>');
+	   	/*	$("#photoOverView div.year:eq("+index_year+")  div.head_line").click(function() {
+	   			FaceFinder.slide_month(this);
+	   		});*/
+	   		FaceFinder.addMonthPhotoOverView(data.month,index_year);
+   		});
+	},
+	addMonthPhotoOverView:function(data,index_year){
+		$.each(data,function(index_month,data){
+   			$("#photoOverView div.year:eq("+index_year+")").append('<div class="month"></div>');
+   			//$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+")").append('<div class="head_line"><div class="title_head">'+data.month+'</div><div class="ico_inline"></div></div>');
+    	  	/*$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+") div.head_line").click(function() {
+    	  		FaceFinder.slide_day(this);
+    	  	});*/
+    	  		FaceFinder.addDayPhotoOverView(data.days,index_year,index_month);
+			});
+	},
+	addDayPhotoOverView:function(data,index_year,index_month){
+		$.each(data,function(index_day,days){
+		   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+")").append('<div class="day"><h1>'+days.day+'</h1></div>');
+		   $.each(days.imags,function(index,image){
+			   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
+			   $("#photoOverView").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
+			 	$('#photoOverView  img[alt^="'+image.imagsid+'"]').click(function(){
+			 			PhotoView.ClickImg(this)});
+		   });
+		});
+	},
+	loadData:function(e,t){
+			var daynumder;
+			var monthnumder;
+			var yearnumder;
+			var day=$(t);
+			if(day.hasClass('day')){
+				alert(day.attr('id'));
+				var month =day.parent().parent();
+			}else{
+				month=day;
+			}
+			if(month.hasClass('month2')){
+				alert(month.attr('id'));
+				var year =month.parent().parent();
+			}else{
+				year=month;
+			}
+			if(year.hasClass('year2'))
+				alert(year.attr('id'));
+			$('#tool_right *').removeClass('use');
+			$(this).addClass('use');
+			e.stopPropagation();
 	}
-		
+	
 }
 

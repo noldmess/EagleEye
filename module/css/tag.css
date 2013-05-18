@@ -1,2 +1,9 @@
 
-height: 100px; width: 100px; opacity: 1;border: solid 1px red; 
+height: 100px; width: 100px; opacity: 1;border: solid 1px red;
+
+.icon-align-left :HOVER{
+	background-color: red;
+}
+
+
+

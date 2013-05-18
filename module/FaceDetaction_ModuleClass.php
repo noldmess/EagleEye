@@ -183,7 +183,6 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 		
 		public static function updateLearnFaceRec(){
 			$facefinderDir =self::getFaceFinderDir();
-			$learn_list = "/var/www/html/facefinder/module/startSet";//tedfsf.ext";//$facefinderDir."/learn_list.ext";
 			$cmd='/var/www/html/facefinder/module/faceupdate /var/www/html/facefinder/module/tedfsddf.ext /var/www/html/facefinder/module/test.sdfd /var/www/html/facefinder/module/test.sdfd';
 			$fp = popen($cmd,'r');
 			if($fp!==false){

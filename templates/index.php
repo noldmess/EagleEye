@@ -1,12 +1,60 @@
+<div id="controls">
+<div class="crumb ui-droppable" title='/'>
+	<a href="<?php echo \OCP\Util::linkTo('facefinder', '/')."?dir=/"?>"><img class="svg" src="/owncloud/core/img/places/home.svg"></img></a>
+</div>
+<?php 
+$size=sizeof($_['patharray']);
+$path;
+if($size>1)
+	$count=0;
+	foreach ($_['patharray'] as $a){
+	$count++;
+	$path.="/".$a;
+	if($size-$count===0){
+?>
+<div class="crumb last svg" title="<?php echo $path?>">
+	<a href="<?php echo \OCP\Util::linkTo('facefinder', '/')."?dir=".$path?>"><?php echo $a?></a>
+</div>
+<?php }else{?>
+<div class="crumb  svg ui-droppable" title="<?php echo $path?>">
+	<a href="<?php echo \OCP\Util::linkTo('facefinder', '/')."?dir=".$path?>""><?php echo $a?></a>
+</div>
+<?php
+}
 
-<div id="controls"  >
+}
+?>
 	<span class="right">
-<a  href="<?php echo  OCP\Util::linkTo('facefinder', 'equivalent.php')?>" data-item="" title="<?php echo $l->t("Equality"); ?>"><button class="share"><?php echo $l->t("Equality"); ?></button></a>
-</span>
+		<button class="time" style=""> Time </button>
+		<button class="time" style=""> Defect duplicatits </button>
+	</span>
+</div>
+ 
+ <div id="photoff">
+	 <div id="tool_right">
+	 <ul  class="start">
+		 <li>2013
+			 <ul>
+			 <li>Januar</li>
+			 <li>Februar</li>
+			 <li>April</li>
+			 <li>Juni</li>
+			 <li>Juli
+				 <ul>
+				 <li>Juli.1</li>
+				 <li>Juli.2</li>
+				 <li>Juli.3</li>
+				 <li>Juli.4</li>
+				 <li>Juli.5</li>
+				 </ul>
+			 </li>
+			 </ul>
+		 </li>
+	 </ul>
+	 </div>
+	 <div id="photoOverView"></div>
 </div>
 
- <div id="new_1" class="hascontrols">
-</div>
 <div id="photoview">
 
 	<div id="tool_left">
