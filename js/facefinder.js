@@ -78,25 +78,15 @@ var FaceFinder={
 	},
 	addYearPhotoOverView:function(data){
 		$.each(data,function(index_year,data){
-	   		$("#photoOverView").append('<div class="year"></div>');
-	   		//$("div.year:eq("+index_year+")").append('<div class="head_line"><div class="title_head">'+data.year+'</div><div class="ico_inline"></div></div>');
-	   	/*	$("#photoOverView div.year:eq("+index_year+")  div.head_line").click(function() {
-	   			FaceFinder.slide_month(this);
-	   		});*/
-	   		FaceFinder.addMonthPhotoOverView(data.month,index_year);
+	   		FaceFinder.addMonthPhotoOverView(data.month);
    		});
 	},
-	addMonthPhotoOverView:function(data,index_year){
+	addMonthPhotoOverView:function(data){
 		$.each(data,function(index_month,data){
-   			$("#photoOverView div.year:eq("+index_year+")").append('<div class="month"></div>');
-   			//$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+")").append('<div class="head_line"><div class="title_head">'+data.month+'</div><div class="ico_inline"></div></div>');
-    	  	/*$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+") div.head_line").click(function() {
-    	  		FaceFinder.slide_day(this);
-    	  	});*/
-    	  		FaceFinder.addDayPhotoOverView(data.days,index_year,index_month);
+    	  		FaceFinder.addDayPhotoOverView(data.days);
 			});
 	},
-	addDayPhotoOverView:function(data,index_year,index_month){
+	addDayPhotoOverView:function(data){
 		$.each(data,function(index_day,days){
 		   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+")").append('<div class="day"><h1>'+days.day+'</h1></div>');
 		   $.each(days.imags,function(index,image){
@@ -107,27 +97,46 @@ var FaceFinder={
 		   });
 		});
 	},
+	addDataPhotoOverView:function(data){
+		$.each(data,function(index_day,image){
+		   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+")").append('<div class="day"><h1>'+days.day+'</h1></div>');
+			   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
+			   $("#photoOverView").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
+			 	$('#photoOverView  img[alt^="'+image.imagsid+'"]').click(function(){
+			 			PhotoView.ClickImg(this)});
+		});
+	},
 	loadData:function(e,t){
-			var daynumder;
-			var monthnumder;
-			var yearnumder;
+			var daynumder=null;
+			var monthnumder=null;
+			var yearnumder=null;
 			var day=$(t);
 			if(day.hasClass('day')){
-				alert(day.attr('id'));
+				daynumder=day.attr('id');
+				
 				var month =day.parent().parent();
 			}else{
 				month=day;
 			}
 			if(month.hasClass('month2')){
-				alert(month.attr('id'));
+				monthnumder=month.attr('id');
 				var year =month.parent().parent();
 			}else{
 				year=month;
 			}
 			if(year.hasClass('year2'))
-				alert(year.attr('id'));
+				yearnumder=year.attr('id');
 			$('#tool_right *').removeClass('use');
 			$(this).addClass('use');
+			$.getJSON(OC.linkTo('facefinder', 'ajax/PhotoByData.php')+"?dir="+FaceFinder.getPath()+"&year="+yearnumder+"&month="+monthnumder+"&day="+daynumder, function(data) {
+				   if (data.status == 'success'){
+				   		//Create the year divs 
+					   $('#photoOverView * ').remove();
+					   FaceFinder.addDataPhotoOverView(data.data);
+				   		$('#photoOverView').removeClass('loading');
+				   		
+				   }
+		        });
 			e.stopPropagation();
 	}
 	
