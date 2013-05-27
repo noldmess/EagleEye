@@ -4,7 +4,8 @@
 	height:100%;
 	width:100%;
 	position: fixed ;
-		background-color:#f5f5f5;
+	background-color:#f5f5f5;
+	display: block;
 }
 
 #photoview_load{
@@ -13,25 +14,14 @@
 	height:100%;
 	width:100%;
 	position: fixed ;
-		background-color:black;
+	background-color:black;
 }
 #tool_left{
-	position: fixed;
 	float:left;
 	width:70%;
-	height:100%;
-	
 }
 
-#tool_righte{
-	padding-top:5px;
-	padding-left:1px;
-	box-shadow: 3px 0px 7px rgb(0, 0, 0);
-	float:right;
-	height:100%;
-	width:30%;
-	background-color: rgb(238, 238, 238);
-}
+
 
 div.tool_title{
 	background-color: gray;
@@ -54,7 +44,7 @@ div.tool_title{
 	float: left;
 	padding-left: 5px;
 	padding-right: 5px;
-		box-shadow:2px 2px 2px #666;
+	box-shadow:2px 2px 2px #666;
 	-moz-box-shadow: 2px 2px 2px #666;
 	-webkit-box-shadow: 2px 2px 2px #666;
 }
@@ -81,7 +71,7 @@ div#photo{
 	width:auto;
 }
 
-div#photo.loading{
+div.loading{
 		background: url("../img/loader.gif") no-repeat center center;
 }
 
@@ -99,58 +89,11 @@ div#photo.loading{
 
 
 
-#photo div{
-	max-width: 99%;
-	max-height:100%;
-	/*cursor:move;*/
-}
 
-#photo .draggable{
-	position:relative;
-	height: 100px;
-	width: 100px;*/
-	min-width:150px;
-	min-height:35px;
-	opacity: 1;
-	border: solid 2px #778899;
-}
-
-#photo .draggable:HOVER{
-	opacity: 1;
-	border: solid 2px red;
-}
-
-#photo .draggable_fix{
-	height: 100px;
-	width: 100px;
-	opacity: 0.1;
-	
-}
-
-#photo .draggable_fix:HOVER{
-	opacity: 1;
-	border: dotted 2px red;
-}
-
-#photo .draggable input{
-	position:relative;
-	bottom:35px;
-	opacity: 0.8;
-}
-
-
-#photo .draggable_tag{
-	/*cursor: pointer;*/
-	background:white;
-	position:relative;
-	opacity: 1.0;
-}
-
-#photo .draggable_tag img{
-	cursor: pointer;
-}
 
 div.tool_title{
+	-moz-border-radius: 1em 0em 1em 4em;
+	border-radius: 1em 4em 0em 4em;
 	height:16px;
 	background-color:  rgb(238, 238, 238);
 	border-bottom: 1px solid rgb(212, 212, 212);
@@ -166,24 +109,39 @@ div.tool_title h1{
 	font:100 16px "Helvetica Neue", Helvetica, Arial, sans-serif;
 	height: 16px;
 }
-div.tool_ico{
-		float: left;
-	    background-image: url("/owncloud/core/img/actions/settings.png");
-	    height: 16px;
-		width: 16px;
+
+#tool_righte{
+	float:left;
+	margin: 1px;
+	width: 25%;
+	/*background-color: rgb(238, 238, 238);*/
 }
 
 #tool_righte div.tool{
+	padding:2px;
+	margin: 10px;
+	border-radius: 7px;
 	min-height:16px;
-	width:100%;
 	background-color: gray;
 }
 
 
 #tool_righte  div.tool_items{
- 	padding-left:5px;
-	width:100%;
-	overflow:auto;
+	scrollbar-arrow-color: #949494;
+	scrollbar-track-color: #949494;
+	scrollbar-face-color: #474747;
+	scrollbar-highlight-color: #949494;
+	scrollbar-3dlight-color: #949494;
+	scrollbar-shadow-color: #949494;
+	scrollbar-darkshadow-color: #949494;
+	overflow-y:auto;
+	max-height:200px;
+	background-color: gray;
+	/*display: inline;*/
+}
+
+#tool_righte  div.tool_items.fix{
+	overflow:hidden;
 	max-height:200px;
 	background-color: gray;
 	/*display: inline;*/
