@@ -427,7 +427,7 @@ class Tag_Module implements OCA\FaceFinder\MapperInterface{
 		
 		
 		public static function getArrayOfStyle(){
-			return null;
+			return array("tag");
 		}
 			
 			
