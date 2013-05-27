@@ -1,4 +1,9 @@
-
+$(document).ready(function() {
+	setTimeout(function(){
+		Module.toolSlide();
+		  }, 500);
+	
+});
 var Module={
 		load:function (event){
 			//$."Tag".load(event);
@@ -10,8 +15,18 @@ var Module={
 							classload.load(event);
 					});
 				}
+				
 			});
-		}
+		},
+	toolSlide:function(){
+		$('.tool div.tool_title').click(function(){	
+			if($(this).parent().children(".tool_items").is(":visible")){
+				$(this).parent().children(".tool_items").slideUp(500);
+			}else{
+				$(this).parent().children(".tool_items").slideDown(500);
+			}
+		})
+	}
 };
 
 
