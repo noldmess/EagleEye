@@ -7,3 +7,54 @@ height: 100px; width: 100px; opacity: 1;border: solid 1px red;
 
 
 
+#photo .draggable{
+	box-shadow:inset 0px 0px 8px 0px #efefef;
+	position:relative;
+	height: 100px;
+	width: 100px;*/
+	min-width:150px;
+	min-height:35px;
+	opacity: 1;
+	border: solid 1px #efefef;
+}
+
+#photo .draggable:HOVER{
+	box-shadow:inset 0px 0px 8px 0px #efefef;
+	opacity: 1;
+	border: solid 1px #efefef;
+}
+
+#photo .draggable_fix{
+	border-radius: 7px;
+	box-shadow:inset 0px 0px 8px 0px #efefef;
+	height: 100px;
+	width: 100px;
+	
+}
+
+
+#photo .draggable input{
+	position:relative;
+	bottom:35px;
+	opacity: 0.8;
+}
+
+
+#photo .draggable_tag{
+	border-radius: 7px;
+	bottom:-10px;
+	border-top:10px;
+	/*cursor: pointer;*/;
+	width:auto;
+	background:white;
+	position:relative;
+	opacity: 1.0;
+}
+
+#photo .draggable_tag img{
+	cursor: pointer;
+}
+
+#photo .tag_in_photo{
+	cursor: pointer;
+}
