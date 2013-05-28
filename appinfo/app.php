@@ -47,7 +47,7 @@ OCP\App::addNavigationEntry( array(
  'id' => 'facefinder',
  'order' => 20,
  'href' => OCP\Util::linkTo('facefinder', 'index.php'),
- 'icon' => OCP\Util::imagePath('core', 'v'),
+ 'icon' => OCP\Util::imagePath('core', 'places/picture.svg'),
  'name' => "FaceFinder"
 ));
 
