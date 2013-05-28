@@ -66,6 +66,10 @@ div.visible { opacity: 0.8;}
 	color:#ffffff;
 }
 
+#tool_right ul *.active{
+	background-color:#33373d;
+}
+
 #tool_right ul ul{
 	padding-left:20px;
 	font-style:italic;
