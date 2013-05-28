@@ -23,7 +23,7 @@
 
 use OCA\FaceFinder;
 
-OCP\User::checkLoggedIn();
+//OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('facefinder');
 OCP\App::setActiveNavigationEntry( 'facefinder' );
 OCP\Util::addStyle('facefinder', 'styles');
