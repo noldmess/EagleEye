@@ -18,7 +18,6 @@ var FaceFinder={
 			$('#photoOverView').addClass('loading');
 			   $.getJSON(OC.linkTo('facefinder', 'ajax/new_1.php')+"?dir="+FaceFinder.getPath(), function(data) {
 				   if (data.status == 'success'){
-				   		//Create the year divs 
 					   FaceFinder.addYearSidebar(data.data);
 					   FaceFinder.addYearPhotoOverView(data.data);
 				   		$('#photoOverView').removeClass('loading');
@@ -91,7 +90,7 @@ var FaceFinder={
 		   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+")").append('<div class="day"><h1>'+days.day+'</h1></div>');
 		   $.each(days.imags,function(index,image){
 			   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
-			   $("#photoOverView").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
+			   $("#photoOverView").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input>');
 			 	$('#photoOverView  img[alt^="'+image.imagsid+'"]').click(function(){
 			 			PhotoView.ClickImg(this)});
 		   });
@@ -101,7 +100,7 @@ var FaceFinder={
 		$.each(data,function(index_day,image){
 		   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+")").append('<div class="day"><h1>'+days.day+'</h1></div>');
 			   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
-			   $("#photoOverView").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
+			   $("#photoOverView").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input>');
 			 	$('#photoOverView  img[alt^="'+image.imagsid+'"]').click(function(){
 			 			PhotoView.ClickImg(this)});
 		});
@@ -126,8 +125,8 @@ var FaceFinder={
 			}
 			if(year.hasClass('year2'))
 				yearnumder=year.attr('id');
-			$('#tool_right *').removeClass('use');
-			$(this).addClass('use');
+			$('#tool_right *').removeClass('active');
+			$(t).addClass('active');
 			$.getJSON(OC.linkTo('facefinder', 'ajax/PhotoByData.php')+"?dir="+FaceFinder.getPath()+"&year="+yearnumder+"&month="+monthnumder+"&day="+daynumder, function(data) {
 				   if (data.status == 'success'){
 				   		//Create the year divs 

@@ -8,7 +8,9 @@ var PhotoView={
 			$('#photoview').hide();
 		},
 		ClickImg:function(event){
-			
+ 			$('span.right button').hide();
+ 			$('span.right input').hide();
+			$('button.back').show();
 			//set PhotoView visible
 	 		$('#photo').addClass('loading');
 	 		$('#photo img').remove()
