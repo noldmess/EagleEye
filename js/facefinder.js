@@ -90,8 +90,8 @@ var FaceFinder={
 		   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+")").append('<div class="day"><h1>'+days.day+'</h1></div>');
 		   $.each(days.imags,function(index,image){
 			   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
-			   $("#photoOverView").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input>');
-			 	$('#photoOverView  img[alt^="'+image.imagsid+'"]').click(function(){
+			   $("#photoOverView").append('<div class="image" ><a name="'+image.imagsname+'"><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"  name="'+image.imagsname+'"></a><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input></div>');
+			 	$('#photoOverView  img[alt="'+image.imagsid+'"]').click(function(){
 			 			PhotoView.ClickImg(this)});
 		   });
 		});
@@ -100,8 +100,8 @@ var FaceFinder={
 		$.each(data,function(index_day,image){
 		   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+")").append('<div class="day"><h1>'+days.day+'</h1></div>');
 			   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
-			   $("#photoOverView").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input>');
-			 	$('#photoOverView  img[alt^="'+image.imagsid+'"]').click(function(){
+			   $("#photoOverView").append('<div class="image" ><a name="'+image.imagsname+'"><img name="'+image.imagsname+'" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"></a><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input></div>');
+			 	$('#photoOverView  img[alt="'+image.imagsid+'"]').click(function(){
 			 			PhotoView.ClickImg(this)});
 		});
 	},
