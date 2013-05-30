@@ -20,7 +20,7 @@ function tag(){
 
 
 tag.init=function(){
-	$("#tool_righte").append('<div class="tool Tag"><div class="tool_title"><i class="icon-info-sign"></i>Tag</div><div class="tool_items"><ul></ul></div><div class="tool_items fix"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input><p><label for="male">All tags Visible</label><input   type="checkbox"  value="" name="query" ></input></p></div></div>');
+	$("#tool_righte").append('<div class="tool Tag"><div class="tool_title"><i class="icon-info-sign"></i>Tag</div><div class="tool_items fix"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input><p><label for="male">All tags Visible</label><input   type="checkbox"  value="" name="query" ></input></p></div><div class="tool_items"><ul></ul></div></div>');
 	$("span.right").append('<button class="tag" style=""> Tag </button><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input>');
 	$("button.tag").click(function(e){
 		tag.click();
@@ -228,7 +228,8 @@ tag.sidebar=function(tags){
 
 tag.photoOverView=function(photos){
 	$.each(photos,function(index_tag,image){
-		 $('#photoOverView').append('<a name="'+image.path+'"><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.path+'"  alt="'+image.id+'"></a><input type="checkbox" original-title="" alt="'+image.id+'" ></input>');
+		//$("#photoOverView").append('<div class="image" ><a name="'+image.imagsname+'"><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"></a><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input></div>');
+		 $('#photoOverView').append('<div class="image" ><a name="'+image.path+'"><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.path+'"  alt="'+image.id+'"></a><input type="checkbox" original-title="" alt="'+image.id+'" ></input></div>');
 		 $('#photoOverView a[name^="'+image.path+'"] img').click(function(){
 	 			PhotoView.ClickImg(this)
 	 	});

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$("#tool_righte").append('<div class="tool Face"><div class="tool_title"><i class="icon-info-sign"></i>Face<input   type="checkbox"  value="" name="query" ></input></div><div class="tool_items"><ul></ul></div></div>');
+	$("#tool_righte").append('<div class="tool Face"><div class="tool_title"><i class="icon-info-sign"></i>Face</div><div class="tool_items"><ul></ul></div></div>');
 });
 
 
@@ -20,8 +20,8 @@ face.getTag=function(img){
 			$.each(data.data,function(index_tag,data){
 					 var x=(parseFloat(data.x1)*document.getElementById("img_img").offsetWidth);
 			 		 var y=(parseFloat(data.y1)*document.getElementById("img_img").offsetHeight);
-			 		 var x2=(parseFloat(data.x2)*document.getElementById("img_img").offsetWidth-x);
-			 		 var y2=(parseFloat(data.y2)*document.getElementById("img_img").offsetHeight-y);
+			 		 var x2=(parseFloat(data.x2)*document.getElementById("img_img").offsetWidth);
+			 		 var y2=(parseFloat(data.y2)*document.getElementById("img_img").offsetHeight);
 					 var y1=(document.getElementById("img_img").offsetTop+y);
 					 var x1=(document.getElementById("img_img").offsetLeft+x);
 					 var extra="";
@@ -29,7 +29,7 @@ face.getTag=function(img){
 						 extra= face.create(data.face_id,data.tag,x1,y1,x2,y2);
 						 $('#tool_righte .tool.Face .tool_items ul').append('<li><i class="icon-remove-sign" name="'+data.face_id+'"></i>'+data.name+' '+data.tag+"</li>");
 					 }else{
-						 $("#photo").append('<div class="draggable_face" style="position: absolute; top: '+y1+'px; left: '+x1+'px; width: '+x2+'px; height:'+y2+'px;"><i class="icon-remove-sign" alt="'+data.face_id+'" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'"></i><input   type="text"  value="" id="'+data.face_id+'" alt="'+data.x1+'-'+data.y1+'-'+data.x2+'-'+data.y2+'"></input></div>');
+						 $("#photo").append('<div class="face outer "style="position: absolute; top: '+y1+'px; left: '+x1+'px;"><div class="face inner" style=" width: '+x2+'px; height:'+y2+'px;"></div><div class="face outer fram"><i class="icon-remove-sign" alt="'+data.face_id+'" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'"></i><input   type="text"  value="" id="'+data.face_id+'" alt="'+data.x1+'-'+data.y1+'-'+data.x2+'-'+data.y2+'"></input></div></div>');
 						 $("input#"+data.face_id).keyup(function(e){ 
 							 if ( e.keyCode== 13){
 								 //e.delegateTarget.alt
