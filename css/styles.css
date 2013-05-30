@@ -24,6 +24,27 @@ div.visible { opacity: 0.8;}
 	overflow:auto;
 }
 
+#photoOverView img {
+	float:left; 
+	margin: 5px;
+	box-shadow:2px 2px 2px #666;
+	-moz-box-shadow: 2px 2px 2px #666;
+	-webkit-box-shadow: 2px 2px 2px #666;
+}
+
+#photoOverView div.image {
+	position:relative;
+	float: left;
+}
+#photoOverView div.image input{
+position: absolute; 
+	position: absolute; 
+ 	bottom:10px; 
+   right: 10px; 
+}
+
+
+
 #photoOverView.loading{
 		background:url("../img/loader.gif") no-repeat center center;
 }
