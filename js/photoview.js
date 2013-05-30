@@ -27,7 +27,7 @@ var PhotoView={
 						Module.load(data.data.id);
 						$('#photo').append(this);
 						 $(this).fadeIn();
-						 $('#photoview').removeClass('loading');
+						 $('#photo').removeClass('loading');
 					})
 					.error(function () {
 							alert("Error")   
@@ -35,7 +35,7 @@ var PhotoView={
 					
 					$('#photoview img').ready(function(){
 						$('#photoview img').show();
-						$('#photoview').removeClass('loading');
+						$('#photo').removeClass('loading');
 					});
 				}
 	 		});
