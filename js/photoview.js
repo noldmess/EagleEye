@@ -27,6 +27,7 @@ var PhotoView={
 						Module.load(data.data.id);
 						$('#photo').append(this);
 						 $(this).fadeIn();
+						 $('#photoview').removeClass('loading');
 					})
 					.error(function () {
 							alert("Error")   
