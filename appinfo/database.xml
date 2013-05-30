@@ -22,6 +22,18 @@
 	    <length>64</length>
       </field>
       <field>
+	    <name>height</name>
+	    <type>integer</type>
+	    <notnull>true</notnull>
+	    <length>64</length>
+      </field>
+       <field>
+	    <name>width</name>
+	    <type>integer</type>
+	    <notnull>true</notnull>
+	    <length>64</length>
+      </field>
+      <field>
 	    <name>path</name>
 	    <type>text</type>
 	    <notnull>true</notnull>
