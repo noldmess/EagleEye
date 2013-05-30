@@ -27,6 +27,7 @@ var PhotoView={
 						Module.load(data.data.id);
 						$('#photo').append(this);
 						 $(this).fadeIn();
+							$('#photo').removeClass('loading');
 					})
 					.error(function () {
 							alert("Error")   
@@ -34,7 +35,6 @@ var PhotoView={
 					
 					$('#photoview img').ready(function(){
 						$('#photoview img').show();
-						$('#photo').removeClass('loading');
 					});
 				}
 	 		});
