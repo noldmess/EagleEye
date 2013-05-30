@@ -426,10 +426,10 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 	public  static function createDBtabels($classname){
 		self::removeDBtabels();
 		OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/'.$classname.'.xml');
-		$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_facedetaction_module_cache`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE SET NULL');
+		$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_facedetaction_module_cache`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
 		$stmt->execute();
-		/*$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_facedetaction_face_photo_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE SET NULL');
-		$stmt->execute();*/
+		$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_facedetaction_face_photo_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE SET NULL ON UPDATE CASCADE');
+		$stmt->execute();
 	}
 
 
