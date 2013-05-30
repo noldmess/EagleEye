@@ -51,8 +51,8 @@ OCP\App::addNavigationEntry( array(
  'name' => "FaceFinder"
 ));
 
-$array=OCP\BackgroundJob::allQueuedTasks ();
-OCP\Util::writeLog("facefinder",json_encode($array)."sdfsdf",OCP\Util::DEBUG);
+//$array=OCP\BackgroundJob::allQueuedTasks ();
+//OCP\Util::writeLog("facefinder",json_encode($array)."sdfsdf",OCP\Util::DEBUG);
 OC_Search::registerProvider('OC_Search_Provider_FaceFinder');
 OCP\Util::connectHook('OC_Filesystem', 'post_write','OCA\FaceFinder\HooksHandlers','write');
 OCP\Util::connectHook('OC_Filesystem', 'post_delete','OCA\FaceFinder\HooksHandlers','delete');
