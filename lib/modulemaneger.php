@@ -74,7 +74,7 @@ class ModuleManeger {
 					require_once $fileinfo['dirname']."/".$tmp;
 					return $classname;
 			}else{
-				OCP\Util::writeLog("facefinder","The class:".$classname." not implements the OCA\FaceFinder\MapperInterface interface",OCP\Util::ERROR);
+				//OCP\Util::writeLog("facefinder","The class:".$classname." not implements the OCA\FaceFinder\MapperInterface interface",OCP\Util::ERROR);
 				return  null;
 			}
 				
@@ -94,7 +94,7 @@ class ModuleManeger {
 				$fileinfo=pathinfo($classPath);
 				return $classname;
 			}else{
-				OCP\Util::writeLog("facefinder","The class:".$classname." not implements the OCA\FaceFinder\ClassInterface interface",OCP\Util::ERROR);
+				//OCP\Util::writeLog("facefinder","The class:".$classname." not implements the OCA\FaceFinder\ClassInterface interface",OCP\Util::ERROR);
 				return  null;
 			}
 	
