@@ -42,5 +42,25 @@ if($size>1)
 	</div>
 	<div id="tool_righte"></div>
 </div>
+<div id="duplicate">
+<table class="table table-hover">
+	<thead>
+    	<tr>
+            <th>
+            	#
+            </th>
+        	<th>
+            	User
+            </th>
+            <th>
+            	Victories
+            </th>
+        </tr>
+    </thead>
+	
+    <tbody>
+    	    </tbody>
+</table>
+</div>
 
 
