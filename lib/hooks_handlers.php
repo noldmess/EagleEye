@@ -29,7 +29,7 @@ class HooksHandlers {
 	 * @param  $params
 	 */
 	public static function write($params) {
-
+		OCP\Util::writeLog("facefinddddddddddddddddddder","write".$path,OCP\Util::DEBUG);
 		$path = $params['path'];
 		if(self::isPhoto($path)){
 		$photoOpject=PhotoClass::getInstanceByPaht($path);
@@ -54,6 +54,8 @@ class HooksHandlers {
 	 */
 	public static function delete($params){
 		$path = $params['path'];
+		OCP\Util::writeLog("facefinddddddddddddddddddder","delete".$path,OCP\Util::DEBUG);
+		OCP\Util::writeLog("facefinder","delete"+$path,OCP\Util::DEBUG);
 		OCP\Util::writeLog("facefinder2","delete".$path,OCP\Util::DEBUG);
 		if($path!=''&& self::isPhoto($path)){
 			OCP\Util::writeLog("facefinder","to delite".$path,OCP\Util::DEBUG);
@@ -86,10 +88,10 @@ class HooksHandlers {
 	public static function update($params){
 		$path = $params['oldpath'];
 		$newpath = $params['newpath'];
-		OCP\Util::writeLog("facefinder2","update".$path,OCP\Util::DEBUG);
-		self::delete(array('path'=>$path));
-		OCP\Util::writeLog("facefinder2","update".$newpath,OCP\Util::DEBUG);
-		self::write(array('path'=>$newpath));
+		OCP\Util::writeLog("facefinddddddddddddddddddder","update".$path." ".$newpath,OCP\Util::DEBUG);
+		$photo=FaceFinderPhoto::getPhotoClassPath($path);
+		$photo->setPath($newpath);
+		FaceFinderPhoto::update($photo);
 	}
 	/**
 	 * Help funktien to check the file path no the type 
