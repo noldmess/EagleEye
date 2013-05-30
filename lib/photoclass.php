@@ -3,12 +3,14 @@ namespace OCA\FaceFinder;
 
 use OC\Files\Filesystem;
 use OCP\Util;
-
+use OCP;
 class PhotoClass{
 	private $id=null;
 	private $hash;
 	private $path;
 	private $date;
+	private $width;
+	private $height;
 	
 	private   function __construct() {
 		
@@ -16,6 +18,7 @@ class PhotoClass{
 	function  getJSON(){
 		return array("path"=>$this->getPath(),"id"=>$this->getID());
 	}
+	
 	
 	
 	
@@ -36,6 +39,11 @@ class PhotoClass{
 			$class->setHash(hash_file("sha256",\OC\Files\Filesystem::getLocalFile($path)));
 			$exifheader=self::getExitHeader($path);
 			$class->setDate(self::getDateOfEXIF($exifheader));
+			//get image size
+			$tmpsize=getimagesize(\OC\Files\Filesystem::getLocalFile($path));
+			$class->setWidth($tmpsize[0]);
+			$class->setHeight($tmpsize[1]);
+			
 		}else{
 			\OCP\Util::writeLog("facefinder",$paht,OCP\Util::ERROR);
 			 $class=null;
@@ -61,7 +69,7 @@ class PhotoClass{
 	 */
 	public static function getDateOfEXIF($exifheader){
 		if(!is_array($exifheader)|| !isset($exifheader['FILE'])){
-			\OCP\Util::writeLog("facefinderssssssss","1",OCP\Util::DEBUG);
+			//\OCP\Util::writeLog("facefinderssssssss","1",OCP\Util::DEBUG);
 			return null;
 		}
 		if(isset($exifheader['EXIF']['DateTimeOriginal'])){
@@ -79,6 +87,12 @@ class PhotoClass{
 	public function  getHash(){
 		return $this->hash;
 	}
+	public function  getHeight(){
+		return $this->height;
+	}
+	public function  getWidth(){
+		return $this->width;
+	}
 	
 	public  function getDate(){
 		return $this->date;
@@ -92,7 +106,12 @@ class PhotoClass{
 		return $this->id;
 	}
 	
-	
+	public function  setHeight($height){
+		$this->height=$height;
+	}
+	public function  setWidth($width){
+		$this->width=$width;
+	}
 	public function  setHash($hash){
 		$this->hash=$hash;
 	}

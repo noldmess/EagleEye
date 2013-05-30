@@ -33,6 +33,7 @@ class FaceFinderPhoto{// implements OC_Module_Interface{
 	}
 	
 	
+
 	public static function getAllPhotosJSON($dir,$tag=null){
 		$sqlvar=array();
 		$sql='select DISTINCT f.photo_id as id, path from *PREFIX*facefinder as f left outer join *PREFIX*facefinder_tag_photo_module as ftpm on (ftpm.photo_id=f.photo_id) left outer  join *PREFIX*facefinder_tag_module as ftm on (ftpm.tag_id=ftm.id)';
@@ -117,8 +118,8 @@ class FaceFinderPhoto{// implements OC_Module_Interface{
 	public static  function insert($photo){
 			$existolrady=false;
 			if(self::getPhotoClassPath($photo->getPath())===null){
-				$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder` ( `uid_owner`, `path`,`hash`,`date_photo`)   VALUES (?, ?,?,?)');
-				$stmt->execute(array(\OCP\USER::getUser(),$photo->getPath(),$photo->getHash(),$photo->getDate()));
+				$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder` ( `uid_owner`, `path`,`hash`,`date_photo`,`height`,`width`)   VALUES (?, ?,?,?,?,?)');
+				$stmt->execute(array(\OCP\USER::getUser(),$photo->getPath(),$photo->getHash(),$photo->getDate(),$photo->getHeight(),$photo->getWidth()));
 				$existolrady=true;
 			}
 		return $existolrady;
