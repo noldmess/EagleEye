@@ -13,15 +13,22 @@ div.gallery_div {position:relative; display: inline-block; height: 150px; width:
 div.miniature_border {position:absolute; height: 150px; -moz-transition-duration: 0.2s; -o-transition-duration:0.2s;  -webkit-transition-duration: .2s; background-position: 50%;}
 div.line {display:inline-block; border: 0; width: auto; height: 160px}
 div.gallery_div img{position:absolute; top: 1; left: 0; -moz-transition-duration: 0.3s; -o-transition-duration:0.3s; -webkit-transition-duration: 0.3s; height:150px; width: auto;}
-div.gallery_div img.shrinker {width:80px !important;}
+div.gallery_div img.shrinker {width:80pxso !important;}
 div.title { opacity: 0; text-align: center; vertical-align: middle; font-family: Arial; font-size: 12px; border: 0; position: absolute; text-overflow: ellipsis; bottom: 20px; right:-5px; height:auto; padding: 5px; width: 140px; background-color: black; color: white; -webkit-transition: opacity 0.5s;  z-index:1000; border-radius: 7px}
 div.visible { opacity: 0.8;}
+
+#photoff{
+	margin-top: 2.8em;
+	height:100%;
+	width:100%;
+	position:absolute;
+	background-color:#f5f5f5;
+}
 
 #photoOverView {
 	width:auto;
 	max-height:100%;
-	position:relative;
-	overflow:auto;
+	overflow-y:auto;
 }
 
 #photoOverView img {
@@ -51,21 +58,13 @@ position: absolute;
 
 
 
-#photoff{
-	display:block; 
-	margin-top: 2.8em;
-	overflow: visible; 
-	height:100%;
-	width:100%;
-	position: fixed ;
-	background-color:#f5f5f5;
-}
 #tool_right{
 	background-color:#494e57;
 	float: left;
 	min-width:200px;
 	max-width:auto;
 	height:100%;
+	
 }
 
 #tool_right ul {

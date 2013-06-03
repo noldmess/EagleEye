@@ -1,15 +1,38 @@
 <?php
+ function test($a, $b)
+{
+	if ($a['prozent'] == $b['prozent']) {
+		return 0;
+	}
+	return ($a['prozent'] > $b['prozent']) ? -1 : 1;
+}
 use OCA\FaceFinder;
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('facefinder');
-$photo= new OCA\FaceFinder\FaceFinderPhoto("");
+$dir=$_GET['dir'];
 $writemodul=OCA\FaceFinder\ModuleManeger::getInstance();
 $moduleclasses=$writemodul->getModuleClass();
-$photoArray=$photo->equivalent();
+$photo= new OCA\FaceFinder\FaceFinderPhoto("");
+$photoArray=$photo->equivalent($dir);
+$moduleArray=array();
 foreach ($moduleclasses as $moduleclass){
   $moduleopject=new $moduleclass['Mapper']("");
-  $moduleArray[]=$moduleopject->equivalent();
+   $moduleArray+=array($moduleclass['Mapper']=>$moduleopject->equivalent($dir));	
 }
-$photo=OCA\FaceFinder\EquivalentResult::Ajaxequalety($photoArray,$moduleArray);
-echo OCP\JSON::success(array("data"=>$photo));
+for($i=0;$i<sizeof($photoArray);$i++){
+	foreach($moduleArray as $module){
+		foreach($module as $image){
+			//echo json_encode($image);
+			if($photoArray[$i][0]["photo_id"]===$image[0]["photo_id"] && $photoArray[$i][1]["photo_id"]===$image[1]["photo_id"] ||$photoArray[$i][1]["photo_id"]===$image[0]["photo_id"] && $photoArray[$i][0]["photo_id"]===$image[1]["photo_id"]){
+				$photoArray[$i]['prozent']=($photoArray[$i]['prozent']*0.99)+($image[1]['prozent']*0.01);
+				break;
+			}
+		}
+		
+	}
+}
+
+usort($photoArray,  "test");
+$photoArray=array_slice($photoArray,0,20);
+echo OCP\JSON::success(array("data"=>$photoArray));
 ?>
