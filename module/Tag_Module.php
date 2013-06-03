@@ -284,72 +284,75 @@ class Tag_Module implements OCA\FaceFinder\MapperInterface{
 		 * The funktion compares all taggs if 95% are equal add to the OC Equal object
 		 * @return OC_Equal
 		 */
-		public function equivalent(){
+		public function equivalent($dir){
 			//hard coded value for each module and and the value of the eqaletti between 1 and 100
 			$value=1;
 			$s=new OCA\FaceFinder\OC_Equal(0.5);
 			//get all information of a Photo from the DB
-			$stmt = OCP\DB::prepare('select path,name,tag    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_tag_photo_module as tagphoto on (base.photo_id=tagphoto.photo_id) inner join *PREFIX*facefinder_tag_module as tag on (tagphoto.tag_id=tag.id)where uid_owner like ?   order by path,name');
-			$result=$stmt->execute(array(\OCP\USER::getUser()));
+			$stmt = OCP\DB::prepare('select base.photo_id,path,name,tag    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_tag_photo_module as tagphoto on (base.photo_id=tagphoto.photo_id) inner join *PREFIX*facefinder_tag_module as tag on (tagphoto.tag_id=tag.id)where uid_owner like ?  and path like ? order by path,name');
+			$result=$stmt->execute(array(\OCP\USER::getUser(),$dir."%"));
 			$array=array();
 			$path=null;
+			$count=0;
+			$help=array();
 			//build a new  array of all information for each Photo
 			while (($row = $result->fetchRow())!= false) {
-				if($path!=$row['path']){
+				if($path!=$row['photo_id']){
 					if($path!=null) {
-						$array+=array($path=>$help);
+						
+						$array+=array($count++=>array('photo_id'=>$path)+$help);
+						
 					}
 					$help=array();
-					$help=$help+array($row['name']=>$row['tag']);
-					$path=$row['path'];
+					$help=$help+array($row['name']=>array($row['tag']));
+					$path=$row['photo_id'];
 				}else{
-					$help=$help+array($row['name']=>$row['tag']);
+					if(isset($help[$row['name']])){
+						$help[$row['name']]= array_merge(array($row['tag']),$help[$row['name']]);
+					}else{
+						$help=$help+array($row['name']=>array($row['tag']));
+					}
 				}
 			}
-			$array+=array($path=>$help);
-			//array whit the equivalent elements;
-			$array_eq=array();
-			$name=null;
-			while ($array_tag1 = current($array)) {
-     			   if($name!=null){
-						$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
-						$s->addFileName($name);
-     			   }
-     			   $eq=array();
-     			   $name=key($array);
-     			  // echo $name;
-     			   $arrays=$array;
-     			   foreach($arrays as $helpNameCheach=>$array_tag2){
-     			   	//not check if it has the same name
-     			   	
-     			   //echo key($array);
-     			   	if($name!=$helpNameCheach){
-     			   		//echo $helpNameCheach;
-     			   		$array_exif_elements=count($array_tag1);
-     			   		if($array_exif_elements>0){
-     			   			//return the equal elements in both arrays
-     			   			$equal_elment=array_intersect($array_tag1, $array_tag2);
-     			   			if(count($equal_elment)/$array_exif_elements==1) {
-     			   				$eq[]=$helpNameCheach;
-     			   				$s->addSubFileName($helpNameCheach);
-     			   				unset($array[$helpNameCheach]);
-     			   				
-     			   					
-     			   			}
-     			   		}
-     			   	}
-     			   }
-     			   
-   				next($array);
-			}
-		if(count($eq)>0){
-				$array_eq+=array($name=>array("value"=>$value,"equival"=>$eq));
-			}
-			$s->addFileName($name);
-			
-			return $s;
+			$array+=array($count++=>array('photo_id'=>$path)+$help);
+			$help1=sizeof($array);
+			$help2=sizeof($array);
+			$array_duplicatits=array();
+			$count=0;
+			//echo json_encode($array)."<br>";
+			for ($i=0;$i<$help1;$i++){
+				
+				for ($j=($i+1);$j<$help2;$j++){
+					$proz=0;
+					//if(isset($array[$i])&& isset($array[$j])&&$array[$i]['hash']===$array[$j]['hash']){
+					$lengt=0;
+					//$count=0;
+					foreach($array[$i] as $key =>$value){
+						if (array_key_exists($key, $array[$j])) {
+								$tmp=array_intersect($array[$i][$key],$array[$j][$key]);
+								$proz+=(sizeof($tmp))/(sizeof($array[$i][$key]));
+						}
+							$lengt++;
+					}
+					$proz=$proz/($lengt-1);
+					if(0.5<$proz){
+						$array_duplicatits+=array(($count++)=>array($array[$i],$array[$j],"prozent"=>$proz,"info"=>array()));
+					}
+					}
+					
+				}
+				//uasort($array_duplicatits, array($this, "test"));
+			return $array_duplicatits;
 		}
 		
+
+		public function test($a, $b)
+		{
+			if ($a['prozent'] == $b['prozent']) {
+				return 0;
+			}
+			return ($a['prozent'] > $b['prozent']) ? -1 : 1;
+		}
 		/**
 		 * Create the DB of the Module the if the module hase an new Version numper
 		 * @return boolean

@@ -202,45 +202,47 @@ class Kamera_Module implements OCA\FaceFinder\MapperInterface{
 			 * The funktion compares all kamera if 100% are equal add to the OC Equal object
 			 * @return OC_Equal
 			 */
-			public  function equivalent(){
+			public  function equivalent($dir){
 			//get all information of a Photo from the DB
-			$stmt = OCP\DB::prepare('select path,make,model  from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_kamera_photo_module as kameraphoto on (base.photo_id=kameraphoto.photo_id) inner join *PREFIX*facefinder_kamera_module as kamera on (kameraphoto.kamera_id=kamera.id) where uid_owner like ?  order by path,make');
-			$result=$stmt->execute(array(\OCP\USER::getUser()));
+			$stmt = OCP\DB::prepare('select  base.photo_id,make,model  from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_kamera_photo_module as kameraphoto on (base.photo_id=kameraphoto.photo_id) inner join *PREFIX*facefinder_kamera_module as kamera on (kameraphoto.kamera_id=kamera.id) where uid_owner like ? and path like ? order by path,make');
+			$result=$stmt->execute(array(\OCP\USER::getUser(),$dir.'%'));
 			$s=new OCA\FaceFinder\OC_Equal(10);
 			$array=array();
 			$path=null;
+			$count=0;
 			//build a new  array of all information for each Photo 
 			while (($row = $result->fetchRow())!= false) {
-						$array+=array($row['path']=>array($row['make']=>$row['model']));
+						//$array+=array($row['path']=>array($row['make']=>$row['model']));
+				$d=$row;
+			$array+=array(($count++)=>$d);
+			//echo json_encode($row);
+		}
+			$help1=sizeof($array);
+			$help2=sizeof($array);
+			$count=0;
+			$array_duplicatits=array();
+			for ($i=0;$i<$help1;$i++){
+				for ($j=($i+1);$j<$help2;$j++){
+					$tmp=array_intersect($array[$i],$array[$j]);
+					$proz=(sizeof($tmp))/(sizeof($array[$i])-1);
+					if(0==!$proz){
+						$array_duplicatits+=array(($count++)=>array($array[$i],$array[$j],"prozent"=>$proz,"info"=>array()));
+					}
+				}
 			}
-				//array whit the equivalent elements  
-				$array_eq=array();
-				$name=null;
-				//check all element
-				while ($array_tag1 = current($array)) {
-     			   if($name!=null ){
-						$s->addFileName($name);
-     			   }
-     			   $eq=array();
-     				$name=key($array);
-     			   //echo $name." ".$array_tag1[1] ."<br>";
-     			   $arrays=$array;
-     			   foreach($arrays as $helpNameCheach=>$array_tag2){
-     			   	if($name!=$helpNameCheach){
-     			   			if($array_tag1==$array_tag2) {
-     			   				$s->addSubFileName($helpNameCheach);
-     			   				unset($array[$helpNameCheach]);	
-     			   			}
-     			   	}
-     			   }
-     			   
-   				next($array);
-			}
-			
-				$s->addFileName($name);
-			return $s;
-}
+			//echo json_encode($array_duplicatits);
+		//	uasort($array_duplicatits, array($this, "test"));
+			//echo json_encode($array_duplicatits);
+			return $array_duplicatits;
+		}
 
+public function test($a, $b)
+{
+	if ($a['prozent'] == $b['prozent']) {
+		return 0;
+	}
+	return ($a['prozent'] > $b['prozent']) ? -1 : 1;
+}
 			/**
 		 * Help Funktioen to create  module DB Tables
 		 * @param String of $classname

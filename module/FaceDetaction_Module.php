@@ -292,7 +292,7 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 	 * The funktion compares all taggs if 95% are equal add to the OC Equal object
 	 * @return OC_Equal
 	 */
-	public function equivalent(){
+	public function equivalent($dir){
 		//hard coded value for each module and and the value of the eqaletti between 1 and 100
 		$value=1;
 		$s=new OCA\FaceFinder\OC_Equal(0.5);

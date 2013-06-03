@@ -186,8 +186,8 @@ class EXIF_Module implements OCA\FaceFinder\MapperInterface{
 		 */
 		public static function searchArry($name,$value){
 			$results=array();
-			$stmt = OCP\DB::prepare(' Select * From  *PREFIX*facefinder_exif_module  inner join  *PREFIX*facefinder_exif_photo_module on(*PREFIX*facefinder_exif_module.id=*PREFIX*facefinder_exif_photo_module.exif_id) inner join *PREFIX*facefinder on  (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_exif_photo_module.photo_id) where`valued` like ? and `name` like ? and uid_owner like ? ');
-			$result=$stmt->execute(array($value,$name,\OCP\USER::getUser()));
+			$stmt = OCP\DB::prepare(' Select * From  *PREFIX*facefinder_exif_module  inner join  *PREFIX*facefinder_exif_photo_module on(*PREFIX*facefinder_exif_module.id=*PREFIX*facefinder_exif_photo_module.exif_id) inner join *PREFIX*facefinder on  (*PREFIX*facefinder.photo_id=*PREFIX*facefinder_exif_photo_module.photo_id) where`valued` like ? and `name` like ? and uid_owner like ? and path like ? ');
+			$result=$stmt->execute(array($value,$name,\OCP\USER::getUser(),$dir.'%'));
 			while (($row = $result->fetchRow())!= false) {
 				$results[]=array($row['path'],$row['photo_id']);
 			}
@@ -199,64 +199,63 @@ class EXIF_Module implements OCA\FaceFinder\MapperInterface{
 		 * The funktion compares all exif if 95% are equal add to the OC Equal object
 		 * @return OC_Equal
 		 */
-		public function equivalent(){
+		public function equivalent($dir){
 			//hard coded value for each module and and the value of the eqaletti between 1 and 100
 			$value=1;
 			$s=new OCA\FaceFinder\OC_Equal(1);
 			//get all information of a Photo from the DB
-			$stmt = OCP\DB::prepare('select path,name,valued    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_exif_photo_module as exifphoto on (base.photo_id=exifphoto.photo_id) inner join *PREFIX*facefinder_exif_module as exif on (exifphoto.exif_id=exif.id) where uid_owner like ?  order by path,name');
+			$stmt = OCP\DB::prepare('select base.photo_id,name,valued    from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_exif_photo_module as exifphoto on (base.photo_id=exifphoto.photo_id) inner join *PREFIX*facefinder_exif_module as exif on (exifphoto.exif_id=exif.id) where uid_owner like ?  order by path,name');
 			$result=$stmt->execute(array(\OCP\USER::getUser()));
 			$array=array();
 			$path=null;
+			$count=0;
 			//build a new  array of all information for each Photo 
 			while (($row = $result->fetchRow())!= false) {
-				if($path!=$row['path']){
+				if($path!=$row['photo_id']){
 					if($path!=null) {
-						$array+=array($path=>$help);
+						$array+=array($count++=>array('photo_id'=>$path)+$help);
 					}
 					$help=array();
-					$help=$help+array($row['name']=>$row['valued']);
-					$path=$row['path'];
+					$help=$help+array($row['name']=>array($row['valued']));
+					$path=$row['photo_id'];
 				}else{
-					$help=$help+array($row['name']=>$row['valued']);
+					if(isset($help[$row['name']])){
+						$help[$row['name']]= array_merge(array($row['valued']),$help[$row['name']]);
+					}else{
+						$help=$help+array($row['name']=>array($row['valued']));
+					}
 				}
 			}
-			$array+=array($path=>$help);
-			
-			//array whit the equivalent elements  
-			$array_eq=array();
-			$name=null;
-			//check all element
-			while ($array_tag1 = current($array)) {
-					//if there is no equal photo we dont net photo
-     			   if($name!=null ){
-     			   		$s->addFileName($name);
-     			   }
-     			   $eq=array();
-     			   $name=key($array);
-     			   $arrays=$array;
-     			   foreach($arrays as $helpNameCheach=>$array_tag2){
-
-     			   	//not check if it has the same name
-     			   	if($name!=$helpNameCheach){
-     			   		$array_exif_elements=count($array_tag1);
-     			   		if($array_exif_elements>0){
-     			   			//return the equal elements in both arrays
-     			   			$equal_elment=array_intersect($array_tag1, $array_tag2);
-     			   			if(count($equal_elment)/$array_exif_elements>0.95) {
-     			   				$s->addSubFileName($helpNameCheach);
-     			   				unset($array[$helpNameCheach]);	
-     			   			}
-     			   		}
-     			   	}
-     			   }
-   				next($array);
+			$array+=array($count++=>array('photo_id'=>$path)+$help);
+			$help1=sizeof($array);
+			$help2=sizeof($array);
+			$array_duplicatits=array();
+				for ($i=0;$i<$help1;$i++){
+						for ($j=($i+1);$j<$help2;$j++){
+							$proz=0;
+							$lengt=0;
+							foreach($array[$i] as $key =>$value){
+								//echo $key.' '.json_encode($value)."<br>";
+								//echo $key.' '.json_encode($array[$j][$key])."<br>";
+								if (array_key_exists($key, $array[$j])) {
+										$tmp=array_intersect($array[$i][$key],$array[$j][$key]);
+										//echo json_encode($tmp)."<br>";
+										$proz+=(sizeof($tmp))/(sizeof($array[$i][$key]));
+								}
+									$lengt++;
+							}
+							$proz=$proz/($lengt-1);
+							if(0.5<$proz){
+								$array_duplicatits+=array(($count++)=>array($array[$i],$array[$j],"prozent"=>$proz,"info"=>array()));
+							}
+						}
+							
+					}
+				uasort($array_duplicatits, array($this, "test"));
+				//echo json_encode($array_duplicatits);
+				return $array_duplicatits;
 			}
-			//if there is no equal photo we dont net photo
-			$s->addFileName($name);	
-			return $s;
-		}
-	
+			
 		/**
 		 * Uset to set the ForingKey for the module tables
 		 * @param ForingKey
