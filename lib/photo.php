@@ -118,8 +118,8 @@ class FaceFinderPhoto{// implements OC_Module_Interface{
 	public static  function insert($photo){
 			$existolrady=false;
 			if(self::getPhotoClassPath($photo->getPath())===null){
-				$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder` ( `uid_owner`, `path`,`hash`,`date_photo`,`height`,`width`)   VALUES (?, ?,?,?,?,?)');
-				$stmt->execute(array(\OCP\USER::getUser(),$photo->getPath(),$photo->getHash(),$photo->getDate(),$photo->getHeight(),$photo->getWidth()));
+				$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder` ( `uid_owner`, `path`,`hash`,`date_photo`,`height`,`width`,`filesize`)   VALUES (?, ?,?,?,?,?,?)');
+				$stmt->execute(array(\OCP\USER::getUser(),$photo->getPath(),$photo->getHash(),$photo->getDate(),$photo->getHeight(),$photo->getWidth(),$photo->getFilesize()));
 				$existolrady=true;
 			}
 		return $existolrady;
@@ -202,34 +202,57 @@ class FaceFinderPhoto{// implements OC_Module_Interface{
 	 * @return OC_Equal
 	 */
 	
-	public function equivalent(){
+	public function equivalent($dir){
 		//hard coded value for each module and and the value of the eqaletti between 1 and 100
 		//$value=100;
 		$eq=new OC_Equal(100);
-		$stmt = OCP\DB::prepare('select * from *PREFIX*facefinder where  uid_owner like ?order by path,hash');
-		$result=$stmt->execute(array(\OCP\USER::getUser()));
+		$stmt = OCP\DB::prepare('select * from *PREFIX*facefinder where  uid_owner like ? and path like ? order by path,hash');
+		$result=$stmt->execute(array(\OCP\USER::getUser(),$dir.'%'));
 		$array=array();
+		$count=0;
 		//create  a array where the ''path' is the key and ther hasch is the value 
 		while (($row = $result->fetchRow())!= false) {
-			$array+=array($row['path']=>$row['hash']);
+			$d=$row;
+			$array+=array(($count++)=>$d);
 		}
-		//go thru the array and search the keys with equal and hashes
-		while ($hash = current($array)) {
-			$name=key($array);
-			$equal_images=array_keys($array, $hash);
-			//create the Equal obiekt
-			foreach($equal_images as $imges){
-				if($name!=$imges){
-					$eq->addSubFileName($imges);
-					unset($array[$imges]);
+		$help1=sizeof($array);
+		$help2=sizeof($array);
+		$array_duplicatits=array();
+		for ($i=0;$i<$help1;$i++){
+			for ($j=($i+1);$j<$help2;$j++){
+				$proz=0;
+				if($array[$i]['hash']===$array[$j]['hash']){
+					$proz=1;
+				}else{
+					if($array[$i]['filesize']===$array[$j]['filesize'])
+						$proz+=0.3;
+					if($array[$i]['date_photo']===$array[$j]['date_photo'])
+						$proz+=0.5;
 				}
+				if($proz>=0.5)
+						$array_duplicatits[]=array($array[$i],$array[$j],"prozent"=>$proz);
 			}
-			$eq->addFileName($name);
-			next($array);
-		}
 
-		return $eq;
+		}
+		
+		//uasort($array_duplicatits, array($this, "test"));
+		
+		return $array_duplicatits;
 	}
+	
+	public function test($a, $b)
+	{
+	 if ($a['prozent'] == $b['prozent']) {
+        return 0;
+    }
+  	  return ($a['prozent'] > $b['prozent']) ? -1 : 1;
+	}
+	
+
+	public static 	function test_print($item2, $key)
+		{
+		    echo "$key. $item2<br />\n";
+		}
 	
 	public function  setForingKey($key){
 		/**

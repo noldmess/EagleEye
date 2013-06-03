@@ -43,7 +43,7 @@ interface  MapperInterface {
 	 * To search for equivalents the function return a Array of the Ids and percent of equivalents
 	 * @return array of id and percent of equivalents
 	 */
-	  public function equivalent();
+	  public function equivalent($dir);
 	/**
 	 * Create the DB of the Module the if the module hase an new Version numper
 	 */

@@ -11,6 +11,7 @@ class PhotoClass{
 	private $date;
 	private $width;
 	private $height;
+	private $filesize;
 	
 	private   function __construct() {
 		
@@ -43,7 +44,7 @@ class PhotoClass{
 			$tmpsize=getimagesize(\OC\Files\Filesystem::getLocalFile($path));
 			$class->setWidth($tmpsize[0]);
 			$class->setHeight($tmpsize[1]);
-			
+			$class->setFilesize(filesize(\OC\Files\Filesystem::getLocalFile($path)));
 		}else{
 			\OCP\Util::writeLog("facefinder",$paht,OCP\Util::ERROR);
 			 $class=null;
@@ -104,6 +105,14 @@ class PhotoClass{
 	
 	public function getID(){
 		return $this->id;
+	}
+	
+	public function getFilesize(){
+		return $this->filesize;
+	}
+	
+	public function  setFilesize($filesize){
+		$this->filesize=$filesize;
 	}
 	
 	public function  setHeight($height){
