@@ -1,5 +1,7 @@
 $(document).ready(function() {
 	$("button.time").click(function(e){
+		$('#duplicate').hide();
+		$('#photoff').show();
 		FaceFinder.test("");
 	});
 });
