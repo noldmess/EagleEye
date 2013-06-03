@@ -23,8 +23,8 @@
 
 use OCA\FaceFinder;
 
-//OCP\User::checkLoggedIn();
-//OCP\App::checkAppEnabled('facefinder');
+OCP\User::checkLoggedIn();
+OCP\App::checkAppEnabled('facefinder');
 OCP\App::setActiveNavigationEntry( 'facefinder' );
 OCP\Util::addStyle('facefinder', 'styles');
 OCP\Util::addScript('facefinder', 'new_1');
@@ -32,6 +32,8 @@ OCP\Util::addScript('facefinder', 'facefinder');
 OCP\Util::addScript('facefinder', 'module');
 OCP\Util::addScript('facefinder', 'photoview');
 OCP\Util::addStyle('facefinder', 'photoview');
+OCP\Util::addStyle('facefinder', 'duplicate');
+OCP\Util::addScript('facefinder', 'duplicate');
 //OCP\Util::addStyle('facefinder', 'bootstrap.min');
 
 
@@ -55,9 +57,9 @@ foreach ($moduleclasses as $moduleclass){
 }
 
 foreach ($moduleclasses as $moduleclass){
-		$class=$moduleclass['Mapper']::initialiseDB();//($path,$photo->getID());
+		$class=$moduleclass['Mapper']::initialiseDB();
 }
-	//$pathArray=OC_FaceFinder_Scanner::scan("");
+	$pathArray=OC_FaceFinder_Scanner::scan("");
 	OCP\Util::writeLog("facefinder",json_encode($pathArray),OCP\Util::DEBUG);
 	foreach ($pathArray as $path){
 		OCP\Util::writeLog("facefinder",$path,OCP\Util::DEBUG);
