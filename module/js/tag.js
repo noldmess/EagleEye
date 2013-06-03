@@ -177,6 +177,8 @@ tag.removeTagDiv=function(tagDiv){
 
 //cange to tag Photo Over View
 tag.click=function(e){
+	$('#duplicate').hide();
+	$('#photoff').show();
 	var path=tag.getPath();
 	 $.getJSON(OC.linkTo('facefinder', 'ajax/allImagesTags.php')+'?dir='+path, function(data) {
 		 $('#photoOverView').addClass('loading');
