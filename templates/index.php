@@ -26,7 +26,6 @@ if($size>1)
 ?>
 	<span class="right">
 		<button class="time" style=""> Time </button>
-		<button class="time" style=""> Defect duplicatits </button>
 	</span>
 </div>
  
@@ -46,20 +45,34 @@ if($size>1)
 <table class="table table-hover">
 	<thead>
     	<tr>
-            <th>
-            	#
-            </th>
         	<th>
-            	User
+            	Image 1 
             </th>
             <th>
-            	Victories
+            	Pfad 1 
+            </th>
+            <th>
+            	Size 2
+            </th>
+             <th>
+            	Similarity
+            </th>
+            <th>
+            	Image 2
+            </th>
+            <th>
+            	Pfad 2
+            </th>
+            <th>
+            	Size 2
+            </th>
+            <th>
+            	Infos
             </th>
         </tr>
     </thead>
-	
     <tbody>
-    	    </tbody>
+    	    <tr><td>1</td><td>csam5409@student.uibk.ac.at</td><td>4</td></tr><tr><td>2</td><td>wolfgang.gassler@uibk.ac.at</td><td>1</td></tr></tbody>
 </table>
 </div>
 
