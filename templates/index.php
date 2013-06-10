@@ -25,7 +25,11 @@ if($size>1)
 }
 ?>
 	<span class="right">
-		<button class="time" style=""> Time </button>
+	<label>Select view:</label>
+	<select title="Select view">
+		<option value="time">Time</option>
+		<!-- button class="time" style=""> Time </button> -->
+		</select>
 	</span>
 </div>
  
@@ -33,7 +37,15 @@ if($size>1)
 	 <div id="tool_right">
 		 <ul class="start"></ul>
 	 </div>
+	
+	 <div id="box">
+	  <div id="module">
+	    <div id="moduleFildsinner"></div>
+	  </div>
 	 <div id="photoOverView"></div>
+	
+	</div>
+	
 </div>
 <div id="photoview">
 	<div id="tool_left">
@@ -46,7 +58,7 @@ if($size>1)
 	<thead>
     	<tr>
         	<th>
-            	Image 1 
+        	Similarity
             </th>
             <th>
             	Pfad 1 
@@ -55,7 +67,10 @@ if($size>1)
             	Size 2
             </th>
              <th>
-            	Similarity
+            	 Image 1 
+            </th>
+            <th>
+            	 Info
             </th>
             <th>
             	Image 2
@@ -66,13 +81,10 @@ if($size>1)
             <th>
             	Size 2
             </th>
-            <th>
-            	Infos
-            </th>
+            
         </tr>
     </thead>
-    <tbody>
-    	    <tr><td>1</td><td>csam5409@student.uibk.ac.at</td><td>4</td></tr><tr><td>2</td><td>wolfgang.gassler@uibk.ac.at</td><td>1</td></tr></tbody>
+    <tbody id="data"></tbody>
 </table>
 </div>
 
