@@ -51,11 +51,11 @@ class Tag_Module implements OCA\FaceFinder\MapperInterface{
 		 */
 		public static function getJSON($dir){
 			if(strlen($dir)===0){
-				$stmt = OCP\DB::prepare("select f.photo_id as id ,path,tag from *PREFIX*facefinder as f left outer join *PREFIX*facefinder_tag_photo_module as ftpm on (ftpm.photo_id=f.photo_id) left outer  join *PREFIX*facefinder_tag_module as ftm on (ftpm.tag_id=ftm.id)  order by ftm.tag ASC;");
-				$result=$stmt->execute();
+				$stmt = OCP\DB::prepare("select f.photo_id as id ,path,tag from *PREFIX*facefinder as f left outer join *PREFIX*facefinder_tag_photo_module as ftpm on (ftpm.photo_id=f.photo_id) left outer  join *PREFIX*facefinder_tag_module as ftm on (ftpm.tag_id=ftm.id) where f.uid_owner LIKE ?  order by ftm.tag ASC;");
+				$result=$stmt->execute(\OCP\USER::getUser());
 			}else{
-				$stmt = OCP\DB::prepare("select f.photo_id as id ,path,tag from *PREFIX*facefinder as f left outer join *PREFIX*facefinder_tag_photo_module as ftpm on (ftpm.photo_id=f.photo_id) left outer  join *PREFIX*facefinder_tag_module as ftm on (ftpm.tag_id=ftm.id) where f.path like ? order by ftm.tag ASC;");
-				$result=$stmt->execute(array($dir.'%'));
+				$stmt = OCP\DB::prepare("select f.photo_id as id ,path,tag from *PREFIX*facefinder as f left outer join *PREFIX*facefinder_tag_photo_module as ftpm on (ftpm.photo_id=f.photo_id) left outer  join *PREFIX*facefinder_tag_module as ftm on (ftpm.tag_id=ftm.id) where f.uid_owner LIKE ? and f.path like ? order by ftm.tag ASC;");
+				$result=$stmt->execute(array(\OCP\USER::getUser(),$dir.'%'));
 			}
 						
 			$resuldt=array();
