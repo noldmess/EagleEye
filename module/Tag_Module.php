@@ -17,13 +17,10 @@ class Tag_Module implements OCA\FaceFinder\MapperInterface{
 		 * the function returns all Photos order by their Tags
 		 */
 		public static function getAllPhotosJSON($dir,$tag=null){
-			$sqlvar=array();
-			$sql='select DISTINCT f.photo_id as id, path from *PREFIX*facefinder as f left outer join *PREFIX*facefinder_tag_photo_module as ftpm on (ftpm.photo_id=f.photo_id) left outer  join *PREFIX*facefinder_tag_module as ftm on (ftpm.tag_id=ftm.id)';
-			if(strlen($dir)==!0 || strlen($tag)==!0){
-				$sql.=' where';
-			}
+			$sqlvar=array(\OCP\USER::getUser());
+			$sql='select DISTINCT f.photo_id as id, path from *PREFIX*facefinder as f left outer join *PREFIX*facefinder_tag_photo_module as ftpm on (ftpm.photo_id=f.photo_id) left outer  join *PREFIX*facefinder_tag_module as ftm on (ftpm.tag_id=ftm.id) where f.uid_owner LIKE ? ';
 			if(strlen($dir)==!0){
-				$sql.=' f.path like ? ';
+				$sql.='and  f.path like ? ';
 				$sqlvar[]=$dir."%";
 			}
 			if(strlen($tag)==!0){
@@ -37,7 +34,7 @@ class Tag_Module implements OCA\FaceFinder\MapperInterface{
 				
 			}
 			$sql.='order by ftm.tag ASC;';
-			//echo json_encode($sql);
+			//echo json_encode($sqlvar);
 			$stmt = OCP\DB::prepare($sql);
 			$result=$stmt->execute($sqlvar);
 			;
@@ -248,10 +245,11 @@ class Tag_Module implements OCA\FaceFinder\MapperInterface{
 			$results=array();
 			$stmt = OCP\DB::prepare('select tag,name From   *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) where tag like ? or name like ? GROUP BY name');
 			$result=$stmt->execute(array($query."%",$query."%"));
+			$counter=0;
 			while (($row = $result->fetchRow())!= false) {
 				$link = OCP\Util::linkTo('facefinder', 'index.php').'?search='.$classname.'&name='.urlencode($row['name']).'&tag='.$row['tag'];
 				$results[]=new OC_Search_Result("Tag",$row['tag'],$link,"FaF.");
-			}			
+			}
 			return $results;
 		}
 		

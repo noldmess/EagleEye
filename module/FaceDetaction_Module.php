@@ -252,14 +252,17 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 	 * @return multitype:OC_Search_Result
 	 */
 	public static function search($query){
-		$classname="Tag_Module";
+		$classname="Face_Module";
 		$results=array();
-		$stmt = OCP\DB::prepare('select DISTINCT`tag`,name From   *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) where tag like ? or name like ?');
+		/**
+		 * TODO
+		 */
+		/*$stmt = OCP\DB::prepare('select DISTINCT`tag`,name From   *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) where tag like ? or name like ?');
 		$result=$stmt->execute(array($query."%",$query."%"));
 		while (($row = $result->fetchRow())!= false) {
 			$link = OCP\Util::linkTo('facefinder', 'index.php').'?search='.$classname.'&name='.urlencode($row['name']).'&tag='.$row['tag'];
-			$results[]=new OC_Search_Result("Tag",$row['tag'],$link,"FaF.");
-		}
+			$results[]=new OC_Search_Result("Face",$row['tag'],$link,"FaF.");
+		}*/
 		return $results;
 	}
 

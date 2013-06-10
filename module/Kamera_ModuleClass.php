@@ -10,8 +10,11 @@ class Kamera_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	
 	}
 	
-	public function  getJSON(){
-		return array('make'=>$this->getMark(),"model"=>$this->getModel());
+	public  function  getJSON(){
+		if($this->getMark()!==null &&$this->getModel()!==null)
+			return array('make'=>$this->getMark(),"model"=>$this->getModel());
+		else
+			return array();
 	}
 	
 	public static function getInstanceBySQL($id,$array,$foringkey){
