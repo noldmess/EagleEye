@@ -87,5 +87,6 @@ if($size>1)
     <tbody id="data"></tbody>
 </table>
 </div>
+<div id="fancybox-tmp" style="display: block;"></div>
 
 
