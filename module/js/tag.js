@@ -102,11 +102,13 @@ tag.maketag=function(e){
 	 		 var y1=(pos[1]/document.getElementById("img_img").offsetHeight);
 	 		 var x2=($(this).parent().width()/document.getElementById("img_img").offsetWidth);
 	 		 var y2=($(this).parent().height()/document.getElementById("img_img").offsetHeight);
+	 		$("#tool_righte .tool.Tag .tool_items tbody").remove();
+			$("#tool_righte .tool.Tag .tool_items thead").remove();
+			$("#photo div").remove(".draggable");
 				$.getJSON(OC.linkTo('facefinder', 'ajax/inserttagposition.php')+"?image="+image+"&tag="+tag_name+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2, function(data) {
-					$("#tool_righte .tool.Tag .tool_items tbody *").remove();
-					$("#photo div").remove(".draggable");
-					tag.getTag(image);
+					
 				});
+				tag.getTag(image);
 			$(this).parent().remove(".draggable_fix");
 			
 		 }
