@@ -2,7 +2,8 @@
 #g-settings {position: absolute; left: 13.5em; top: 0;}
 div#controls input[type=button] {
   -webkit-transition: opacity 0.5s ease-in-out;
-  -moz-transition: opacity 0.5s ease-in-out;
+  -moz-transition: opacity 0.5s ease-in-out;90
+  
   -o-transition: opacity 0.5s ease-in-out;
   opacity: 1; position:absolute; right:13.5em; top:0em; }
 input[type=button]:disabled { opacity: 0.5 }
@@ -18,36 +19,95 @@ div.title { opacity: 0; text-align: center; vertical-align: middle; font-family:
 div.visible { opacity: 0.8;}
 
 #photoff{
-	margin-top: 2.8em;
-	height:100%;
-	width:100%;
+	display:inline-block;
+	margin-top:0em;
+	top: 0em;
+	left: 0em;
+	right: 0px;
+	bottom: 0px;
 	position:absolute;
 	background-color:#f5f5f5;
+
+}
+#module{
+	position:absolute;
+	right: 0px;
+	margin-top:2.8em;
+	
+}
+
+#moduleFildsinner{
+		padding:5px;
+		box-shadow: -1px 1px 4px rgb(0, 0, 0);
+		background: none repeat scroll 0% 0% rgb(247, 247, 247);
+		-moz-border-radius-bottomleft: 10px;
+		border-bottom-left-radius: 10px;
+		height: auto;
+		float: left;
+}
+#moduleFildsinner div{
+	float:right;
+}
+
+#box{
+	position:absolute;
+	top: 0em;
+	left: 20em;
+	right: 0px;
+	bottom: 0px;
+	right:0px;
+	float:left;
+
+}
+
+#tool_right{
+	position:absolute;
+	width: 20em;
+	margin-top:2.8em;
+	background-color:#494e57;;
+	top: 0em;
+	left: 0em;
+	bottom: 0px;
+	float: left;
+	overflow:auto;
+	
 }
 
 #photoOverView {
-	width:auto;
-	max-height:100%;
-	overflow-y:auto;
+	margin-top:5px;
+	position:inherit;
+	top:6.5em;
+    bottom:0;
+    right:0;
+    left:0;
+    overflow:auto;
 }
 
-#photoOverView img {
-	float:left; 
-	margin: 5px;
+#photoOverView div.image  img {
 	box-shadow:2px 2px 2px #666;
 	-moz-box-shadow: 2px 2px 2px #666;
 	-webkit-box-shadow: 2px 2px 2px #666;
 }
 
 #photoOverView div.image {
-	position:relative;
+	margin: 5px;
+	height: 200px;
 	float: left;
 }
+
+#photoOverView div.image div.test {
+	display: table-cell;
+	vertical-align: middle;
+	text-align:center;
+	margin: 5px;
+	height: 200px;
+	
+}
+
 #photoOverView div.image input{
-position: absolute; 
-	position: absolute; 
- 	bottom:10px; 
-   right: 10px; 
+	position:relative;
+ 	bottom:15px; 
+  	right: 30px; 
 }
 
 
@@ -58,21 +118,17 @@ position: absolute;
 
 
 
-#tool_right{
-	background-color:#494e57;
-	float: left;
-	min-width:200px;
-	max-width:auto;
-	height:100%;
-	
-}
+
 
 #tool_right ul {
 	width:auto;
 	padding-left:10px;
 	font-style:italic;
-	font-size:20px;
+	font-size:15px;
 	color:#ffffff;
+}
+#tool_right ul i{
+	float: right;
 }
 
 #tool_right *.use{
