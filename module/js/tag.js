@@ -28,7 +28,37 @@ function tag(){
 			});
 		};
 		this.duplicatits=function(element,data){
-			var sdfsdf=data['img1']['Tag_Module'][0];
+			var tag=data['img1']['Tag_Module'][0];
+			for ( var i = 0; i < $(tag).size(); i++) {
+				if(i==0)
+					$(element).append('<tr><td rowspan="'+$(tag).size()+'">Tag</td><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
+				else
+					$(element).append('<tr>><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
+			}
+			var tag1=data['img1']['Tag_Module'][1];
+			var tag2=data['img2']['Tag_Module'][1];
+			if($(tag1).size()>$(tag2).size()){
+				var tag=data['img1']['Tag_Module'][1];
+				var tag2=data['img2']['Tag_Module'][1];
+			}else{
+				var tag=data['img2']['Tag_Module'][1];
+				var tag2=data['img1']['Tag_Module'][1];
+			}
+			for ( var i = 0; i < $(tag).size(); i++) {
+				var name;
+				var tag_name;
+				if(tag2[i]===undefined){
+					name='';
+					tag_name='';
+				}else{
+					name=tag2[i].name;
+					tag_name=tag2[i].tag;
+				}
+				if(i==0)
+					$(element).append('<tr><td rowspan="'+$(tag).size()+'">Not equal Tag</td><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+name+' '+tag_name+'</td></tr>');
+				else
+					$(element).append('<tr>><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+name+' '+tag_name+'</td></tr>');
+			}
 			//alert("sdfsdf");
 		};
 };

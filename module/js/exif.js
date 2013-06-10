@@ -38,14 +38,38 @@ function exif() {
 	this.setEvents=function(){
 	};
 	this.duplicatits=function(element,data){
-		/*var sdfsdf=data['img1']['ff'];
-		$(element).append('<tr><td>Image</td><td><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+data['img2']['ff']['path']+'"></td><td>1</td><td><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+data['img1']['ff']['path']+'"></td></tr>');
-		$(element).append('<tr><td>Path</td><td>'+data['img2']['ff']['path']+'</td><td>1</td><td>'+data['img1']['ff']['path']+'</td></tr>');
-		$(element).append('<tr><td>Date</td><td>'+data['img2']['ff']['date_photo']+'</td><td>1</td><td>'+data['img1']['ff']['date_photo']+'</td></tr>');
-		$(element).append('<tr><td>Path</td><td>'+data['img2']['ff']['path']+'</td><td>1</td><td>'+data['img1']['ff']['path']+'</td></tr>');
-		$(element).append('<tr><td>Width</td><td>'+data['img2']['ff']['width']+'</td><td>1</td><td>'+data['img1']['ff']['width']+'</td></tr>');
-		$(element).append('<tr><td>Height</td><td>'+data['img2']['ff']['height']+'</td><td>1</td><td>'+data['img1']['ff']['height']+'</td></tr>');
-		$(element).append('<tr><td>Size</td><td>'+FaceFinder.getReadableFileSizeString(data['img2']['ff']['filesize'])+'</td><td>1</td><td>'+FaceFinder.getReadableFileSizeString(data['img1']['ff']['filesize'])+'</td></tr>');*/
+		var tag=data['img1']['EXIF_Module'][0];
+		for ( var i = 0; i < $(tag).size(); i++) {
+			if(i==0)
+				$(element).append('<tr><td rowspan="'+$(tag).size()+'">EXIF</td><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
+			else
+				$(element).append('<tr>><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
+		}
+		var tag1=data['img1']['EXIF_Module'][1];
+		var tag2=data['img2']['EXIF_Module'][1];
+		if($(tag1).size()>$(tag2).size()){
+			var tag=data['img1']['EXIF_Module'][1];
+			var tag2=data['img2']['EXIF_Module'][1];
+		}else{
+			var tag=data['img2']['EXIF_Module'][1];
+			var tag2=data['img1']['EXIF_Module'][1];
+		}
+		for ( var i = 0; i < $(tag).size(); i++) {
+			var name;
+			var tag_name;
+			if(tag2[i]===undefined){
+				name='';
+				tag_name='';
+			}else{
+				name=tag2[i].name;
+				tag_name=tag2[i].tag;
+			}
+			if(i==0)
+				$(element).append('<tr><td rowspan="'+$(tag).size()+'">Not equal EXIF</td><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+name+' '+tag_name+'</td></tr>');
+			else
+				$(element).append('<tr>><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+name+' '+tag_name+'</td></tr>');
+		}
+		//alert("sdfsdf");
 	};
 	
 }
