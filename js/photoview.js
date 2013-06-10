@@ -1,4 +1,19 @@
+$(document).ready(function() {
+	PhotoView.load();
+	FaceFinder.load();
+	$('#tool_righte').hide();
+	$("span.right").append('<button class="back" style=""><i class="icon-th"></i> Back</button>');
+	$('button.back').hide();
+	$("button.back").click(function(e){
+		goBack(e);
+	})
+	$(document).keypress(function(e) {
+		if (e.keyCode == 27) {
+			goBack(e);
+		}
+	});
 
+});
 
 
 
@@ -8,9 +23,10 @@ var PhotoView={
 			$('#photoview').hide();
 		},
 		ClickImg:function(event){
- 			$('span.right button').hide();
+ 			$('span.right select').hide();
  			$('span.right input').hide();
 			$('button.back').show();
+			$('#tool_righte .tool_items').slideDown(1000);
 			//set PhotoView visible
 	 		$('#photo').addClass('loading');
 	 		$('#photo img').remove()
@@ -43,3 +59,13 @@ var PhotoView={
 			$('#photoview').show();
 		}
 };
+
+function goBack(e){
+	$('span.right select').show();
+	$('button.back').hide();
+	$('#photoview').hide();
+	$('#photoOverView').show();
+	$('#search').show();
+	location.href = "#" + $('#photo img').attr("name");
+	e.preventDefault();
+}

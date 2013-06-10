@@ -18,6 +18,19 @@ var Module={
 				
 			});
 		},
+		allInfo:function (img1,img2){
+			//$."Tag".load(event);
+			//var you = new Person({ firstName: 'Mike' });
+			$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
+				if (data.status == 'success'){
+					$.each(data.data,function(index_year,data){
+							var classload=buildFromJSON(data);
+							classload.load(event);
+					});
+				}
+				
+			});
+		},
 	toolSlide:function(){
 		$('.tool div.tool_title').click(function(){	
 			if($(this).parent().children(".tool_items").is(":visible")){
@@ -25,9 +38,53 @@ var Module={
 			}else{
 				$(this).parent().children(".tool_items").slideDown(500);
 			}
+		
+	        if($(this).children('i').hasClass('icon-arrow-up')){
+	   			$(this).children('i').removeClass('icon-arrow-up');
+	   			$(this).children('i').addClass('icon-arrow-down');
+	   	  }else{
+	   		$(this).children('i').addClass('icon-arrow-up');
+   			$(this).children('i').removeClass('icon-arrow-down');
+	   	  }
 		})
+	},	
+	resateView:function(){
+		$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
+			if (data.status == 'success'){
+				$.each(data.data,function(index_year,data){
+						var classload=buildFromJSON(data);
+						classload.resat();
+				});
+			}
+			
+		});
+	},
+	setEvents:function(){
+		$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
+			if (data.status == 'success'){
+				$.each(data.data,function(index_year,data){
+						var classload=buildFromJSON(data);
+						classload.setEvents();
+				});
+			}
+			
+		});
+	},
+	duplicatits:function(element,info){
+		FaceFinder.duplicatits(element,info);
+		$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
+			if (data.status == 'success'){
+				$.each(data.data,function(index_year,data){
+						var classload=buildFromJSON(data);
+						classload.duplicatits(element,info);
+				});
+			}
+			
+		});
 	}
 };
+
+
 
 
 function buildFromJSON(json) {
