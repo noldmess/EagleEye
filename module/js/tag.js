@@ -7,7 +7,7 @@ $(document).ready(function() {
 function tag(){	
 		this.load=function(image){
 			//remove old tags from view
-			$("#tool_righte .tool.Tag .tool_items ul *").remove();
+			$("#tool_righte .tool.Tag .tool_items table *").remove();
 			$("#photo div").remove();
 			$("#tool_taggs textarea").val("");
 			//load tags from the image
@@ -15,30 +15,47 @@ function tag(){
 			$('#photo img').click(function(e){
 				tag.maketag(e);
 				});
+			
+		},
+		this.resat=function(){
+			var sdf=$("input[name='submitTag']");
+			$("input[name='submitTag']").attr("value","Set Tag");
+			$("input[name='counterTag']").attr("value","0");
+		};
+		this.setEvents=function(){
+			 $('#photoOverView input[type="checkbox"]').click(function(event){
+					tag.checkboxevent(event,this);
+			});
+		};
+		this.duplicatits=function(element,data){
+			var sdfsdf=data['img1']['Tag_Module'][0];
+			//alert("sdfsdf");
 		};
 };
 
 
 tag.init=function(){
-	$("#tool_righte").append('<div class="tool Tag"><div class="tool_title"><i class="icon-info-sign"></i>Tag</div><div class="tool_items fix"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input><p><label for="male">All tags Visible</label><input   type="checkbox"  value="" name="query" ></input></p></div><div class="tool_items"><ul></ul></div></div>');
-	$("span.right").append('<button class="tag" style=""> Tag </button><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input>');
-	$("button.tag").click(function(e){
+	$("#tool_righte").append('<div class="tool Tag"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Tag</div><div class="tool_items fix"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input><p><label for="male">All tags Visible</label><input   type="checkbox"  value="" name="query" ></input></p></div><div class="tool_items">'
+	+'<table class="table"></table></div></div>');
+	$("span.right select").append('<option value="tag">Tag</option>');
+	$("#moduleFildsinner").append('<div id="tag"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value="Set Tag" name="submitTag"></input><input type="hidden" value="0" name="counterTag"></input></div>');
+	$('option[value="tag"]').click(function(e){
 		tag.click();
 	});
 	
-	$("#tool_righte .tool.Tag .tool_items input[type='submit']").click(function(e){
+	$("#tool_righte div.tool.Tag input[type='submit']").click(function(e){
 		tag.key();
 	});
-	$("#tool_righte .tool.Tag .tool_items input[type='text']").keyup(function(e){
+	$("#tool_righte div.tool.Tag  input[type='text']").keyup(function(e){
 		if ( e.keyCode== 13){
 			tag.key();
 		}
 	});
-	
-	$("span.right input[type='submit']").click(function(e){
+
+	$("#module input[name='submitTag']").click(function(e){
 		tag.checkbox();
 	});
-	$("span.right input[type='text']").keyup(function(e){
+	$("#module input[name='query']").keyup(function(e){
 		if ( e.keyCode== 13){
 			tag.checkbox();
 		}
@@ -73,14 +90,10 @@ tag.maketag=function(e){
 	    }
 	 PosX = PosX - posX;
 	 PosY = PosY - posY;
-	// alert(PosX+' '+PosY);
-	 //for ckorekt  possiton in the photoview div 
 	 PosX+=document.getElementById("img_img").offsetLeft;
 	 PosY+=document.getElementById("img_img").offsetTop;//
 	 $("#photo").append('<div class="draggable" style="position: absolute; top: '+(PosY-50)+'px; left: '+(PosX-50)+'px;"><input   type="text"  value="" name="query" ></input></div>');
 	 $("#photo .draggable input").keyup(function(e){
-			//Tag.key(e);
-		 
 		 if ( e.keyCode== 13){
 			 var pos=findPosition(this.parentNode);
 			 var image=$('#photoview img').attr("alt");
@@ -90,19 +103,10 @@ tag.maketag=function(e){
 	 		 var x2=($(this).parent().width()/document.getElementById("img_img").offsetWidth);
 	 		 var y2=($(this).parent().height()/document.getElementById("img_img").offsetHeight);
 				$.getJSON(OC.linkTo('facefinder', 'ajax/inserttagposition.php')+"?image="+image+"&tag="+tag_name+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2, function(data) {
-					$("#tool_righte .tool.Tag .tool_items ul *").remove();
+					$("#tool_righte .tool.Tag .tool_items tbody *").remove();
 					$("#photo div").remove(".draggable");
 					tag.getTag(image);
 				});
-			
-				/*$(this).parent().append('<div class="draggable_tag">'+tag+'</div>');
-				$(this).parent().draggable({ disabled: true });
-				$(this).parent().attr('class', 'draggable_fix');
-				$("#photo .draggable_fix").click(function (e){
-				$(this).draggable({ disabled: false });
-				$(this).attr('class', 'draggable');
-			});*/
-			
 			$(this).parent().remove(".draggable_fix");
 			
 		 }
@@ -118,37 +122,60 @@ tag.maketag=function(e){
 
 tag.getTag=function(img){
 	$.getJSON(OC.linkTo('facefinder', 'ajax/tag.php')+'?image='+img, function(data) {
+		$('#tool_righte .tool.Tag .tool_items.fix input[type="checkbox"]').attr('checked', false);
 		if (data.status == 'success'){
-			$.each(data.data,function(index_tag,data){
-				var extra="";
-				if(data.x1>0 || data.x2>0 || data.y1>0 || data.y2>0){
-					 var x=(parseFloat(data.x1)*document.getElementById("img_img").offsetWidth);
-			 		 var y=(parseFloat(data.y1)*document.getElementById("img_img").offsetHeight);
-			 		 var x2=(parseFloat(data.x2)*document.getElementById("img_img").offsetWidth);
-			 		 var y2=(parseFloat(data.y2)*document.getElementById("img_img").offsetHeight);
-					 var y1=(document.getElementById("img_img").offsetTop+y);
-					 var x1=(document.getElementById("img_img").offsetLeft+x);
-					$("#photo").append('<div id="'+data.name+' '+data.tag+'" class="tag_in_photo"style="position: absolute; top: '+y1+'px; left: '+x1+'px;"><div class="draggable_fix" style="width: '+x2+'px; height:'+y2+'px;"></div><div class="draggable_tag">'+data.tag+'</div></div>');
-					$('#photo div.tag_in_photo i').click(function(){
-						tag.removeTagDiv(this);
-					});
-					extra='<i class="icon-search"></i>';
-				}
-				$('#tool_righte .tool.Tag .tool_items ul').append('<li><i class="icon-remove-sign" name="'+data.name+' '+data.tag+'"></i>'+data.name+' '+data.tag+extra+"</li>");
-					
-			});
+			if(data.data.length>0){
+				$('#tool_righte .tool.Tag .tool_items table').append('<thead>'
+						+'<tr>'
+						+'	<th>Name</th>'
+					    +'  <th>Value</th>'
+					    +'</tr>'
+					    +'</thead>'
+					    +' <tbody></tbody>');
+				$.each(data.data,function(index_tag,data){
+					var extra="";
+					if(data.x1>0 || data.x2>0 || data.y1>0 || data.y2>0){
+						 var x=(parseFloat(data.x1)*document.getElementById("img_img").offsetWidth);
+				 		 var y=(parseFloat(data.y1)*document.getElementById("img_img").offsetHeight);
+				 		 var x2=(parseFloat(data.x2)*document.getElementById("img_img").offsetWidth);
+				 		 var y2=(parseFloat(data.y2)*document.getElementById("img_img").offsetHeight);
+						 var y1=(document.getElementById("img_img").offsetTop+y);
+						 var x1=(document.getElementById("img_img").offsetLeft+x);
+						$("#photo").append('<div id="'+data.name+' '+data.tag+'" class="tag_in_photo"style="position: absolute; top: '+y1+'px; left: '+x1+'px;"><div class="draggable_fix" style="width: '+x2+'px; height:'+y2+'px;"></div><div class="draggable_tag">'+data.tag+'</div></div>');
+						$('#photo div.tag_in_photo i').click(function(){
+							tag.removeTagDiv(this);
+						});
+						extra='<i class="icon-search"></i>';
+					}
+					var dsfsdf=$('#tool_righte .tool.Tag .tool_items tbody');
+					$('#tool_righte .tool.Tag .tool_items tbody').append('<tr><td><i class="icon-remove-sign" name="'+data.name+' '+data.tag+'"></i>'+data.name+' </td><td>'+data.tag+extra+"<td></tr>");
+						
+				});
+			}else{
+				$('#tool_righte .tool.Tag .tool_items table').append('<thead>'
+						+'<tr>'
+						+'	<th>No Tags </th>'
+					    +'</tr>'
+					    +'</thead>'
+					    +' <tbody></tbody>');
+			}
 			$("#photo div.tag_in_photo").hide();
-			$('#tool_righte .tool.Tag .tool_items ul li i').click(function(){
+			$('#tool_righte .tool.Tag .tool_items tbody tr i.icon-remove-sign').click(function(){
 				tag.removeTag(this);
 			});
-			$('#tool_righte .tool.Tag .tool_items ul li').mouseenter(function(){
-				var tag=$(this).children("i").attr("name");
-				var dsfsdf=$("div[id='"+tag+"']");
-				dsfsdf.show();
+			var dsgfsdf=$('#tool_righte .tool.Tag .tool_items tbody tr');
+			$('#tool_righte .tool.Tag .tool_items tbody tr').mouseenter(function(){
+				var test=$('#tool_righte .tool.Tag .tool_items.fix input[type="checkbox"]').attr('checked');
+				if(test===undefined){
+					var tag=$(this).children("td").children("i").attr("name");
+					$("div[id='"+tag+"']").show();
+				}
 			}).mouseleave(function(){
-				var tag=$(this).children("i").attr("name");
-				var dsfsdf=$("div[id^='"+tag+"']");
-				dsfsdf.hide();
+				var test=$('#tool_righte .tool.Tag .tool_items.fix input[type="checkbox"]').attr('checked');
+				if(test===undefined){
+					var tag=$(this).children("td").children("i").attr("name");
+					$("div[id^='"+tag+"']").hide();
+				}
 			});
 	}
 		
@@ -158,7 +185,7 @@ tag.getTag=function(img){
 tag.removeTag=function(tagDiv){
 	var image=$('#photo img').attr("alt");
 	var tag=$(tagDiv).attr("name");
-	 $(tagDiv).parent().remove();
+	 $(tagDiv).parent().parent().remove();
 	 if($("div[id='"+tag+"']")){
 		 $("div[id^='"+tag+"']").remove();
 	 }
@@ -190,7 +217,7 @@ tag.click=function(e){
 		     }
 		 $('#photoOverView').removeClass('loading');
 	});
-		 
+	 Module.resateView();
 };
 
 
@@ -230,31 +257,38 @@ tag.sidebar=function(tags){
 
 tag.photoOverView=function(photos){
 	$.each(photos,function(index_tag,image){
-		//$("#photoOverView").append('<div class="image" ><a name="'+image.imagsname+'"><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"></a><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input></div>');
-		 $('#photoOverView').append('<div class="image" ><a name="'+image.path+'"><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.path+'"  alt="'+image.id+'"></a><input type="checkbox" original-title="" alt="'+image.id+'" ></input></div>');
+		 $('#photoOverView').append('<div class="image" ><div class="test"><a name="'+image.path+'"><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.path+'"  alt="'+image.id+'"></a><input type="checkbox" original-title="" alt="'+image.id+'" ></input></div></div>');
 		 $('#photoOverView a[name^="'+image.path+'"] img').click(function(){
 	 			PhotoView.ClickImg(this)
 	 	});
+		 
   });
+	Module.setEvents();
 }
 
 
 
 tag.key=function(){
-		var tag_value=$("#tool_righte .tool.Tag .tool_items input[type='text']").val();
-		$("#tool_righte .tool.Tag .tool_items input[type='text']").val('');
+		var tag_value=$("#tool_righte div.tool.Tag  input[type='text']").val();
+		$("#tool_righte div.tool.Tag  input[type='text']").val('');
 		var image=$('#photoview img').attr("alt");
+		
 		$.getJSON(OC.linkTo('facefinder', 'ajax/inserttag.php')+"?image="+image+"&tag="+tag_value, function(data) {
-				$("#tool_righte .tool.Tag .tool_items ul *").remove();
+			$("#tool_righte .tool.Tag .tool_items table *").remove();
 				$("#photo div").remove();
 				tag.getTag(image);
 		});
+		OC.Notification.show("Tags set");
+		setTimeout(function(){
+			OC.Notification.hide();
+		}, 1000);
+		
  
 };
 
 tag.checkbox=function(){
 	var list=$('#photoOverView input[type="checkbox"]');
-	var tag_value=$("span.right input[type='text']").val();
+	var tag_value=$("#module input[type='text']").val();
 	if(tag_value.length>0){
 		$("span.right input[type='text']").val('');
 		var image=$('#photoview img').attr("alt");
@@ -264,8 +298,23 @@ tag.checkbox=function(){
 				$.getJSON(OC.linkTo('facefinder', 'ajax/inserttag.php')+"?image="+$(input).attr("alt")+"&tag="+tag_value, function(data) {});
 			}
 		});
+		var counter=$("input[name='counterTag']").attr("value");
+		OC.Notification.show(counter+":Tags set");
+		setTimeout(function(){
+			OC.Notification.hide();
+		}, 1000);
 	}
 
+};
+tag.checkboxevent=function(event,element){
+
+	var counter=$("input[name='counterTag']").attr("value");
+	if($(element).attr('checked')==='checked'){
+		$("input[name='counterTag']").attr("value",++counter);
+	}else{
+		$("input[name='counterTag']").attr("value",--counter);
+	}
+	$("input[name='submitTag']").attr("value","Set Tag("+counter+")");
 };
 
 
