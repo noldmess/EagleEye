@@ -1,55 +1,44 @@
 $(document).ready(function() {
-	$("button.time").click(function(e){
+	$('option[value="time"]').click(function(e){
 		$('#duplicate').hide();
 		$('#photoff').show();
-		FaceFinder.test("");
+		FaceFinder.load("");
+		Module.resateView();
+		
 	});
 });
 var FaceFinder={
-		/*tag.sidebar=function(tags){
-			$.each(tags,function(index_tag,elemet){
-				 $('#tool_right ul').append('<li id="'+index_tag+'" class="">'+index_tag+'('+elemet+')</li>');
-				 $('#tool_right ul li[id^="'+index_tag+'"]').click(function(){
-					 tag.loadImagesTag(this)
-			 	});
-			});
-		}*/
-		test:function(data){
-			 $('#photoOverView * ').remove();
+		load:function(data){
+			//remove old images and sitebare
+			$('#photoOverView div.image ').remove();
 			$('#tool_right ul * ').remove();
+			//loading image
 			$('#photoOverView').addClass('loading');
-			   $.getJSON(OC.linkTo('facefinder', 'ajax/new_1.php')+"?dir="+FaceFinder.getPath(), function(data) {
+			//get information
+			$.getJSON(OC.linkTo('facefinder', 'ajax/new_1.php')+"?dir="+FaceFinder.getPath(), function(data) {
 				   if (data.status == 'success'){
 					   FaceFinder.addYearSidebar(data.data);
 					   FaceFinder.addYearPhotoOverView(data.data);
-				   		$('#photoOverView').removeClass('loading');
-				   		var test=$('#tool_right li');
-				   				test.click(function(e) {
+				   		$('#tool_right li').click(function(e) {
 				   					FaceFinder.loadData(e,this);
 				   				});
+				   	  $('#tool_right ul.start  i ').click(function (e) {
+				   		$(this).parent().parent().find('ul').slideToggle("slow");
+				   		
+					        e.stopPropagation();
+					        if($(this).hasClass('icon-arrow-up')){
+				   			$(this).removeClass('icon-arrow-up');
+				   			$(this).addClass('icon-arrow-down');
+				   	  }else{
+				   		$(this).addClass('icon-arrow-up');
+			   			$(this).removeClass('icon-arrow-down');
+				   	  }
+					    });
 				   }
-		        });
+				   $('#photoOverView').removeClass('loading');
+		     });
 				 
 		},
-
-	slide_day:function(div){
-		if( $(div).parent().children("div.day").is(":visible")){
-				$(div).children("div.ico_inline").removeClass().addClass("ico_down");
-				$(div).parent().children("div.day").slideUp(500);
-			}else{
-				$(div).children("div.ico_down").removeClass().addClass("ico_inline");
-				$(div).parent().children("div.day").slideDown(500);
-			}
-	},
-	slide_month:function(div){
-		if( $(div).parent().children("div.month").is(":visible")){
-				$(div).children("div.ico_inline").removeClass().addClass("ico_down");
-				$(div).parent().children("div.month").slideUp(500);
-			}else{
-				$(div).children("div.ico_down").removeClass().addClass("ico_inline");
-				$(div).parent().children("div.month").slideDown(500);
-			}
-	},
 	getPath:function(){
 		var list=$('.crumb');
 		var path;
@@ -58,11 +47,9 @@ var FaceFinder={
 		});
 		return path
 	},
-	
-	
 	addYearSidebar:function(data){
 		$.each(data,function(index_year,data){
-	   		$('#tool_right ul.start').append('<li id="'+data.year+'" class="year2">'+data.year+'('+data.number+')<ul></ul></li>');
+	   		$('#tool_right ul.start').append('<li id="'+data.year+'" class="year2">'+data.year+'('+data.number+')<a><i class="icon-white icon-arrow-up"></i></a><ul></ul></li>');
 	   		FaceFinder.addMonthSidebar(data.month,index_year);
 		});
 	},
@@ -81,6 +68,7 @@ var FaceFinder={
 		$.each(data,function(index_year,data){
 	   		FaceFinder.addMonthPhotoOverView(data.month);
    		});
+		Module.setEvents();
 	},
 	addMonthPhotoOverView:function(data){
 		$.each(data,function(index_month,data){
@@ -89,23 +77,22 @@ var FaceFinder={
 	},
 	addDayPhotoOverView:function(data){
 		$.each(data,function(index_day,days){
-		   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+")").append('<div class="day"><h1>'+days.day+'</h1></div>');
 		   $.each(days.imags,function(index,image){
-			   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
-			   $("#photoOverView").append('<div class="image" ><a name="'+image.imagsname+'"><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"  name="'+image.imagsname+'"></a><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input></div>');
+			   $("#photoOverView").append('<div class="image" ><div class="test"><a name="'+image.imagsname+'"><img name="'+image.imagsname+'" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"></a><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input></div></div>');
 			 	$('#photoOverView  img[alt="'+image.imagsid+'"]').click(function(){
 			 			PhotoView.ClickImg(this)});
 		   });
+		
 		});
+
 	},
 	addDataPhotoOverView:function(data){
 		$.each(data,function(index_day,image){
-		   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+")").append('<div class="day"><h1>'+days.day+'</h1></div>');
-			   //$("#photoOverView div.year:eq("+index_year+") div.month:eq("+index_month+") div.day:eq("+index_day+")").append('<a name="'+image.imagsname+'"></a><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"><input type="checkbox" original-title=""></input>');
-			   $("#photoOverView").append('<div class="image" ><a name="'+image.imagsname+'"><img name="'+image.imagsname+'" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"></a><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input></div>');
-			 	$('#photoOverView  img[alt="'+image.imagsid+'"]').click(function(){
-			 			PhotoView.ClickImg(this)});
-		});
+			 $("#photoOverView").append('<div class="image" ><div class="test"><a name="'+image.imagsname+'"><img name="'+image.imagsname+'" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"></a><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input></div></div>');
+			 $('#photoOverView  img[alt="'+image.imagsid+'"]').click(function(){
+				 PhotoView.ClickImg(this)});
+			});
+		Module.setEvents();
 	},
 	loadData:function(e,t){
 			var daynumder=null;
@@ -139,6 +126,26 @@ var FaceFinder={
 				   }
 		        });
 			e.stopPropagation();
+	},
+	duplicatits:function(element,data){
+		var sdfsdf=data['img1']['ff'];
+		$(element).append('<tr><td>Image</td><td><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+data['img2']['ff']['path']+'"></td><td>1</td><td><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+data['img1']['ff']['path']+'"></td></tr>');
+		$(element).append('<tr><td>Path</td><td>'+data['img2']['ff']['path']+'</td><td>1</td><td>'+data['img1']['ff']['path']+'</td></tr>');
+		$(element).append('<tr><td>Date</td><td>'+data['img2']['ff']['date_photo']+'</td><td>1</td><td>'+data['img1']['ff']['date_photo']+'</td></tr>');
+		$(element).append('<tr><td>Width</td><td>'+data['img2']['ff']['width']+'</td><td>1</td><td>'+data['img1']['ff']['width']+'</td></tr>');
+		$(element).append('<tr><td>Height</td><td>'+data['img2']['ff']['height']+'</td><td>1</td><td>'+data['img1']['ff']['height']+'</td></tr>');
+		$(element).append('<tr><td>Size</td><td>'+FaceFinder.getReadableFileSizeString(data['img2']['ff']['filesize'])+'</td><td>1</td><td>'+FaceFinder.getReadableFileSizeString(data['img1']['ff']['filesize'])+'</td></tr>');
+	},
+	getReadableFileSizeString:function (fileSizeInBytes) {
+
+	    var i = -1;
+	    var byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+	    do {
+	        fileSizeInBytes = fileSizeInBytes / 1024;
+	        i++;
+	    } while (fileSizeInBytes > 1024);
+
+	    return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
 	}
 	
 }
