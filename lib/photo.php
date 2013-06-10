@@ -33,85 +33,24 @@ class FaceFinderPhoto{// implements OC_Module_Interface{
 	}
 	
 	
-
-	public static function getAllPhotosJSON($dir,$tag=null){
-		$sqlvar=array();
-		$sql='select DISTINCT f.photo_id as id, path from *PREFIX*facefinder as f left outer join *PREFIX*facefinder_tag_photo_module as ftpm on (ftpm.photo_id=f.photo_id) left outer  join *PREFIX*facefinder_tag_module as ftm on (ftpm.tag_id=ftm.id)';
-		if(strlen($dir)==!0 || strlen($tag)==!0){
-			$sql.=' where';
-		}
-		if(strlen($dir)==!0){
-			$sql.=' f.path like ? ';
-			$sqlvar[]=$dir."%";
-		}
-		if(strlen($tag)==!0){
-			if($tag==='No Tag'){
-				$sql.=' and  tag is null  ';
-			}else{
-				$sql.=' and  tag like ? ';
-				$sqlvar[]=$tag;
-			}
-				
-	
-		}
-		$sql.='order by ftm.tag ASC;';
-		//echo json_encode($sql);
-		$stmt = OCP\DB::prepare($sql);
-		$result=$stmt->execute($sqlvar);
-		;
-		$arrayPhotos=array();
-		while (($row = $result->fetchRow())!= false) {
-			$arrayPhotos[]=array('id'=>$row['id'],'path'=>$row['path']);
-		}
-		return $arrayPhotos;
-	}
 	/**
 	 * the function returns all images order by their tags
 	 * @param Path $dir
 	 * @return unknown
 	 */
 	public static function getJSON($dir){
-		if(strlen($dir)===0){
-			$stmt = OCP\DB::prepare("select f.photo_id as id ,path,tag from *PREFIX*facefinder as f left outer join *PREFIX*facefinder_tag_photo_module as ftpm on (ftpm.photo_id=f.photo_id) left outer  join *PREFIX*facefinder_tag_module as ftm on (ftpm.tag_id=ftm.id)  order by ftm.tag ASC;");
-			$result=$stmt->execute();
-		}else{
-			$stmt = OCP\DB::prepare("select f.photo_id as id ,path,tag from *PREFIX*facefinder as f left outer join *PREFIX*facefinder_tag_photo_module as ftpm on (ftpm.photo_id=f.photo_id) left outer  join *PREFIX*facefinder_tag_module as ftm on (ftpm.tag_id=ftm.id) where f.path like ? order by ftm.tag ASC;");
-			$result=$stmt->execute(array($dir.'%'));
-		}
-	
-		$resuldt=array();
-		$d=0;
-		$tagtest='';
+		$stmt = OCP\DB::prepare('select * from *PREFIX*facefinder where  uid_owner like ? and path like ? order by path,hash');
+		$result=$stmt->execute(array(\OCP\USER::getUser(),$dir));
+		$array=array();
 		$count=0;
+		//create  a array where the ''path' is the key and ther hasch is the value 
 		while (($row = $result->fetchRow())!= false) {
-			$count++;
-			$tag=$row['tag'];
-			if($tagtest==='' && $tag===NULL){
-				$tagtest='';
-				$tag='';
-			}
-			if(strcmp($tag,$tagtest)==!0){
-				if($d>0){
-					if($tagtest==='')
-						$tagtest='No Tag';
-					$resuldt[$tagtest]=$d;
-				}
-				$d=0;
-				//echo $tag."<br>";
-					
-				$tagtest=$tag;
-				//$resuldt[]=$row['path'];
-			}
-			$d++;
+			return $row;
+			$array+=array(($count++)=>$d);
 		}
-		$resuldt[$tagtest]=$d;
-		return $resuldt;
 	}
 	
 	
-	public  function text() {
-		OCP\Util::writeLog("facefinder","write text",OCP\Util::ERROR);
-	}
 	/**
 	 * Insert the Photo in the SQL Database
 	 */
