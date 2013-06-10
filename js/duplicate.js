@@ -60,7 +60,13 @@ var Duplicatits={
 	    	  $("header").css({ // this is just for style
 		            "opacity": "1" 
 		        });
-	    	  $("#content-wrapper").css({ // this is just for style
+		        $("#controls").css({ // this is just for style
+		            "opacity": "1" 
+		        })
+		        $("#photoview").css({ // this is just for style
+		            "opacity": "1" 
+		        })
+		        $("#duplicate").css({ // this is just for style
 		            "opacity": "1" 
 		        })
 	        $('#fancybox-tmp').fadeOut("fast");
@@ -83,7 +89,13 @@ var Duplicatits={
 	    	  $("header").css({ // this is just for style
 		            "opacity": "0.3" 
 		        });
-	    	  $("#content-wrapper").css({ // this is just for style
+	    	  $("#controls").css({ // this is just for style
+		            "opacity": "0.3" 
+		        })
+		        $("#photoview").css({ // this is just for style
+		            "opacity": "0.3" 
+		        })
+		        $("#duplicate").css({ // this is just for style
 		            "opacity": "0.3" 
 		        })
 	        $('#fancybox-tmp').fadeIn("fast");
