@@ -31,7 +31,11 @@ var Duplicatits={
 					$.getJSON(OC.linkTo('facefinder', 'ajax/removeequivalent.php')+"?img="+$(value).attr('value'), function(data) {
 						if (data.status == 'success'){
 							$(value).parent().parent().remove();
-						}
+							$.each($('#duplicate table img[alt="'+$(value).attr('value')+'"]'),function(imgID, value){
+								$(value).parent().parent().parent().remove();
+							});
+							}
+						
 					});
 				}
 			});
