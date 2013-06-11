@@ -1,14 +1,24 @@
 <?php
+use OCA\FaceFinder;
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 OCP\JSON::checkAppEnabled('facefinder');
-$user = \OCP\USER::getUser();
-$tmp=new OC_FaceFinder_Photo($_GET['img']);
-$tmp->remove();
-$galleryDir = \OC_User::getHome($user).'/files';
-$thumbPath = $_GET['img'];
-if (\OC\Files\Filesystem::file_exists($thumbPath)) {
-	\OC\Files\Filesystem::unlink($thumbPath);
+$id=(int)$_GET['img'];
+if($id>0){
+	$user = \OCP\USER::getUser();
+	$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($_GET['img']);
+	if(isset($photo)){
+		OCA\FaceFinder\FaceFinderPhoto::remove($photo);
+		$galleryDir = \OC_User::getHome($user).'/files';
+		$thumbPath =$photo->getPath();
+		if (\OC\Files\Filesystem::file_exists($thumbPath)) {
+			\OC\Files\Filesystem::unlink($thumbPath);
+			echo OCP\JSON::success();
+		}else{
+			echo "$thumbPath";
+		}
+	}
 }else{
-	echo "$thumbPath";
+	OCP\JSON::error(array("message"=>"get image must be an intager"));
 }
 ?>
