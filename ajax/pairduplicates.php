@@ -26,6 +26,8 @@ if($id1>0 && $id2>0){
 			$eq=array_intersect_assoc($ar1,$ar2);
 			$ar1=array_diff_assoc ($ar1,$eq);
 			$ar2=array_diff_assoc ($ar2,$eq);
+			rsort($ar1);
+			rsort($ar2);
 			$array1=array_merge($array1,array($moduleclass['Mapper']=>array($eq,$ar1)));
 			$array2=array_merge($array2,array($moduleclass['Mapper']=>array($eq,$ar2)));
 	}
