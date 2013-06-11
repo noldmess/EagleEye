@@ -111,8 +111,9 @@ var Duplicatits={
 	    loadPopupBox:function (e,t) {// To Load the Popupbox
 	    	$("#fancybox-tmp table").remove()
 	    		var test =$(t).parent().parent().parent();
-	    		var img_alt1 =$($(test).children()[3]).children().attr('alt');
-	    		var img_alt2 =$($(test).children()[5]).children().attr('alt');
+	    		var img_alt1 =$($(test).children()[3]);
+	    		var img_alt1 =$($(test).children()[3]).find('img').attr('alt');
+	    		var img_alt2 =$($(test).children()[5]).find('img').attr('alt');
 	    		$.getJSON(OC.linkTo('facefinder', 'ajax/pairduplicates.php')+'?image1='+img_alt1+'&image2='+img_alt2, function(data) {
 	    			$("#fancybox-tmp").append('<table class="table table-hover"><thead><tr><th>Name</th><th>Image 1</th><th>Similarity </th><th>Image 2</th></tr></thead> <tbody></tbody></table>');
 	    			Module.duplicatits($("#fancybox-tmp tbody"),data);
