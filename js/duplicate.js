@@ -4,6 +4,11 @@ $(document).ready(function() {
 	$('option[value="duplicates"]').click(function(e){
 		Duplicatits.load();
 	});
+	$("span.right ").append('<button title="Remove">Remove</button>');
+	$('button[title="Remove"]').click(function(e){
+		Duplicatits.remove();
+	});
+	$('button[title="Remove"]').hide();
 	  $('#fancybox-tmp').append('<a id="popupBoxClose">Close</a>');
    	  $('#popupBoxClose').click( function() {           
 	    	Duplicatits.unloadPopupBox();
@@ -16,7 +21,21 @@ var Duplicatits={
 			$('#photoff').hide();
 			$('#photoview').hide();
 			$('#duplicate').show();
+			$('button[title="Remove"]').show();
 			this.get();
+		},
+		remove:function(){
+			$.each($('#duplicate table input[name="remove"]'),function(imgID, value){
+				var dasd=imgID;
+				if($(value).attr('value')!==undefined){
+					$.getJSON(OC.linkTo('facefinder', 'ajax/removeequivalent.php')+"?img="+$(value).attr('value'), function(data) {
+						if (data.status == 'success'){
+							$(value).parent().parent().remove();
+						}
+					});
+				}
+			});
+			
 		},
 		getReadableFileSizeString:function (fileSizeInBytes) {
 
@@ -44,11 +63,22 @@ var Duplicatits={
 					$.each(data.data,function(index_year,data){
 						var img1=data[0];
 						var img2=data[1];
-						$("#duplicate table #data").append('<tr><td>'+data.prozent+'</td><td>'+img1.path+'</td><td><table><tr><td>'+img1.height+'</td><td>Height</td></tr><tr><td>'+img1.width+'</td><td>Width</td><tr><td>'+Duplicatits.getReadableFileSizeString(img1.filesize)+'</td><td>Size</td></tr></table></td><td><img checked="checked" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+img1.path+'" alt="'+img1.photo_id+'"></td><td><a><i class="icon-info-sign"></i></a></td><td><img checked="checked" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+img2.path+'" alt="'+img2.photo_id+'"></td> <td>'+img2.path+'</td><td><table><tr><td>'+img2.height+'</td><td>Height</td></tr><tr><td>'+img2.width+'</td><td>Width</td><tr><td>'+Duplicatits.getReadableFileSizeString(img2.filesize)+'</td><td>Size</td></tr></table></td></tr>');
+						$("#duplicate table #data").append('<tr><td>'+data.prozent+'<input type="hidden" name="remove"></td><td>'+img1.path+'</td><td><table><tr><td>'+img1.height+'</td><td>Height</td></tr><tr><td>'+img1.width+'</td><td>Width</td><tr><td>'+Duplicatits.getReadableFileSizeString(img1.filesize)+'</td><td>Size</td></tr></table></td><td><div class="image"><img checked="checked" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+img1.path+'" alt="'+img1.photo_id+'"></div></td><td><a><i class="icon-info-sign"></i></a></td><td><div class="image"><img checked="checked" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+img2.path+'" alt="'+img2.photo_id+'"></div></td> <td>'+img2.path+'</td><td><table><tr><td>'+img2.height+'</td><td>Height</td></tr><tr><td>'+img2.width+'</td><td>Width</td><tr><td>'+Duplicatits.getReadableFileSizeString(img2.filesize)+'</td><td>Size</td></tr></table></td></tr>');
 						//.append('<table><tbody><tr><td>'+img1.height+'</td><td>'+img1.width+'</td><td>'+img1.filesize+'</td></tr></tbody></table></tr>');
 					});
 					$("#duplicate table tbody i.icon-info-sign").click(function(e){
 						Duplicatits.loadPopupBox(e,this);
+					});
+		    		$('#duplicate table img').click(function(e){
+						var id=$(this).attr('alt');
+						var dfsdf=$(this).parent().parent().parent().find('img').css({ // this is just for style
+				            "opacity": "1" 
+				        });
+						$(this).css({ // this is just for style
+				            "opacity": "0.3" 
+				        });
+							var ds=$($($(this).parent().parent().parent()).children()[0]).children('input');
+							$($($(this).parent().parent().parent()).children()[0]).children('input').attr('value',id);
 					});
 				}
 			});
