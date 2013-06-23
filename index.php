@@ -61,7 +61,7 @@ foreach ($moduleclasses as $moduleclass){
 }
 	$pathArray=OC_FaceFinder_Scanner::scan("");
 	OCP\Util::writeLog("facefinder",json_encode($pathArray),OCP\Util::DEBUG);
-	/*foreach ($pathArray as $path){
+	foreach ($pathArray as $path){
 		OCP\Util::writeLog("facefinder",$path,OCP\Util::DEBUG);
 		if(!OCA\FaceFinder\FaceFinderPhoto::issetPhotoId($path)){
 			$photoOpject=OCA\FaceFinder\PhotoClass::getInstanceByPaht($path);
@@ -75,7 +75,7 @@ foreach ($moduleclasses as $moduleclass){
 			}
 	
 		}
-	}*/
+	}
 
 if(isset($_GET['search'])){
 	OCP\Util::addStyle('facefinder', 'search');
