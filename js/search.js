@@ -1,8 +1,9 @@
 $(document).ready(function() {
-	PhotoView.load();
-	FaceFinder.test();
+	//PhotoView.load();
+	//FaceFinder.load();
 	$('#search img').click(function(){
- 		PhotoView.ClickImg(this)});
+ 		PhotoView.ClickImg(this);
+ 		});
  	
 
 });

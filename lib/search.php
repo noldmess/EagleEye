@@ -28,6 +28,7 @@ function search($query) {
 	foreach ($moduleclasses as $moduleclass){
 		$searchResultarray=array_merge($searchResultarray,$moduleclass['Mapper']::search($query));
 		}
+		
 		return $searchResultarray;
 	}
 }

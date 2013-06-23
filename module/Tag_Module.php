@@ -333,9 +333,9 @@ class Tag_Module implements OCA\FaceFinder\MapperInterface{
 							$lengt++;
 					}
 					$proz=$proz/($lengt-1);
-					if(0.5<$proz){
+					//if(0.5<$proz){
 						$array_duplicatits+=array(($count++)=>array($array[$i],$array[$j],"prozent"=>$proz,"info"=>array()));
-					}
+					//}
 					}
 					
 				}

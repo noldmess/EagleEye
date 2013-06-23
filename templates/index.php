@@ -27,7 +27,7 @@ if($size>1)
 	<span class="right">
 	<label>Select view:</label>
 	<select title="Select view">
-		<option value="time">Time</option>
+		<option value="time">Sort by Time</option>
 		<!-- button class="time" style=""> Time </button> -->
 		</select>
 	</span>
@@ -57,9 +57,6 @@ if($size>1)
 <table class="table table-hover">
 	<thead>
     	<tr>
-        	<th>
-        	Similarity
-            </th>
             <th>
             	Pfad 1 
             </th>
@@ -87,6 +84,7 @@ if($size>1)
     <tbody id="data"></tbody>
 </table>
 </div>
-<div id="fancybox-tmp" style="display;none;"></div>
+<div id="fancybox-tmp" style="display;none;"><input type="hidden"></div>
+<p title="Mouse over the heading above to view the tooltip." class="tooltip">Mouse over the heading text above to view it's tooltip.</p>
 
 

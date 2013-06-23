@@ -246,13 +246,12 @@ class EXIF_Module implements OCA\FaceFinder\MapperInterface{
 							}
 							$proz=$proz/($lengt-1);
 							if(0.5<$proz){
-								$array_duplicatits+=array(($count++)=>array($array[$i],$array[$j],"prozent"=>$proz,"info"=>array()));
+								$array_duplicatits+=array(($count++)=>array($array[$i],$array[$j],"prozent"=>$proz));
 							}
 						}
 							
 					}
 				uasort($array_duplicatits, array($this, "test"));
-				//echo json_encode($array_duplicatits);
 				return $array_duplicatits;
 			}
 			

@@ -25,7 +25,9 @@ class Kamera_Module implements OCA\FaceFinder\MapperInterface{
 	private  static $version='0.0.2';
 	private static $classname="Kamera_Module";
 	
-
+	public  function  getJSON(){
+			return array();
+	}
 	
 	public  function __construct() {
 	}
@@ -87,7 +89,10 @@ class Kamera_Module implements OCA\FaceFinder\MapperInterface{
 		while (($row = $result->fetchRow())!= false) {
 			$class=Kamera_ModuleClass::getInstanceBySQL(1,$row,$foringkey);
 		}
-		return $class;
+		if(isset($class))
+			return $class;
+		else
+			return null;
 	}
 	
 	/**

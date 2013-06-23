@@ -2,9 +2,11 @@ $(document).ready(function() {
 	$('#duplicate').hide();
 	$("span.right select").append('<option value="duplicates">Duplicates</option>');
 	$('option[value="duplicates"]').click(function(e){
+		$("button[title='Remove']").text("Remove (0)");
+		$("button[title='Remove']").removeClass("btn btn-warning");
 		Duplicatits.load();
 	});
-	$("span.right ").append('<button title="Remove">Remove</button>');
+	$("span.right ").append('<button class="remove" title="Remove">Remove (0)</button><input type="hidden" name="removecount">');
 	$('button[title="Remove"]').click(function(e){
 		Duplicatits.remove();
 	});
@@ -39,7 +41,23 @@ var Duplicatits={
 					});
 				}
 			});
-			
+			var counter=$("input[name='removecount']").attr("value",0);
+			$("button[title='Remove']").text("Remove");
+			$("button[title='Remove']").removeClass("btn btn-warning");
+		},
+		removeCounterAdd:function(){
+			var counter=$("input[name='removecount']").attr("value");
+				$("input[name='removecount']").attr("value",++counter);
+				$("button[title='Remove']").text("Remove ("+counter+")");
+				$("button[title='Remove']").addClass("btn btn-warning");
+		},
+		removeCounterRemove:function(){
+			var counter=$("input[name='removecount']").attr("value");
+				$("input[name='removecount']").attr("value",--counter);
+				$("button[title='Remove']").text("Remove ("+counter+")");
+				if(counter===0)
+				$("button[title='Remove']").removeClass("btn btn-warning");
+				
 		},
 		getReadableFileSizeString:function (fileSizeInBytes) {
 
@@ -67,23 +85,64 @@ var Duplicatits={
 					$.each(data.data,function(index_year,data){
 						var img1=data[0];
 						var img2=data[1];
-						$("#duplicate table #data").append('<tr><td>'+data.prozent+'<input type="hidden" name="remove"></td><td>'+img1.path+'</td><td><table><tr><td>'+img1.height+'</td><td>Height</td></tr><tr><td>'+img1.width+'</td><td>Width</td><tr><td>'+Duplicatits.getReadableFileSizeString(img1.filesize)+'</td><td>Size</td></tr></table></td><td><div class="image"><img checked="checked" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+img1.path+'" alt="'+img1.photo_id+'"></div></td><td><a><i class="icon-info-sign"></i></a></td><td><div class="image"><img checked="checked" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+img2.path+'" alt="'+img2.photo_id+'"></div></td> <td>'+img2.path+'</td><td><table><tr><td>'+img2.height+'</td><td>Height</td></tr><tr><td>'+img2.width+'</td><td>Width</td><tr><td>'+Duplicatits.getReadableFileSizeString(img2.filesize)+'</td><td>Size</td></tr></table></td></tr>');
+						var path1_length=img1.path.length-30;
+						if(path1_length<0)
+							path1_length=0;
+						var path2_length=img2.path.length-30;
+						if(path2_length<0)
+							path2_length=0;
+						$("#duplicate table #data").append('<tr class="line"><td><p class="path" alt="'+img1.path+'">'+img1.path.substr(path1_length)+'</p></td><td><table><tr><td>'+img1.height+' px Height</td></tr><tr><td>'+img1.width+' px Width</td><tr><td>'+Duplicatits.getReadableFileSizeString(img1.filesize)+'</td><td></td></tr></table></td><td><div class="image"><img checked="checked" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+img1.path+'" alt="'+img1.photo_id+'"></div></td><td><a><button><img checked="checked" src="'+OC.linkTo('facefinder', 'img/scale.gif')+'"><br>'+Math.round(data.prozent*100)+'%</button><br/></a><input type="hidden" name="remove"></td><td><div class="image"><img checked="checked" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+img2.path+'" alt="'+img2.photo_id+'"></div></td> <td><p class="path" alt="'+img2.path+'">'+img2.path.substr(path2_length)+'</td><td><table><tr><td>'+img2.height+' px Height</td></tr><tr><td>'+img2.width+' px  Width</td><tr><td>'+Duplicatits.getReadableFileSizeString(img2.filesize)+'</p></td><td></td></tr></table></td></tr>');
 						//.append('<table><tbody><tr><td>'+img1.height+'</td><td>'+img1.width+'</td><td>'+img1.filesize+'</td></tr></tbody></table></tr>');
 					});
-					$("#duplicate table tbody i.icon-info-sign").click(function(e){
+					//show entire paht
+					$('p.path').hover(function(){
+				        // Hover over code
+				        var title = $(this).attr('alt');
+				        $(this).data('tipText', title).removeAttr('title');
+				        $('<p class="tooltip"></p>')
+				        .text(title)
+				        .appendTo('body')
+				        .fadeIn('fast');
+					}, function() {
+					        // Hover out code
+					        $(this).attr('title', $(this).data('tipText'));
+					        $('.tooltip').remove();
+					}).mousemove(function(e) {
+					        var mousex = e.pageX + 20; //Get X coordinates
+					        var mousey = e.pageY + 10; //Get Y coordinates
+					        $('.tooltip')
+					        .css({ top: mousey, left: mousex })
+					});
+					//show entire paht
+					//show Box
+					$("#duplicate table tbody button").click(function(e){
 						Duplicatits.loadPopupBox(e,this);
 					});
+					//remove Img
 		    		$('#duplicate table img').click(function(e){
-						var id=$(this).attr('alt');
-						var dfsdf=$(this).parent().parent().parent().find('img').css({ // this is just for style
+						var id=$(this).attr('alt')
+						$(this).parent().parent().parent().find('img').css({ // this is just for style
 				            "opacity": "1" 
 				        });
 						$(this).css({ // this is just for style
 				            "opacity": "0.3" 
 				        });
-							var ds=$($($(this).parent().parent().parent()).children()[0]).children('input');
-							$($($(this).parent().parent().parent()).children()[0]).children('input').attr('value',id);
-					});
+							var ds=$($($(this).parent().parent().parent()).children()[3]);
+							var sdfd=$(ds).children('input');
+							var input_id=$($($(this).parent().parent().parent()).children()[3]).children('input').attr('value');
+							$($($(this).parent().parent().parent()).children()[3]).children('input').attr('value',id);
+							if(input_id==id){
+							$(this).css({ 
+					            "opacity": "1"       	
+					        });
+							Duplicatits.removeCounterRemove();
+							$($($(this).parent().parent().parent()).children()[3]).children('input').attr('value','');
+						}else{
+							if(input_id==='')
+							Duplicatits.removeCounterAdd();
+						}
+				        });
+					
 				}
 			});
 		},
@@ -111,12 +170,34 @@ var Duplicatits={
 	    loadPopupBox:function (e,t) {// To Load the Popupbox
 	    	$("#fancybox-tmp table").remove()
 	    		var test =$(t).parent().parent().parent();
-	    		var img_alt1 =$($(test).children()[3]);
-	    		var img_alt1 =$($(test).children()[3]).find('img').attr('alt');
-	    		var img_alt2 =$($(test).children()[5]).find('img').attr('alt');
+	    		var img_alt1 =$($(test).children()[2]).find('img').attr('alt');
+	    		var img_alt2 =$($(test).children()[4]).find('img').attr('alt');
+	    		var line=$(t).parent().parent().parent().index();
+	    		$("#fancybox-tmp input").attr('value',line);
 	    		$.getJSON(OC.linkTo('facefinder', 'ajax/pairduplicates.php')+'?image1='+img_alt1+'&image2='+img_alt2, function(data) {
 	    			$("#fancybox-tmp").append('<table class="table table-hover"><thead><tr><th>Name</th><th>Image 1</th><th>Similarity </th><th>Image 2</th></tr></thead> <tbody></tbody></table>');
 	    			Module.duplicatits($("#fancybox-tmp tbody"),data);
+	    			$('#fancybox-tmp').fadeIn("fast");
+	    			$('#fancybox-tmp table img').click(function(e){
+						var id=$(this).attr('alt')
+							var start=$("#data tr.line:eq("+$("#fancybox-tmp input").attr('value')+")");
+//							$($(start).children()[2]).find('img').css({ // this is just for style
+//					            "opacity": "1" 
+//					        });*/
+							$(start).find('img').css({ // this is just for style
+					            "opacity": "1" 
+					        });
+							$(start).find('img[alt="'+id+'"]').css({ // this is just for style
+					            "opacity": "0.3" 
+					        });
+							var input_id=$($(start).children()[3]).find('input').attr('value');
+							$($(start).children()[3]).find('input').attr('value',id);
+							if(input_id===''){
+								Duplicatits.removeCounterAdd();
+							}
+							Duplicatits.unloadPopupBox();
+				        });
+				        
 	    		});
 	    	  $("nav").css({ // this is just for style
 		            "opacity": "0.3" 
@@ -133,9 +214,6 @@ var Duplicatits={
 		        $("#duplicate").css({ // this is just for style
 		            "opacity": "0.3" 
 		        })
-	        $('#fancybox-tmp').fadeIn("fast");
-	    	
-	 
 	        
 	    }       
 }

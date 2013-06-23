@@ -1,7 +1,14 @@
 @CHARSET "UTF-8";
 
 #duplicate{
-	margin-top: 2.8em;
+	display:inline-block;
+	margin-top:2.7em;
+	top: 0em;
+	left: 0em;
+	right: 0px;
+	bottom: 0px;
+	position:absolute;
+	/*margin-top: 2.8em;
 	height:auto;
 	width:auto;
 	position: absolute;
@@ -14,12 +21,26 @@
 	width:100%;
 	position: fixed ;
 	background-color:#f5f5f5;
-	display: block;
-	  overflow:auto;s
+	display: block;*/
+	  overflow:auto;
 }
 
 table img{
+	max-height: 100px;
+	max-width:300px; 
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+table div.image{
+	display: table-cell;
+    vertical-align: middle; 
 	height: 100px;
+	width:300px; 
+	/*)background :url("../img/trash.gif") no-repeat center center;*/
+}
+table div.image.inTrasch{
+	background :url("../img/trash.gif") no-repeat center center;
 }
 
 table {
@@ -335,4 +356,29 @@ table th[class*="span"],
 }
  tbody tr:hover{
  color:black;
- } 
+ }
+ 
+ .tooltip {
+	display:none;
+	position:absolute;
+	border:1px solid #333;
+	background-color:#161616;
+	border-radius:5px;
+	padding:10px;
+	color:#fff;
+	font-size:12px Arial;
+}
+
+.btn-warning:hover, .btn-warning:focus, .btn-warning:active, .btn-warning.active, .btn-warning.disabled, .btn-warning[disabled] {
+    color: rgb(255, 255, 255);
+    background-color: rgb(248, 148, 6);
+}
+
+.btn-warning {
+    color: rgb(255, 255, 255);
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
+    background-color: rgb(250, 167, 50);
+    background-image: linear-gradient(to bottom, rgb(251, 180, 80), rgb(248, 148, 6));
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}

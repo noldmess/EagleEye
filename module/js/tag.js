@@ -8,6 +8,7 @@ function tag(){
 		this.load=function(image){
 			//remove old tags from view
 			$("#tool_righte .tool.Tag .tool_items table *").remove();
+			$("#tool_righte .tool.Key .tool_items table *").remove();
 			$("#photo div").remove();
 			$("#tool_taggs textarea").val("");
 			//load tags from the image
@@ -19,7 +20,7 @@ function tag(){
 		},
 		this.resat=function(){
 			var sdf=$("input[name='submitTag']");
-			$("input[name='submitTag']").attr("value","Set Tag");
+			$("input[name='submitTag']").attr("value","Set Tag (0)");
 			$("input[name='counterTag']").attr("value","0");
 		};
 		this.setEvents=function(){
@@ -65,18 +66,21 @@ function tag(){
 
 
 tag.init=function(){
-	$("#tool_righte").append('<div class="tool Tag"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Tag</div><div class="tool_items fix"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input><p><label for="male">All tags Visible</label><input   type="checkbox"  value="" name="query" ></input></p></div><div class="tool_items">'
+	$("#tool_righte").append('<div class="tool Tag"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>IPTC</div><div class="tool_items">'
 	+'<table class="table"></table></div></div>');
-	$("span.right select").append('<option value="tag">Tag</option>');
+	$("#tool_righte").append('<div class="tool Key"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Tags</div><div class="tool_items fix"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input><p><input   type="checkbox"  value="" name="query" ><label for="male"> All tags Visible</label></input></p></div><div class="tool_items">'
+			+'<table class="table"></table></div></div>');
+	$("span.right select").append('<option value="tag">Sort by Tag</option>');
 	$("#moduleFildsinner").append('<div id="tag"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value="Set Tag" name="submitTag"></input><input type="hidden" value="0" name="counterTag"></input></div>');
 	$('option[value="tag"]').click(function(e){
+		$('button.remove').hide();
 		tag.click();
 	});
 	
-	$("#tool_righte div.tool.Tag input[type='submit']").click(function(e){
+	$("#tool_righte div.tool.Key input[type='submit']").click(function(e){
 		tag.key();
 	});
-	$("#tool_righte div.tool.Tag  input[type='text']").keyup(function(e){
+	$("#tool_righte div.tool.Key input[type='text']").keyup(function(e){
 		if ( e.keyCode== 13){
 			tag.key();
 		}
@@ -91,7 +95,7 @@ tag.init=function(){
 		}
 	});
 	
-	$("#tool_righte .tool.Tag .tool_items input[type='checkbox']").click(function(e){
+	$("#tool_righte .tool.Key .tool_items input[type='checkbox']").click(function(e){
 		if($("#photo div.tag_in_photo").is(':visible')){
 			$("#photo div.tag_in_photo").hide();
 		}else{
@@ -134,6 +138,8 @@ tag.maketag=function(e){
 	 		 var y2=($(this).parent().height()/document.getElementById("img_img").offsetHeight);
 	 		$("#tool_righte .tool.Tag .tool_items tbody").remove();
 			$("#tool_righte .tool.Tag .tool_items thead").remove();
+			$("#tool_righte .tool.Key .tool_items tbody").remove();
+			$("#tool_righte .tool.Key .tool_items thead").remove();
 			$("#photo div").remove(".draggable");
 				$.getJSON(OC.linkTo('facefinder', 'ajax/inserttagposition.php')+"?image="+image+"&tag="+tag_name+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2, function(data) {
 					
@@ -155,11 +161,20 @@ tag.maketag=function(e){
 tag.getTag=function(img){
 	$.getJSON(OC.linkTo('facefinder', 'ajax/tag.php')+'?image='+img, function(data) {
 		$('#tool_righte .tool.Tag .tool_items.fix input[type="checkbox"]').attr('checked', false);
+		var key_count=0;
+		var tag_count=0;
 		if (data.status == 'success'){
+
 			if(data.data.length>0){
 				$('#tool_righte .tool.Tag .tool_items table').append('<thead>'
 						+'<tr>'
 						+'	<th>Name</th>'
+					    +'  <th>Value</th>'
+					    +'</tr>'
+					    +'</thead>'
+					    +' <tbody></tbody>');
+				$('#tool_righte .tool.Key .tool_items table').append('<thead>'
+						+'<tr>'
 					    +'  <th>Value</th>'
 					    +'</tr>'
 					    +'</thead>'
@@ -177,33 +192,49 @@ tag.getTag=function(img){
 						$('#photo div.tag_in_photo i').click(function(){
 							tag.removeTagDiv(this);
 						});
-						extra='<i class="icon-search"></i>';
+						//extra='<i class="icon-search"></i>';
 					}
 					var dsfsdf=$('#tool_righte .tool.Tag .tool_items tbody');
-					$('#tool_righte .tool.Tag .tool_items tbody').append('<tr><td><i class="icon-remove-sign" name="'+data.name+' '+data.tag+'"></i>'+data.name+' </td><td>'+data.tag+extra+"<td></tr>");
+					if(data.name=='KEYWORDS'){
+						key_count++;
+						$('#tool_righte .tool.Key .tool_items tbody').append('<tr><td><i class="icon-remove-sign" name="'+data.name+' '+data.tag+'"></i>'+data.tag+extra+"<td></tr>");
+					}else{
+						tag_count++;
+						$('#tool_righte .tool.Tag .tool_items tbody').append('<tr><td>'+data.name+' </td><td>'+data.tag+extra+"<td></tr>");
+					}
 						
 				});
-			}else{
-				$('#tool_righte .tool.Tag .tool_items table').append('<thead>'
-						+'<tr>'
-						+'	<th>No Tags </th>'
-					    +'</tr>'
-					    +'</thead>'
-					    +' <tbody></tbody>');
+				if(tag_count===0){
+					$('#tool_righte .tool.Tag .tool_items table').append('<thead>'
+							+'<tr>'
+							+'	<th>No Tags </th>'
+						    +'</tr>'
+						    +'</thead>'
+						    +' <tbody></tbody>');
+				}
+				
+				if(key_count===0){
+					$('#tool_righte .tool.Key .tool_items table').append('<thead>'
+							+'<tr>'
+							+'	<th>No Tags </th>'
+						    +'</tr>'
+						    +'</thead>'
+						    +' <tbody></tbody>');
+				}
 			}
 			$("#photo div.tag_in_photo").hide();
-			$('#tool_righte .tool.Tag .tool_items tbody tr i.icon-remove-sign').click(function(){
+			$('#tool_righte .tool.Key .tool_items tbody tr i.icon-remove-sign').click(function(){
 				tag.removeTag(this);
 			});
-			var dsgfsdf=$('#tool_righte .tool.Tag .tool_items tbody tr');
-			$('#tool_righte .tool.Tag .tool_items tbody tr').mouseenter(function(){
-				var test=$('#tool_righte .tool.Tag .tool_items.fix input[type="checkbox"]').attr('checked');
+			var dsgfsdf=$('#tool_righte .tool.Key .tool_items tbody tr');
+			$('#tool_righte .tool.Key .tool_items tbody tr').mouseenter(function(){
+				var test=$('#tool_righte .tool.Key .tool_items.fix input[type="checkbox"]').attr('checked');
 				if(test===undefined){
 					var tag=$(this).children("td").children("i").attr("name");
 					$("div[id='"+tag+"']").show();
 				}
 			}).mouseleave(function(){
-				var test=$('#tool_righte .tool.Tag .tool_items.fix input[type="checkbox"]').attr('checked');
+				var test=$('#tool_righte .tool.Key .tool_items.fix input[type="checkbox"]').attr('checked');
 				if(test===undefined){
 					var tag=$(this).children("td").children("i").attr("name");
 					$("div[id^='"+tag+"']").hide();
@@ -280,7 +311,7 @@ tag.loadImagesTag=function(tagelement){
 
 tag.sidebar=function(tags){
 	$.each(tags,function(index_tag,elemet){
-		 $('#tool_right ul').append('<li id="'+index_tag+'" class="">'+index_tag+'('+elemet+')</li>');
+		 $('#tool_right ul').append('<li id="'+index_tag+'" class="">'+index_tag+' ('+elemet+')</li>');
 		 $('#tool_right ul li[id^="'+index_tag+'"]').click(function(){
 			 tag.loadImagesTag(this)
 	 	});
@@ -301,19 +332,20 @@ tag.photoOverView=function(photos){
 
 
 tag.key=function(){
-		var tag_value=$("#tool_righte div.tool.Tag  input[type='text']").val();
-		$("#tool_righte div.tool.Tag  input[type='text']").val('');
+		var tag_value=$("#tool_righte div.tool.Key  input[type='text']").val();
+		$("#tool_righte div.tool.Key  input[type='text']").val('');
 		var image=$('#photoview img').attr("alt");
 		
 		$.getJSON(OC.linkTo('facefinder', 'ajax/inserttag.php')+"?image="+image+"&tag="+tag_value, function(data) {
+			$("#tool_righte .tool.Key .tool_items table *").remove();
 			$("#tool_righte .tool.Tag .tool_items table *").remove();
 				$("#photo div").remove();
 				tag.getTag(image);
 		});
-		OC.Notification.show("Tags set");
+		OC.Notification.show(tag_value+" Tags set");
 		setTimeout(function(){
 			OC.Notification.hide();
-		}, 1000);
+		}, 3000);
 		
  
 };
@@ -321,6 +353,7 @@ tag.key=function(){
 tag.checkbox=function(){
 	var list=$('#photoOverView input[type="checkbox"]');
 	var tag_value=$("#module input[type='text']").val();
+	$("#module input[type='text']").val("");
 	if(tag_value.length>0){
 		$("span.right input[type='text']").val('');
 		var image=$('#photoview img').attr("alt");
@@ -331,10 +364,17 @@ tag.checkbox=function(){
 			}
 		});
 		var counter=$("input[name='counterTag']").attr("value");
-		OC.Notification.show(counter+":Tags set");
-		setTimeout(function(){
-			OC.Notification.hide();
-		}, 1000);
+		if(counter>0){
+			OC.Notification.show("Set \""+tag_value+"\" to "+counter+" Images");
+			setTimeout(function(){
+				OC.Notification.hide();
+			},3000);
+		}else{
+			OC.Notification.show("No Images selctrt ");
+			setTimeout(function(){
+				OC.Notification.hide();
+			},3000);
+		}
 	}
 
 };
@@ -346,7 +386,7 @@ tag.checkboxevent=function(event,element){
 	}else{
 		$("input[name='counterTag']").attr("value",--counter);
 	}
-	$("input[name='submitTag']").attr("value","Set Tag("+counter+")");
+	$("input[name='submitTag']").attr("value","Set Tag ("+counter+")");
 };
 
 

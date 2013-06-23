@@ -20,18 +20,18 @@ foreach ($moduleclasses as $moduleclass){
    $moduleArray+=array($moduleclass['Mapper']=>$moduleopject->equivalent($dir));	
 }
 for($i=0;$i<sizeof($photoArray);$i++){
-	foreach($moduleArray as $module){
+	foreach($moduleArray as $sss=>$module){
 		foreach($module as $image){
-			//echo json_encode($image);
 			if($photoArray[$i][0]["photo_id"]===$image[0]["photo_id"] && $photoArray[$i][1]["photo_id"]===$image[1]["photo_id"] ||$photoArray[$i][1]["photo_id"]===$image[0]["photo_id"] && $photoArray[$i][0]["photo_id"]===$image[1]["photo_id"]){
-				$photoArray[$i]['prozent']=($photoArray[$i]['prozent']*0.99)+($image[1]['prozent']*0.01);
+				$photoArray[$i]['prozent']*=0.80;
+				$photoArray[$i]['prozent']+=$image['prozent']*0.2;
+			//	echo $photoArray[$i]['prozent']." ".($photoArray[$i]['prozent']*0.99)." $sss ".$image['prozent']."\n";
 				break;
 			}
 		}
 		
 	}
 }
-
 usort($photoArray,  "test");
 $photoArray=array_slice($photoArray,0,20);
 echo OCP\JSON::success(array("data"=>$photoArray));

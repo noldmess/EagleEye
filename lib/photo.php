@@ -173,7 +173,6 @@ class FaceFinderPhoto{// implements OC_Module_Interface{
 			}
 
 		}
-		
 		//uasort($array_duplicatits, array($this, "test"));
 		
 		return $array_duplicatits;
