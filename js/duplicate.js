@@ -42,7 +42,7 @@ var Duplicatits={
 				}
 			});
 			var counter=$("input[name='removecount']").attr("value",0);
-			$("button[title='Remove']").text("Remove");
+			$("button[title='Remove']").text("Remove (0)");
 			$("button[title='Remove']").removeClass("btn btn-warning");
 		},
 		removeCounterAdd:function(){
