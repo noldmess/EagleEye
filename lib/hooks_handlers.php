@@ -88,10 +88,21 @@ class HooksHandlers {
 	public static function update($params){
 		$path = $params['oldpath'];
 		$newpath = $params['newpath'];
-		OCP\Util::writeLog("facefinddddddddddddddddddder","update".$path." ".$newpath,OCP\Util::DEBUG);
-		$photo=FaceFinderPhoto::getPhotoClassPath($path);
-		$photo->setPath($newpath);
-		FaceFinderPhoto::update($photo);
+// 		OCP\Util::writeLog("facefinddddddddddddddddddder","update".$path." ".$newpath,OCP\Util::DEBUG);
+		if($path!=''&& self::isPhoto($path)){
+			$photo=FaceFinderPhoto::getPhotoClassPath($path);
+			$photo->setPath($newpath);
+			FaceFinderPhoto::update($photo);
+		}else{
+			OCP\Util::writeLog("facefinddddddddddddddddddder","update".$path." ".$newpath,OCP\Util::DEBUG);
+			$photoarray=FaceFinderPhoto::getPhotoClassDir($path);
+			foreach($photoarray as $photo){
+				OCP\Util::writeLog("facefinder2",$photo->getID(),OCP\Util::DEBUG);
+				if(!is_null($photo)){
+					FaceFinderPhoto::remove($photo);
+				}
+			}
+		}
 	}
 	/**
 	 * Help funktien to check the file path no the type 
