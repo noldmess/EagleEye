@@ -124,7 +124,8 @@ var Duplicatits={
 						$(this).parent().parent().parent().find('img').css({ // this is just for style
 				            "opacity": "1" 
 				        });
-						$(this).parent().parent().parent().find('img').removeClass("inTrasch");
+						$(this).parent().parent().parent().find('img').parent().removeClass("inTrasch");
+						var sdfsdfds=$(this).parent().parent().parent().find('img').parent();
 						$(this).css({ // this is just for style
 				            "opacity": "0.3" 
 				        });
