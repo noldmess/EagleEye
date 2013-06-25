@@ -124,9 +124,11 @@ var Duplicatits={
 						$(this).parent().parent().parent().find('img').css({ // this is just for style
 				            "opacity": "1" 
 				        });
+						$(this).parent().parent().parent().find('img').removeClass("inTrasch");
 						$(this).css({ // this is just for style
 				            "opacity": "0.3" 
 				        });
+						$(this).parent().addClass("inTrasch");
 							var ds=$($($(this).parent().parent().parent()).children()[3]);
 							var sdfd=$(ds).children('input');
 							var input_id=$($($(this).parent().parent().parent()).children()[3]).children('input').attr('value');
@@ -187,6 +189,8 @@ var Duplicatits={
 							$(start).find('img').css({ // this is just for style
 					            "opacity": "1" 
 					        });
+							$(start).find('img').parent().removeClass("inTrasch");
+							$(start).find('img[alt="'+id+'"]').parent().addClass("inTrasch");
 							$(start).find('img[alt="'+id+'"]').css({ // this is just for style
 					            "opacity": "0.3" 
 					        });
