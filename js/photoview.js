@@ -1,37 +1,35 @@
-$(document).ready(function() {
-	PhotoView.load();
-	FaceFinder.load();
-	$('#tool_righte').hide();
-	$("span.right").append('<button class="back" style=""><i class="icon-th"></i> Back</button>');
-	$('button.back').hide();
-	$("button.back").click(function(e){
-		goBack(e);
-	})
-	$(document).keypress(function(e) {
-		if (e.keyCode == 27) {
-			goBack(e);
-		}
-	});
-
-});
-
-
-
-
 var PhotoView={
-		load:function(){
+		init:function(){
 			$('#photoview').hide();
+			$('#tool_righte').hide();
+			$("span.right").append('<a href=""><button class="back" style=""><i class="icon-th"></i> Back</button></a>');
+			$('button.back').hide();
+			/*$("button.back").click(function(e){
+				goBack(e);
+			})*/
+			$(document).keypress(function(e) {
+				if (e.keyCode == 27) {
+					goBack(e);
+				}
+			});
 		},
-		ClickImg:function(event){
- 			$('span.right select').hide();
- 			$('span.right input').hide();
+		hideView:function (event){
+			$('button.back').hide();
+        	$('#photoview').hide();
+		},
+		showView:function (event){
+			$('#photoff').show();
 			$('button.back').show();
+        	$('#photoview').show();
+		},
+		ClickImg:function(event,helpold){
+			$('#photoview').hide();
+			$('#tool_righte').hide();
 			$('#tool_righte .tool_items').slideDown(1000);
 			//set PhotoView visible
 	 		$('#photo').addClass('loading');
 	 		$('#photo img').remove()
-			
-	 		$.getJSON(OC.linkTo('facefinder', 'ajax/photoview.php')+'?id='+event.alt, function(data) {
+	 		$.getJSON(OC.linkTo('facefinder', 'ajax/photoview.php')+'?id='+parseInt(event[1]), function(data) {
 				if (data.status == 'success'){
 					var img = new Image();
 					img.src=OC.linkTo('gallery', 'ajax/image.php')+'?file='+oc_current_user+''+data.data.path;
@@ -53,6 +51,8 @@ var PhotoView={
 						$('#photoview img').show();
 					});
 				}
+				$('span.right a ').attr('href','#'+helpold[0]+data.data.path);
+				
 	 		});
 			$('#new_1').hide();
 			$('#search').hide();
@@ -66,6 +66,7 @@ function goBack(e){
 	$('#photoview').hide();
 	$('#photoOverView').show();
 	$('#search').show();
-	location.href = "#" + $('#photo img').attr("name");
+	//location.href = "#facefinder" + ;
+	window.history.pushState({path:"#facefinder" + $('#photo img').attr("name")},"","#facefinder" + $('#photo img').attr("name"));
 	e.preventDefault();
 }

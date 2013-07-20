@@ -1,30 +1,40 @@
-$(document).ready(function() {
-	$('#duplicate').hide();
-	$("span.right select").append('<option value="duplicates">Duplicates</option>');
-	$('option[value="duplicates"]').click(function(e){
-		$("button[title='Remove']").text("Remove (0)");
-		$("button[title='Remove']").removeClass("btn btn-warning");
-		Duplicatits.load();
-	});
-	$("span.right ").append('<button class="remove" title="Remove">Remove (0)</button><input type="hidden" name="removecount">');
-	$('button[title="Remove"]').click(function(e){
-		Duplicatits.remove();
-	});
-	$('button[title="Remove"]').hide();
-	  $('#fancybox-tmp').append('<a id="popupBoxClose">Close</a>');
-   	  $('#popupBoxClose').click( function() {           
-	    	Duplicatits.unloadPopupBox();
-	    });
-});
-
-
 var Duplicatits={
-		load:function(){
+		init:function(){
+			$('#duplicate').hide();
+			$('span.right select[title="Select view"]').append('<option value="duplicates">Finde Duplicates</option>');
+			$('option[value="duplicates"]').click(function(e){
+				window.history.pushState({path:"duplicatits"},"","#duplicatits");
+			});
+			
+			$("span.right ").append('<button class="remove" title="Remove">Remove (0)</button><input type="hidden" name="removecount">');
+			//TODO add size regulator
+			//$("span.right ").append('<select title="duplicatitsNumber" style="display: inline-block;"></select>');
+			$('button[title="Remove"]').click(function(e){
+				Duplicatits.remove();
+			});
+			$('button[title="Remove"]').hide();
+			  $('#fancybox-tmp').append('<a id="popupBoxClose"></a>');
+		   	  $('#popupBoxClose').click( function() {           
+			    	Duplicatits.unloadPopupBox();
+			    });
+		},
+		hideView:function (event){
+        	$('#duplicate').hide();
+        	$("span.right button.remove").hide();
+		},
+		showView:function (event){
+			$('#photoff').show();
+ 			$('span.right select').show();
+ 			$('span.right label').show();
+ 			$('span.right input').show();
+		},
+		load:function(data){
+			$('span.right select[title="Select view"]').val('duplicates');
 			$('#photoff').hide();
 			$('#photoview').hide();
 			$('#duplicate').show();
 			$('button[title="Remove"]').show();
-			this.get();
+			this.get(data);
 		},
 		remove:function(){
 			$.each($('#duplicate table input[name="remove"]'),function(imgID, value){
@@ -78,9 +88,11 @@ var Duplicatits={
 			});
 			return path
 		},
-		get:function(){
+		get:function(data){
 			$("#duplicate table tbody").children().remove();
-			$.getJSON(OC.linkTo('facefinder', 'ajax/equivalent.php')+"?dir="+Duplicatits.getPath(), function(data) {
+			$("#duplicate").addClass('loading');
+			var sdfsdf=parseInt(data[1]);
+			$.getJSON(OC.linkTo('facefinder', 'ajax/equivalent.php')+"?dir="+Duplicatits.getPath()+"&page="+parseInt(data[1]), function(data) {
 				if (data.status == 'success'){
 					$.each(data.data,function(index_year,data){
 						var img1=data[0];
@@ -129,23 +141,33 @@ var Duplicatits={
 						$(this).css({ // this is just for style
 				            "opacity": "0.3" 
 				        });
-						$(this).parent().addClass("inTrasch");
+						
 							var ds=$($($(this).parent().parent().parent()).children()[3]);
 							var sdfd=$(ds).children('input');
 							var input_id=$($($(this).parent().parent().parent()).children()[3]).children('input').attr('value');
 							$($($(this).parent().parent().parent()).children()[3]).children('input').attr('value',id);
 							if(input_id==id){
+								
 							$(this).css({ 
 					            "opacity": "1"       	
 					        });
 							Duplicatits.removeCounterRemove();
 							$($($(this).parent().parent().parent()).children()[3]).children('input').attr('value','');
 						}else{
+							$(this).parent().addClass("inTrasch");
 							if(input_id==='')
 							Duplicatits.removeCounterAdd();
 						}
 				        });
 					
+				}
+				$("#duplicate").removeClass('loading');
+				//number of image pro page 
+				var imgProPage=20;
+				var numperPages=Math.ceil(data.size/imgProPage);
+				$("#duplicate table tfoot tr td div.pagination ul *").remove();
+				for ( var page = 0; page <numperPages ; page++) {
+					$("#duplicate table tfoot tr td div.pagination ul").append('<li><a href="#duplicatits/'+page+'">'+page+'</a></li>');
 				}
 			});
 		},
@@ -178,7 +200,7 @@ var Duplicatits={
 	    		var line=$(t).parent().parent().parent().index();
 	    		$("#fancybox-tmp input").attr('value',line);
 	    		$.getJSON(OC.linkTo('facefinder', 'ajax/pairduplicates.php')+'?image1='+img_alt1+'&image2='+img_alt2, function(data) {
-	    			$("#fancybox-tmp").append('<table class="table table-hover"><thead><tr><th>Name</th><th>Image 1</th><th>Similarity </th><th>Image 2</th></tr></thead> <tbody></tbody></table>');
+	    			$("#fancybox-tmp div").append('<table class="table table-hover"><thead><tr><th>Name</th><th>Image 1</th><th>Similarity </th><th>Image 2</th></tr></thead> <tbody></tbody></table>');
 	    			Module.duplicatits($("#fancybox-tmp tbody"),data);
 	    			$('#fancybox-tmp').fadeIn("fast");
 	    			$('#fancybox-tmp table img').click(function(e){
