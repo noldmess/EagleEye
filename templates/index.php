@@ -81,10 +81,19 @@ if($size>1)
             
         </tr>
     </thead>
+      <tfoot>
+    <tr>
+      <td colspan="7">
+            <div class="pagination">
+		    	<ul></ul>
+    		</div>
+    </td>
+    </tr>
+  </tfoot>
     <tbody id="data"></tbody>
 </table>
 </div>
-<div id="fancybox-tmp" style="display;none;"><input type="hidden"></div>
+<div id="fancybox-tmp" style="display;none;"><div></div><input type="hidden"></div>
 <p title="Mouse over the heading above to view the tooltip." class="tooltip">Mouse over the heading text above to view it's tooltip.</p>
 
 
