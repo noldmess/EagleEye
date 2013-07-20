@@ -25,6 +25,11 @@
 	  overflow:auto;
 }
 
+
+#duplicate.loading{
+		background:url("../img/loader.gif") no-repeat center center;
+}
+
 table img{
 	max-height: 100px;
 	max-width:300px; 
@@ -335,24 +340,33 @@ table th[class*="span"],
     top: 150px;
     z-index:100; /* Layering ( on-top of others), if you have lots of layers: I just maximized, you can change it yourself */
     margin-left: 15px;  
-   	overflow:auto;
+   	/*overflow:auto;*/
     /* additional features, can be omitted */
     padding:15px;  
     font-size:15px;  
-    -moz-box-shadow: 2 2  rgb(102, 102, 102)
-    -webkit-box-shadow: 0 0 rgb(102, 102, 102)
+    -moz-box-shadow: 2 2  rgb(102, 102, 102);
+    -webkit-box-shadow: 0 0 rgb(102, 102, 102);
     box-shadow: 0 0 5px  rgb(102, 102, 102);
+   
+}
+
+#fancybox-tmp div{
+   	overflow:auto;
+
    
 }
 
 #popupBoxClose {
     font-size:20px;  
     line-height:15px;  
-    right:5px;  
-    top:5px;  
-    position:absolute;  
+    left: 314px;
+    top: 150px;
     color:#6fa5e2;  
-    font-weight:500;      
+    font-weight:500;
+	position:fixed;
+    background-image: url("/owncloud/core/img/actions/close.svg");
+    width: 14px;
+    height: 14px; 
 }
  tbody tr:hover{
  color:black;
@@ -364,9 +378,18 @@ table th[class*="span"],
 	border:1px solid #333;
 	background-color:#161616;
 	border-radius:5px;
+	max-height:550px;
+	max-width:800px;
 	padding:10px;
+	z-index: 100;
 	color:#fff;
 	font-size:12px Arial;
+}
+
+ 
+ .tooltip img{
+ 	max-height:500px;
+	max-width:100%;
 }
 
 .btn-warning:hover, .btn-warning:focus, .btn-warning:active, .btn-warning.active, .btn-warning.disabled, .btn-warning[disabled] {
@@ -382,3 +405,40 @@ table th[class*="span"],
     background-repeat: repeat-x;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
+
+.pagination{
+    text-align: center;
+    margin: 10px 0px;
+}
+
+.pagination ul > li:first-child > a, .pagination ul > li:first-child > span {
+    border-left-width: 1px;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+.pagination ul > li:last-child > a, .pagination ul > li:last-child > span {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.pagination ul > li > a:hover, .pagination ul > li > a:focus, .pagination ul > .active > a, .pagination ul > .active > span {
+    background-color: rgb(245, 245, 245);
+}
+
+.pagination ul > li > a, .pagination ul > li > span {
+    float: left;
+    padding: 4px 12px;
+    line-height: 20px;
+    text-decoration: none;
+    background-color: rgb(255, 255, 255);
+    border-width: 1px 1px 1px 0px;
+    border-style: solid;
+    border-color: rgb(221, 221, 221);
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    border-image: none;
+}
+

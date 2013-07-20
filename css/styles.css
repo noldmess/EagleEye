@@ -118,7 +118,10 @@ div.visible { opacity: 0.8;}
 
 
 
-
+#tool_right ul.start {
+	margin-top:5px;
+	margin-left:5px;
+}
 
 #tool_right ul {
 	width:auto;
@@ -368,3 +371,10 @@ div.head_line:hover{
 .icon-folder-open{background-position:-408px -120px;}
 .icon-resize-vertical{background-position:-432px -119px;}
 .icon-resize-horizontal{background-position:-456px -118px;}
+.icon-equal{background-image:url(../img/icen-equal-not.gif);}
+.icon-equal-not{background-position:0 0;}
+.icon-equal-ok{background-position:-16px 0;}
+span.right{
+	margin-left: 20px;
+}
+

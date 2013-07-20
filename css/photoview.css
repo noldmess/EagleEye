@@ -17,7 +17,9 @@
 	background-color:black;
 }
 #tool_left{
-	width: 70%;
+	position:absolute;
+	width: 65%;
+	height: 90%;
 	top: 0em;
 	left: 0em;
 	bottom: 0px;
@@ -36,7 +38,6 @@ div.tool_title i{
 
 
 #photo{
-	width: 70%;
 	height:100%;
 	margin-right:auto;
 	margin-left: auto;
@@ -49,11 +50,9 @@ div.loading{
 
 
 #photo img{
-	margin-top:10px;
-	margin-bottom:10px;
+	margin:10px;
 	max-width: 95%;
 	max-height:90%;
-	cursor:crosshair;
 	margin-right:auto;
 	margin-left: auto;
 }
@@ -80,10 +79,9 @@ div.tool_title h1{
 }
 
 #tool_righte{
-	margin: 1px;
+	overflow-x:scroll;
 	position:absolute;
 	width: 30%;
-	margin-top:0em;
 	top: 0em;
 	right: 5em;
 	bottom: 0px;
@@ -111,8 +109,9 @@ div.tool_title h1{
 	scrollbar-darkshadow-color: #949494;
 	overflow:auto;
 	max-height:200px;
+	
 	/*background:url("/owncloud/core/css/../img/noise.png") repeat scroll 0% 0% rgb(56, 60, 67);*/
-	margin-left: 10px;
+	margin-left: 20px;
 	/*display: inline;*/
 }
 
