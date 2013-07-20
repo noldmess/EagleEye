@@ -2,49 +2,44 @@
 	position:relative;
 	min-width:150px;
 	min-height:35px;
-	opacity: 0.1;
 	border: solid 2px #778899;
 }
 
-#photo .face.inner:HOVER{
-	opacity: 0.8;
+/*#photo .face.inner:HOVER{
 	border: solid 2px red;
-}
+}*/
 
 #photo .face.inner{
 		 margin-left: auto ;
   margin-right: auto ;
 	box-shadow:inset 0px 0px 8px 0px #efefef;
-	opacity: 1;
 	border: solid 1px #efefef
 }
 
-#photo .face.inner:HOVER{
+/*#photo .face.inner:HOVER{
 	
 	border: solid 1px #efefef
-}
+}*/
 
 
 #photo .face.outer{
-
 	opacity: 0.1;
 	text-align:center;
 }
 
 #photo .face.outer:HOVER{
-	opacity: 0.9;
+	opacity:1;
 	text-align:center;
 }
 
 
-#photo .face.outer.fram{
+#photo .face.outer div.fram{
 	background-color: white;
 }
 
 #photo .face input{
 	position:relative;
 	/*bottom:35px;*/
-	opacity: 1;
 }
 
 
@@ -56,11 +51,10 @@
 
 
 #photo .draggable_face_option{
-	opacity: 0.1;
 }
 
-#photo .draggable_face_option:HOVER{
+/*#photo .draggable_face_option:HOVER{
 	opacity: 1;
 	background-color:white;
-}
+}*/
 
