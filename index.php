@@ -27,13 +27,14 @@ OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('facefinder');
 OCP\App::setActiveNavigationEntry( 'facefinder' );
 OCP\Util::addStyle('facefinder', 'styles');
-OCP\Util::addScript('facefinder', 'new_1');
 OCP\Util::addScript('facefinder', 'facefinder');
 OCP\Util::addScript('facefinder', 'module');
 OCP\Util::addScript('facefinder', 'photoview');
 OCP\Util::addStyle('facefinder', 'photoview');
 OCP\Util::addStyle('facefinder', 'duplicate');
 OCP\Util::addScript('facefinder', 'duplicate');
+OCP\Util::addScript('facefinder', 'singlePageHandler');
+
 //OCP\Util::addStyle('facefinder', 'bootstrap.min');
 
 
