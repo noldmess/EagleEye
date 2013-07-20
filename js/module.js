@@ -1,9 +1,9 @@
-$(document).ready(function() {
+/*$(document).ready(function() {
 	setTimeout(function(){
 		Module.toolSlide();
 		  }, 500);
 	
-});
+});*/
 var Module={
 		load:function (event){
 			//$."Tag".load(event);
@@ -17,6 +17,46 @@ var Module={
 				}
 				
 			});
+		},
+		init:function (event){
+			//$."Tag".load(event);
+			//var you = new Person({ firstName: 'Mike' });
+			
+			//FaceFinder initialise 
+			FaceFinder.init();
+			//PhotoView initialise 
+			PhotoView.init();
+			//Dublikates initialise
+			Duplicatits.init();
+			$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
+				if (data.status == 'success'){
+					$.each(data.data,function(index_year,data){
+							var classload=buildFromJSON(data);
+							//classload.load(event);
+							classload.init();
+					});
+				}
+				
+			});
+		},
+		hideView:function (event){
+			FaceFinder.hideView();
+			PhotoView.hideView();
+			Duplicatits.hideView();
+			$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
+				if (data.status == 'success'){
+					$.each(data.data,function(index_year,data){
+							var classload=buildFromJSON(data);
+							classload.hideView();
+					});
+				}
+				
+			});
+		},
+		viewLoader:function (name){
+			var classload=buildFromJSON(name);
+			classload.click();
+			classload.showView();
 		},
 		allInfo:function (img1,img2){
 			//$."Tag".load(event);
