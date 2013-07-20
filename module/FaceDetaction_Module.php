@@ -179,7 +179,7 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 	 */
 	public static  function insertFacePhoto($id,$class,$facePhotoPath,$faceclass,$x1=0,$x2=0,$y1=0,$y2=0){
 		//if(!self::issetTagPhotoId($class->getForingkey(),$id)){
-			$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_facedetaction_face_photo_module` (`photo_id`, `tag_id`,`facePhotoPath`,`faceclass`,x1,x2,y1,y2) VALUES ( ?, ?,?,?,?,?,?,?);');
+			$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_facedetaction_face_photo_module` (`photo_id`, `tag_id`,`facePhotoPath`,`faceclass`,x1,x2,y1,y2) VALUES;');
 			$result=$stmt->execute(array($class->getForingkey(),$id,$facePhotoPath,$faceclass,$x1,$x2,$y1,$y2));
 			
 		//}

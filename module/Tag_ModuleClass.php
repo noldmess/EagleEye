@@ -59,7 +59,13 @@ class Tag_ModuleClass  implements  OCA\FaceFinder\ClassInterface{
 	}
 	
 	public function addTag($key,$tag,$x1=0,$x2=0,$y1=0,$y2=0){
+		//TODO Optimise only easy solutiuon 
+		foreach($this->tagArray as $tagelement){
+			if($tagelement['tag']==$tag)
+				return false;
+		}
 		$this->tagArray[]=array("name"=>self::IPTCCodeToString($key),"tag"=>$tag,"x1"=>$x1,"x2"=>$x2,"y1"=>$y1,"y2"=>$y2);
+		return true;
 	}
 	
 	
