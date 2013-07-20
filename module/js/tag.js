@@ -1,14 +1,12 @@
-$(document).ready(function() {
+/*$(document).ready(function() {
 	tag.init();
-});
+});*/
 
 
 
 function tag(){	
 		this.load=function(image){
 			//remove old tags from view
-			$("#tool_righte .tool.Tag .tool_items table *").remove();
-			$("#tool_righte .tool.Key .tool_items table *").remove();
 			$("#photo div").remove();
 			$("#tool_taggs textarea").val("");
 			//load tags from the image
@@ -16,11 +14,43 @@ function tag(){
 			$('#photo img').click(function(e){
 				tag.maketag(e);
 				});
+			$('#img_img').hover(function(){
+		        // Hover over code
+				if($('#photo div.draggable').size()===0){
+					$('#img_img').css("cursor"," cell");
+			        var title = $(this).attr('alt');
+			        $(this).data('tipText', title).removeAttr('title');
+			        $('<p class="tooltip"></p>')
+			        .text("click to write tag")
+			        .appendTo('body')
+			        .fadeIn('fast');
+				}else{
+					$('#img_img').css("cursor","auto");
+				}
+			}, function() {
+			        // Hover out code
+			        $(this).attr('title', $(this).data('tipText'));
+			        $('.tooltip').remove();
+			}).mousemove(function(e) {
+			        var mousex = e.pageX + 10; //Get X coordinates
+			        var mousey = e.pageY + 10; //Get Y coordinates
+			        $('.tooltip')
+			        .css({ top: mousey, left: mousex })
+			});
 			
-		},
+		};
+		this.hideView=function (event){
+			$("#tool_righte .tool.Tag .tool_items table *").remove();
+			$("#tool_righte .tool.Key .tool_items table *").remove();
+		};
+		this.showView=function (event){
+			$('#photoff').show();
+ 			$('span.right select').show();
+ 			$('span.right label').show();
+ 			$('span.right input').show();
+		};
 		this.resat=function(){
-			var sdf=$("input[name='submitTag']");
-			$("input[name='submitTag']").attr("value","Set Tag (0)");
+			$("input[name='submitTag']").text("Set Tag (0)");
 			$("input[name='counterTag']").attr("value","0");
 		};
 		this.setEvents=function(){
@@ -32,9 +62,9 @@ function tag(){
 			var tag=data['img1']['Tag_Module'][0];
 			for ( var i = 0; i < $(tag).size(); i++) {
 				if(i==0)
-					$(element).append('<tr><td rowspan="'+$(tag).size()+'">Tag</td><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
+					$(element).append('<tr><td rowspan="'+$(tag).size()+'">Tag</td><td>'+tag[i].name+' '+tag[i].tag+'</td><td><i class="icon-equal icon-equal-ok"></td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
 				else
-					$(element).append('<tr>><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
+					$(element).append('<tr>><td>'+tag[i].name+' '+tag[i].tag+'</td><td><i class="icon-equal icon-equal-ok"></td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
 			}
 			var tag1=data['img1']['Tag_Module'][1];
 			var tag2=data['img2']['Tag_Module'][1];
@@ -55,57 +85,82 @@ function tag(){
 					name=tag2[i].name;
 					tag_name=tag2[i].tag;
 				}
-				if(i==0)
-					$(element).append('<tr><td rowspan="'+$(tag).size()+'">Not equal Tag</td><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+name+' '+tag_name+'</td></tr>');
-				else
-					$(element).append('<tr>><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+name+' '+tag_name+'</td></tr>');
+				if(i==0){
+					$(element).append('<tr><td rowspan="'+$(tag).size()+'">Not equal Tag</td><td>'+tag[i].name+' '+tag[i].tag+'</td><td><i class="icon-equal icon-equal-not"></td><td>'+name+' '+tag_name+'</td></tr>');
+				}else{
+					$(element).append('<tr><td>'+tag[i].name+' '+tag[i].tag+'</td><td><i class="icon-equal icon-equal-not"></td><td>'+name+' '+tag_name+'</td></tr>');
+				}
 			}
 			//alert("sdfsdf");
 		};
+		
+		this.init=function(){
+			$("#tool_righte").append('<div class="tool Tag"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>IPTC</div><div class="tool_items">'
+			+'<table class="table"></table></div></div>');
+			$("#tool_righte").append('<div class="tool Key"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Tags</div><div class="tool_items fix"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input><p><input   type="checkbox"  value="" name="query" ><label for="male"> All tags Visible</label></input></p></div><div class="tool_items">'
+					+'<table class="table"></table></div></div>');
+			$('span.right select[title="Select view"]').append('<option value="tag">Sort by Tag</option>');
+			$("#moduleFildsinner").append('<div id="tag"><input   type="text"  value="" name="query"  placeholder="add Tag"></input><button class="submitTag">add Tag</button><input type="hidden" value="0" name="counterTag"></input></div>');
+			$('option[value="tag"]').click(function(e){
+				$('button.remove').hide();
+				window.history.pushState({path:"tag"},"","#tag");
+				//tag.click();
+			});
+			
+			$("#tool_righte div.tool.Key input[type='submit']").click(function(e){
+				tag.key();
+			});
+			$("#tool_righte div.tool.Key input[type='text']").keyup(function(e){
+				if ( e.keyCode== 13){
+					tag.key();
+				}
+			});
+
+			$("button.submitTag").click(function(e){
+				tag.checkbox();
+			});
+			$("#module input[name='query']").keyup(function(e){
+				if ( e.keyCode== 13){
+					tag.checkbox();
+				}
+			});
+			
+			$("#tool_righte .tool.Key .tool_items input[type='checkbox']").click(function(e){
+				if($("#photo div.tag_in_photo").is(':visible')){
+					$("#photo div.tag_in_photo").hide();
+				}else{
+					$("#photo div.tag_in_photo").show();
+				}
+			});
+		},
+		//cange to tag Photo Over View
+		this.click=function(e){
+			
+			$('#duplicate').hide();
+			$('#photoff').show();
+			var path=tag.getPath();
+			 $.getJSON(OC.linkTo('facefinder', 'ajax/allImagesTags.php')+'?dir='+path, function(data) {
+				 $('#photoOverView').addClass('loading');
+				 $('#photoOverView * ').remove();
+				 $('#tool_right ul li').remove();
+				 if (data!==null && data.status == 'success'){
+							tag.sidebar(data.tag);
+							tag.photoOverView(data.photo);	
+				     }
+				 $('#photoOverView').removeClass('loading');
+				 
+			});
+			 Module.resateView();
+			 setTimeout(function() {$('span.right select[title="Select view"]').val('tag')},500);
+		}
 };
 
 
-tag.init=function(){
-	$("#tool_righte").append('<div class="tool Tag"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>IPTC</div><div class="tool_items">'
-	+'<table class="table"></table></div></div>');
-	$("#tool_righte").append('<div class="tool Key"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Tags</div><div class="tool_items fix"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input><p><input   type="checkbox"  value="" name="query" ><label for="male"> All tags Visible</label></input></p></div><div class="tool_items">'
-			+'<table class="table"></table></div></div>');
-	$("span.right select").append('<option value="tag">Sort by Tag</option>');
-	$("#moduleFildsinner").append('<div id="tag"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value="Set Tag" name="submitTag"></input><input type="hidden" value="0" name="counterTag"></input></div>');
-	$('option[value="tag"]').click(function(e){
-		$('button.remove').hide();
-		tag.click();
-	});
-	
-	$("#tool_righte div.tool.Key input[type='submit']").click(function(e){
-		tag.key();
-	});
-	$("#tool_righte div.tool.Key input[type='text']").keyup(function(e){
-		if ( e.keyCode== 13){
-			tag.key();
-		}
-	});
 
-	$("#module input[name='submitTag']").click(function(e){
-		tag.checkbox();
-	});
-	$("#module input[name='query']").keyup(function(e){
-		if ( e.keyCode== 13){
-			tag.checkbox();
-		}
-	});
-	
-	$("#tool_righte .tool.Key .tool_items input[type='checkbox']").click(function(e){
-		if($("#photo div.tag_in_photo").is(':visible')){
-			$("#photo div.tag_in_photo").hide();
-		}else{
-			$("#photo div.tag_in_photo").show();
-		}
-	});
-}
 
 tag.maketag=function(e){
-	 var PosX = 0;
+	if($('#photo div.draggable').size()===0){
+	  var PosX = 0;
 	  var PosY = 0;
 	  var posX = 0;
 	  var posY = 0;
@@ -126,39 +181,77 @@ tag.maketag=function(e){
 	 PosY = PosY - posY;
 	 PosX+=document.getElementById("img_img").offsetLeft;
 	 PosY+=document.getElementById("img_img").offsetTop;//
-	 $("#photo").append('<div class="draggable" style="position: absolute; top: '+(PosY-50)+'px; left: '+(PosX-50)+'px;"><input   type="text"  value="" name="query" ></input></div>');
-	 $("#photo .draggable input").keyup(function(e){
+	 
+	 $("#photo").append('<div class="draggable" style="position: absolute; top: '+(PosY-50)+'px; left: '+(PosX-50)+'px;"><a id="fancybox-close" style="display: inline;"></a><div class="draggable2"></div><div class="addTag"><input   type="text"  value="" name="query" placeholder="add Tag" ></input><input type="button" value=" Set Tag "></input></div></div>');
+//	 $("#photo").append('<div class="draggable" style="position: absolute; top: '+(PosY-50)+'px; left: '+(PosX-50)+'px;"><input   type="text"  value="" name="query" placeholder="add Tag" ></input></div>');
+	 $('#photo .addTag  input[type="button"]').click(function(e){
+		 var pos=findPosition(this.parentNode.parentNode);
+		 var image=$('#photoview img').attr("alt");
+		 var tag_name=$(this).parent().find('input[type="text"]').val();
+		 var x1=(pos[0]/document.getElementById("img_img").offsetWidth);
+ 		 var y1=(pos[1]/document.getElementById("img_img").offsetHeight);
+ 		 var sdfgsdf=$(this).parent().parent().find(".draggable2");
+ 		 var x2=($(this).parent().parent().find(".draggable2").width()/document.getElementById("img_img").offsetWidth);
+ 		 var y2=($(this).parent().parent().find(".draggable2").height()/document.getElementById("img_img").offsetHeight);
+ 		$("#tool_righte .tool.Tag .tool_items tbody").remove();
+		$("#tool_righte .tool.Tag .tool_items thead").remove();
+		$("#tool_righte .tool.Key .tool_items tbody").remove();
+		$("#tool_righte .tool.Key .tool_items thead").remove();
+		$("#photo div").remove(".draggable");
+			$.getJSON(OC.linkTo('facefinder', 'ajax/inserttagposition.php')+"?image="+image+"&tag="+tag_name+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2, function(data) {
+				
+			});
+			tag.getTag(image);
+		$(this).parent().remove(".draggable_fix");
+		
+		});
+
+	 $("#photo .addTag  input").keyup(function(e){
 		 if ( e.keyCode== 13){
-			 var pos=findPosition(this.parentNode);
+			 var pos=findPosition(this.parentNode.parentNode);
 			 var image=$('#photoview img').attr("alt");
 			 var tag_name=$(this).val();
+			 var sdfdsf=$(this).parent();
 			 var x1=(pos[0]/document.getElementById("img_img").offsetWidth);
 	 		 var y1=(pos[1]/document.getElementById("img_img").offsetHeight);
-	 		 var x2=($(this).parent().width()/document.getElementById("img_img").offsetWidth);
-	 		 var y2=($(this).parent().height()/document.getElementById("img_img").offsetHeight);
+	 		 var x2=($(this).parent().parent().width()/document.getElementById("img_img").offsetWidth);
+	 		 var y2=($(this).parent().parent().height()/document.getElementById("img_img").offsetHeight);
 	 		$("#tool_righte .tool.Tag .tool_items tbody").remove();
 			$("#tool_righte .tool.Tag .tool_items thead").remove();
 			$("#tool_righte .tool.Key .tool_items tbody").remove();
 			$("#tool_righte .tool.Key .tool_items thead").remove();
 			$("#photo div").remove(".draggable");
-				$.getJSON(OC.linkTo('facefinder', 'ajax/inserttagposition.php')+"?image="+image+"&tag="+tag_name+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2, function(data) {
-					
-				});
 				tag.getTag(image);
 			$(this).parent().remove(".draggable_fix");
 			
 		 }
 		});
+	 
+	 $("#fancybox-close").click(function(){
+			$(this).parent().remove();
+		 });
 	
 	 $('#photo .draggable').draggable({
 		    cursor: 'move',
 		    containment: '#img_img'
-		  } ).resizable();
+		  } );
+  $('#photo .draggable2').resizable({
+			  minHeight:100,
+			  minWidth:100,
+			  containment: '#img_img'
+			
+		  });
+//	 $('#photo .draggable').draggable({
+//		    cursor: 'move',
+//		    containment: '#img_img'
+//		  } ).resizable();
+	}
 	
 }
 
 
 tag.getTag=function(img){
+	$('#tool_righte .tool.Key .tool_items.fix input[type="checkbox"]').attr('checked', false);
 	$.getJSON(OC.linkTo('facefinder', 'ajax/tag.php')+'?image='+img, function(data) {
 		$('#tool_righte .tool.Tag .tool_items.fix input[type="checkbox"]').attr('checked', false);
 		var key_count=0;
@@ -188,13 +281,22 @@ tag.getTag=function(img){
 				 		 var y2=(parseFloat(data.y2)*document.getElementById("img_img").offsetHeight);
 						 var y1=(document.getElementById("img_img").offsetTop+y);
 						 var x1=(document.getElementById("img_img").offsetLeft+x);
-						$("#photo").append('<div id="'+data.name+' '+data.tag+'" class="tag_in_photo"style="position: absolute; top: '+y1+'px; left: '+x1+'px;"><div class="draggable_fix" style="width: '+x2+'px; height:'+y2+'px;"></div><div class="draggable_tag">'+data.tag+'</div></div>');
-						$('#photo div.tag_in_photo i').click(function(){
-							tag.removeTagDiv(this);
+						$("#photo").append('<div id="'+data.name+' '+data.tag+'" class="tag_in_photo"style="position: absolute; top: '+y1+'px; left: '+x1+'px;"><div class="draggable_fix" style="width: '+x2+'px; height:'+y2+'px;"></div><div class="draggable_tag"><i class="icon-remove-sign" name="'+data.name+' '+data.tag+'"></i>'+data.tag+'</div></div>');
+						var dsfsdf=$('div.draggable_tag i');
+						$('div.draggable_tag i').click(function(){
+							var tag_name=$(this).attr("name");
+							$('#tool_righte .tool.Key .tool_items tbody i.icon-remove-sign[name="'+tag_name+'"]').parent().parent().remove();
+							tag.removeTag(this);
+							$(this).parent().parent().remove();
+							
+							
+						});
+						$('#photo div.tag_in_photo td i').click(function(){
+							tag.removeTag(this);
 						});
 						//extra='<i class="icon-search"></i>';
 					}
-					var dsfsdf=$('#tool_righte .tool.Tag .tool_items tbody');
+					
 					if(data.name=='KEYWORDS'){
 						key_count++;
 						$('#tool_righte .tool.Key .tool_items tbody').append('<tr><td><i class="icon-remove-sign" name="'+data.name+' '+data.tag+'"></i>'+data.tag+extra+"<td></tr>");
@@ -226,7 +328,6 @@ tag.getTag=function(img){
 			$('#tool_righte .tool.Key .tool_items tbody tr i.icon-remove-sign').click(function(){
 				tag.removeTag(this);
 			});
-			var dsgfsdf=$('#tool_righte .tool.Key .tool_items tbody tr');
 			$('#tool_righte .tool.Key .tool_items tbody tr').mouseenter(function(){
 				var test=$('#tool_righte .tool.Key .tool_items.fix input[type="checkbox"]').attr('checked');
 				if(test===undefined){
@@ -255,33 +356,21 @@ tag.removeTag=function(tagDiv){
 	 $.getJSON(OC.linkTo('facefinder', 'ajax/removetag.php')+"?image="+image+"&tag="+tag, function(data) {});
 };
 
+
+
 tag.removeTagDiv=function(tagDiv){
 	var image=$('#photo img').attr("alt");
 	var imagepaht=$('#photo img').attr("name");
 	var tag=$(tagDiv).attr("name");
 	 var sdfsdf=$(tagDiv).parent().parent().parent();
 	 $(tagDiv).parent().parent().parent().remove(".tag_in_photo");
-	 $.getJSON(OC.linkTo('facefinder', 'ajax/removetag.php')+"?image="+image+"&tag="+tag+"&imagepaht="+imagepaht, function(data) {});
+	 $.getJSON(OC.linkTo('facefinder', 'ajax/removetag.php')+"?image="+image+"&tag="+tag+"&imagepaht="+imagepaht, function(data) {
+		 tag.getTag();
+	 });
 };
 
 
-//cange to tag Photo Over View
-tag.click=function(e){
-	$('#duplicate').hide();
-	$('#photoff').show();
-	var path=tag.getPath();
-	 $.getJSON(OC.linkTo('facefinder', 'ajax/allImagesTags.php')+'?dir='+path, function(data) {
-		 $('#photoOverView').addClass('loading');
-		 $('#photoOverView * ').remove();
-		 $('#tool_right ul li').remove();
-		 if (data!==null && data.status == 'success'){
-					tag.sidebar(data.tag);
-					tag.photoOverView(data.photo);	
-		     }
-		 $('#photoOverView').removeClass('loading');
-	});
-	 Module.resateView();
-};
+
 
 
 tag.getPath=function(){
@@ -320,7 +409,7 @@ tag.sidebar=function(tags){
 
 tag.photoOverView=function(photos){
 	$.each(photos,function(index_tag,image){
-		 $('#photoOverView').append('<div class="image" ><div class="test"><a name="'+image.path+'"><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.path+'"  alt="'+image.id+'"></a><input type="checkbox" original-title="" alt="'+image.id+'" ></input></div></div>');
+		 $('#photoOverView').append('<div class="image" ><div class="test"><a name="'+image.path+'" href="#photoview/'+image.id+'"><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.path+'"  alt="'+image.id+'"></a><input type="checkbox" original-title="" alt="'+image.id+'" ></input></div></div>');
 		 $('#photoOverView a[name^="'+image.path+'"] img').click(function(){
 	 			PhotoView.ClickImg(this)
 	 	});
@@ -353,28 +442,32 @@ tag.key=function(){
 tag.checkbox=function(){
 	var list=$('#photoOverView input[type="checkbox"]');
 	var tag_value=$("#module input[type='text']").val();
-	$("#module input[type='text']").val("");
+	
 	if(tag_value.length>0){
-		$("span.right input[type='text']").val('');
-		var image=$('#photoview img').attr("alt");
+		$("#module input[type='text']").val("");
+		var imagelist=new Array();
 		$.each(list,function(index_tag,input){
 			if($(input).attr('checked')==='checked'){
-				var asdfdsaf=$(input).attr("alt");
-				$.getJSON(OC.linkTo('facefinder', 'ajax/inserttag.php')+"?image="+$(input).attr("alt")+"&tag="+tag_value, function(data) {});
+				 imagelist.push($(input).attr("alt"));
 			}
 		});
+	
 		var counter=$("input[name='counterTag']").attr("value");
 		if(counter>0){
-			OC.Notification.show("Set \""+tag_value+"\" to "+counter+" Images");
-			setTimeout(function(){
-				OC.Notification.hide();
-			},3000);
+			$.post(OC.linkTo('facefinder', 'ajax/inserttagList.php'), { 'imagelist[]':imagelist ,'tag' :tag_value })
+			.always(function(data) { 
+				OC.Notification.show("Set \""+tag_value+"\" to "+data.Correct+" Images."+data.Wrong+" were olrady ");
+				setTimeout(OC.Notification.hide(),3000);
+			});
 		}else{
-			OC.Notification.show("No Images selctrt ");
-			setTimeout(function(){
-				OC.Notification.hide();
-			},3000);
+			OC.Notification.show("No Images selectet");
+			setTimeout(OC.Notification.hide(),3000);
 		}
+	}else{
+		OC.Notification.show("No Text to Tag");
+		setTimeout(function(){
+			OC.Notification.hide();
+		},3000);
 	}
 
 };
@@ -383,10 +476,13 @@ tag.checkboxevent=function(event,element){
 	var counter=$("input[name='counterTag']").attr("value");
 	if($(element).attr('checked')==='checked'){
 		$("input[name='counterTag']").attr("value",++counter);
+		$("button.submitTag").addClass("btn btn-warning");
 	}else{
 		$("input[name='counterTag']").attr("value",--counter);
+		if(counter===0)
+			$("button.submitTag").removeClass("btn btn-warning");
 	}
-	$("input[name='submitTag']").attr("value","Set Tag ("+counter+")");
+	$("button.submitTag").text("Set Tag ("+counter+")");
 };
 
 

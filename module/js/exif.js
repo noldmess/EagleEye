@@ -1,6 +1,15 @@
 
 
 function exif() {
+	this.init=function(){
+		
+	},
+	this.hideView=function (event){
+
+	};
+	this.showView=function (event){
+
+	};
 	this.load=function(image){
 		if(!$('#tool_righte').is(":visible")){
 			$('#tool_righte').show();
@@ -41,9 +50,9 @@ function exif() {
 		var tag=data['img1']['EXIF_Module'][0];
 		for ( var i = 0; i < $(tag).size(); i++) {
 			if(i==0)
-				$(element).append('<tr><td rowspan="'+$(tag).size()+'">EXIF</td><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
+				$(element).append('<tr><td rowspan="'+$(tag).size()+'">EXIF</td><td>'+tag[i].name+' '+tag[i].tag+'</td><td><i class="icon-equal icon-equal-ok"></td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
 			else
-				$(element).append('<tr>><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
+				$(element).append('<tr>><td>'+tag[i].name+' '+tag[i].tag+'</td><td><i class="icon-equal icon-equal-ok"></td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
 		}
 		var tag1=data['img1']['EXIF_Module'][1];
 		var tag2=data['img2']['EXIF_Module'][1];
@@ -65,9 +74,9 @@ function exif() {
 				tag_name=tag2[i].tag;
 			}
 			if(i==0)
-				$(element).append('<tr><td rowspan="'+$(tag).size()+'">Not equal EXIF</td><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+name+' '+tag_name+'</td></tr>');
+				$(element).append('<tr><td rowspan="'+$(tag).size()+'">Not equal EXIF</td><td>'+tag[i].name+' '+tag[i].tag+'</td><td><i class="icon-equal icon-equal-not"></td><td>'+name+' '+tag_name+'</td></tr>');
 			else
-				$(element).append('<tr>><td>'+tag[i].name+' '+tag[i].tag+'</td><td>1</td><td>'+name+' '+tag_name+'</td></tr>');
+				$(element).append('<tr>><td>'+tag[i].name+' '+tag[i].tag+'</td><td><i class="icon-equal icon-equal-not"></td><td>'+name+' '+tag_name+'</td></tr>');
 		}
 		//alert("sdfsdf");
 	};

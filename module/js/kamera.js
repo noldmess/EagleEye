@@ -3,6 +3,15 @@ $(document).ready(function() {
 });
 
 function kamera() {
+	this.init=function(){
+
+	},
+	this.hideView=function (event){
+
+	};
+	this.showView=function (event){
+
+	};
 	this.load=function(image){
 		if($('#tool_righte').is(":visible")){
 			$('#tool_righte').show();
@@ -18,7 +27,7 @@ function kamera() {
 					    +'</tr>'
 					    +'</thead>'
 					    +' <tbody></tbody>');
-				$("#tool_righte .tool.Camera .tool_items tbody").append('<tr><td>'+data.data.make+'</td><td>'+data.data.model+'</td></tr>');
+				$("#tool_righte .tool.Camera .tool_items tbody").append('<tr><td>'+data.data.model+'</td><td>'+data.data.make+'</td></tr>');
 			}else{
 				$('#tool_righte .tool.Camera .tool_items table').append('<thead>'
 						+'<tr>'
