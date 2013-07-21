@@ -126,7 +126,7 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 						$tag=self::getTagByFaceClass($face['class']);
 						OCP\Util::writeLog("facefinder",json_encode($tag),OCP\Util::DEBUG);
 						$class=Tag_Module::getClass($photo->getID());
-						$class->addTag("2#025",$tag['tag'],$section['x1'],$section['x2'],$section['y1'],$section['y2']);
+						$class->addTag("2#025",$tag['tag'],$section['x1'],$section['y1'],$section['x1'],$section['y2']);
 						Tag_Module::update($class);
 						//OCP\Util::writeLog("facefinder","found",OCP\Util::DEBUG);
 						self::insertFacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",$face['class'],$section['x1'],$section['x2'],$section['y1'],$section['y2']);
