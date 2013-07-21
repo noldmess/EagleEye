@@ -120,7 +120,7 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 				foreach ($newClass->makeFaceTagArray() as  $section) {
 					$face=$newClass->classFaceRec($facecount);
 					//if the face class is biger then 41 then the image in new
-					OCP\Util::writeLog("facefinderddddddddddd",$face['threshold'],OCP\Util::DEBUG);
+					OCP\Util::writeLog("facefinderddddddddddd",$face['threshold']." x1".$section['x1']." x1".$section['x2']." x1".$section['y1']." x1".$section['y2'],OCP\Util::DEBUG);
 					if($face['class']>41 && $face['threshold']<80){
 						$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($id_photo);
 						$tag=self::getTagByFaceClass($face['class']);
