@@ -128,10 +128,10 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 						$class=Tag_Module::getClass($photo->getID());
 						$class->addTag("2#025",$tag['tag'],$section['x1'],$section['x2'],$section['y1'],$section['y2']);
 						Tag_Module::update($class);
-						OCP\Util::writeLog("facefinder","found",OCP\Util::DEBUG);
+						//OCP\Util::writeLog("facefinder","found",OCP\Util::DEBUG);
 						self::insertFacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",$face['class'],$section['x1'],$section['x2'],$section['y1'],$section['y2']);
 					}else{
-						OCP\Util::writeLog("facefinder","not found",OCP\Util::DEBUG);
+						//OCP\Util::writeLog("facefinder","not found",OCP\Util::DEBUG);
 						self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['x2'],$section['y1'],$section['y2']);
 					}
 					$facecount++;
@@ -181,7 +181,7 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 	 */
 	public static  function insertFacePhoto($id,$class,$facePhotoPath,$faceclass,$x1=0,$x2=0,$y1=0,$y2=0){
 		//if(!self::issetTagPhotoId($class->getForingkey(),$id)){
-			$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_facedetaction_face_photo_module` (`photo_id`, `tag_id`,`facePhotoPath`,`faceclass`,x1,x2,y1,y2) VALUES;');
+			$stmt = OCP\DB::prepare('INSERT INTO `*PREFIX*facefinder_facedetaction_face_photo_module` (`photo_id`, `tag_id`,`facePhotoPath`,`faceclass`,x1,x2,y1,y2) VALUES(?,?,?,?,?,?,?,?);');
 			$result=$stmt->execute(array($class->getForingkey(),$id,$facePhotoPath,$faceclass,$x1,$x2,$y1,$y2));
 			
 		//}
