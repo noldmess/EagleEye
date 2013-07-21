@@ -124,15 +124,20 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 					if($face['class']>41 && $face['threshold']<80){
 						$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($id_photo);
 						$tag=self::getTagByFaceClass($face['class']);
-						OCP\Util::writeLog("facefinder",json_encode($tag),OCP\Util::DEBUG);
-						$class=Tag_Module::getClass($photo->getID());
-						$class->addTag("2#025",$tag['tag'],$section['x1'],$section['y1'],$section['y1'],$section['y2']);
-						Tag_Module::update($class);
-						OCP\Util::writeLog("facefinder","found",OCP\Util::DEBUG);
-						self::insertFacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",$face['class'],$section['y1'],$section['x1'],$section['y2'],$section['x2']);
+						if($tag['tag_id']!==null){
+							OCP\Util::writeLog("facefinder",json_encode($tag),OCP\Util::DEBUG);
+							$class=Tag_Module::getClass($photo->getID());
+							$class->addTag("2#025",$tag['tag'],$section['x1'],$section['y1'],$section['y1'],$section['y2']);
+							Tag_Module::update($class);
+							OCP\Util::writeLog("facefinder","found",OCP\Util::DEBUG);
+							self::insertFacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",$face['class'],$section['y1'],$section['x1'],$section['y2'],$section['x2']);
+						}else{
+							OCP\Util::writeLog("facefinder","not found",OCP\Util::DEBUG);
+							self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['y1'],$section['x2'],$section['y2']);
+						}
+						
 					}else{
-						OCP\Util::writeLog("facefinder","not found",OCP\Util::DEBUG);
-						self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['y1'],$section['x2'],$section['y2']);
+						
 					}
 					$facecount++;
 				}
