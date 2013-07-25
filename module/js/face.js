@@ -46,8 +46,6 @@ face.getTag=function(img){
 			 		 var y2=(parseFloat(data.y2)*document.getElementById("img_img").offsetHeight);
 					 var y1=(document.getElementById("img_img").offsetTop+y);
 					 var x1=(document.getElementById("img_img").offsetLeft+x);
-					 var y2=(document.getElementById("img_img").offsetTop+y);
-					 var x1=(document.getElementById("img_img").offsetLeft+x);
 					 var extra="";
 					 
 					 if(data.tag!=null && data.tag_id!=null ){
