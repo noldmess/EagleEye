@@ -46,12 +46,14 @@ face.getTag=function(img){
 			 		 var y2=(parseFloat(data.y2)*document.getElementById("img_img").offsetHeight);
 					 var y1=(document.getElementById("img_img").offsetTop+y);
 					 var x1=(document.getElementById("img_img").offsetLeft+x);
+					 var y2=(document.getElementById("img_img").offsetTop+y);
+					 var x1=(document.getElementById("img_img").offsetLeft+x);
 					 var extra="";
 					 
 					 if(data.tag!=null && data.tag_id!=null ){
 						 $('#tool_righte .tool.Face .tool_items tbody').append('<tr><td><i class="icon-remove-sign" name="'+data.name+' '+data.tag+'" id="'+data.face_id+'"></i>'+data.tag+'<i class="icon-edit" id="'+data.face_id+'" name="'+data.tag+'" id="'+data.face_id+'"></td></tr>');
 					 }else{
-						 $("#photo").append('<div class="face outer "style="position: absolute; top: '+y1+'px; left: '+x1+'px;" id="'+index_tag+'"><div class="face inner" style=" width: '+x2+'px; height:'+y2+'px;"></div><div class="fram"><i class="icon-remove-sign" alt="'+data.face_id+'" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'"></i><input   type="text"  value="" id="'+data.face_id+'" alt="'+data.x1+'-'+data.y1+'-'+data.x2+'-'+data.y2+'"></input></div></div>');
+						 $("#photo").append('<div class="face outer "style="position: absolute; top: '+y1+'px; left: '+x1+'px;" id="'+index_tag+'"><div class="face inner" style=" width: '+(x1-x2)+'px; height:'+(y1-y2)+'px;"></div><div class="fram"><i class="icon-remove-sign" alt="'+data.face_id+'" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'"></i><input   type="text"  value="" id="'+data.face_id+'" alt="'+data.x1+'-'+data.y1+'-'+data.x2+'-'+data.y2+'"></input></div></div>');
 							 $('#photo input[id="'+data.face_id+'"]').keyup(function(e){
 							 if ( e.keyCode== 13){
 								 //e.delegateTarget.alt
