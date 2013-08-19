@@ -47,8 +47,8 @@ function checkURL(hash)
     		Duplicatits.load(help);
             break;
         default:
-        	help[0]="facefinder";
-        	  Module.viewLoader(help[0]);
+        	/*help[0]="facefinder";
+        	  Module.viewLoader(help[0]);*/
             break;
         }
     }else{
