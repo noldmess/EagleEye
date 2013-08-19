@@ -130,10 +130,10 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 							$class->addTag("2#025",$tag['tag'],$section['x1'],$section['y1'],$section['y1'],$section['y2']);
 							Tag_Module::update($class);
 							OCP\Util::writeLog("facefinder","found",OCP\Util::DEBUG);
-							self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x1']-$section['x2']),$section['y1'],($section['y1']-$section['y2']));
+							self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
 						}else{
 							OCP\Util::writeLog("facefinder","not found",OCP\Util::DEBUG);
-							self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x1']-$section['x2']),$section['y1'],$section['y2']);
+							self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['x2'],$section['y1'],$section['y2']);
 						}
 						
 					}else{
