@@ -46,9 +46,11 @@ function checkURL(hash)
     		Duplicatits.showView();
     		Duplicatits.load(help);
             break;
+        case "":
+            break;
         default:
-        	/*help[0]="facefinder";
-        	  Module.viewLoader(help[0]);*/
+        	help[0]="facefinder";
+        	  Module.viewLoader(help[0]);
             break;
         }
     }else{
