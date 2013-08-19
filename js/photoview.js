@@ -51,7 +51,12 @@ var PhotoView={
 						$('#photoview img').show();
 					});
 				}
-				$('span.right a ').attr('href','#'+helpold[0]+data.data.path);
+				//TODO problem!!!!!!!
+				//nicht in funktion!
+				/*if(helpold[0]===""){
+					helpold[0]="#facefinder";
+				}
+				$('span.right a ').attr('href','#'+helpold[0]+data.data.path);*/
 				
 	 		});
 			$('#new_1').hide();
