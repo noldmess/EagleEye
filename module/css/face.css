@@ -1,6 +1,6 @@
 #photo div.face.inner{
 	position:relative;
-	min-width:150px;
+	/*min-width:150px;*/
 	min-height:35px;
 	border: solid 2px #778899;
 }
@@ -10,8 +10,8 @@
 }*/
 
 #photo .face.inner{
-		 margin-left: auto ;
-  margin-right: auto ;
+	margin-left: auto ;
+  	margin-right: auto ;
 	box-shadow:inset 0px 0px 8px 0px #efefef;
 	border: solid 1px #efefef
 }
