@@ -57,7 +57,7 @@ var PhotoView={
 				if(helpold2[0]===""){
 					helpold2[0]="#facefinder";
 				}
-				$('span.right a ').attr('href','#'+helpold[0]+data.data.path);
+				$('span.right a ').attr('href','#'+helpold2[0]+data.data.path);
 				
 	 		});
 			$('#new_1').hide();
