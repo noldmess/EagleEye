@@ -113,6 +113,7 @@ face.getTag=function(img){
 				 var tagDiv=$('i[name^="KEYWORDS '+name+'"]');
 				 removeTagDiv(tagDiv);
 				 $.getJSON(OC.linkTo('facefinder', 'ajax/faceupdate.php')+"?face_id="+face_id, function(data) {
+					 var image=$('#photoview img').attr("alt");
 					 $("#tool_righte .tool.Face .tool_items table *").remove();
 					 $("#tool_righte .tool.Key .tool_items table *").remove();
 					 face.getTag(image);
