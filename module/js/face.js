@@ -112,11 +112,13 @@ face.getTag=function(img){
 				 var image=$('#photoview img').attr("alt");
 				 var tagDiv=$('i[name^="KEYWORDS '+name+'"]');
 				 removeTagDiv(tagDiv);
-				 $.getJSON(OC.linkTo('facefinder', 'ajax/faceupdate.php')+"?face_id="+face_id, function(data) {});
-				 $("#tool_righte .tool.Face .tool_items table *").remove();
-				 $("#tool_righte .tool.Key .tool_items table *").remove();
-				 face.getTag(image);
-				 tag.getTag(image);
+				 $.getJSON(OC.linkTo('facefinder', 'ajax/faceupdate.php')+"?face_id="+face_id, function(data) {
+					 $("#tool_righte .tool.Face .tool_items table *").remove();
+					 $("#tool_righte .tool.Key .tool_items table *").remove();
+					 face.getTag(image);
+					 tag.getTag(image);
+				 });
+				 
 			});
 			//mous hover set visible;
 			$('#tool_righte .tool.Face .tool_items tbody tr').mouseenter(function(){
