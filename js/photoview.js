@@ -53,10 +53,10 @@ var PhotoView={
 				}
 				//TODO problem!!!!!!!
 				//nicht in funktion!
-				/*if(helpold[0]===""){
+				if(helpold[0]===""){
 					helpold[0]="#facefinder";
 				}
-				$('span.right a ').attr('href','#'+helpold[0]+data.data.path);*/
+				$('span.right a ').attr('href','#'+helpold[0]+data.data.path);
 				
 	 		});
 			$('#new_1').hide();
