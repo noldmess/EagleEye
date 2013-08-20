@@ -96,8 +96,13 @@ face.getTag=function(img){
 			}
 	}
 		$('#photo .draggable_face_2').hover(function(){
-			var sadfdsf=$(this).parent().find('.addTag').show();
-			alert("asdasd");
+			
+			var addTagDiv=$(this).parent().find('.addTag');
+			if($(addTagDiv).is(":visible") !== true){
+				$(addTagDiv).show();
+			},function() {
+				var addTagDiv=$(this).parent().find('.addTag');
+					$(addTagDiv).hide();
 		});
 		 //remove Event
 		 var dsfdf=$('#img_img ');
