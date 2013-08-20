@@ -105,6 +105,11 @@ face.getTag=function(img){
 				var addTagDiv=$(this).children('.addTag');
 					$(addTagDiv).hide();
 		});
+		$('#photo .draggable_face_2 a').click(function(){
+			alert("test");
+			var input=$(this).parent().parent().children('.addTag').children('inpute[type="text"]');
+			face.removeTagDiv(input);
+		});
 		 //remove Event
 		 var dsfdf=$('#img_img ');
 			$('#tool_righte .tool.Face .tool_items tbody tr i.icon-remove-sign').click(function(){
@@ -172,7 +177,7 @@ face.removeTag=function(tagDiv){
 };
 
 face.removeTagDiv=function(tagDiv){
-	var asdfasd=$(tagDiv).attr("id");
+	/*var asdfasd=$(tagDiv).attr("id");*/
 	 $.getJSON(OC.linkTo('facefinder', 'ajax/faceremove.php')+"?image="+$(tagDiv).attr("id"), function(data) {});
 	 $(tagDiv).parent().remove();
 };
