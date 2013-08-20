@@ -107,7 +107,7 @@ face.getTag=function(img){
 		});
 		$('#photo .draggable_face_2 a').click(function(){
 			alert("test");
-			var input=$(this).parent().parent();//.children('.addTag').children('inpute[type="text"]');
+			var input=$(this).parent().parent().children('.addTag').children('input[type="text"]');
 			face.removeTagDiv(input);
 		});
 		 //remove Event
