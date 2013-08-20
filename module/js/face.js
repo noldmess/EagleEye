@@ -62,7 +62,7 @@ face.getTag=function(img){
 								 var face_id=$(this).attr("id");
 								 var pos=$(this).attr("alt");
 								 OC.Notification.show("Updating face Data Set");
-								 $('body').css( 'cursor', 'progress' );
+								 $('#content').css( 'cursor', 'wait' );
 								 $.getJSON(OC.linkTo('facefinder', 'ajax/faceinsert.php')+"?image="+image+"&tag="+tag_name+"&face_id="+face_id+"&pos="+pos, function(data) {
 									 
 										
@@ -74,6 +74,7 @@ face.getTag=function(img){
 										 face.getTag(image);
 										 tag.getTag(image);
 										 $(test).remove();
+										 $('#content').css( 'cursor', 'auto' );
 											  }, 300);
 
 									
@@ -117,7 +118,7 @@ face.getTag=function(img){
 				 var tagDiv=$('i[name^="KEYWORDS '+name+'"]');
 				 removeTagDiv(tagDiv);
 				 OC.Notification.show("Updating face Data Set");
-				 $('#content').css( 'cursor', 'progress' );
+				 $('#content').css( 'cursor', 'wait' );
 				 $.getJSON(OC.linkTo('facefinder', 'ajax/faceupdate.php')+"?face_id="+face_id, function(data) {
 					 var image=$('#photoview img').attr("alt");
 					 $("#tool_righte .tool.Face .tool_items table *").remove();
