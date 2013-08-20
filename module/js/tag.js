@@ -306,6 +306,7 @@ tag.getTag=function(img){
 					}
 						
 				});
+			}
 				if(tag_count===0){
 					$('#tool_righte .tool.Tag .tool_items table').append('<thead>'
 							+'<tr>'
@@ -323,7 +324,7 @@ tag.getTag=function(img){
 						    +'</thead>'
 						    +' <tbody></tbody>');
 				}
-			}
+			
 			$("#photo div.tag_in_photo").hide();
 			$('#tool_righte .tool.Key .tool_items tbody tr i.icon-remove-sign').click(function(){
 				tag.removeTag(this);
