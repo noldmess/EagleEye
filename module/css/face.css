@@ -54,7 +54,7 @@
 }
 
 /*#photo .draggable_face_option:HOVER{
-	opacity: 1;
+	: 1;
 	background-color:white;
 }*/
 
@@ -84,8 +84,9 @@ margin-right: auto;
 #photo .draggable_face_2 a{
 	height: 100px;
 	width: 100px;
-	border: solid 1px #efefef;
-	background:url("../img/loader.gif") no-repeat center center;
+	
+	background:efefef;
+	opacity:0.5;
 
 }
 
