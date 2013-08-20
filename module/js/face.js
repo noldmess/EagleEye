@@ -85,7 +85,7 @@ face.getTag=function(img){
 					$('#tool_righte .tool.Face .tool_items tbody').append('<tr><td>Not Set Face</td></tr>');
 				}
 			});
-			$('#photo .draggable_face')
+			
 			}else{
 				$('#tool_righte .tool.Face .tool_items table').append('<thead>'
 						+'<tr>'
@@ -95,6 +95,9 @@ face.getTag=function(img){
 					    +' <tbody></tbody>');
 			}
 	}
+		$('#photo .draggable_face').hover(function(){
+			alert("asdasd");
+		});
 		 //remove Event
 		 var dsfdf=$('#img_img ');
 			$('#tool_righte .tool.Face .tool_items tbody tr i.icon-remove-sign').click(function(){
