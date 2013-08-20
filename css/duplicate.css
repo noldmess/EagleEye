@@ -347,12 +347,13 @@ table th[class*="span"],
     -moz-box-shadow: 2 2  rgb(102, 102, 102);
     -webkit-box-shadow: 0 0 rgb(102, 102, 102);
     box-shadow: 0 0 5px  rgb(102, 102, 102);
-   
+   overflow: auto;
 }
 
 #fancybox-tmp div{
-   	overflow:auto;
-
+	margin: 0px;
+	border: 0px none;
+	
    
 }
 
