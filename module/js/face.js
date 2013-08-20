@@ -83,7 +83,7 @@ face.getTag=function(img){
 							 }
 						 });
 				
-					$('#tool_righte .tool.Face .tool_items tbody').append('<tr><td>Not Set Face</td></tr>');
+					//$('#tool_righte .tool.Face .tool_items tbody').append('<tr><td>Not Set Face</td></tr>');
 				}
 			});
 			
