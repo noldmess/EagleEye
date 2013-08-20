@@ -96,8 +96,7 @@ face.getTag=function(img){
 			}
 	}
 		$('#photo .draggable_face_2').hover(function(){
-			var sadfdsf=$(this).parent().find('addTag').show()
-			;
+			var sadfdsf=$(this).parent().find('.addTag');
 			alert("asdasd");
 		});
 		 //remove Event
