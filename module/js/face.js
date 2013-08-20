@@ -95,13 +95,13 @@ face.getTag=function(img){
 					    +' <tbody></tbody>');
 			}
 	}
-		$('#photo .draggable_face').hover(function(){
-				var addTagDiv=$(this).parent().find('.addTag');
+		$('#photo .draggable_face_2').hover(function(){
+				var addTagDiv=$(this).find('.addTag');
 				if($(addTagDiv).is(":visible") !== true){
 					$(addTagDiv).show();
 				}
-		},function() {
-				var addTagDiv=$(this).parent().find('.addTag');
+			},function() {
+				var addTagDiv=$(this).find('.addTag');
 					$(addTagDiv).hide();
 		});
 		 //remove Event
