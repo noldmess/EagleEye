@@ -4,7 +4,7 @@ OCP\JSON::checkAppEnabled('facefinder');
 $year=(int)$_GET['year'];
 $month=(int)$_GET['month'];
 $day=(int)$_GET['day'];
-$dir==$_GET['dir'];
+$dir=$_GET['dir'];
 $sql="SELECT path,photo_id FROM `*PREFIX*facefinder` Where uid_owner LIKE ? ";
 $sqlvar=array(\OCP\USER::getUser());
 
