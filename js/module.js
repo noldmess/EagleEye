@@ -5,19 +5,29 @@
 	
 });*/
 var Module={
-		load:function (event){
-			//$."Tag".load(event);
-			//var you = new Person({ firstName: 'Mike' });
-			$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
-				if (data.status == 'success'){
-					$.each(data.data,function(index_year,data){
-							var classload=buildFromJSON(data);
-							classload.load(event);
-					});
-				}
-				
+		ModuleArray:"",
+		loadAll:function(data,event){
+			$.each(data,function(index_year,molude){
+				var classload=buildFromJSON(molude);
+				classload.load(event);
 			});
 		},
+		load:function (event){
+				//$."Tag".load(event);
+				//var you = new Person({ firstName: 'Mike' });
+				if(this.ModuleArray.length<=0){
+					$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
+						if (data.status == 'success'){
+							this.ModuleArray=data.data;
+							Module.loadAll(this.ModuleArray,event);
+						}
+					});
+				}else{
+					Module.loadAll(this.ModuleArray,event);
+				}
+			
+		},
+		
 		init:function (event){
 			//$."Tag".load(event);
 			//var you = new Person({ firstName: 'Mike' });
