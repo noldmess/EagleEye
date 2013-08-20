@@ -151,7 +151,7 @@ function tag(){
 				 
 			});
 			 Module.resateView();
-			 setTimeout(function() {$('span.right select[title="Select view"]').val('tag')},500);
+			 setTimeout(function() {$('span.right select[title="Select view"]').val('tag')},1000);
 		}
 };
 
@@ -457,11 +457,15 @@ tag.checkbox=function(){
 			$.post(OC.linkTo('facefinder', 'ajax/inserttagList.php'), { 'imagelist[]':imagelist ,'tag' :tag_value })
 			.always(function(data) { 
 				OC.Notification.show("Set \""+tag_value+"\" to "+data.Correct+" Images."+data.Wrong+" were olrady ");
-				setTimeout(OC.Notification.hide(),3000);
+				setTimeout(function(){
+					OC.Notification.hide();
+				},3000);
 			});
 		}else{
 			OC.Notification.show("No Images selectet");
-			setTimeout(OC.Notification.hide(),3000);
+			setTimeout(function(){
+				OC.Notification.hide();
+			},3000);
 		}
 	}else{
 		OC.Notification.show("No Text to Tag");
