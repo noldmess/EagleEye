@@ -62,6 +62,7 @@ face.getTag=function(img){
 								 var face_id=$(this).attr("id");
 								 var pos=$(this).attr("alt");
 								 OC.Notification.show("Updating face Data Set");
+								 $('body').css( 'cursor', 'progress' );
 								 $.getJSON(OC.linkTo('facefinder', 'ajax/faceinsert.php')+"?image="+image+"&tag="+tag_name+"&face_id="+face_id+"&pos="+pos, function(data) {
 									 
 										
