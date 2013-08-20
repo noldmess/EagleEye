@@ -96,12 +96,12 @@ face.getTag=function(img){
 			}
 	}
 		$('#photo .draggable_face').hover(function(){
-				var addTagDiv=$(this).parent().children('.addTag');
+				var addTagDiv=$(this).children('.addTag');
 				if($(addTagDiv).is(":visible") !== true){
 					$(addTagDiv).show();
 				}
 			},function() {
-				var addTagDiv=$(this).parent().children('.addTag');
+				var addTagDiv=$(this).children('.addTag');
 					$(addTagDiv).hide();
 		});
 		 //remove Event
