@@ -67,6 +67,7 @@
 	background:white;
 	border-radius: 7px;
 	border-top:10px;
+		display: none;
 }
 #photo .draggable_face_2{
 	box-shadow:inset 0px 0px 8px 0px #efefef;
