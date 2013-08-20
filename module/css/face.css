@@ -81,3 +81,11 @@ margin-right: auto;
 	background-position:right bottom;*/
 }
 
+#photo .draggable_face_2 a{
+	height: 100px;
+	width: 100px;
+	border: solid 1px #efefef;
+	background:url("../img/loader.gif") no-repeat center center;
+
+}
+
