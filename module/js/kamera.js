@@ -48,7 +48,9 @@ function kamera() {
 	this.duplicatits=function(element,data){
 		var camera=data['img1']['Kamera_Module'][0];
 		if($(camera).size()>0){
-			$(element).append('<tr><td>Camera</td><td>'+camera.make+' '+camera.model+'</td><td>1</td><td>'+camera.make+' '+camera.model+'</td></tr>');
+			$(element).append('<tr><td>Camera</td><td>'+camera.make+' '+camera.model+'</td><td><i class="icon-equal icon-equal-ok"></td><td>'+camera.make+' '+camera.model+'</td></tr>');
+		}else{
+			$(element).append('<tr><td>Camera</td><td>'+camera.make+' '+camera.model+'</td><td><i class="icon-equal icon-equal-not"></td><td>'+camera.make+' '+camera.model+'</td></tr>');
 		}
 	};
 	
