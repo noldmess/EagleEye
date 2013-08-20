@@ -359,14 +359,14 @@ table th[class*="span"],
 #popupBoxClose {
     font-size:20px;  
     line-height:15px;  
-    left: 314px;
-    top: 150px;
+    left: 300px;
+    top: 135px;
     color:#6fa5e2;  
     font-weight:500;
 	position:fixed;
-    background-image: url("/owncloud/core/img/actions/close.svg");
-    width: 14px;
-    height: 14px; 
+    background-image: url("../img/close.png");
+    width: 30px;
+    height: 30px; 
 }
  tbody tr:hover{
  color:black;
