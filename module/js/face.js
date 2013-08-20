@@ -66,6 +66,7 @@ face.getTag=function(img){
 								 $.getJSON(OC.linkTo('facefinder', 'ajax/faceinsert.php')+"?image="+image+"&tag="+tag_name+"&face_id="+face_id+"&pos="+pos, function(data) {
 									 
 									 $("#photo div.draggable_face").remove();
+									 $("#photo div.tag_in_photo").remove();
 									 $("#tool_righte .tool.Face .tool_items table *").remove();
 									 $("#tool_righte .tool.Key .tool_items table *").remove();
 									 $("#tool_righte .tool.Tag .tool_items table *").remove();
