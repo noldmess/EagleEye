@@ -61,11 +61,15 @@ face.getTag=function(img){
 								 var image=$('#photoview img').attr("alt");
 								 var face_id=$(this).attr("id");
 								 var pos=$(this).attr("alt");
+								 OC.Notification.show("Updating face Data Set");
 								 $.getJSON(OC.linkTo('facefinder', 'ajax/faceinsert.php')+"?image="+image+"&tag="+tag_name+"&face_id="+face_id+"&pos="+pos, function(data) {
+									 
+										
 									 $("#tool_righte .tool.Face .tool_items table *").remove();
 									 $("#tool_righte .tool.Key .tool_items table *").remove();
 									 $("#tool_righte .tool.Tag .tool_items table *").remove();
 									 setTimeout(function(){
+										OC.Notification.hide();
 										 face.getTag(image);
 										 tag.getTag(image);
 										 $(test).remove();
@@ -112,12 +116,14 @@ face.getTag=function(img){
 				 var image=$('#photoview img').attr("alt");
 				 var tagDiv=$('i[name^="KEYWORDS '+name+'"]');
 				 removeTagDiv(tagDiv);
+				 OC.Notification.show("Updating face Data Set");
 				 $.getJSON(OC.linkTo('facefinder', 'ajax/faceupdate.php')+"?face_id="+face_id, function(data) {
 					 var image=$('#photoview img').attr("alt");
 					 $("#tool_righte .tool.Face .tool_items table *").remove();
 					 $("#tool_righte .tool.Key .tool_items table *").remove();
 					 face.getTag(image);
 					 tag.getTag(image);
+					 OC.Notification.hide();
 				 });
 				 
 			});
