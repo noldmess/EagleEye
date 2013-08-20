@@ -95,7 +95,7 @@ face.getTag=function(img){
 					    +' <tbody></tbody>');
 			}
 	}
-		$('#photo .draggable_face').hover(function(){
+		$('#photo .draggable_face_2').hover(function(){
 				var addTagDiv=$(this).parent().children('.addTag');
 				if($(addTagDiv).is(":visible") !== true){
 					$(addTagDiv).show();
