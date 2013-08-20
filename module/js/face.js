@@ -13,12 +13,13 @@ function face(){
 				  }, 300);
 		},
 		this.hideView=function (event){
-
+			$("#photo div.draggable_face").remove();
 		};
 		this.showView=function (event){
 
 		};
 		this.resat=function(){
+			 
 		},
 		this.setEvents=function(){
 		},
@@ -64,7 +65,6 @@ face.getTag=function(img){
 								 OC.Notification.show("Updating face Data Set");
 								 $('html').css( 'cursor', 'wait' );
 								 $.getJSON(OC.linkTo('facefinder', 'ajax/faceinsert.php')+"?image="+image+"&tag="+tag_name+"&face_id="+face_id+"&pos="+pos, function(data) {
-									 
 									 $("#photo div.draggable_face").remove();
 									 $("#photo div.tag_in_photo").remove();
 									 $("#tool_righte .tool.Face .tool_items table *").remove();
@@ -75,8 +75,7 @@ face.getTag=function(img){
 										 face.getTag(image);
 										 tag.getTag(image);
 										 $(test).remove();
-										 $('#content').css( 'cursor', 'auto' );
-											  }, 300);
+									}, 300);
 
 									
 								 });
