@@ -27,7 +27,7 @@ if(isset($_GET['search'])&&isset($_GET['tag'])&&(isset($_GET['name']))){
 
 
 foreach ($seachResult as $img){
-	echo '<a><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.\OCP\USER::getUser().$img[0].'" alt='.$img[1].'></a>';
+	echo '<a href="#photoview/'.$img[1].'" name="'.\OCP\USER::getUser().$img[0].'"><img src="'.\OCP\Util::linkTo('gallery', 'ajax/thumbnail.php').'?file='.\OCP\USER::getUser().$img[0].'" alt='.$img[1].'></a>';
 	
 }
 ?>
