@@ -111,14 +111,13 @@ face.getTag=function(img){
 			});
 			
 			$('#tool_righte .tool.Face .tool_items tbody tr i.icon-edit').click(function(){
-//					alert("remove Face ");
 				 var face_id=$(this).attr("id");
 				 var name=$(this).attr("name");
 				 var image=$('#photoview img').attr("alt");
 				 var tagDiv=$('i[name^="KEYWORDS '+name+'"]');
 				 removeTagDiv(tagDiv);
 				 OC.Notification.show("Updating face Data Set");
-				 $('body').css( 'cursor', 'progress' );
+				 $('body').css( 'cursor', 'move' );
 				 $.getJSON(OC.linkTo('facefinder', 'ajax/faceupdate.php')+"?face_id="+face_id, function(data) {
 					 var image=$('#photoview img').attr("alt");
 					 $("#tool_righte .tool.Face .tool_items table *").remove();
