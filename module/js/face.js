@@ -99,6 +99,7 @@ face.getTag=function(img){
 				var addTagDiv=$(this).parent().children('.addTag');
 				if($(addTagDiv).is(":visible") !== true){
 					$(addTagDiv).show();
+					$(addTagDiv).css("z-index","100");
 				}
 			});
 		/*$('#photo .draggable_face_2').mouseleave(function() {
