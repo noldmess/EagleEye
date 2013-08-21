@@ -137,7 +137,8 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 						}
 						
 					}else{
-						
+						OCP\Util::writeLog("facefinder","not found",OCP\Util::DEBUG);
+						self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['x2'],$section['y1'],$section['y2']);
 					}
 					$facecount++;
 				}
