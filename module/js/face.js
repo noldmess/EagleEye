@@ -97,7 +97,7 @@ face.getTag=function(img){
 				var tag_name=$(inputDiv).val()
 				var face_id=$(inputDiv).attr("id");
 				var pos=$(inputDiv).attr("alt");
-				face.setFaceInImage=function(this,tag_name,face_id,pos);		
+				face.setFaceInImage(this,tag_name,face_id,pos);		
 			 });
 			
 			}else{
