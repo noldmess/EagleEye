@@ -375,6 +375,7 @@ div.head_line:hover{
 .icon-equal-not{background-position:0 0;}
 .icon-equal-ok{background-position:-16px 0;}
 span.right{
+	padding:10px;
 	margin-left: 20px;
 }
 
