@@ -95,30 +95,47 @@ function tag(){
 		};
 		
 		this.init=function(){
+			//Tool Box Tag
 			$("#tool_righte").append('<div class="tool Tag"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>IPTC</div><div class="tool_items">'
 			+'<table class="table"></table></div></div>');
-			$("#tool_righte").append('<div class="tool Key"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Tags</div><div class="tool_items fix"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input><p><input   type="checkbox"  value="" name="query" ><label for="male"> All tags Visible</label></input></p></div><div class="tool_items">'
-					+'<table class="table"></table></div></div>');
-			$('span.right select[title="Select view"]').append('<option value="tag">Sort by Tag</option>');
-			$("#moduleFildsinner").append('<div id="tag"><input   type="text"  value="" name="query"  placeholder="add Tag"></input><button class="submitTag">add Tag</button><input type="hidden" value="0" name="counterTag"></input></div>');
-			$('option[value="tag"]').click(function(e){
-				$('button.remove').hide();
-				window.history.pushState({path:"tag"},"","#tag");
-				//tag.click();
-			});
-			
+			//evants for add tag 
 			$("#tool_righte div.tool.Key input[type='submit']").click(function(e){
 				tag.key();
 			});
+			//evants for add tag
 			$("#tool_righte div.tool.Key input[type='text']").keyup(function(e){
 				if ( e.keyCode== 13){
 					tag.key();
 				}
 			});
-
+			//Tool Box Tag
+			
+			//Tool Box Key 
+			$("#tool_righte").append('<div class="tool Key"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Tags</div><div class="tool_items fix"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input><p><input   type="checkbox"  value="" name="query" ><label for="male"> All tags Visible</label></input></p></div><div class="tool_items">'
+					+'<table class="table"></table></div></div>');
+			//Tool Box Key 
+			
+			//Add menu
+			$('span.right select[title="Select view"]').append('<option value="tag">Sort by Tag</option>');
+			//Event for menu
+			$('option[value="tag"]').click(function(e){
+				$('button.remove').hide();
+				window.history.pushState({path:"tag"},"","#tag");
+			});
+			//Add menu
+			
+			//Add form to add Tags in Photo Over view#
+			$("#moduleFildsinner").append('<div id="tag"><input   type="text"  value="" name="query"  placeholder="add Tag"></input><button class="submitTag">add Tag</button><input type="hidden" value="0" name="counterTag"></input></div>');
+			//event 
 			$("button.submitTag").click(function(e){
 				tag.checkbox();
 			});
+			//Add form to add Tags in Photo Over view#
+			
+			
+			
+
+			
 			$("#module input[name='query']").keyup(function(e){
 				if ( e.keyCode== 13){
 					tag.checkbox();
@@ -199,9 +216,9 @@ tag.maketag=function(e){
 		$("#tool_righte .tool.Key .tool_items thead").remove();
 		$("#photo div").remove(".draggable");
 			$.getJSON(OC.linkTo('facefinder', 'ajax/inserttagposition.php')+"?image="+image+"&tag="+tag_name+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2, function(data) {
-				
+				var image=$('#photoview img').attr("alt");
+				tag.getTag(image);
 			});
-			tag.getTag(image);
 		$(this).parent().remove(".draggable_fix");
 		
 		});

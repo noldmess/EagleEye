@@ -72,6 +72,7 @@ function goBack(e){
 	$('#photoview').hide();
 	$('#photoOverView').show();
 	$('#search').show();
+	Module.resateView();
 	//location.href = "#facefinder" + ;
 	window.history.pushState({path:"#facefinder" + $('#photo img').attr("name")},"","#facefinder" + $('#photo img').attr("name"));
 	e.preventDefault();
