@@ -59,6 +59,7 @@ face.getTag=function(img){
 					 }
 			 });
 					$('#photo .draggable_face .draggable_face_2 a').click(function(e){
+						var sdfsdf=$(this).parent().children('.addTag');
 						face.removeTagDiv($(this).parent().children('.addTag input[type="text"]'));
 						$(this).parent().remove();
 					 });
