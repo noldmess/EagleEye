@@ -88,3 +88,14 @@ margin-right: auto;
 	opacity:0.5;
 }
 
+#photo .draggable_face div.addTag{
+	margin-top:0px;
+	margin-left:auto;
+	margin-right:auto;
+	padding:5px;
+	width: 230px;
+	background:white;
+	border-radius: 7px;
+	border-top:10px;
+}
+

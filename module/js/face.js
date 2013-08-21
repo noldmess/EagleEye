@@ -107,6 +107,12 @@ face.getTag=function(img){
 					$(addTagDiv).hide();
 				}
 		});
+		$('#photo .addTag').mouseleave(function() {
+			var addTagDiv=$(this).children('.addTag');
+			if($(addTagDiv).is(":visible") === true){
+				$(addTagDiv).hide();
+			}
+	});
 		$('#photo .draggable_face_2 a').click(function(){
 			var input=$(this).parent().parent().children('.addTag').children('input[type="text"]');
 			face.removeTagDiv(input);
