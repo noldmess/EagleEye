@@ -201,7 +201,7 @@ tag.maketag=function(e){
 //	 $("#photo").append('<div class="draggable" style="position: absolute; top: '+(PosY-50)+'px; left: '+(PosX-50)+'px;"><input   type="text"  value="" name="query" placeholder="add Tag" ></input></div>');
 	 
 	 $('#photo .addTag  input[type="button"]').click(function(e){
-		 tag.setTagInImage(this,$(this).val(););
+		 tag.setTagInImage(this,$(this).val());
 		});
 
 	 $("#photo .addTag  input").keyup(function(e){
