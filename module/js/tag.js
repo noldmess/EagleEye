@@ -211,7 +211,7 @@ tag.maketag=function(e){
 		});
 	 
 	 $("#fancybox-close").click(function(){
-			$(this).parent().remove();
+			$(this).parent().parent().remove();
 		 });
 	
 	 $('#photo .draggable').draggable({
