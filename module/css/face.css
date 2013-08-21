@@ -90,7 +90,7 @@ margin-right: auto;
 
 #photo .draggable_face div.addTag{
 	z-index:200;
-	margin-top:0px;
+	margin-top:5px;
 	margin-left:auto;
 	margin-right:auto;
 	padding:5px;
