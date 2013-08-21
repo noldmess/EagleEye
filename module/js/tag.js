@@ -51,7 +51,7 @@ function tag(){
 		};
 		this.resat=function(){
 			$("#moduleFildsinner input[name='query']").text("Set Tag (0)");
-			var test=$("#photoOverView div.image input[type='checkbox']").checked(false);
+			var test=$("#photoOverView div.image input[type='checkbox']");
 			var test=$("#moduleFildsinner input[name='counterTag']");
 			$("#moduleFildsinner input[name='counterTag']").attr("value","0");
 			$("#moduleFildsinner button.submitTag").text("add Tag");
