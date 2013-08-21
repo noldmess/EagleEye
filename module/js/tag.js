@@ -11,19 +11,19 @@ function tag(){
 			$("#tool_taggs textarea").val("");
 			//load tags from the image
 			tag.getTag(image);
+			
 			$('#photo img').click(function(e){
 				tag.maketag(e);
-				});
+			});
+			
+			
 			$('#img_img').hover(function(){
-		        // Hover over code
+		      // Hover over code
 				if($('#photo div.draggable').size()===0){
 					$('#img_img').css("cursor"," cell");
 			        var title = $(this).attr('alt');
 			        $(this).data('tipText', title).removeAttr('title');
-			        $('<p class="tooltip"></p>')
-			        .text("click to write tag")
-			        .appendTo('body')
-			        .fadeIn('fast');
+			        $('<p class="tooltip"></p>').text("click to write tag").appendTo('body').fadeIn('fast');
 				}else{
 					$('#img_img').css("cursor","auto");
 				}
@@ -51,8 +51,6 @@ function tag(){
 		};
 		this.resat=function(){
 			$("#moduleFildsinner input[name='query']").text("Set Tag (0)");
-			var test=$("#photoOverView div.image input[type='checkbox']").prop('checked', false);
-			var test=$("#moduleFildsinner input[name='counterTag']");
 			$("#moduleFildsinner input[name='counterTag']").attr("value","0");
 			$("#moduleFildsinner button.submitTag").text("add Tag");
 			$("#moduleFildsinner button.submitTag").removeClass("btn btn-warning");
@@ -112,6 +110,14 @@ function tag(){
 					tag.key();
 				}
 			});
+			
+			$("#tool_righte .tool.Key .tool_items input[type='checkbox']").click(function(e){
+				if($("#photo div.tag_in_photo").is(':visible')){
+					$("#photo div.tag_in_photo").hide();
+				}else{
+					$("#photo div.tag_in_photo").show();
+				}
+			});
 			//Tool Box Tag
 			
 			//Tool Box Key 
@@ -134,25 +140,13 @@ function tag(){
 			$("button.submitTag").click(function(e){
 				tag.checkbox();
 			});
-			//Add form to add Tags in Photo Over view#
-			
-			
-			
 
-			
 			$("#module input[name='query']").keyup(function(e){
 				if ( e.keyCode== 13){
 					tag.checkbox();
 				}
 			});
-			
-			$("#tool_righte .tool.Key .tool_items input[type='checkbox']").click(function(e){
-				if($("#photo div.tag_in_photo").is(':visible')){
-					$("#photo div.tag_in_photo").hide();
-				}else{
-					$("#photo div.tag_in_photo").show();
-				}
-			});
+			//Add form to add Tags in Photo Over view#
 		},
 		//cange to tag Photo Over View
 		this.click=function(e){
@@ -203,8 +197,9 @@ tag.maketag=function(e){
 	 PosX+=document.getElementById("img_img").offsetLeft;
 	 PosY+=document.getElementById("img_img").offsetTop;//
 	 
-	 $("#photo").append('<div class="draggable" style="position: absolute; top: '+(PosY-50)+'px; left: '+(PosX-50)+'px;"><a id="fancybox-close" style="display: inline;"></a><div class="draggable2"></div><div class="addTag"><input   type="text"  value="" name="query" placeholder="add Tag" ></input><input type="button" value=" Set Tag "></input></div></div>');
+	 $("#photo").append('<div class="draggable" style="position: absolute; top: '+(PosY-50)+'px; left: '+(PosX-50)+'px;"><div class="draggable2"><a id="fancybox-close" style="display: inline;"></a></div><div class="addTag"><input   type="text"  value="" name="query" placeholder="add Tag" ></input><input type="button" value=" Set Tag "></input></div></div>');
 //	 $("#photo").append('<div class="draggable" style="position: absolute; top: '+(PosY-50)+'px; left: '+(PosX-50)+'px;"><input   type="text"  value="" name="query" placeholder="add Tag" ></input></div>');
+	 
 	 $('#photo .addTag  input[type="button"]').click(function(e){
 		 var pos=findPosition(this.parentNode.parentNode);
 		 var image=$('#photoview img').attr("alt");
@@ -242,7 +237,10 @@ tag.maketag=function(e){
 			$("#tool_righte .tool.Key .tool_items tbody").remove();
 			$("#tool_righte .tool.Key .tool_items thead").remove();
 			$("#photo div").remove(".draggable");
+			$.getJSON(OC.linkTo('facefinder', 'ajax/inserttagposition.php')+"?image="+image+"&tag="+tag_name+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2, function(data) {
+				var image=$('#photoview img').attr("alt");
 				tag.getTag(image);
+			});
 			$(this).parent().remove(".draggable_fix");
 			
 		 }
@@ -256,7 +254,7 @@ tag.maketag=function(e){
 		    cursor: 'move',
 		    containment: '#img_img'
 		  } );
-  $('#photo .draggable2').resizable({
+	 $('#photo .draggable2').resizable({
 			  minHeight:100,
 			  minWidth:100,
 			  containment: '#img_img'
