@@ -51,7 +51,7 @@ function tag(){
 		};
 		this.resat=function(){
 			$("#moduleFildsinner input[name='query']").text("Set Tag (0)");
-			var test=$	q("#moduleFildsinner button.submitTag");
+			var test=$("#moduleFildsinner button.submitTag");
 			var test=$("#moduleFildsinner input[name='counterTag']");
 			$("#moduleFildsinner input[name='counterTag']").attr("value","0");
 			$("#moduleFildsinner button.submitTag").attr("value","0");
