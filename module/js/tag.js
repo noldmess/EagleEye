@@ -100,6 +100,11 @@ function tag(){
 			//Tool Box Tag
 			$("#tool_righte").append('<div class="tool Tag"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>IPTC</div><div class="tool_items">'
 			+'<table class="table"></table></div></div>');
+			//Tool Box Tag
+			
+			//Tool Box Key 
+			$("#tool_righte").append('<div class="tool Key"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Tags</div><div class="tool_items fix"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input><p><input   type="checkbox"  value="" name="query" ><label for="male"> All tags Visible</label></input></p></div><div class="tool_items">'
+					+'<table class="table"></table></div></div>');
 			//evants for add tag 
 			$("#tool_righte div.tool.Key input[type='submit']").click(function(e){
 				tag.key();
@@ -118,11 +123,6 @@ function tag(){
 					$("#photo div.tag_in_photo").show();
 				}
 			});
-			//Tool Box Tag
-			
-			//Tool Box Key 
-			$("#tool_righte").append('<div class="tool Key"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Tags</div><div class="tool_items fix"><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input><p><input   type="checkbox"  value="" name="query" ><label for="male"> All tags Visible</label></input></p></div><div class="tool_items">'
-					+'<table class="table"></table></div></div>');
 			//Tool Box Key 
 			
 			//Add menu
