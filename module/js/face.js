@@ -86,7 +86,7 @@ face.getTag=function(img){
 					//$('#tool_righte .tool.Face .tool_items tbody').append('<tr><td>Not Set Face</td></tr>');
 				}
 			});
-			var test= $('#photo .draggable_face_2 .addTag');
+			var test= $('#photo .draggable_face_2');
 			 $('#photo .draggable_face_2 input').keyup(function(e){
 				 
 			 });
