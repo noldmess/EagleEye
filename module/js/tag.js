@@ -54,7 +54,7 @@ function tag(){
 			var test=$("#moduleFildsinner button.submitTag");
 			var test=$("#moduleFildsinner input[name='counterTag']");
 			$("#moduleFildsinner input[name='counterTag']").attr("value","0");
-			$("#moduleFildsinner button.submitTag").attr("value","0");
+			$("#moduleFildsinner button.submitTag").text("add Tag");
 		};
 		this.setEvents=function(){
 			 $('#photoOverView input[type="checkbox"]').click(function(event){
