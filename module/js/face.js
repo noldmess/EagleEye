@@ -101,12 +101,12 @@ face.getTag=function(img){
 					$(addTagDiv).show();
 				}
 			});
-		$('#photo .draggable_face_2').mouseleave(function() {
+		/*$('#photo .draggable_face_2').mouseleave(function() {
 				var addTagDiv=$(this).parent().children('.addTag');
 				if($(addTagDiv).is(":visible") === true){
 					$(addTagDiv).hide();
 				}
-		});
+		});*/
 		$('#photo .addTag').mouseleave(function() {
 			var addTagDiv=$(this);
 			if($(addTagDiv).is(":visible") === true){
