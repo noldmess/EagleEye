@@ -58,9 +58,9 @@ face.getTag=function(img){
 						//$('#tool_righte .tool.Face .tool_items tbody').append('<tr><td>Not Set Face</td></tr>');
 					 }
 			 });
-					var fdsfsd=$('#photo .draggable_face .draggable_face_2 a');
 					$('#photo .draggable_face .draggable_face_2 a').click(function(e){
-						alert("sdfsdf");
+						face.removeTagDiv($(this).parent().children('.addTag input[type="text"]'));
+						$(this).parent().remove();
 					 });
 					
 					$('#photo .draggable_face .addTag input[type="text"]').keyup(function(e){
