@@ -53,7 +53,8 @@ face.getTag=function(img){
 						 $('#tool_righte .tool.Face .tool_items tbody').append('<tr><td><i class="icon-remove-sign" name="'+data.name+' '+data.tag+'" id="'+data.face_id+'"></i>'+data.tag+'<i class="icon-edit" id="'+data.face_id+'" name="'+data.tag+'" id="'+data.face_id+'"></td></tr>');
 					 }else{
 						// $("#photo").append('<div class="face outer "style="position: absolute; top: '+(y1+(y2-y1))+'px; left: '+x1+'px;" id="'+index_tag+'"><div class="face inner" style=" width: '+(y2-y1)+'px; height:'+(y2-y1)+'px;  position: absolute; top: '+y1+'px; left: '+x1+'px;""></div><div class="fram"><i class="icon-remove-sign" alt="'+data.face_id+'" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'"></i><input   type="text"  value=""></input></div></div>');
-						 $("#photo").append('<div class="draggable_face" style="position: absolute; top: '+(PosY)+'px; left: '+(PosX-115+((y2-PosY)/2))+'px;  width:230px;"><div class="draggable_face_2" style=" width: '+(y2-PosY)+'px; height:'+(y2-PosY)+'px;"><a id="fancybox-close" style="display: inline;"><i class="icon-remove"></i></a></div><div class="addTag"><input id="'+data.face_id+'"  alt="'+data.x1+'-'+data.y1+'-'+(data.x2-data.x1)+'-'+(data.y2-data.y1)+'" type="text"  value="" name="query" placeholder="add Face Name" ></input><input type="button" value=" Set Tag "></input></div  ></div>');
+						 //$("#photo").append('<div class="draggable_face" style="position: absolute; top: '+(PosY)+'px; left: '+(PosX-115+((y2-PosY)/2))+'px;  width:230px;"><div class="draggable_face_2" style=" width: '+(y2-PosY)+'px; height:'+(y2-PosY)+'px;"><a id="fancybox-close" style="display: inline;"><i class="icon-remove"></i></a></div><div class="addTag"><input id="'+data.face_id+'"  alt="'+data.x1+'-'+data.y1+'-'+(data.x2-data.x1)+'-'+(data.y2-data.y1)+'" type="text"  value="" name="query" placeholder="add Face Name" ></input><input type="button" value=" Set Tag "></input></div  ></div>');
+						 $("#photo").append('<div class="draggable_face" style="position: absolute; top: '+(PosY)+'px; left: '+(PosX)+'px;  "><div class="draggable_face_2" style=" width: '+(y2-PosY)+'px; height:'+(y2-PosY)+'px;"><a id="fancybox-close" style="display: inline;"><i class="icon-remove"></i></a></div><div class="addTag"><input id="'+data.face_id+'"  alt="'+data.x1+'-'+data.y1+'-'+(data.x2-data.x1)+'-'+(data.y2-data.y1)+'" type="text"  value="" name="query" placeholder="add Face Name" ></input><input type="button" value=" Set Tag "></input></div  ></div>');
 							 $('#photo input[id="'+data.face_id+'"]').keyup(function(e){
 							 if ( e.keyCode== 13){
 								 //e.delegateTarget.alt
@@ -99,25 +100,13 @@ face.getTag=function(img){
 				var addTagDiv=$(this).parent().children('.addTag');
 				if($(addTagDiv).is(":visible") !== true){
 					$(addTagDiv).show();
-					$(addTagDiv).css("z-index","106");
 				}
 			});
-		/*$('#photo .draggable_face_2').mouseleave(function() {
-				var addTagDiv=$(this).parent().children('.addTag');
+		$('#photo .draggable_face').mouseleave(function() {
+				var addTagDiv=$(this).children('.addTag');
 				if($(addTagDiv).is(":visible") === true){
 					$(addTagDiv).hide();
 				}
-		});*/
-		$('#photo .addTag').mouseleave(function() {
-			var addTagDiv=$(this);
-			if($(addTagDiv).is(":visible") === true){
-				$(addTagDiv).hide();
-			}
-	});
-		$('#photo .draggable_face_2 a').click(function(){
-			var input=$(this).parent().parent().children('.addTag').children('input[type="text"]');
-			face.removeTagDiv(input);
-			$(this).parent().parent().remove();
 		});
 		 //remove Event
 		 var dsfdf=$('#img_img ');
