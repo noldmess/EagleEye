@@ -7,11 +7,11 @@ var PhotoView={
 			/*$("button.back").click(function(e){
 				goBack(e);
 			})*/
-			$(document).keypress(function(e) {
+			/*$(document).keypress(function(e) {
 				if (e.keyCode == 27) {
 					goBack(e);
 				}
-			});
+			});*/
 		},
 		hideView:function (event){
 			$('button.back').hide();
