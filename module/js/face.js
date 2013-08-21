@@ -88,7 +88,7 @@ face.getTag=function(img){
 			});
 			$('#photo .draggable_face .addTag input[type="text"]').keyup(function(e){
 				if ( e.keyCode== 13){
-					face.setFaceInImage=function(this,$(this).val(),$(this).attr("id"),$(this).attr("alt"));
+					face.setFaceInImage(this,$(this).val(),$(this).attr("id"),$(this).attr("alt"));
 				 }
 			 });
 			
