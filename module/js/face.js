@@ -60,9 +60,9 @@ face.getTag=function(img){
 			 });
 					$('#photo .draggable_face .draggable_face_2 a').click(function(e){
 						var sdfsdf=$(this).parent();
-						var sdfsdf=$(this).parent().children('.addTag');
-						var sdfsdf=$(this).parent().children('.addTag').children('input[type="text"]');
-						face.removeTagDiv($(this).parent().children('.addTag input[type="text"]'));
+						var sdfsdf=$(this).parent().parent().children('.addTag');
+						var sdfsdf=$(this).parent().parent().children('.addTag').children('input[name="query"]');
+						face.removeTagDiv(sdfsdf);
 						$(this).parent().remove();
 					 });
 					
