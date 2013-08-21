@@ -57,7 +57,7 @@ face.getTag=function(img){
 						$("#photo").append('<div class="draggable_face" style="position: absolute; top: '+(PosY)+'px; left: '+(PosX-115+((y2-PosY)/2))+'px;" ><div class="draggable_face_2" style="position: absolute;  left: '+(115-(y2-PosY)/2)+'px;   width: '+(y2-PosY)+'px; height:'+(y2-PosY)+'px;"><a id="fancybox-close" ><i class="icon-remove"></i></a></div><div class="addTag" style=" position: absolute;  top:'+(y2-PosY)+'px;"><input id="'+data.face_id+'"  alt="'+data.x1+'-'+data.y1+'-'+(data.x2-data.x1)+'-'+(data.y2-data.y1)+'" type="text"  value="" name="query" placeholder="add Face Name" ></input><input type="button" value=" Set Tag "></input></div  ></div>');
 						//$('#tool_righte .tool.Face .tool_items tbody').append('<tr><td>Not Set Face</td></tr>');
 					 }
-					 
+			 });
 					var fdsfsd=$('#photo .draggable_face .draggable_face_2 a');
 					$('#photo .draggable_face .draggable_face_2 a').click(function(e){
 						alert("sdfsdf");
@@ -76,7 +76,7 @@ face.getTag=function(img){
 						var pos=$(inputDiv).attr("alt");
 						face.setFaceInImage(this,tag_name,face_id,pos);		
 					 });
-		 });
+		
 			}else{
 				$('#tool_righte .tool.Face .tool_items table').append('<thead>'
 						+'<tr>'
