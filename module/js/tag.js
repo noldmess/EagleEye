@@ -206,7 +206,7 @@ tag.maketag=function(e){
 
 	 $("#photo .addTag  input").keyup(function(e){
 		 if ( e.keyCode== 13){
-			 tag.setTagInImage(this,$(this).parent().children("input[name='query']").val(););
+			 tag.setTagInImage(this,$(this).parent().children("input[name='query']").val());
 		 }
 		});
 	 
