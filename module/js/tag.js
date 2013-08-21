@@ -201,12 +201,12 @@ tag.maketag=function(e){
 //	 $("#photo").append('<div class="draggable" style="position: absolute; top: '+(PosY-50)+'px; left: '+(PosX-50)+'px;"><input   type="text"  value="" name="query" placeholder="add Tag" ></input></div>');
 	 
 	 $('#photo .addTag  input[type="button"]').click(function(e){
-		 tag.setTagInImage(this);
+		 tag.setTagInImage(this,$(this).val(););
 		});
 
 	 $("#photo .addTag  input").keyup(function(e){
 		 if ( e.keyCode== 13){
-			 tag.setTagInImage(this);
+			 tag.setTagInImage(this,$(this).parent().children("input[name='query']").val(););
 		 }
 		});
 	 
@@ -231,10 +231,9 @@ tag.maketag=function(e){
 	}
 	
 }
-tag.setTagInImage=function(div){
+tag.setTagInImage=function(div,tag_name){
 	 var pos=findPosition(div.parentNode.parentNode);
 	 var image=$('#photoview img').attr("alt");
-	 var tag_name=$(div).val();
 	 var sdfdsf=$(div).parent();
 	 var x1=(pos[0]/document.getElementById("img_img").offsetWidth);
 		 var y1=(pos[1]/document.getElementById("img_img").offsetHeight);
