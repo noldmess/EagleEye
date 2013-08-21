@@ -76,7 +76,7 @@ face.getTag=function(img){
 				var pos=$(inputDiv).attr("alt");
 				face.setFaceInImage(this,tag_name,face_id,pos);		
 			 });
-			
+			 });
 			}else{
 				$('#tool_righte .tool.Face .tool_items table').append('<thead>'
 						+'<tr>'
