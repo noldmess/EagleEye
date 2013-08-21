@@ -18,7 +18,7 @@ if(isset($_GET['search'])&&isset($_GET['tag'])&&(isset($_GET['name']))){
 ?>
 <div id="controls" >
 	<span class="right">
-<a  href="facefinder/" data-item="" title="<?php echo $l->t("FaceFinder"); ?>"><button class="share"><?php echo $l->t("FaceFinder"); ?></button></a>
+
 </span>
 </div>
 <div id="search" class="hascontrols">
