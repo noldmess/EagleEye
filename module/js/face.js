@@ -85,7 +85,7 @@ face.getTag=function(img){
 				
 					//$('#tool_righte .tool.Face .tool_items tbody').append('<tr><td>Not Set Face</td></tr>');
 				}
-			});
+			//});
 			$('#photo .draggable_face .addTag input[type="text"]').keyup(function(e){
 				if ( e.keyCode== 13){
 					face.setFaceInImage(this,$(this).val(),$(this).attr("id"),$(this).attr("alt"));
