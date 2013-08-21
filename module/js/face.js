@@ -99,6 +99,7 @@ face.getTag=function(img){
 				var pos=$(inputDiv).attr("alt");
 				//face.setFaceInImage=function(this,$(this).val(),$(this).attr("id"),$(this).attr("alt"));		
 			 });
+			
 			}else{
 				$('#tool_righte .tool.Face .tool_items table').append('<thead>'
 						+'<tr>'
@@ -107,7 +108,7 @@ face.getTag=function(img){
 					    +'</thead>'
 					    +' <tbody></tbody>');
 			}
-	}
+	
 		$('#photo .draggable_face_2').mouseenter(function(){
 				var addTagDiv=$(this).parent().children('.addTag');
 				if($(addTagDiv).is(":visible") !== true){
