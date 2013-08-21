@@ -51,10 +51,10 @@ function tag(){
 		};
 		this.resat=function(){
 			$("#moduleFildsinner input[name='query']").text("Set Tag (0)");
-			var test=$("#moduleFildsinner button.submitTag );
+			var test=$	q("#moduleFildsinner button.submitTag");
 			var test=$("#moduleFildsinner input[name='counterTag']");
 			$("#moduleFildsinner input[name='counterTag']").attr("value","0");
-			$("#moduleFildsinner button.submitTag ).attr("value","0");
+			$("#moduleFildsinner button.submitTag").attr("value","0");
 		};
 		this.setEvents=function(){
 			 $('#photoOverView input[type="checkbox"]').click(function(event){
