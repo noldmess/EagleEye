@@ -247,7 +247,7 @@ class Tag_Module implements OCA\FaceFinder\MapperInterface{
 			$result=$stmt->execute(array($query."%",$query."%"));
 			$counter=0;
 			while (($row = $result->fetchRow())!= false) {
-				$link = OCP\Util::linkTo('facefinder', 'index.php').'?search='.$classname.'&name='.urlencode($row['name']).'&tag='.$row['tag'];
+				$link = OCP\Util::linkTo('facefinder', 'index.php').'?search='.$classname.'&name='.urlencode($row['name']).'&tag='.$row['tag'].'#search';
 				$results[]=new OC_Search_Result("Tag",$row['tag'],$link,"FaF.");
 			}
 			return $results;

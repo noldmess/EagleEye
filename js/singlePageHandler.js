@@ -46,6 +46,9 @@ function checkURL(hash)
     		Duplicatits.showView();
     		Duplicatits.load(help);
             break;
+        case "search":
+        	$('#search').show();
+            break;
         case "":
             break;
         default:
