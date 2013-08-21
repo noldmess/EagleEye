@@ -102,7 +102,7 @@ face.getTag=function(img){
 				}
 			});
 		$('#photo .draggable_face_2').mouseleave(function() {
-				var addTagDiv=$(this).children('.addTag');
+				var addTagDiv=$(this).parent().children('.addTag');
 				if($(addTagDiv).is(":visible") === true){
 					$(addTagDiv).hide();
 				}
