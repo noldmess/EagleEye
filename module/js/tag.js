@@ -201,48 +201,12 @@ tag.maketag=function(e){
 //	 $("#photo").append('<div class="draggable" style="position: absolute; top: '+(PosY-50)+'px; left: '+(PosX-50)+'px;"><input   type="text"  value="" name="query" placeholder="add Tag" ></input></div>');
 	 
 	 $('#photo .addTag  input[type="button"]').click(function(e){
-		 var pos=findPosition(this.parentNode.parentNode);
-		 var image=$('#photoview img').attr("alt");
-		 var tag_name=$(this).parent().find('input[type="text"]').val();
-		 var x1=(pos[0]/document.getElementById("img_img").offsetWidth);
- 		 var y1=(pos[1]/document.getElementById("img_img").offsetHeight);
- 		 var sdfgsdf=$(this).parent().parent().find(".draggable2");
- 		 var x2=($(this).parent().parent().find(".draggable2").width()/document.getElementById("img_img").offsetWidth);
- 		 var y2=($(this).parent().parent().find(".draggable2").height()/document.getElementById("img_img").offsetHeight);
- 		$("#tool_righte .tool.Tag .tool_items tbody").remove();
-		$("#tool_righte .tool.Tag .tool_items thead").remove();
-		$("#tool_righte .tool.Key .tool_items tbody").remove();
-		$("#tool_righte .tool.Key .tool_items thead").remove();
-		$("#photo div").remove(".draggable");
-			$.getJSON(OC.linkTo('facefinder', 'ajax/inserttagposition.php')+"?image="+image+"&tag="+tag_name+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2, function(data) {
-				var image=$('#photoview img').attr("alt");
-				tag.getTag(image);
-			});
-		$(this).parent().remove(".draggable_fix");
-		
+		 tag.setTagInImage(this);
 		});
 
 	 $("#photo .addTag  input").keyup(function(e){
 		 if ( e.keyCode== 13){
-			 var pos=findPosition(this.parentNode.parentNode);
-			 var image=$('#photoview img').attr("alt");
-			 var tag_name=$(this).val();
-			 var sdfdsf=$(this).parent();
-			 var x1=(pos[0]/document.getElementById("img_img").offsetWidth);
-	 		 var y1=(pos[1]/document.getElementById("img_img").offsetHeight);
-	 		 var x2=($(this).parent().parent().width()/document.getElementById("img_img").offsetWidth);
-	 		 var y2=($(this).parent().parent().height()/document.getElementById("img_img").offsetHeight);
-	 		$("#tool_righte .tool.Tag .tool_items tbody").remove();
-			$("#tool_righte .tool.Tag .tool_items thead").remove();
-			$("#tool_righte .tool.Key .tool_items tbody").remove();
-			$("#tool_righte .tool.Key .tool_items thead").remove();
-			$("#photo div").remove(".draggable");
-			$.getJSON(OC.linkTo('facefinder', 'ajax/inserttagposition.php')+"?image="+image+"&tag="+tag_name+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2, function(data) {
-				var image=$('#photoview img').attr("alt");
-				tag.getTag(image);
-			});
-			$(this).parent().remove(".draggable_fix");
-			
+			 tag.setTagInImage(this);
 		 }
 		});
 	 
@@ -267,7 +231,26 @@ tag.maketag=function(e){
 	}
 	
 }
-
+tag.setTagInImage=function(div){
+	 var pos=findPosition(div.parentNode.parentNode);
+	 var image=$('#photoview img').attr("alt");
+	 var tag_name=$(div).val();
+	 var sdfdsf=$(div).parent();
+	 var x1=(pos[0]/document.getElementById("img_img").offsetWidth);
+		 var y1=(pos[1]/document.getElementById("img_img").offsetHeight);
+		 var x2=($(div).parent().parent().width()/document.getElementById("img_img").offsetWidth);
+		 var y2=($(div).parent().parent().height()/document.getElementById("img_img").offsetHeight);
+		$("#tool_righte .tool.Tag .tool_items tbody").remove();
+	$("#tool_righte .tool.Tag .tool_items thead").remove();
+	$("#tool_righte .tool.Key .tool_items tbody").remove();
+	$("#tool_righte .tool.Key .tool_items thead").remove();
+	$("#photo div").remove(".draggable");
+	$.getJSON(OC.linkTo('facefinder', 'ajax/inserttagposition.php')+"?image="+image+"&tag="+tag_name+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2, function(data) {
+		var image=$('#photoview img').attr("alt");
+		tag.getTag(image);
+	});
+	$(div).parent().remove(".draggable_fix");
+}
 
 tag.getTag=function(img){
 	$('#tool_righte .tool.Key .tool_items.fix input[type="checkbox"]').attr('checked', false);
