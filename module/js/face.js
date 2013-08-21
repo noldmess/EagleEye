@@ -108,7 +108,7 @@ face.getTag=function(img){
 				}
 		});
 		$('#photo .addTag').mouseleave(function() {
-			var addTagDiv=$(this).children('.addTag');
+			var addTagDiv=$(this);
 			if($(addTagDiv).is(":visible") === true){
 				$(addTagDiv).hide();
 			}
