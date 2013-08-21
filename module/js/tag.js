@@ -50,8 +50,10 @@ function tag(){
  			$('span.right input').show();
 		};
 		this.resat=function(){
-			$("input[name='submitTag']").text("Set Tag (0)");
-			$("input[name='counterTag']").attr("value","0");
+			$("#moduleFildsinner input[name='query']").text("Set Tag (0)");
+			var test=$("#moduleFildsinner input");
+			var test=$("#moduleFildsinner input[name='counterTag']");
+			$("#moduleFildsinner input[name='counterTag']").attr("value","0");
 		};
 		this.setEvents=function(){
 			 $('#photoOverView input[type="checkbox"]').click(function(event){
