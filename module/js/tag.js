@@ -235,19 +235,24 @@ tag.maketag=function(e){
 }
 tag.setTagInImage=function(div,tag_name){
 	//to get to draggable2
-	 var pos=findPosition(div.parentNode.parentNode.childNodes[0]);
+	var sdfdsaf=div.parentNode.parentNode;
+	 var pos=findPosition(div.parentNode.parentNode);
 	 var image=$('#photoview img').attr("alt");
 	 var sdfdsf=$(div).parent();
-	 var x1=(pos[0]/document.getElementById("img_img").offsetWidth);
-		 var y1=(pos[1]/document.getElementById("img_img").offsetHeight);
-		 var x2=($(div).parent().parent().children('.draggable2').width()/document.getElementById("img_img").offsetWidth);
-		 var y2=($(div).parent().parent().children('.draggable2').height()/document.getElementById("img_img").offsetHeight);
-		$("#tool_righte .tool.Tag .tool_items tbody").remove();
+	 //var x1=(pos[0]/document.getElementById("img_img").offsetWidth);
+	 var y1=(pos[1]/document.getElementById("img_img").offsetHeight);
+	 var width=($(div).parent().parent().children('.draggable2').width()/document.getElementById("img_img").offsetWidth);
+	 var height=($(div).parent().parent().children('.draggable2').height()/document.getElementById("img_img").offsetHeight);
+	 //pos =draggable ui-draggable
+	 //x= pos.x+(inner.width/2+ outer.width/2)
+	 var x3_test=pos[0]+((($(div).parent().parent().width()/2)-($(div).parent().parent().children('.draggable2').width()/2)));
+	 var x1=(x3_test/document.getElementById("img_img").offsetWidth);
+	$("#tool_righte .tool.Tag .tool_items tbody").remove();
 	$("#tool_righte .tool.Tag .tool_items thead").remove();
 	$("#tool_righte .tool.Key .tool_items tbody").remove();
 	$("#tool_righte .tool.Key .tool_items thead").remove();
 	$("#photo div").remove(".draggable");
-	$.getJSON(OC.linkTo('facefinder', 'ajax/inserttagposition.php')+"?image="+image+"&tag="+tag_name+"&x1="+x1+"&x2="+x2+"&y1="+y1+"&y2="+y2, function(data) {
+	$.getJSON(OC.linkTo('facefinder', 'ajax/inserttagposition.php')+"?image="+image+"&tag="+tag_name+"&x1="+x1+"&x2="+width+"&y1="+y1+"&y2="+height, function(data) {
 		var image=$('#photoview img').attr("alt");
 		tag.getTag(image);
 	});
