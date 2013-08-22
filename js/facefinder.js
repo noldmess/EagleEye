@@ -161,7 +161,7 @@ var FaceFinder={
 		}else{
 			icon_hash='<i class="icon-equal icon-equal-not">';
 		}
-		$(element).append('<tr><td>Image</td><td><i class="icon-zoom-in"></i><img  class="small" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+data['img1']['ff']['path']+'" title="'+data['img1']['ff']['path']+'" alt="'+data['img1']['ff']['photo_id']+'"></td><td>'+icon_hash+'</i></td><td><i class="icon-zoom-in"></i><img class="small" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+data['img2']['ff']['path']+'"   title="'+data['img1']['ff']['path']+'" alt="'+data['img1']['ff']['photo_id']+'"></td></tr>');
+		$(element).append('<tr><td>Image</td><td><i class="icon-zoom-in"></i><img  class="small" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+data['img1']['ff']['path']+'" title="'+data['img1']['ff']['path']+'" alt="'+data['img1']['ff']['photo_id']+'"></td><td>'+icon_hash+'</i></td><td><i class="icon-zoom-in"></i><img class="small" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+data['img2']['ff']['path']+'"   title="'+data['img2']['ff']['path']+'" alt="'+data['img2']['ff']['photo_id']+'"></td></tr>');
 		$('i.icon-zoom-in').hover(function(){
 	        // Hover over code
 			var title=$(this).parent().find('img').attr('title');

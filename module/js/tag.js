@@ -150,7 +150,8 @@ function tag(){
 		},
 		//cange to tag Photo Over View
 		this.click=function(e){
-			
+			//not reload go back
+			if($('#tool_right ul li.Tag').size()===0){
 			$('#duplicate').hide();
 			$('#photoff').show();
 			var path=tag.getPath();
@@ -167,6 +168,7 @@ function tag(){
 			});
 			 Module.resateView();
 			 setTimeout(function() {$('span.right select[title="Select view"]').val('tag')},1000);
+		}
 		}
 };
 
@@ -232,13 +234,14 @@ tag.maketag=function(e){
 	
 }
 tag.setTagInImage=function(div,tag_name){
-	 var pos=findPosition(div.parentNode.parentNode);
+	//to get to draggable2
+	 var pos=findPosition(div.parentNode.parentNode.childNodes[0]);
 	 var image=$('#photoview img').attr("alt");
 	 var sdfdsf=$(div).parent();
 	 var x1=(pos[0]/document.getElementById("img_img").offsetWidth);
 		 var y1=(pos[1]/document.getElementById("img_img").offsetHeight);
-		 var x2=($(div).parent().parent().width()/document.getElementById("img_img").offsetWidth);
-		 var y2=($(div).parent().parent().height()/document.getElementById("img_img").offsetHeight);
+		 var x2=($(div).parent().parent().children('.draggable2').width()/document.getElementById("img_img").offsetWidth);
+		 var y2=($(div).parent().parent().children('.draggable2').height()/document.getElementById("img_img").offsetHeight);
 		$("#tool_righte .tool.Tag .tool_items tbody").remove();
 	$("#tool_righte .tool.Tag .tool_items thead").remove();
 	$("#tool_righte .tool.Key .tool_items tbody").remove();
@@ -300,7 +303,7 @@ tag.getTag=function(img){
 					
 					if(data.name=='KEYWORDS'){
 						key_count++;
-						$('#tool_righte .tool.Key .tool_items tbody').append('<tr><td><i class="icon-remove-sign" name="'+data.name+' '+data.tag+'"></i>'+data.tag+extra+"<td></tr>");
+						$('#tool_righte .tool.Key .tool_items tbody').append('<tr><td><i class="icon-white icon-remove-sign" name="'+data.name+' '+data.tag+'"></i>'+data.tag+extra+"<td></tr>");
 					}else{
 						tag_count++;
 						$('#tool_righte .tool.Tag .tool_items tbody').append('<tr><td>'+data.name+' </td><td>'+data.tag+extra+"<td></tr>");
@@ -402,7 +405,7 @@ tag.loadImagesTag=function(tagelement){
 
 tag.sidebar=function(tags){
 	$.each(tags,function(index_tag,elemet){
-		 $('#tool_right ul').append('<li id="'+index_tag+'" class="">'+index_tag+' ('+elemet+')</li>');
+		 $('#tool_right ul').append('<li id="'+index_tag+'" class="Tag">'+index_tag+' ('+elemet+')</li>');
 		 $('#tool_right ul li[id^="'+index_tag+'"]').click(function(){
 			 tag.loadImagesTag(this)
 	 	});

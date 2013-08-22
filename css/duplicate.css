@@ -203,6 +203,8 @@ table {
   background-color: #f5f5f5;
 }
 
+
+
 table td[class*="span"],
 table th[class*="span"],
 .row-fluid table td[class*="span"],
@@ -371,6 +373,9 @@ table th[class*="span"],
 }
  tbody tr:hover{
  color:black;
+ }
+ .tool tbody tr:hover i{
+		background-image: url("../img/glyphicons-halflings.png");
  }
  
  .tooltip {
