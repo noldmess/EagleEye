@@ -174,13 +174,17 @@ class Kamera_Module implements OCA\FaceFinder\MapperInterface{
 
 
 
-
+	/**
+	 * The function receive a String and returns OC Search_Result
+	 * @param String $query
+	 * @return multitype:OC_Search_Result
+	 */
 	public static function search($query){
 		$results=array();
 		$stmt = OCP\DB::prepare('select * From   *PREFIX*facefinder_kamera_module where  model  like ? or make like ?');
 		$result=$stmt->execute(array($query."%",$query."%"));
 		while (($row = $result->fetchRow())!= false) {
-				$link = OCP\Util::linkTo('facefinder', 'index.php').'?search='.urlencode(self::$classname).'&name='.urlencode($row['model']).'&tag='.urlencode($row['make']);
+				$link = OCP\Util::linkTo('facefinder', 'index.php').'?search='.urlencode(self::$classname).'&name='.urlencode($row['model']).'&tag='.urlencode($row['make']).'#search';
 				$results[]=new OC_Search_Result("Kamera",$row['model']."-".$row['make'],$link,"FaF.");
 		}
 				return $results;
