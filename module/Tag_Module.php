@@ -3,7 +3,7 @@ use OCA\FaceFinder;
 class Tag_Module implements OCA\FaceFinder\MapperInterface{
 	
 	private static $classname='Tag_Module';
-	private  static $version='0.2.5';
+	private  static $version='0.3.0';
 		/**
 		 * for the construction of the class you need the path
 		 * @param unknown_type $paht

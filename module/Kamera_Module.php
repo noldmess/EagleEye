@@ -22,7 +22,7 @@ use OCA\FaceFinder;
 */
 class Kamera_Module implements OCA\FaceFinder\MapperInterface{
 
-	private  static $version='0.0.2';
+	private  static $version='0.1.0';
 	private static $classname="Kamera_Module";
 	
 	public  function  getJSON(){

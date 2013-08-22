@@ -5,7 +5,7 @@ use OCA\FaceFinder;
 class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 
 	private static $classname='FaceDetaction_Module';
-	private  static $version='0.0.1';
+	private  static $version='0.1.0';
 	static private $count;
 	/**
 	 * for the construction of the class you need the path
