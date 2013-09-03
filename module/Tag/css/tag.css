@@ -1,0 +1,119 @@
+
+height: 100px; width: 100px; opacity: 1;border: solid 1px red;
+
+.icon-align-left :HOVER{
+	background-color: red;
+}
+
+#photo .draggable2{
+	box-shadow:inset 0px 0px 8px 0px #efefef;
+	height: 100px;
+	width: 100px;
+	border: solid 1px #efefef;
+	background:url("../img/loader.gif") no-repeat center center;
+/*	background-repeat:no-repeat;
+	background-position:right bottom;*/
+
+}
+
+#photo .draggable{
+	/*box-shadow:inset 0px 0px 8px 0px #efefef;
+	position:relative;*/
+	/*height: 100px;
+	width: 100px;'*/
+	/*border: solid 1px #efefef;
+	background:url("../img/loader.gif") no-repeat center center;*/
+/*	background-repeat:no-repeat;
+	background-position:right bottom;*/
+}
+
+#photo .draggable div.addTag{
+	margin-top:5px;
+	margin-left:auto;
+	margin-right:auto;
+	padding:5px;
+	width: 230px;
+	background:white;
+	border-radius: 7px;
+	border-top:10px;
+}
+
+#photo .draggable div.ui-resizable-se{
+	background-color: white;
+}
+
+#photo .draggable input{
+	
+}
+
+/*#photo .draggable{
+	box-shadow:inset 0px 0px 8px 0px #efefef;
+	position:relative;
+	height: 100px;
+	width: 100px;
+	min-width:150px;
+	min-height:35px;
+	opacity: 1;
+	border: solid 1px #efefef;
+}
+#photo .draggable input{
+	position:relative;
+	bottom:35px;
+	opacity: 0.8;
+}
+
+
+*/
+
+#photo .draggable2{
+	cursor:move;
+		margin-left:auto;
+	margin-right:auto;
+	*/*box-shadow:inset 0px 0px 8px 0px #efefef;
+	opacity: 1;
+	border: solid 1px #efefef;
+	*/
+}
+
+#photo .draggable2 a{
+	height: 100px;
+	width: 100px;
+	background:#efefef;
+	opacity:0.5;
+}
+
+#photo .draggable_fix{
+	border-radius: 7px;
+	box-shadow:inset 0px 0px 8px 0px #efefef;
+	height: 100px;
+	width: 100px;
+	
+}
+
+#photo img{
+		/*cursor:url("../img/newTag.png");*/
+		cursor: cell;
+}
+
+
+
+
+#photo .draggable_tag{
+	border-radius: 7px;
+	bottom:-10px;
+	border-top:10px;
+	text-align:center;
+	/*cursor: pointer;*/;
+	width:auto;
+	background:white;
+	position:relative;
+	opacity: 1.0;
+}
+
+#photo .draggable_tag img{
+	cursor: pointer;
+}
+
+#photo .tag_in_photo{
+	cursor: pointer;
+}

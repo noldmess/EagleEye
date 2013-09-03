@@ -54,15 +54,20 @@ class HooksHandlers {
 	 */
 	public static function delete($params){
 		$path = $params['path'];
-		OCP\Util::writeLog("facefinddddddddddddddddddder","delete".$path,OCP\Util::DEBUG);
+		$writemodul=ModuleManeger::getInstance();
+		$moduleclasses=$writemodul->getModuleClass();
 		OCP\Util::writeLog("facefinder","delete"+$path,OCP\Util::DEBUG);
 		OCP\Util::writeLog("facefinder2","delete".$path,OCP\Util::DEBUG);
 		if($path!=''&& self::isPhoto($path)){
 			OCP\Util::writeLog("facefinder","to delite".$path,OCP\Util::DEBUG);
 			$photo=FaceFinderPhoto::getPhotoClassPath($path);
-			//OCP\Util::writeLog("facefinder","image id".$photo->getID(),OCP\Util::DEBUG);
 			if(!is_null($photo)){
 				FaceFinderPhoto::remove($photo);
+				foreach ($moduleclasses as $moduleclass){
+					$class=$moduleclass['Class']::getInstanceByPath($path,$photo->getID());
+					$moduleclass['Mapper']::remove($class);
+				}
+				
 			}
 		}else{
 			OCP\Util::writeLog("facefinder1a",$path,OCP\Util::DEBUG);
@@ -71,6 +76,10 @@ class HooksHandlers {
 				OCP\Util::writeLog("facefinder2",$photo->getID(),OCP\Util::DEBUG);
 				if(!is_null($photo)){
 					FaceFinderPhoto::remove($photo);
+					foreach ($moduleclasses as $moduleclass){
+						$class=$moduleclass['Class']::getInstanceByPath($path,$photo->getID());
+						$moduleclass['Mapper']::remove($class);
+					}
 				}
 			}
 			OCP\Util::writeLog("facefinder2",$path,OCP\Util::DEBUG);
@@ -114,13 +123,6 @@ class HooksHandlers {
 		return  $ext=='jpeg' || $ext=='jpg';
 	}
 	
-	public static function startBackgroundJob($id){
-		$array=json_decode($id,true);
-		$writemodul=ModuleManeger::getInstance();
-		$moduleclasses=$writemodul->getModuleClass();
-			$class=$array['class']::doBackgroundJob($id);
-
-	}
 	
 
 

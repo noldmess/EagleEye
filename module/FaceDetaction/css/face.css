@@ -1,0 +1,104 @@
+#photo div.face.inner{
+	position:relative;
+	/*min-width:150px;*/
+	min-height:35px;
+	border: solid 2px #778899;
+}
+
+/*#photo .face.inner:HOVER{
+	border: solid 2px red;
+}*/
+
+#photo .face.inner{
+	margin-left: auto ;
+  	margin-right: auto ;
+	box-shadow:inset 0px 0px 8px 0px #efefef;
+	border: solid 1px #efefef
+}
+
+/*#photo .face.inner:HOVER{
+	
+	border: solid 1px #efefef
+}*/
+
+
+#photo .face.outer{
+	opacity: 0.1;
+	text-align:center;
+}
+
+#photo .face.outer:HOVER{
+	opacity:1;
+	text-align:center;
+}
+
+
+#photo .face.outer div.fram{
+	background-color: white;
+}
+
+#photo .face input{
+	position:relative;
+	/*bottom:35px;*/
+}
+
+
+
+#photo .face.inner img{
+	cursor: pointer;
+}
+
+
+
+#photo .draggable_face_option{
+}
+
+/*#photo .draggable_face_option:HOVER{
+	: 1;
+	background-color:white;
+}*/
+
+#photo .draggable_face div.addTag{
+	margin-top:5px;
+	margin-left:auto;
+	margin-right:auto;
+	padding:5px;
+	width: 230px;
+	background:white;
+	border-radius: 7px;
+	border-top:10px;
+	display: none;
+}
+#photo .draggable_face_2{
+	box-shadow:inset 0px 0px 8px 0px #efefef;
+	height: 100px;
+	width: 100px;
+	border: solid 1px #efefef;
+	background:url("../img/loader.gif") no-repeat center center;
+	margin-left: auto;
+margin-right: auto;
+/*	background-repeat:no-repeat;
+	background-position:right bottom;*/
+}
+
+#photo .draggable_face_2 a{
+	background:#efefef;
+	opacity:0.5;
+	top: -8px;
+	left:-8px;
+	position: absolute;
+	
+}
+
+#photo .draggable_face div.addTag{
+	z-index:200;
+	margin-top:0px;
+	margin-left:auto;
+	margin-right:auto;
+	padding:5px;
+	width: 230px;
+	background:white;
+	border-radius: 7px;
+	border-top:10px;
+}
+

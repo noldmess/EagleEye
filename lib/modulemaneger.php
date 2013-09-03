@@ -37,9 +37,6 @@ class ModuleManeger {
 		 */
 	 private function   __construct() {
 		$this->ModuleClass=self::getModulsOfFolder("apps/facefinder/module/");
-		if(empty($this->ModuleClass)){ 
-			OCP\Util::writeLog("facefinder","No Module folder found ",OCP\Util::ERROR);
-		}
 	}
 	
 	static public function  getInstance(){
@@ -71,7 +68,7 @@ class ModuleManeger {
 					$fileinfo=pathinfo($classPath);
 					$tmp=$fileinfo['filename']."Class.php";
 					//OCP\Util::writeLog("facefinder",$tmp,OCP\Util::ERROR);
-					require_once $fileinfo['dirname']."/".$tmp;
+					//require_once $fileinfo['dirname']."/".$tmp;
 					return $classname;
 			}else{
 				//OCP\Util::writeLog("facefinder","The class:".$classname." not implements the OCA\FaceFinder\MapperInterface interface",OCP\Util::ERROR);
@@ -121,7 +118,7 @@ class ModuleManeger {
 			while (($file = readdir($modulfolder)) !== false) {
 				//$fileinfo=pathinfo($file);
 				if(!is_dir($modulpath.$file)){
-					$fileinfo=pathinfo($file);
+					/*$fileinfo=pathinfo($file);
 					if( isset($fileinfo['extension']) && $fileinfo['extension']=='php'){
 						$mapper=self::checkCorrectModuleMapper($dir . $file);
 						if(file_exists($dir .$fileinfo['filename']."Class.php")){
@@ -131,9 +128,20 @@ class ModuleManeger {
 							}
 						}
 						
+					}*/
+			}else{
+				if($file!==".." && $file!=="." && is_dir($modulpath.$file."/lib")){
+					OCP\Util::writeLog("facefinder",$modulpath."-".$file,OCP\Util::DEBUG);
+					$class=self::checkCorrectModuleClass($modulpath.$file."/lib/".$file."_ModuleClass.php");
+					$mapper=self::checkCorrectModuleMapper($modulpath.$file."/lib/".$file."_Module.php");
+					if($mapper!=null && $class!=null){
+						$modulaArray[]=array("Name"=>$file,"Mapper"=>$mapper,"Class"=>$class);
 					}
+				}
 			}
 			}
+		}else{
+			OCP\Util::writeLog("facefinder","No Module folder found ",OCP\Util::ERROR);
 		}
 
 		return $modulaArray;
@@ -159,7 +167,7 @@ class ModuleManeger {
 	 * @param unknown_type $moduleclass
 	 * @return boolean
 	 */
-	public static function CheckClass($moduleclass){
+	/*public static function CheckClass($moduleclass){
 		$path=$_SERVER['DOCUMENT_ROOT']."/owncloud/apps/facefinder/module/TestFolder/";
 		$image='Photo.jpg';
 		$imagecopy='testPhoto.jpg';
@@ -191,7 +199,7 @@ class ModuleManeger {
 			}
 		}
 		return $boolen;
-	}
+	}*/
 	
 	public  function isModuleClass($className){
 		foreach ($this->getModuleClass() as $class){
