@@ -20,7 +20,7 @@ use OCA\FaceFinder;
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
-class Kamera_Module implements OCA\FaceFinder\MapperInterface{
+class Kamera_ModuleMapper implements OCA\FaceFinder\MapperInterface{
 
 	private  static $version='0.2.0';
 	private static $classname="Kamera_Module";

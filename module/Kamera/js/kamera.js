@@ -17,7 +17,7 @@ function kamera() {
 			$('#tool_righte').show();
 		}
 		$("#tool_righte .tool.Camera .tool_items table *").remove();
-		$.getJSON(OC.linkTo('facefinder', 'ajax/kamera.php')+'?image='+image, function(data) {
+		$.getJSON(OC.linkTo('facefinder', '/module/Kamera/ajax/kamera.php')+'?image='+image, function(data) {
 			if (data.status == 'success'){
 				if (data.data!=null){
 				$('#tool_righte .tool.Camera .tool_items table').append('<thead>'
@@ -46,11 +46,14 @@ function kamera() {
 	this.setEvents=function(){
 	};
 	this.duplicatits=function(element,data){
-		var camera=data['img1']['Kamera_Module'][0];
-		if($(camera).size()>0){
-			$(element).append('<tr><td>Camera</td><td>'+camera.make+' '+camera.model+'</td><td><i class="icon-equal icon-equal-ok"></td><td>'+camera.make+' '+camera.model+'</td></tr>');
-		}else{
-			$(element).append('<tr><td>Camera</td><td>'+camera.make+' '+camera.model+'</td><td><i class="icon-equal icon-equal-not"></td><td>'+camera.make+' '+camera.model+'</td></tr>');
+		var camera1=data['img1']['Kamera_ModuleMapper'][0];
+		var camera2=data['img2']['Kamera_ModuleMapper'][0];
+		if(camera2.length!=0 && camera1.length!=0){
+			if(camera1.make === camera2.make && camera1.model===camera2.model){
+				$(element).append('<tr><td>Camera</td><td>'+camera1.make+' '+camera1.model+'</td><td><i class="icon-equal icon-equal-ok"></td><td>'+camera2.make+' '+camera2.model+'</td></tr>');
+			}else{
+				$(element).appends('<tr><td>Camera</td><td>'+camera1.make+' '+camera1.model+'</td><td><i class="icon-equal icon-equal-not"></td><td>'+camera2.make+' '+camera2.model+'</td></tr>');
+			}
 		}
 	};
 	

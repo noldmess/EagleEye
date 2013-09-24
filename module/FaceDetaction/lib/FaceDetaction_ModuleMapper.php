@@ -2,7 +2,7 @@
 
 
 use OCA\FaceFinder;
-class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
+class FaceDetaction_ModuleMapper implements OCA\FaceFinder\MapperInterface{
 
 	private static $classname='FaceDetaction_Module';
 	private  static $version='0.2.0';
@@ -82,7 +82,7 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 		*/
 	public static  function insert($class){
 		self::insertCache($class);
-		OCA\FaceFinder\BackgroundJob::addBackgroundJob(array("class"=>"FaceDetaction_Module","id"=>$class->getForingkey(),"paht"=>$class->getPaht()));
+		OCA\FaceFinder\BackgroundJob::addBackgroundJob(array("class"=>"FaceDetaction_ModuleMapper","id"=>$class->getForingkey(),"paht"=>$class->getPaht()));
 	}
 	
 	
@@ -98,7 +98,7 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 		}
 	}
 	
-	public static function doBackgroundJob($array){
+public static function doBackgroundJob($array){
 		$cachetImages=self::getCacheImages();
 		//remove unnecessary BackgroundJob
 		if(sizeof($cachetImages)===0){
@@ -106,7 +106,9 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 		}
 		
 		foreach($cachetImages as $image){
-			$id_photo=$image['photo_id'];
+			//neue Funkion mit id übertgane
+			self::getInfo($image['photo_id']);
+			/*$id_photo=$image['photo_id'];
 			$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($id_photo);
 			if($photo==!null){
 				$imag=OC_Filesystem::getLocalFile($photo->getPath());
@@ -145,7 +147,50 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 				
 				self::removeCache($id_photo);
 				OCP\Util::writeLog("facefinder","removed from cache ".$id_photo." ".$photo->getPath(),OCP\Util::DEBUG);
+			}*/
+		}
+	}
+	
+	
+	public  static function  getInfo($id_photo){
+		$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($id_photo);
+		if($photo==!null){
+			$imag=OC_Filesystem::getLocalFile($photo->getPath());
+			OCP\Util::writeLog("facefinder","got test from cache ".$photo->getPath(),OCP\Util::DEBUG);
+			$newClass=FaceDetaction_ModuleClass::getInstanceByPath($photo->getPath(),$id_photo);
+			$newClass->getFaces($image);
+			$newClass->makeFaceImage();
+			$path_parts =pathinfo($photo->getPath());
+			$imgToSava=$path_parts['filename'];
+			$facecount=0;
+			foreach ($newClass->makeFaceTagArray() as  $section) {
+				$face=$newClass->classFaceRec($facecount);
+				//if the face class is biger then 41 then the image in new
+				OCP\Util::writeLog("facefinderddddddddddd",$face['threshold']." x1:".$section['x1']." x2:".$section['x2']." y1:".$section['y1']." y2:".$section['y2'],OCP\Util::DEBUG);
+				if($face['class']>41 && $face['threshold']<80){
+					$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($id_photo);
+					$tag=self::getTagByFaceClass($face['class']);
+					if($tag['tag_id']!==null){
+						OCP\Util::writeLog("facefinder",json_encode($tag),OCP\Util::DEBUG);
+						$class=Tag_Module::getClass($photo->getID());
+						$class->addTag("2#025",$tag['tag'],$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
+						Tag_Module::update($class);
+						OCP\Util::writeLog("facefinder","found",OCP\Util::DEBUG);
+						self::insertFacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
+					}else{
+						OCP\Util::writeLog("facefinder","not found",OCP\Util::DEBUG);
+						self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['x2'],$section['y1'],$section['y2']);
+					}
+		
+				}else{
+					OCP\Util::writeLog("facefinder","not found",OCP\Util::DEBUG);
+					self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['x2'],$section['y1'],$section['y2']);
+				}
+				$facecount++;
 			}
+		
+			self::removeCache($id_photo);
+			OCP\Util::writeLog("facefinder","removed from cache ".$id_photo." ".$photo->getPath(),OCP\Util::DEBUG);
 		}
 	}
 	
@@ -174,7 +219,17 @@ class FaceDetaction_Module implements OCA\FaceFinder\MapperInterface{
 		$result=$stmt->execute(array($id));
 	}
 	
-
+	public static function issetInCacheImages($id){
+		$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder_facedetaction_module_cache` WHERE photo_id=?;');
+		$result = $stmt->execute(array($id));
+		$tagarray=array();
+		$count=0;
+		while (($row = $result->fetchRow())!= false) {
+			$tagarray[]=array('photo_id'=>$row['photo_id'],'id'=>$row['id']);
+			$count++;
+		}
+		return ($count>0);
+	}
 
 
 	/**

@@ -11,15 +11,16 @@ class EXIF_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	
 	function  getJSON(){
 		$tagarray=array();
-		foreach ($this->exitHeader as $key=>$value)
+		foreach ($this->exitHeader as $key=>$value){
+			//$tagarray[]=array('name'=>$key,"tag"=>self::getFormat($key,$value));
 			$tagarray[]=array('name'=>$key,"tag"=>$value);
+		}
 		return $tagarray;
 	}
 
 	public static function getInstanceBySQL($id,$exitheader,$foringkey){
 		$class=new self();
 		$class->setExitheader($exitheader);
-		//OCP\Util::writeLog("facefinder",json_encode($exitheader),OCP\Util::ERROR);
 		$class->setID($id);
 		$class->setForingkey($foringkey);
 		return $class;
@@ -111,9 +112,39 @@ class EXIF_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 			case 'WhiteBalance':
 				$return=self::getWhiteBalance($value).": White Balance";
 				break;
-	
+				
+			case 'FocalPlaneXResolution':
+					$return=self::divi($value);
+					break;
+					
+			case 'FocalPlaneYResolution':
+				$return=self::divi($value);
+				break;
+				
+			case 'FocalPlaneResolutionUnit':
+				switch ($value){
+					case 1:
+						$return="No absolute unit of measurement.";
+						break;
+					case 2:
+						$return=" inches";
+						break;
+					case 3:
+						$return="cm";
+						break;
+					case 4:
+						$return="mm";
+						break;
+					case 5:
+						$return="um";
+						break;				
+				}
+				break;
 			default:
-				$return=$value;
+				if(is_array($value))
+					$return=json_encode($value);
+				else
+					$return=$value;
 				break;
 	
 		}
@@ -132,7 +163,8 @@ class EXIF_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 		if ($first_token > $second_token) {
 			return $first_token."s";
 		}else{
-			return ($first_token/10).'/'.($second_token/10)."s";
+			$res=round($second_token/$first_token);
+			return '1/'.$res."s";
 		}
 	}
 	

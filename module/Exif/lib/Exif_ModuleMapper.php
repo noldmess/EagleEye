@@ -21,7 +21,7 @@ use OCA\FaceFinder;
  *
  */
 
-class EXIF_Module implements OCA\FaceFinder\MapperInterface{
+class EXIF_ModuleMapper implements OCA\FaceFinder\MapperInterface{
 	
 		private static $classname="EXIF_Module";
 		private  static $version='0.5.0';

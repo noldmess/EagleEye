@@ -2,7 +2,9 @@
 
 function exif() {
 	this.init=function(){
+		$("#tool_righte").append('<div class="tool Exif"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Exif</div><div class="tool_items"><table class="table"></table></div></div>');
 		
+	 	
 	},
 	this.hideView=function (event){
 
@@ -16,7 +18,7 @@ function exif() {
 		}
 		$("#tool_righte .tool.Exif .tool_items").addClass('load');
 		$("#tool_righte .tool.Exif .tool_items table *").remove();
-		$.getJSON(OC.linkTo('facefinder', 'ajax/EXIF.php')+'?image='+image, function(data) {
+		$.getJSON(OC.linkTo('facefinder', '/module/Exif/ajax/EXIF.php')+'?image='+image, function(data) {
 			if (data.status == 'success'){
 				if(data.data.length>0){
 					$('#tool_righte .tool.Exif .tool_items table').append('<thead>'
@@ -47,21 +49,21 @@ function exif() {
 	this.setEvents=function(){
 	};
 	this.duplicatits=function(element,data){
-		var tag=data['img1']['EXIF_Module'][0];
+		var tag=data['img1']['Exif_ModuleMapper'][0];
 		for ( var i = 0; i < $(tag).size(); i++) {
 			if(i==0)
 				$(element).append('<tr><td rowspan="'+$(tag).size()+'">EXIF</td><td>'+tag[i].name+' '+tag[i].tag+'</td><td><i class="icon-equal icon-equal-ok"></td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
 			else
 				$(element).append('<tr>><td>'+tag[i].name+' '+tag[i].tag+'</td><td><i class="icon-equal icon-equal-ok"></td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
 		}
-		var tag1=data['img1']['EXIF_Module'][1];
-		var tag2=data['img2']['EXIF_Module'][1];
+		var tag1=data['img1']['Exif_ModuleMapper'][1];
+		var tag2=data['img2']['Exif_ModuleMapper'][1];
 		if($(tag1).size()>$(tag2).size()){
-			var tag=data['img1']['EXIF_Module'][1];
-			var tag2=data['img2']['EXIF_Module'][1];
+			var tag=data['img1']['Exif_ModuleMapper'][1];
+			var tag2=data['img2']['EXIF_ModuleMapper'][1];
 		}else{
-			var tag=data['img2']['EXIF_Module'][1];
-			var tag2=data['img1']['EXIF_Module'][1];
+			var tag=data['img2']['Exif_ModuleMapper'][1];
+			var tag2=data['img1']['Exif_ModuleMapper'][1];
 		}
 		for ( var i = 0; i < $(tag).size(); i++) {
 			var name;
@@ -78,7 +80,6 @@ function exif() {
 			else
 				$(element).append('<tr>><td>'+tag[i].name+' '+tag[i].tag+'</td><td><i class="icon-equal icon-equal-not"></td><td>'+name+' '+tag_name+'</td></tr>');
 		}
-		//alert("sdfsdf");
 	};
 	
 }
@@ -86,6 +87,3 @@ function exif() {
 
 
 
-$(document).ready(function() {
-	$("#tool_righte").append('<div class="tool Exif"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Exif</div><div class="tool_items"><table class="table"></table></div></div>');
-});

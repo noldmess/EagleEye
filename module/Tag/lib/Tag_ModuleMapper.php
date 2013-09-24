@@ -1,6 +1,6 @@
 <?php
 use OCA\FaceFinder;
-class Tag_Module implements OCA\FaceFinder\MapperInterface{
+class Tag_ModuleMapper implements OCA\FaceFinder\MapperInterface{
 	
 	private static $classname='Tag_Module';
 	private  static $version='0.4.0';
@@ -241,7 +241,7 @@ class Tag_Module implements OCA\FaceFinder\MapperInterface{
 		 * @return multitype:OC_Search_Result
 		 */
 		public static function search($query){
-			$classname="Tag_Module";
+			$classname="Tag_ModuleMapper";
 			$results=array();
 			$stmt = OCP\DB::prepare('select tag,name From   *PREFIX*facefinder_tag_module inner join *PREFIX*facefinder_tag_photo_module  on  (*PREFIX*facefinder_tag_module.id=*PREFIX*facefinder_tag_photo_module.tag_id) where tag like ? or name like ? GROUP BY name');
 			$result=$stmt->execute(array($query."%",$query."%"));

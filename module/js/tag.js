@@ -61,21 +61,21 @@ function tag(){
 			});
 		};
 		this.duplicatits=function(element,data){
-			var tag=data['img1']['Tag_Module'][0];
+			var tag=data['img1']['Tag_ModuleMapper'][0];
 			for ( var i = 0; i < $(tag).size(); i++) {
 				if(i==0)
 					$(element).append('<tr><td rowspan="'+$(tag).size()+'">Tag</td><td>'+tag[i].name+' '+tag[i].tag+'</td><td><i class="icon-equal icon-equal-ok"></td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
 				else
 					$(element).append('<tr>><td>'+tag[i].name+' '+tag[i].tag+'</td><td><i class="icon-equal icon-equal-ok"></td><td>'+tag[i].name+' '+tag[i].tag+'</td></tr>');
 			}
-			var tag1=data['img1']['Tag_Module'][1];
-			var tag2=data['img2']['Tag_Module'][1];
+			var tag1=data['img1']['Tag_ModuleMapper'][1];
+			var tag2=data['img2']['Tag_ModuleMapper'][1];
 			if($(tag1).size()>$(tag2).size()){
-				var tag=data['img1']['Tag_Module'][1];
-				var tag2=data['img2']['Tag_Module'][1];
+				var tag=data['img1']['Tag_ModuleMapper'][1];
+				var tag2=data['img2']['Tag_ModuleMapper'][1];
 			}else{
-				var tag=data['img2']['Tag_Module'][1];
-				var tag2=data['img1']['Tag_Module'][1];
+				var tag=data['img2']['Tag_ModuleMapper'][1];
+				var tag2=data['img1']['Tag_ModuleMapper'][1];
 			}
 			for ( var i = 0; i < $(tag).size(); i++) {
 				var name;

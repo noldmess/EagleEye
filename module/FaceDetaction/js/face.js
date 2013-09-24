@@ -31,7 +31,7 @@ function face(){
 };
 
 face.getTag=function(img){
-	$.getJSON(OC.linkTo('facefinder', 'ajax/face.php')+'?image='+img, function(data) {
+	$.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/face.php')+'?image='+img, function(data) {
 		if (data.status == 'success'){
 			if(data.data.length>0){
 				$('#tool_righte .tool.Face .tool_items table').append('<thead>'
@@ -128,7 +128,7 @@ face.getTag=function(img){
 				 removeTagDiv(tagDiv);
 				 OC.Notification.show("Updating face Data Set");
 				 $('#content').css( 'cursor', 'wait' );
-				 $.getJSON(OC.linkTo('facefinder', 'ajax/faceupdate.php')+"?face_id="+face_id, function(data) {
+				 $.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/faceupdate.php')+"?face_id="+face_id, function(data) {
 					 var image=$('#photoview img').attr("alt");
 					 $("#photo div.draggable_face").remove();
 					 $("#photo div.tag_in_photo").remove();
@@ -165,7 +165,7 @@ face.setFaceInImage=function(div,tag_name,face_id,pos){
 	var helpToRemove=$(div).parent().parent();
 	var image=$('#photoview img').attr("alt");
 	OC.Notification.show("Updating face Data Set");
-	$.getJSON(OC.linkTo('facefinder', 'ajax/faceinsert.php')+"?image="+image+"&tag="+tag_name+"&face_id="+face_id+"&pos="+pos, function(data) {
+	$.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/faceinsert.php')+"?image="+image+"&tag="+tag_name+"&face_id="+face_id+"&pos="+pos, function(data) {
 		 $("#photo div.draggable_face").remove();
 		 $("#photo div.tag_in_photo").remove();
 		 $("#tool_righte .tool.Face .tool_items table *").remove();
@@ -186,12 +186,12 @@ face.removeTag=function(tagDiv){
 	var image=$('#photo img').attr("name");
 	var tag=$(tagDiv).attr("name");
 	 $(tagDiv).parent().remove();
-	 $.getJSON(OC.linkTo('facefinder', 'ajax/removetag.php')+"?image="+image+"&tag="+tag, function(data) {});
+	 $.getJSON(OC.linkTo('facefinder', 'module/Tag/ajax/removetag.php')+"?image="+image+"&tag="+tag, function(data) {});
 };
 
 face.removeTagDiv=function(tagDiv){
 	/*var asdfasd=$(tagDiv).attr("id");*/
-	 $.getJSON(OC.linkTo('facefinder', 'ajax/faceremove.php')+"?image="+$(tagDiv).attr("id"), function(data) {});
+	 $.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/faceremove.php')+"?image="+$(tagDiv).attr("id"), function(data) {});
 	 $(tagDiv).parent().remove();
 };
 
@@ -204,7 +204,7 @@ face.create=function(face_id,tag,x1,y1,x2,y2){
 		 var image=$('#photoview img').attr("alt");
 		 var tagDiv=$('i[name^="KEYWORDS '+name+'"]');
 		 removeTagDiv(tagDiv);
-		 $.getJSON(OC.linkTo('facefinder', 'ajax/faceupdate.php')+"?face_id="+face_id, function(data) {});
+		 $.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/faceupdate.php')+"?face_id="+face_id, function(data) {});
 		 face.getTag(image);
 		 return '<i id="" class="icon-edit"></i>';
 	 });
@@ -270,7 +270,7 @@ function removeTagDiv(tagDiv){
 	var imagepaht=$('#photo img').attr("name");
 	var tag=$(tagDiv).attr("name");
 	 $(tagDiv).parent().parent().remove(".draggable_fix");
-	 $.getJSON(OC.linkTo('facefinder', 'ajax/removetag.php')+"?image="+image+"&tag="+tag+"&imagepaht="+imagepaht, function(data) {});
+	 $.getJSON(OC.linkTo('facefinder', 'module/Tag/ajax/removetag.php')+"?image="+image+"&tag="+tag+"&imagepaht="+imagepaht, function(data) {});
 };
 
 
