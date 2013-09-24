@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	//executed after the page has loaded
-	Module.toolSlide();
+	//Module.toolSlide();
 	Module.init();
 
     checkURL();	//check if the URL has a reference to a page and load it
@@ -41,8 +41,6 @@ function checkURL(hash)
     		Module.resateView();
             break;
         case "duplicatits":
-    		$("button[title='Remove']").text("Remove (0)");
-    		$("button[title='Remove']").removeClass("btn btn-warning");
     		Duplicatits.showView();
     		Duplicatits.load(help);
             break;

@@ -32,7 +32,7 @@ var FaceFinder={
 					   if (data.status == 'success'){
 						   FaceFinder.addYearSidebar(data.data);
 	//					   only show first year
-						  $('#tool_right ul.start').find('ul').slideToggle();
+						 $('#tool_right ul.start').find('ul').slideToggle();
 						 $($( '#tool_right ul.start ul')[0]).find('ul').slideToggle();
 						 $($( '#tool_right ul.start ul')[0]).slideToggle();
 						 $($( '#tool_right ul.start li i')[0]).removeClass('icon-arrow-down');
@@ -40,21 +40,20 @@ var FaceFinder={
 	//					  only show first year
 						   FaceFinder.addYearPhotoOverView(data.data);
 					   		$('#tool_right li').click(function(e) {
-					   					FaceFinder.loadData(e,this);
-					   				});
+			   					Module.resateView();
+			   					FaceFinder.loadData(e,this);
+					   		});
+					   		
 					   	  $('#tool_right ul.start  i ').click(function (e) {
-					   		  var dfssdf=	$(this).parent().parent().find('ul');
 					   		$(this).parent().parent().find('ul').slideToggle("slow");
-					   		//$(this).parent().parent().find('li').slideToggle("slow");
-						        e.stopPropagation();
-						        if($(this).hasClass('icon-arrow-up')){
-					   			$(this).removeClass('icon-arrow-up');
-					   			$(this).addClass('icon-arrow-down');
-					   	  }else{
-					   		$(this).addClass('icon-arrow-up');
-				   			$(this).removeClass('icon-arrow-down');
-					   	  }
-						    });
+								  if($(this).hasClass('icon-arrow-up')){
+							   			$(this).removeClass('icon-arrow-up');
+							   			$(this).addClass('icon-arrow-down');
+							   	  }else{
+							   		$(this).addClass('icon-arrow-up');
+						   			$(this).removeClass('icon-arrow-down');
+							   	  }
+						  });
 					   }
 					   $('#photoOverView').removeClass('loading');
 			     }).always(function() {
@@ -103,7 +102,8 @@ var FaceFinder={
 	addDayPhotoOverView:function(data){
 		$.each(data,function(index_day,days){
 		   $.each(days.imags,function(index,image){
-			   $("#photoOverView").append('<div class="image" ><div class="test"><a name="'+image.imagsname+'" href="#photoview/'+image.imagsid+'"><img name="'+image.imagsname+'" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"></a><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input></div></div>');
+			   Module.addImagePhotoOverView(image);
+			   //$("#photoOverView").append('<div class="image" ><div class="test"><a name="'+image.imagsname+'" href="#photoview/'+image.imagsid+'"><img name="'+image.imagsname+'" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"></a><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input></div></div>');
 			 /*	$('#photoOverView  img[alt="'+image.imagsid+'"]').click(function(){
 			 			//window.history.pushState({path:"photoview"},"","#photoview");
 			 			//PhotoView.ClickImg(this)});*/
@@ -114,10 +114,7 @@ var FaceFinder={
 	},
 	addDataPhotoOverView:function(data){
 		$.each(data,function(index_day,image){
-			 $("#photoOverView").append('<div class="image" ><div class="test"><a name="'+image.imagsname+'" href="#photoview/'+image.imagsid+'"><img name="'+image.imagsname+'" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"></a><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input></div></div>');
-			 $('#photoOverView  img[alt="'+image.imagsid+'"]').click(function(){
-				// PhotoView.ClickImg(this);
-				 });
+			Module.addImagePhotoOverView(image);
 			});
 		Module.setEvents();
 	},

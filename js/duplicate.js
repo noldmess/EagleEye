@@ -29,6 +29,8 @@ var Duplicatits={
  			$('span.right input').show();
 		},
 		load:function(data){
+    		$("button[title='Remove']").text("Remove (0)");
+    		$("button[title='Remove']").removeClass("btn btn-warning");
 			$('span.right select[title="Select view"]').val('duplicates');
 			$('#photoff').hide();
 			$('#photoview').hide();
@@ -91,8 +93,10 @@ var Duplicatits={
 		get:function(data){
 			$("#duplicate table tbody").children().remove();
 			$("#duplicate").addClass('loading');
-			var sdfsdf=parseInt(data[1]);
-			$.getJSON(OC.linkTo('facefinder', 'ajax/equivalent.php')+"?dir="+Duplicatits.getPath()+"&page="+parseInt(data[1]), function(data) {
+			var page=parseInt(data[1]);
+			if(isNaN(page))
+				page=0;
+			$.getJSON(OC.linkTo('facefinder', 'ajax/equivalent.php')+"?dir="+Duplicatits.getPath()+"&page="+page,function(data) {
 				if (data.status == 'success'){
 					if(data.data.length!==0){
 							$.each(data.data,function(index_year,data){

@@ -45,6 +45,7 @@ var Module={
 							//classload.load(event);
 							classload.init();
 					});
+					Module.toolSlide();
 				}
 				
 			});
@@ -65,7 +66,7 @@ var Module={
 		},
 		viewLoader:function (name){
 			var classload=buildFromJSON(name);
-			classload.click();
+			classload.viewLoader();
 			classload.showView();
 		},
 		allInfo:function (img1,img2){
@@ -131,6 +132,9 @@ var Module={
 			}
 			
 		});
+	},
+	addImagePhotoOverView:function(image){
+		 $('#photoOverView').append('<div class="image" ><div class="test"><a name="'+image.path+'" href="#photoview/'+image.id+'"><img src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.path+'"  alt="'+image.id+'"></a><input type="checkbox" original-title="" alt="'+image.id+'" ></input></div></div>');
 	}
 };
 
