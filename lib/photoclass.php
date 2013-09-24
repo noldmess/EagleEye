@@ -46,7 +46,7 @@ class PhotoClass{
 			$class->setHeight($tmpsize[1]);
 			$class->setFilesize(filesize(\OC\Files\Filesystem::getLocalFile($path)));
 		}else{
-			\OCP\Util::writeLog("facefinder",$paht,OCP\Util::ERROR);
+			\OCP\Util::writeLog("facefinder","Data not found:".$paht,OCP\Util::ERROR);
 			 $class=null;
 		}
 		return $class;
@@ -69,10 +69,6 @@ class PhotoClass{
 	 * @return Date of Image If there is no "DateTimeOriginal" the "FileDateTime" will be  used
 	 */
 	public static function getDateOfEXIF($exifheader){
-		if(!is_array($exifheader)|| !isset($exifheader['FILE'])){
-			//\OCP\Util::writeLog("facefinderssssssss","1",OCP\Util::DEBUG);
-			return null;
-		}
 		if(isset($exifheader['EXIF']['DateTimeOriginal'])){
 			$date=$exifheader['EXIF']['DateTimeOriginal'];
 		}else{

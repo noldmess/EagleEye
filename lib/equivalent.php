@@ -89,7 +89,41 @@ public static function equalety($photo,$moduleArray1){
 return $photo;
 }
 
+public static function equalety2($dir){
+	$writemodul=ModuleManeger::getInstance();
+	$moduleclasses=$writemodul->getModuleClass();
+	$photo= new FaceFinderPhoto("");
+	$photoArray=$photo->equivalent($dir);
+	$moduleArray=array();
+	foreach ($moduleclasses as $moduleclass){
+	  $moduleopject=new $moduleclass['Mapper']("");
+	   $moduleArray+=array($moduleclass['Mapper']=>$moduleopject->equivalent($dir));	
+	}
+	for($i=0;$i<sizeof($photoArray);$i++){
+		foreach($moduleArray as $module){
+			foreach($module as $image){
+				if(($photoArray[$i][0]["photo_id"]===$image[0]["photo_id"] && $photoArray[$i][1]["photo_id"]===$image[1]["photo_id"] )||($photoArray[$i][1]["photo_id"]===$image[0]["photo_id"] && $photoArray[$i][0]["photo_id"]===$image[1]["photo_id"])){
+					$photoArray[$i]['prozent']*=0.80;
+					$photoArray[$i]['prozent']+=$image['prozent']*0.2;
+					break;
+				}
+			}
+			
+		}
+	}
+	usort($photoArray,  "test");
+	return $photoArray;
+}
 
+
+}
+
+function test($a, $b)
+{
+	if ($a['prozent'] == $b['prozent']) {
+		return 0;
+	}
+	return ($a['prozent'] > $b['prozent']) ? -1 : 1;
 }
 namespace OCA\FaceFinder;
 class OC_Equal{

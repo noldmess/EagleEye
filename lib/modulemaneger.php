@@ -57,7 +57,7 @@ class ModuleManeger {
 		require_once   $classPath;
 		$classname=self::getClassName($classPath);
 		if(!class_exists($classname)){
-			OCP\Util::writeLog("facefinder","Class not exist or not identik like file name:".$classname,OCP\Util::ERROR);
+			OCP\Util::writeLog("facefinder","Class Mapper not exist or not identik like file name:".$classname,OCP\Util::ERROR);
 			return  null;
 		}else{
 			/**
@@ -83,7 +83,7 @@ class ModuleManeger {
 		require_once   $classPath;
 		$classname=self::getClassName($classPath);
 		if(!class_exists($classname)){
-			OCP\Util::writeLog("facefinder","Class not exist or not identik like file name:".$classname,OCP\Util::ERROR);
+			OCP\Util::writeLog("facefinder","Class class not exist or not identik like file name:".$classname,OCP\Util::ERROR);
 			return  null;
 		}else{
 			$interfaceArray=class_implements($classname);//&& self::CheckClass($classPath)
@@ -131,11 +131,15 @@ class ModuleManeger {
 					}*/
 			}else{
 				if($file!==".." && $file!=="." && is_dir($modulpath.$file."/lib")){
-					OCP\Util::writeLog("facefinder",$modulpath."-".$file,OCP\Util::DEBUG);
-					$class=self::checkCorrectModuleClass($modulpath.$file."/lib/".$file."_ModuleClass.php");
-					$mapper=self::checkCorrectModuleMapper($modulpath.$file."/lib/".$file."_Module.php");
-					if($mapper!=null && $class!=null){
-						$modulaArray[]=array("Name"=>$file,"Mapper"=>$mapper,"Class"=>$class);
+					//OCP\Util::writeLog("facefinder",$modulpath."-".$file,OCP\Util::DEBUG);
+					if(file_exists($modulpath.$file."/lib/".$file."_ModuleMapper.php") && file_exists($modulpath.$file."/lib/".$file."_ModuleClass.php")){
+						$class=self::checkCorrectModuleClass($modulpath.$file."/lib/".$file."_ModuleClass.php");
+						$mapper=self::checkCorrectModuleMapper($modulpath.$file."/lib/".$file."_ModuleMapper.php");
+						if($mapper!=null && $class!=null){
+							$modulaArray[]=array("Name"=>$file,"Mapper"=>$mapper,"Class"=>$class);
+						}
+					}else{
+						OCP\Util::writeLog("facefinder",$modulpath.$file."/lib/".$file."_ModuleClass.php",OCP\Util::DEBUG);
 					}
 				}
 			}
