@@ -24,7 +24,7 @@ $(document).ready(function(){
 			if(text.length<1)
 				text="";
 			else
-				text.="/";
+				text+="/";
 			alert(text);
 			//
 			$.getJSON(OC.linkTo('facefinder', 'ajax/loadphotoview.php')+'?image='+text+filename, function(data) {
