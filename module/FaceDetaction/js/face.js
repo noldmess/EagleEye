@@ -33,7 +33,7 @@ function face(){
 face.getTag=function(img){
 	$.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/face.php')+'?image='+img, function(data) {
 		if (data.status == 'success' || data.status == 'new'){
-			if(data.status == 'new'){
+			if(data.data.type == 'new'){
 				 face.getTag(image);
 				 tag.getTag(image);
 			}else{

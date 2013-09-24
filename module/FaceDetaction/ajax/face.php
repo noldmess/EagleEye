@@ -12,9 +12,12 @@ if($id>0){
 	if(FaceDetaction_ModuleMapper::issetInCacheImages($photo->getID())){
 		FaceDetaction_ModuleMapper::getInfo($photo->getID());
 		OCP\Util::writeLog("facefinder","test".$photo->getPath(),OCP\Util::DEBUG);
-	}
+		$class=FaceDetaction_ModuleMapper::getClass($photo->getID());
+		echo OCP\JSON::success(array('type'=>"new",'data'=>$class->getJSON()));
+	}else{
 	$class=FaceDetaction_ModuleMapper::getClass($photo->getID());
-	echo OCP\JSON::success(array('data'=>$class->getJSON()));
+	echo OCP\JSON::success(array('type'=>'old','data'=>$class->getJSON()));
+	}
 }else{
 		OCP\JSON::error(array("message"=>"get image must be an intager"));
 }
