@@ -5,7 +5,7 @@
 <?php 
 $size=sizeof($_['patharray']);
 $path;
-if($size>1)
+if(isset($_['patharray']) && $size>1 )
 	$count=0;
 	foreach ($_['patharray'] as $a){
 	$count++;
