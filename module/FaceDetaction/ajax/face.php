@@ -10,7 +10,6 @@ if($id>0){
 	$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($id);
 	//test
 	if(FaceDetaction_ModuleMapper::issetInCacheImages($photo->getID())){
-		echo "sdfsdf";
 		FaceDetaction_ModuleMapper::getInfo($photo->getID());
 		OCP\Util::writeLog("facefinder","test".$photo->getPath(),OCP\Util::DEBUG);
 	}
