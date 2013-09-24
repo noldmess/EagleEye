@@ -156,6 +156,131 @@ face.getTag=function(img){
 				}
 			});
 		}	
+	}) .done(function() {
+		if (data.status == 'success'){
+			if(data.data.length>0){
+				$('#tool_righte .tool.Face .tool_items table').append('<thead>'
+						+'<tr>'
+						+'	<th>Name</th>'
+					    +'</tr>'
+					    +'</thead>'
+					    +' <tbody></tbody>');
+			$.each(data.data,function(index_tag,data){
+					 var x=(parseFloat(data.x1)*document.getElementById("img_img").offsetWidth);
+			 		 var y=(parseFloat(data.y1)*document.getElementById("img_img").offsetHeight);
+			 		 var x2=(parseFloat(data.x2)*document.getElementById("img_img").offsetWidth);
+			 		 var y2=(parseFloat(data.y2)*document.getElementById("img_img").offsetHeight);
+					 var PosY=(document.getElementById("img_img").offsetTop+y);
+					 var PosX=(document.getElementById("img_img").offsetLeft+x);
+					 var extra="";
+					 
+					 if(data.tag!=null && data.tag_id!=null ){
+						 $('#tool_righte .tool.Face .tool_items tbody').append('<tr><td><i class="icon-remove-sign" name="'+data.name+' '+data.tag+'" id="'+data.face_id+'"></i>'+data.tag+'<i class="icon-edit" id="'+data.face_id+'" name="'+data.tag+'" id="'+data.face_id+'"></td></tr>');
+					 }else{
+						// $("#photo").append('<div class="face outer "style="position: absolute; top: '+(y1+(y2-y1))+'px; left: '+x1+'px;" id="'+index_tag+'"><div class="face inner" style=" width: '+(y2-y1)+'px; height:'+(y2-y1)+'px;  position: absolute; top: '+y1+'px; left: '+x1+'px;""></div><div class="fram"><i class="icon-remove-sign" alt="'+data.face_id+'" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'"></i><input   type="text"  value=""></input></div></div>');
+						//$("#photo").append('<div class="draggable_face" style="position: absolute; top: '+(PosY)+'px; left: '+(PosX-115+((y2-PosY)/2))+'px;  width:230px;"><div class="draggable_face_2" style=" width: '+(y2-PosY)+'px; height:'+(y2-PosY)+'px;"><a id="fancybox-close" style="display: inline;"><i class="icon-remove"></i></a></div><div class="addTag"><input id="'+data.face_id+'"  alt="'+data.x1+'-'+data.y1+'-'+(data.x2-data.x1)+'-'+(data.y2-data.y1)+'" type="text"  value="" name="query" placeholder="add Face Name" ></input><input type="button" value=" Set Tag "></input></div  ></div>');
+						$("#photo").append('<div class="draggable_face" style="position: absolute; top: '+(PosY)+'px; left: '+(PosX-115+((y2-PosY)/2))+'px;" ><div class="draggable_face_2" style="position: absolute;  left: '+(115-(y2-PosY)/2)+'px;   width: '+(y2-PosY)+'px; height:'+(y2-PosY)+'px;"><a id="fancybox-close" ><i class="icon-remove"></i></a></div><div class="addTag" style=" position: absolute;  top:'+(y2-PosY)+'px;"><input id="'+data.face_id+'"  alt="'+data.x1+'-'+data.y1+'-'+(data.x2-data.x1)+'-'+(data.y2-data.y1)+'" type="text"  value="" name="query" placeholder="add Face Name" ></input><input type="button" value=" Set Tag "></input></div  ></div>');
+						$('#tool_righte .tool.Face .tool_items tbody').append('<tr><td>Not Set Face</td></tr>');
+					 }
+			 });
+					$('#photo .draggable_face .draggable_face_2 a').click(function(e){
+						var sdfsdf=$(this).parent();
+						var sdfsdf=$(this).parent().parent().children('.addTag');
+						var sdfsdf=$(this).parent().parent().children('.addTag').children('input[name="query"]');
+						face.removeTagDiv(sdfsdf);
+						$(this).parent().remove();
+					 });
+					
+					$('#photo .draggable_face .addTag input[type="text"]').keyup(function(e){
+						if ( e.keyCode== 13){
+							face.setFaceInImage(this,$(this).val(),$(this).attr("id"),$(this).attr("alt"));
+						 }
+					 });
+					
+					$('#photo .draggable_face .addTag input[type="button"]').click(function(e){
+						var inputDiv=$(this).parent().children('input[name="query"]');
+						var tag_name=$(inputDiv).val()
+						var face_id=$(inputDiv).attr("id");
+						var pos=$(inputDiv).attr("alt");
+						face.setFaceInImage(this,tag_name,face_id,pos);		
+					 });
+		
+			}else{
+				$('#tool_righte .tool.Face .tool_items table').append('<thead>'
+						+'<tr>'
+						+'	<th>No Faces Found</th>'
+					    +'</tr>'
+					    +'</thead>'
+					    +' <tbody></tbody>');
+			}
+	
+		$('#photo .draggable_face_2').mouseenter(function(){
+				var addTagDiv=$(this).parent().children('.addTag');
+				if($(addTagDiv).is(":visible") !== true){
+					$(addTagDiv).show();
+				}
+			});
+		$('#photo .draggable_face').mouseleave(function() {
+				var addTagDiv=$(this).children('.addTag');
+				if($(addTagDiv).is(":visible") === true){
+					$(addTagDiv).hide();
+				}
+		});
+		 //remove Event
+		 var dsfdf=$('#img_img ');
+			$('#tool_righte .tool.Face .tool_items tbody tr i.icon-remove-sign').click(function(){
+				face.removeTagDiv(this);
+				var name=$(this).attr("name");
+				 var tagDiv=$('i[name^="KEYWORDS '+name+'"]');
+				 removeTagDiv(tagDiv);
+				 $("#photo div.draggable_face").remove();
+				 $("#photo div.tag_in_photo").remove();
+				 $("#tool_righte .tool.Face .tool_items table *").remove();
+				 $("#tool_righte .tool.Tag .tool_items table *").remove();
+				var image=$('#photoview img').attr("alt");
+				setTimeout(function(){
+					 face.getTag(image);
+					 tag.getTag(image);
+					
+						  }, 300);
+			});
+			
+			$('#tool_righte .tool.Face .tool_items tbody tr i.icon-edit').click(function(){
+				 var face_id=$(this).attr("id");
+				 var name=$(this).attr("name");
+				 var image=$('#photoview img').attr("alt");
+				 var tagDiv=$('i[name^="KEYWORDS '+name+'"]');
+				 removeTagDiv(tagDiv);
+				 OC.Notification.show("Updating face Data Set");
+				 $('#content').css( 'cursor', 'wait' );
+				 $.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/faceupdate.php')+"?face_id="+face_id, function(data) {
+					 var image=$('#photoview img').attr("alt");
+					 $("#photo div.draggable_face").remove();
+					 $("#photo div.tag_in_photo").remove();
+					 $("#tool_righte .tool.Face .tool_items table *").remove();
+					 $("#tool_righte .tool.Key .tool_items table *").remove();
+					 face.getTag(image);
+					 tag.getTag(image);
+					 OC.Notification.hide();
+					 $('#content').css( 'cursor', 'auto' );
+				 });	 
+			});
+			//mous hover set visible;
+			$('#tool_righte .tool.Face .tool_items tbody tr').mouseenter(function(){
+				var test=$('#tool_righte .tool.Key .tool_items.fix input[type="checkbox"]').attr('checked');
+				if(test===undefined){
+				var tag=$(this).children("td").children("i").attr("name");
+				var sdfsdf=$("div[id='"+tag+"']");
+				$("div[id='"+tag+"']").show();
+				}
+			}).mouseleave(function(){
+				var test=$('#tool_righte .tool.Key .tool_items.fix input[type="checkbox"]').attr('checked');
+				if(test===undefined){
+					var tag=$(this).children("td").children("i").attr("name");
+					$("div[id^='"+tag+"']").hide();
+				}
+			});
+		}	
 	});
 
 };
