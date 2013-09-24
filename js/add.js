@@ -22,7 +22,7 @@ $(document).ready(function(){
 			//action 
 			var text=encodeURIComponent($('#dir').val()).replace(/%2F/g, '/');
 			alert(text.length);
-			if(text.length<1)
+			if(text.length<=1)
 				text="";
 			else
 				text+="/";
