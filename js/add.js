@@ -26,7 +26,8 @@ $(document).ready(function(){
 			//else
 			//	text="";
 			alert(filename);
-			$.getJSON(OC.linkTo('facefinder', 'ajax/loadphotoview.php')+'?image='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+filename, function(data) {
+			//encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')
+			$.getJSON(OC.linkTo('facefinder', 'ajax/loadphotoview.php')+'?image='+filename, function(data) {
 				window.location = OC.linkTo('facefinder', 'index.php')+'?dir='+ encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/#photoview/'+data.data.id;
 			});
 		});
