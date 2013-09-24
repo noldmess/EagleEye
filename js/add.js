@@ -25,7 +25,7 @@ $(document).ready(function(){
 			//	text="/";
 			//else
 			//	text="";
-			$.getJSON(OC.linkTo('facefinder', 'ajax/loadphotoview.php')+'?image='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+text+filename, function(data) {
+			$.getJSON(OC.linkTo('facefinder', 'ajax/loadphotoview.php')+'?image='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')a+filename, function(data) {
 				window.location = OC.linkTo('facefinder', 'index.php')+'?dir='+ encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/#photoview/'+data.data.id;
 			});
 		});
