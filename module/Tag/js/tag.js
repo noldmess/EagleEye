@@ -12,7 +12,7 @@ function tag(){
 			//load tags from the image
 			tag.getTag(image);
 			var sdfsdfr=$('#photo img');
-			$('#photo img').click(function(e){
+			$('#photo').click(function(e){
 				tag.maketag(e);
 			});
 			
