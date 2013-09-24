@@ -200,7 +200,7 @@ public static function doBackgroundJob($array){
 	 * @return multitype:multitype:unknown
 	 */
 	public static function getCacheImages(){
-		$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder_facedetaction_module_cache` LIMIT 0,2');
+		$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder_facedetaction_module_cache` LIMIT 0,1');
 		$result = $stmt->execute();
 		$tagarray=array();
 		while (($row = $result->fetchRow())!= false) {
