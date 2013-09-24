@@ -42,6 +42,7 @@ var PhotoView={
 						$('#photo').append(this);
 						 $(this).fadeIn();
 							$('#photo').removeClass('loading');
+							Module.load(parseInt(event[1]));
 					})
 					.error(function () {
 							alert("Error")   
@@ -50,7 +51,7 @@ var PhotoView={
 					$('#photoview img').ready(function(){
 						$('#photoview img').show();
 					});
-					Module.load(parseInt(event[1]));
+					
 				}
 				//TODO problem!!!!!!!
 				//nicht in funktion!
