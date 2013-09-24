@@ -32,7 +32,11 @@ function face(){
 
 face.getTag=function(img){
 	$.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/face.php')+'?image='+img, function(data) {
-		if (data.status == 'success'){
+		if (data.status == 'success' || data.status == 'new'){
+			if(data.status == 'new'){
+				 face.getTag(image);
+				 tag.getTag(image);
+			}else{
 			if(data.data.length>0){
 				$('#tool_righte .tool.Face .tool_items table').append('<thead>'
 						+'<tr>'
@@ -156,6 +160,7 @@ face.getTag=function(img){
 				}
 			});
 		}	
+		}
 	});
 
 };
