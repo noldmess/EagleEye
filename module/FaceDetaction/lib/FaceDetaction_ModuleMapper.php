@@ -147,8 +147,8 @@ public static function doBackgroundJob($array){
 				
 				self::removeCache($id_photo);
 				OCP\Util::writeLog("facefinder","removed from cache ".$id_photo." ".$photo->getPath(),OCP\Util::DEBUG);
-			}*/
-		}
+			}
+		}*/
 	}
 	
 	
