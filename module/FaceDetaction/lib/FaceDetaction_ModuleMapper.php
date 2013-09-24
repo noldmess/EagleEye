@@ -99,7 +99,7 @@ class FaceDetaction_ModuleMapper implements OCA\FaceFinder\MapperInterface{
 	}
 	
 public static function doBackgroundJob($array){
-		$cachetImages=self::getCacheImages();
+		/*$cachetImages=self::getCacheImages();
 		//remove unnecessary BackgroundJob
 		if(sizeof($cachetImages)===0){
 			self::removeBackgroundJob();
