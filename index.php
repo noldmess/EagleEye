@@ -25,6 +25,7 @@ use OCA\FaceFinder;
 
 OCP\User::checkLoggedIn();
 OCP\App::checkAppEnabled('facefinder');
+
 OCP\App::setActiveNavigationEntry( 'facefinder' );
 OCP\Util::addStyle('facefinder', 'styles');
 OCP\Util::addScript('facefinder', 'facefinder');
@@ -47,39 +48,40 @@ foreach ($moduleclasses as $moduleclass){
 	$arrayStyle=$moduleclass['Mapper']::getArrayOfStyle();
 	//inport all Script files
 	foreach($arrayScript as $script){
-		OCP\Util::addScript('facefinder/module', $script);
+		//OCP\Util::addScript('facefinder/module/', $script);
+		OCP\Util::addScript('facefinder/module/'.$moduleclass['Name'], $script);
 	}
 	//inport all Style  files
 	if($arrayStyle!=null){
 		foreach($arrayStyle as $style){
-			OCP\Util::addStyle('facefinder/module', $style);
+			//OCP\Util::addStyle('facefinder/module/', $style);
+			OCP\Util::addStyle('facefinder/module/'.$moduleclass['Name'], $style);
 		}
 	}
 }
-
+//test if all modules initialised
 foreach ($moduleclasses as $moduleclass){
 		$class=$moduleclass['Mapper']::initialiseDB();
 }
-	$pathArray=OC_FaceFinder_Scanner::scan("");
-	OCP\Util::writeLog("facefinder",json_encode($pathArray),OCP\Util::DEBUG);
-	foreach ($pathArray as $path){
-		OCP\Util::writeLog("facefinder",$path,OCP\Util::DEBUG);
-		if(!OCA\FaceFinder\FaceFinderPhoto::issetPhotoId($path)){
-			$photoOpject=OCA\FaceFinder\PhotoClass::getInstanceByPaht($path);
-			OCA\FaceFinder\FaceFinderPhoto::insert($photoOpject);
-			$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClassPath($path);
-			foreach ($moduleclasses as $moduleclass){
-				if(!is_null($photo)){
-					$class=$moduleclass['Class']::getInstanceByPath($path,$photo->getID());
-					$moduleclass['Mapper']::insert($class);
-				}
+$pathArray=OC_FaceFinder_Scanner::scan("");
+OCP\Util::writeLog("facefinder",json_encode($pathArray),OCP\Util::DEBUG);
+foreach ($pathArray as $path){
+	OCP\Util::writeLog("facefinder",$path,OCP\Util::DEBUG);
+	if(!OCA\FaceFinder\FaceFinderPhoto::issetPhotoId($path)){
+		$photoOpject=OCA\FaceFinder\PhotoClass::getInstanceByPaht($path);
+		OCA\FaceFinder\FaceFinderPhoto::insert($photoOpject);
+		$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClassPath($path);
+		foreach ($moduleclasses as $moduleclass){
+			if(!is_null($photo)){
+				$class=$moduleclass['Class']::getInstanceByPath($path,$photo->getID());
+				$moduleclass['Mapper']::insert($class);
 			}
-	
 		}
+
 	}
+}
 
 if(isset($_GET['search'])){
-	
 	OCP\Util::addStyle('facefinder', 'search');
 	//OCP\Util::addScript('facefinder', 'search');
 	$tmpl = new OCP\Template( 'facefinder', 'search', 'user' );
@@ -89,11 +91,15 @@ if(isset($_GET['search'])){
 	$tmpl = new OC_Template( 'facefinder', 'index', 'user' );
 	//uset to get a start diferent folders
 	$path=array();
-	$dir=str_replace(OCP\User::getUser(), '', $_GET['dir']);
-	$tok= strtok($dir,"/");
-	while ($tok !== false) {
-		$path[]=$tok;
-		$tok = strtok("/");
+	if(isset($_GET['dir'])){
+		$dir=str_replace(OCP\User::getUser(), '', $_GET['dir']);
+		$tok= strtok($dir,"/");
+		while ($tok !== false) {
+			$path[]=$tok;
+			$tok = strtok("/");
+		}
+	}else{
+		$path="";
 	}
 	$tmpl->assign('patharray', $path);
 	
