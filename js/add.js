@@ -21,6 +21,7 @@ $(document).ready(function(){
 		}, function (filename) {
 			//action 
 			var text=encodeURIComponent($('#dir').val()).replace(/%2F/g, '/');
+			alert(text.length);
 			if(text.length<1)
 				text="";
 			else
