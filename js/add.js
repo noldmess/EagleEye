@@ -20,14 +20,12 @@ $(document).ready(function(){
 			return OC.imagePath('facefinder', 'lcg.png');
 		}, function (filename) {
 			//action 
-			var text=$('#dir').val();
-			//if(text.length>1)
-			//	text="/";
-			//else
-			//	text="";
+			var text=encodeURIComponent($('#dir').val()).replace(/%2F/g, '/');
+			if(text.length<1)
+				text="";
 			alert(filename);
-			//encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')
-			$.getJSON(OC.linkTo('facefinder', 'ajax/loadphotoview.php')+'?image='+filename, function(data) {
+			//
+			$.getJSON(OC.linkTo('facefinder', 'ajax/loadphotoview.php')+'?image='+text+filename, function(data) {
 				window.location = OC.linkTo('facefinder', 'index.php')+'?dir='+ encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/#photoview/'+data.data.id;
 			});
 		});
