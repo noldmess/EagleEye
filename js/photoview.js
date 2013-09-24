@@ -30,7 +30,6 @@ var PhotoView={
 	 		$('#photo').addClass('loading');
 	 		$('#photo img').remove();
 	 		helpold2=helpold;
-	 		Module.load(parseInt(event[1]));
 	 		$.getJSON(OC.linkTo('facefinder', 'ajax/photoview.php')+'?id='+parseInt(event[1]), function(data) {
 				if (data.status == 'success'){
 					var img = new Image();
@@ -51,6 +50,7 @@ var PhotoView={
 					$('#photoview img').ready(function(){
 						$('#photoview img').show();
 					});
+					Module.load(parseInt(event[1]));
 				}
 				//TODO problem!!!!!!!
 				//nicht in funktion!
