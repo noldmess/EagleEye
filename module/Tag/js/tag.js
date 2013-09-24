@@ -11,7 +11,7 @@ function tag(){
 			$("#tool_taggs textarea").val("");
 			//load tags from the image
 			tag.getTag(image);
-			
+			var sdfsdfr=$('#photo img');
 			$('#photo img').click(function(e){
 				tag.maketag(e);
 			});
