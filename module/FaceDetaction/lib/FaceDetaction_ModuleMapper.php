@@ -174,7 +174,7 @@ public static function doBackgroundJob($array){
 						OCP\Util::writeLog("facefinder",json_encode($tag),OCP\Util::DEBUG);
 						$class=Tag_ModuleMapper::getClass($photo->getID());
 						$class->addTag("2#025",$tag['tag'],$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
-						Tag_Module::update($class);
+						Tag_ModuleMapper::update($class);
 						OCP\Util::writeLog("facefinder","found",OCP\Util::DEBUG);
 						self::insertFacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
 					}else{
