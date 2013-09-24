@@ -30,6 +30,6 @@ $stmta = \OCP\DB::prepare($sql);
 $result = $stmta->execute($sqlvar);
 $images=array();
 while (($row = $result->fetchRow())!= false) {
-	$images[]=array("imagsid"=>$row['photo_id'],"imagsname"=>$row['path']);
+	$images[]=array("id"=>$row['photo_id'],"path"=>$row['path']);
 }
 echo OCP\JSON::success(array('data'=>$images));

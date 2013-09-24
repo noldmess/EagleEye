@@ -8,8 +8,8 @@ if($id>0){
 		$writemodul=OCA\FaceFinder\ModuleManeger::getInstance();
 	$moduleclasses=$writemodul->getModuleClass();
 	$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($id);
-	$class=Tag_Module::getClass($photo->getID());
-	$tag_module =new Tag_Module($id);
+	$class=Tag_ModuleMapper::getClass($photo->getID());
+	$tag_module =new Tag_ModuleMapper($id);
 	$name = strtok($_GET['tag'], " ");
 	$tag = strtok(" ");
 	$tagid=$tag_module->getTagId($name,$tag);

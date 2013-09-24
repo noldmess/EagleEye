@@ -10,10 +10,10 @@ if(is_array($_POST['imagelist'])){
 	$countWrong=0;
 	foreach ($_POST['imagelist'] as $img){
 	$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($img);
-	$class=Tag_Module::getClass($photo->getID());
+	$class=Tag_ModuleMapper::getClass($photo->getID());
 	
 		if($class->addTag("2#025",$_POST['tag'])){
-			Tag_Module::update($class);
+			Tag_ModuleMapper::update($class);
 			$class->writeTag($photo->getPath());
 			$countCorrect++;
 		}else{
