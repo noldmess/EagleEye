@@ -37,6 +37,7 @@ OC::$CLASSPATH['OCA\FaceFinder\PhotoClass'] = 'facefinder/lib/photoclass.php';
 OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'facefinder/lib/hooks_handlers.php';
 OC::$CLASSPATH['OCA\FaceFinder\FaceFinderPhoto'] = 'facefinder/lib/photo.php';
 OC::$CLASSPATH['OCA\FaceFinder\HooksHandlers'] = 'facefinder/lib/hooks_handlers.php';
+OC::$CLASSPATH['OCA\FaceFinder\BackgroundJob'] = 'facefinder/lib/backgroundJob.php';
 OC::$CLASSPATH['OC_Search_Provider_FaceFinder'] = 'facefinder/lib/search.php';
 OC::$CLASSPATH['OC_FaceFinder_Scanner'] = 'facefinder/lib/scanner.php';
 OC::$CLASSPATH['OCA\FaceFinder\EquivalentResult'] = 'facefinder/lib/equivalent.php';
