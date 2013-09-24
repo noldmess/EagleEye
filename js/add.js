@@ -21,10 +21,10 @@ $(document).ready(function(){
 		}, function (filename) {
 			//action 
 			var text=$('#dir').val();
-			if(text.length>1)
-				text="/";
-			else
-				text="";
+			//if(text.length>1)
+			//	text="/";
+			//else
+			//	text="";
 			$.getJSON(OC.linkTo('facefinder', 'ajax/loadphotoview.php')+'?image='+encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+text+filename, function(data) {
 				window.location = OC.linkTo('facefinder', 'index.php')+'?dir='+ encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/#photoview/'+data.data.id;
 			});
