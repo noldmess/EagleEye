@@ -23,6 +23,8 @@ $(document).ready(function(){
 			var text=encodeURIComponent($('#dir').val()).replace(/%2F/g, '/');
 			if(text.length<1)
 				text="";
+			else
+				text.="/";
 			alert(text);
 			//
 			$.getJSON(OC.linkTo('facefinder', 'ajax/loadphotoview.php')+'?image='+text+filename, function(data) {
