@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8)
+project( facerupdate)
+find_package(OpenCV REQUIRED)
+add_executable(facerupdate facerupdate.cpp)
+target_link_libraries(facerupdate ${OpenCV_LIBS})
