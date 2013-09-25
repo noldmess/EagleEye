@@ -131,7 +131,7 @@ int main(int argc, const char *argv[]) {
 	double confidence = 0.0;
 	model->predict(testSample, predictedLabel, confidence);
 	string result_message = format("Predicted class = %d / Actual class = %d.", predictedLabel);
-	cout <<predictedLabel<<" " <<confidence<< endl;
+	cout  <<confidence<<" "<<predictedLabel<< endl;
 
     return 0;
 }
