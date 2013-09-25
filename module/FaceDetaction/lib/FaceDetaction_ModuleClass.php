@@ -61,7 +61,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	public  function getFaces(){
 		//$-cmd='/var/www/html/facefinder/module/facedetect --cascade="/var/www/html/facefinder/module/haarcascade_frontalface_alt.xml" -nested-cascade=="/var/www/html/facefinder/module/haarcascade_frontalface_alt2.xml" '.$this->path;
 		$cmd=FaceDetaction_ModuleClass::$facedetect.' --cascade="'.FaceDetaction_ModuleClass::$haarcascade.'"  '.$this->path;
-		OCP\Util::writeLog("facefinder",$cmd,OCP\Util::ERROR);
+		OCP\Util::writeLog("test3",$cmd,OCP\Util::DEBUG);
 		$fp = popen($cmd,'r');
 		$faces=array();
 		if($fp!==false){
@@ -136,6 +136,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 		$facefinderDir =self::getFaceFinderDir();
 		//$learn_list = "/var/www/html/facefinder/module/test.sdfd";//tedfsf.ext";//$facefinderDir."/learn_list.ext";
 			$cmd=FaceDetaction_ModuleClass::$facerec.' '.FaceDetaction_ModuleClass::$learn_list ." ".$facefinderDir.$imgToSava."-".$num.".png";
+			OCP\Util::writeLog("test2",$cmd,OCP\Util::DEBUG);
 			$fp = popen($cmd,'r');
 			$ret="fehler";
 			if($fp!==false){
@@ -171,6 +172,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 			$facefinderDir =self::getFaceFinderDir();
 			//$learn_list = "/var/www/html/facefinder/module/startSet";//tedfsf.ext";//$facefinderDir."/learn_list.ext";
 			$cmd=FaceDetaction_ModuleClass::$facesave.' '.FaceDetaction_ModuleClass::$startSet.' '.FaceDetaction_ModuleClass::$learn_list;
+			OCP\Util::writeLog("test1",$cmd,OCP\Util::DEBUG);
 			$fp = popen($cmd,'r');
 			if($fp!==false){
 				while(!feof($fp))
@@ -192,6 +194,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 		public static function updateLearnFaceRec(){
 			$facefinderDir =self::getFaceFinderDir();
 			$cmd=FaceDetaction_ModuleClass::$faceupdate.' '.FaceDetaction_ModuleClass::$add_learn_list.' '.FaceDetaction_ModuleClass::$learn_list.' '.FaceDetaction_ModuleClass::$learn_list;
+			OCP\Util::writeLog("test4",$cmd,OCP\Util::DEBUG);
 			$fp = popen($cmd,'r');
 			if($fp!==false){
 				while(!feof($fp))
