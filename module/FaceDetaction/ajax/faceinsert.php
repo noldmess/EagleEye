@@ -20,7 +20,7 @@ if($id>0){
 			$faceclass=FaceDetaction_ModuleMapper::getNewFaceClass();
 		}
 	}
-	
+	OCP\Util::writeLog("facefinder FaceClass ajax",$faceclass,OCP\Util::DEBUG);
 	$sepp->addFaceToTrainingsset($_GET['face_id'],$faceclass,$id_tag);
 	FaceDetaction_ModuleMapper::update($sepp);
 	$sepp=FaceDetaction_ModuleMapper::getClass($id);
