@@ -209,8 +209,8 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 			}else{
 				OCP\Util::writeLog("facefinder","Error to start Lerning",OCP\Util::ERROR);
 			}
-			$fh = fopen(FaceDetaction_ModuleClass::$add_learn_list, 'w+');
-			fclose($fh);
+			//$fh = fopen(FaceDetaction_ModuleClass::$add_learn_list, 'w+');
+			//fclose($fh);
 		}
 		
 		
