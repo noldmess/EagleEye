@@ -2,15 +2,18 @@
 
 class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	private $path;
-	
-	private static $haarcascade="/var/www/html/facefinder/module/haarcascade_frontalface_alt.xml";
-	private static $faceupdate="/var/www/html/facefinder/module/faceupdate";
-	private static  $add_learn_list = "/var/www/html/facefinder/module/tedfsddf.ext";
-	private  static $learn_list = "/var/www/html/facefinder/module/test.sdfd";
-	private  static $startSet="/var/www/html/facefinder/module/startSet";
+	//Programs
 	private static $facedetect="/var/www/html/facefinder/module/facedetect";
 	private  static $facerec ="/var/www/html/facefinder/module/facerec";
 	private static  $facesave="/var/www/html/facefinder/module/facesave";
+	private static $faceupdate="/var/www/html/facefinder/module/faceupdate";
+	
+	//Config data
+	private static $haarcascade="/var/www/html/facefinder/module/haarcascade_frontalface_alt.xml";
+	private static  $add_learn_list = "/var/www/html/facefinder/module/tedfsddf.ext";
+	private  static $learn_list = "/var/www/html/facefinder/module/test.sdfd";
+	private  static $startSet="/var/www/html/facefinder/module/startSet";
+
 	private $faces;
 	private $id;
 	private $foringkey;
