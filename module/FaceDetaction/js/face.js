@@ -193,6 +193,9 @@ face.removeTag=function(tagDiv){
 	 $(tagDiv).parent().remove();
 	 var image=$('#photoview img').attr("alt");
 	 $.getJSON(OC.linkTo('facefinder', 'module/Tag/ajax/removetag.php')+"?image="+image+"&tag="+tag, function(data) {});
+	 $("#tool_righte .tool.Face .tool_items table *").remove();
+	 $("#tool_righte .tool.Key .tool_items table *").remove();
+	 $("#tool_righte .tool.Tag .tool_items table *").remove();
 	 face.getTag(image);
 };
 
@@ -200,6 +203,9 @@ face.removeTagDiv=function(tagDiv){
 	/*var asdfasd=$(tagDiv).attr("id");*/
 	 $.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/faceremove.php')+"?image="+$(tagDiv).attr("id"), function(data) {});
 	 var image=$('#photoview img').attr("alt");
+	 $("#tool_righte .tool.Face .tool_items table *").remove();
+	 $("#tool_righte .tool.Key .tool_items table *").remove();
+	 $("#tool_righte .tool.Tag .tool_items table *").remove();
 	 face.getTag(image);
 	 $(tagDiv).parent().remove();
 };
