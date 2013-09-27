@@ -199,6 +199,7 @@ face.removeTag=function(tagDiv){
 		 $("#tool_righte .tool.Key .tool_items table *").remove();
 		 $("#tool_righte .tool.Tag .tool_items table *").remove();
 		 face.getTag(image);
+		 tag.getTag(image);
 	 });
 
 };
@@ -213,7 +214,7 @@ face.removeTagDiv=function(tagDiv){
 		 $("#tool_righte .tool.Key .tool_items table *").remove();
 		 $("#tool_righte .tool.Tag .tool_items table *").remove();
 		 face.getTag(image);
-		 $(tagDiv).parent().remove();
+		 tag.getTag(image);
 	 });
 
 };
