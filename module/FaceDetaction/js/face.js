@@ -192,11 +192,13 @@ face.removeTag=function(tagDiv){
 	var tag=$(tagDiv).attr("name");
 	 $(tagDiv).parent().remove();
 	 $.getJSON(OC.linkTo('facefinder', 'module/Tag/ajax/removetag.php')+"?image="+image+"&tag="+tag, function(data) {});
+	 face.getTag(image);
 };
 
 face.removeTagDiv=function(tagDiv){
 	/*var asdfasd=$(tagDiv).attr("id");*/
 	 $.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/faceremove.php')+"?image="+$(tagDiv).attr("id"), function(data) {});
+	 face.getTag(image);
 	 $(tagDiv).parent().remove();
 };
 
