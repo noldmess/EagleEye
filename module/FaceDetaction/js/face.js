@@ -192,26 +192,30 @@ face.removeTag=function(tagDiv){
 	var tag=$(tagDiv).attr("name");
 	 $(tagDiv).parent().remove();
 	 var image=$('#photoview img').attr("alt");
-	 $.getJSON(OC.linkTo('facefinder', 'module/Tag/ajax/removetag.php')+"?image="+image+"&tag="+tag, function(data) {});
-	 $("#photo div.draggable_face").remove();
-	 $("#photo div.tag_in_photo").remove();
-	 $("#tool_righte .tool.Face .tool_items table *").remove();
-	 $("#tool_righte .tool.Key .tool_items table *").remove();
-	 $("#tool_righte .tool.Tag .tool_items table *").remove();
-	 face.getTag(image);
+	 $.getJSON(OC.linkTo('facefinder', 'module/Tag/ajax/removetag.php')+"?image="+image+"&tag="+tag, function(data) {
+		 $("#photo div.draggable_face").remove();
+		 $("#photo div.tag_in_photo").remove();
+		 $("#tool_righte .tool.Face .tool_items table *").remove();
+		 $("#tool_righte .tool.Key .tool_items table *").remove();
+		 $("#tool_righte .tool.Tag .tool_items table *").remove();
+		 face.getTag(image);
+	 });
+
 };
 
 face.removeTagDiv=function(tagDiv){
 	/*var asdfasd=$(tagDiv).attr("id");*/
-	 $.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/faceremove.php')+"?image="+$(tagDiv).attr("id"), function(data) {});
-	 var image=$('#photoview img').attr("alt");
-	 $("#photo div.draggable_face").remove();
-	 $("#photo div.tag_in_photo").remove();
-	 $("#tool_righte .tool.Face .tool_items table *").remove();
-	 $("#tool_righte .tool.Key .tool_items table *").remove();
-	 $("#tool_righte .tool.Tag .tool_items table *").remove();
-	 face.getTag(image);
-	 $(tagDiv).parent().remove();
+	 $.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/faceremove.php')+"?image="+$(tagDiv).attr("id"), function(data) {
+		 var image=$('#photoview img').attr("alt");
+		 $("#photo div.draggable_face").remove();
+		 $("#photo div.tag_in_photo").remove();
+		 $("#tool_righte .tool.Face .tool_items table *").remove();
+		 $("#tool_righte .tool.Key .tool_items table *").remove();
+		 $("#tool_righte .tool.Tag .tool_items table *").remove();
+		 face.getTag(image);
+		 $(tagDiv).parent().remove();
+	 });
+
 };
 
 
