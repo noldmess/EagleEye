@@ -64,11 +64,11 @@ div.loading{
 
 div.tool_title{
 	height:16px;
-	background: url("/owncloud/core/css/../img/noise.png") repeat scroll 0 0 #1D2D44;
+	background: url("../img/noise.png?2013-03-11T17:46:40Z") repeat scroll 0 0 #1D2D44;
 }
 
 div.tool_title:HOVER{
-	background: url("/owncloud/core/css/../img/noise.png") repeat scroll 0 0 #2f496e;
+	background: url("../img/noise.png") repeat scroll 0 0 #2f496e;
 }
 
 
