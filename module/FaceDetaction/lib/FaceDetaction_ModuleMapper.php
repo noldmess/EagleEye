@@ -183,10 +183,12 @@ public static function doBackgroundJob($array){
 						self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['x2'],$section['y1'],$section['y2']);
 					}
 		
-				}/*else{
-					OCP\Util::writeLog("facefinder","not found",OCP\Util::DEBUG);
-					self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['x2'],$section['y1'],$section['y2']);
-				}*/
+				}else{
+					if($face['threshold']<80){
+						OCP\Util::writeLog("facefinder","not found",OCP\Util::DEBUG);
+						self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['x2'],$section['y1'],$section['y2']);
+					}
+				}
 				$facecount++;
 			}
 		
