@@ -31,6 +31,7 @@ function face(){
 };
 
 face.getTag=function(img){
+	$('#tool_righte .tool.Face').css("background-color", "red");
 	$.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/face.php')+'?image='+img, function(data) {
 		if (data.status == 'success' || data.status == 'new'){
 			if(data.data.type == 'new'){
@@ -163,6 +164,7 @@ face.getTag=function(img){
 			});
 		}	
 		}
+		$('#tool_righte .tool.Face').css("background-color", "");
 	});
 
 };
