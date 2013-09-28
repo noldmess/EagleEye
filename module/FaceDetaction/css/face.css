@@ -82,7 +82,7 @@ margin-right: auto;
 }
 
 #tool_righte  div.tool_items.loading{
-		background:url("../img/loader.gif") no-repeat center center;
+		background:url("../../../img/loader.gif") no-repeat center center;
 		height:200px;
 }
 
