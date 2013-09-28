@@ -34,8 +34,10 @@ face.getTag=function(img){
 	$.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/face.php')+'?image='+img, function(data) {
 		if (data.status == 'success' || data.status == 'new'){
 			if(data.data.type == 'new'){
-				 face.getTag(image);
 				 tag.getTag(image);
+				 setTimeout(function(){
+					 face.getTag(image);
+						  }, 
 			}else{
 			if(data.data.length>0){
 				$('#tool_righte .tool.Face .tool_items table').append('<thead>'
