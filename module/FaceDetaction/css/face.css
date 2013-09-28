@@ -81,7 +81,7 @@ margin-right: auto;
 	background-position:right bottom;*/
 }
 
-#tool_righte  div.tool_items .loading{
+#tool_righte  div.tool_items div.loading{
 		background:url("../img/loader.gif") no-repeat center center;
 		height:200px;
 }
