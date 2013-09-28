@@ -31,7 +31,7 @@ function face(){
 };
 
 face.getTag=function(img){
-	$('#tool_righte .tool.Face').addClass('loading');
+	$('#tool_righte .tool.Face .tool_items').addClass('loading');
 	$.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/face.php')+'?image='+img, function(data) {
 		if (data.status == 'success' || data.status == 'new'){
 			if(data.data.type == 'new'){
@@ -164,7 +164,7 @@ face.getTag=function(img){
 			});
 		}	
 		}
-		$('#tool_righte .tool.Face').removeClass('loading');
+		$('#tool_righte .tool.Face .tool_items').removeClass('loading');
 	});
 
 };
