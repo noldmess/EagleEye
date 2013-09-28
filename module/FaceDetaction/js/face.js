@@ -37,7 +37,7 @@ face.getTag=function(img){
 				 tag.getTag(image);
 				 setTimeout(function(){
 					 face.getTag(image);
-						  }, 
+						  }, 300);
 			}else{
 			if(data.data.length>0){
 				$('#tool_righte .tool.Face .tool_items table').append('<thead>'
