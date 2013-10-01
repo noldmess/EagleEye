@@ -6,15 +6,14 @@
 
 function tag(){	
 		this.load=function(image){
-			//remove old tags from view
-			$("#photo div").remove();
-			$("#tool_taggs textarea").val("");
-			//load tags from the image
-			tag.getTag(image);
-			$('#photo img').click(function(e){
-				tag.maketag(e);
-			});
-			
+				//remove old tags from view
+				$("#photo div").remove();
+				$("#tool_taggs textarea").val("");
+				//load tags from the image
+				tag.getTag(image);
+				$('#photo img').click(function(e){
+					tag.maketag(e);
+				});
 			
 			$('#img_img').hover(function(){
 		      // Hover over code
