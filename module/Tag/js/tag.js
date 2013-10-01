@@ -209,10 +209,12 @@ tag.maketag=function(e){
 			 tag.setTagInImage(this,$(this).val());
 		 }
 		});
-	 var sdfsdf= $("#fancybox-close");
-	 $("#fancybox-close").click(function(){
-			$(this).parent().parent().remove();
-		 });
+	 setTimeout(function(){
+			$("#fancybox-close").click(function(){
+				$(this).parent().parent().remove();
+			 });
+	 }, 300);
+	
 	
 	 $('#photo .draggable').draggable({
 		    cursor: 'move',
