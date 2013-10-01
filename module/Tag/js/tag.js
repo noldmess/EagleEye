@@ -197,7 +197,7 @@ tag.maketag=function(e){
 	 PosX+=document.getElementById("img_img").offsetLeft;
 	 PosY+=document.getElementById("img_img").offsetTop;//
 	 
-	 $("#photo").append('<div class="draggable" style="position: absolute; top: '+(PosY-50)+'px; left: '+(PosX-50)+'px;"><div class="draggable2"><a id="fancybox-close" style="display: inline;"><i class="icon-remove"></i></a></div><div class="addTag"><input   type="text"  value="" name="query" placeholder="add Tag" ></input><input type="button" value=" Set Tag "></input></div></div>');
+	 $("#photo").append('<div class="draggable" style="position: absolute; top: '+(PosY-50)+'px; left: '+(PosX-50)+'px;"><div class="draggable2"><a  class="fancybox-close" id="fancybox-close" style="display: inline;"><i class="icon-remove"></i></a></div><div class="addTag"><input   type="text"  value="" name="query" placeholder="add Tag" ></input><input type="button" value=" Set Tag "></input></div></div>');
 //	 $("#photo").append('<div class="draggable" style="position: absolute; top: '+(PosY-50)+'px; left: '+(PosX-50)+'px;"><input   type="text"  value="" name="query" placeholder="add Tag" ></input></div>');
 	 
 	 $('#photo .addTag  input[type="button"]').click(function(e){
@@ -209,7 +209,7 @@ tag.maketag=function(e){
 			 tag.setTagInImage(this,$(this).val());
 		 }
 		});
-	 var sdfsdf= $("#fancybox-close");
+	 var sdfsdf= $("div.draggable2 a.fancybox-close");
 	 sdfsdf.click(function(){
 			$(this).parent().parent().remove();
 		 });
