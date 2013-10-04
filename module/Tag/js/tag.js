@@ -37,7 +37,7 @@ function tag(){
 			});
 			
 		};
-		this.hideView=function (event){
+		this.=function (event){
 			$("#tool_righte .tool.Tag .tool_items table *").remove();
 			$("#tool_righte .tool.Key .tool_items table *").remove();
 		};
