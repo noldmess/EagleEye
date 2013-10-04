@@ -35,9 +35,9 @@ face.getTag=function(img){
 	$.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/face.php')+'?image='+img, function(data) {
 		if (data.status == 'success'){
 			if(data.type == 'new'){
-				 tag.getTag(image);
+				 tag.getTag(img);
 				 setTimeout(function(){
-					 face.getTag(image);
+					 face.getTag(img);
 						  }, 300);
 			}else{
 			if(data.data.length>0){
