@@ -33,7 +33,7 @@ function face(){
 face.getTag=function(img){
 	$('#tool_righte .tool.Face .tool_items').addClass('loading');
 	$.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/face.php')+'?image='+img, function(data) {
-		if (data.status == 'success' || data.status == 'new'){
+		if (data.status == 'success' && data.type == 'new'){
 			if(data.data.type == 'new'){
 				 tag.getTag(image);
 				 setTimeout(function(){
@@ -61,7 +61,7 @@ face.getTag=function(img){
 					 }else{
 						// $("#photo").append('<div class="face outer "style="position: absolute; top: '+(y1+(y2-y1))+'px; left: '+x1+'px;" id="'+index_tag+'"><div class="face inner" style=" width: '+(y2-y1)+'px; height:'+(y2-y1)+'px;  position: absolute; top: '+y1+'px; left: '+x1+'px;""></div><div class="fram"><i class="icon-remove-sign" alt="'+data.face_id+'" src="'+OC.linkTo('facefinder', 'img/delete.png')+'" name="'+data.name+' '+data.tag+'"></i><input   type="text"  value=""></input></div></div>');
 						//$("#photo").append('<div class="draggable_face" style="position: absolute; top: '+(PosY)+'px; left: '+(PosX-115+((y2-PosY)/2))+'px;  width:230px;"><div class="draggable_face_2" style=" width: '+(y2-PosY)+'px; height:'+(y2-PosY)+'px;"><a id="fancybox-close" style="display: inline;"><i class="icon-remove"></i></a></div><div class="addTag"><input id="'+data.face_id+'"  alt="'+data.x1+'-'+data.y1+'-'+(data.x2-data.x1)+'-'+(data.y2-data.y1)+'" type="text"  value="" name="query" placeholder="add Face Name" ></input><input type="button" value=" Set Tag "></input></div  ></div>');
-						$("#photo").append('<div class="draggable_face" style="position: absolute; top: '+(PosY)+'px; left: '+(PosX-115+((y2-PosY)/2))+'px;" ><div class="draggable_face_2" style="position: absolute;  left: '+(115-(y2-PosY)/2)+'px;   width: '+Math.abs(y2-PosY)+'px; height:'+Math.abs(y2-PosY)+'px;"><a id="fancybox-close" ><i class="icon-remove"></i></a></div><div class="addTag" style=" position: absolute;  top:'+Math.abs(y2-PosY)+'px;"><input id="'+data.face_id+'"  alt="'+data.x1+'-'+data.y1+'-'+Math.abs(data.x2-data.x1)+'-'+Math.abs(data.x2-data.x1)+'" type="text"  value="" name="query" placeholder="add Face Name" ></input><input type="button" value=" Set Face "></input></div  ></div>');
+						$("#photo").append('<div class="draggable_face" style="position: absolute; top: '+(PosY)+'px; left: '+(PosX-115+((y2-PosY)/2))+'px;" ><div class="draggable_face_2" style="position: absolute;  left: '+(115-(y2-PosY)/2)+'px;   width: '+Math.abs(y2-PosY)+'px; height:'+Math.abs(y2-PosY)+'px;"><a id="fancybox-close" ><i class="icon-remove"></i></a></div><div class="addTag" style=" position: absolute;  top:'+Math.abs(y2-PosY)+'px;"><input id="'+data.face_id+'"  alt="'+data.x1+'-'+data.y1+'-'+Math.abs(data.x2-data.x1)+'-'+Math.abs(data.y2-data.y1)+'" type="text"  value="" name="query" placeholder="add Face Name" ></input><input type="button" value=" Set Face "></input></div  ></div>');
 						$('#tool_righte .tool.Face .tool_items tbody').append('<tr><td>Not Set Face</td></tr>');
 					 }
 			 });
