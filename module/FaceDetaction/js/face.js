@@ -33,8 +33,8 @@ function face(){
 face.getTag=function(img){
 	$('#tool_righte .tool.Face .tool_items').addClass('loading');
 	$.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/face.php')+'?image='+img, function(data) {
-		if (data.status == 'success' && data.type == 'new'){
-			if(data.data.type == 'new'){
+		if (data.status == 'success'){
+			if(data.type == 'new'){
 				 tag.getTag(image);
 				 setTimeout(function(){
 					 face.getTag(image);
