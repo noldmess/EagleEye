@@ -36,6 +36,7 @@ face.getTag=function(img){
 		if (data.status == 'success'){
 			if(data.type == 'new'){
 				 tag.getTag(img);
+				 tag.hideView();
 				 setTimeout(function(){
 					 face.getTag(img);
 						  }, 300);
