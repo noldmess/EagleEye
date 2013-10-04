@@ -36,7 +36,8 @@ face.getTag=function(img){
 		if (data.status == 'success'){
 			if(data.type == 'new'){
 				 tag.getTag(img);
-				 tag.hideView();
+				 $("#tool_righte .tool.Tag .tool_items table *").remove();
+				$("#tool_righte .tool.Key .tool_items table *").remove();
 				 setTimeout(function(){
 					 face.getTag(img);
 						  }, 300);
