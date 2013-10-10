@@ -167,7 +167,7 @@ public static function doBackgroundJob($array){
 				$face=$newClass->classFaceRec($facecount);
 				//if the face class is biger then 41 then the image in new
 				OCP\Util::writeLog("facefinderddddddddddd",$face['threshold']." x1:".$section['x1']." x2:".$section['x2']." y1:".$section['y1']." y2:".$section['y2'],OCP\Util::DEBUG);
-				if($face['class']>41 && $face['threshold']<80){
+				if($face['class']>41 && $face['threshold']<90){
 					OCP\Util::writeLog("facefinder FaceClass",$face['class'],OCP\Util::DEBUG);
 					$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($id_photo);
 					$tag=self::getTagByFaceClass($face['class']);
