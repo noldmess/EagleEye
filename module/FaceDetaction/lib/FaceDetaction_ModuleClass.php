@@ -151,7 +151,6 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 			    		//OCP\Util::writeLog("faceRec_prosedds",strlen($buffer),OCP\Util::ERROR);
 			    		if(strlen($buffer)>0){
 			    		OCP\Util::writeLog("faceRec_prosedds",$buffer,OCP\Util::ERROR);
-			        	OCP\Util::writeLog("faceRec_prosedds",$face[0]."-".$face[1]."-".$face[2]."  ".$imgToSava."-".$num.'.png',OCP\Util::ERROR);
 			        	$number=$face[0];
 			        	OCP\Util::writeLog("asdasdasdas",$number,OCP\Util::DEBUG);
 				        	if(preg_match('/(\d+)\.(\d+)e\+(\d+)/i', $face[0] )) {
