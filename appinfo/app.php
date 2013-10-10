@@ -5,7 +5,7 @@
 *
 * @author Aaron Messner
 * @copyright 2012 Aaron Messner aaron.messner@stuudent.uibk.ac.at
-*a
+*
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
 * License as published by the Free Software Foundation; either
@@ -28,16 +28,18 @@
 //OC::$CLASSPATH['OC_Share_Backend_Photo'] = 'gallery/lib/share.php';
 //test 
 //OCP\Util::addscript( 'facefinder', 'test' );
+//Module Includs
 OC::$CLASSPATH['OCA\FaceFinder\ModuleManeger'] = 'facefinder/lib/modulemaneger.php';
 OC::$CLASSPATH['OCA\FaceFinder\ClassInterface'] = 'facefinder/lib/moduleClassInterface.php';
 OC::$CLASSPATH['OCA\FaceFinder\MapperInterface'] = 'facefinder/lib/moduleinterface.php';
 
 OC::$CLASSPATH['OCA\FaceFinder\PhotoClass'] = 'facefinder/lib/photoclass.php';
-
-OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'facefinder/lib/hooks_handlers.php';
 OC::$CLASSPATH['OCA\FaceFinder\FaceFinderPhoto'] = 'facefinder/lib/photo.php';
+//OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'facefinder/lib/hooks_handlers.php';
+
 OC::$CLASSPATH['OCA\FaceFinder\HooksHandlers'] = 'facefinder/lib/hooks_handlers.php';
 OC::$CLASSPATH['OCA\FaceFinder\BackgroundJob'] = 'facefinder/lib/backgroundJob.php';
+
 OC::$CLASSPATH['OC_Search_Provider_FaceFinder'] = 'facefinder/lib/search.php';
 OC::$CLASSPATH['OC_FaceFinder_Scanner'] = 'facefinder/lib/scanner.php';
 OC::$CLASSPATH['OCA\FaceFinder\EquivalentResult'] = 'facefinder/lib/equivalent.php';
@@ -46,7 +48,7 @@ OC::$CLASSPATH['OCA\FaceFinder\OC_Equal'] = 'facefinder/lib/equivalent.php';
 OCP\Util::addscript( 'facefinder', 'add' );
 OCP\App::addNavigationEntry( array(
  'id' => 'facefinder',
- 'order' => 20,
+ 'order' => 1,
  'href' =>  \OCP\Util::linkToRoute('facefinder', 'index.php'),
  'icon' => OCP\Util::imagePath('facefinder', 'lcg.png'),
  'name' => "FaceFinder"
