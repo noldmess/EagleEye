@@ -33,7 +33,7 @@ function face(){
 					 setTimeout(function(){
 						 face.getTag(img);
 							  }, 300);
-				};
+				
 			});
 		}
 };
