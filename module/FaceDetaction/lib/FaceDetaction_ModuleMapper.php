@@ -179,16 +179,22 @@ public static function doBackgroundJob($array){
 						$class->addTag("2#025",$tag['tag'],$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
 						Tag_ModuleMapper::update($class);
 						OCP\Util::writeLog("facefinder","found",OCP\Util::DEBUG);
-						self::insertFacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
+						if(self::issetFacePhotoIsNull($newClass,$imgToSava."-".$facecount.".png",$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']))){
+							self::insertFacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
+						}else{
+							self::insertFacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
+						}
 					}else{
 						OCP\Util::writeLog("facefinder","not found",OCP\Util::DEBUG);
-						self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['x2'],$section['y1'],$section['y2']);
+						if(self::issetFacePhoto($newClass,$imgToSava."-".$facecount.".png",$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1'])))
+							self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['x2'],$section['y1'],$section['y2']);
 					}
 		
 				}else{
 					if($face['threshold']<140){
 						OCP\Util::writeLog("facefinder","not found",OCP\Util::DEBUG);
-						self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['x2'],$section['y1'],$section['y2']);
+						if(self::issetFacePhoto($newClass,$imgToSava."-".$facecount.".png",$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1'])))
+							self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['x2'],$section['y1'],$section['y2']);
 					}
 				}
 				$facecount++;
@@ -253,12 +259,29 @@ public static function doBackgroundJob($array){
 		//}
 	}
 	
+	public static  function UpdateFacePhoto($id,$class,$facePhotoPath,$faceclass,$x1=0,$x2=0,$y1=0,$y2=0){
+		//if(!self::issetTagPhotoId($class->getForingkey(),$id)){
+		$stmt = OCP\DB::prepare('UPDATE `*PREFIX*facefinder_facedetaction_face_photo_module` SET tag_id=? ,faceclass=? WHERE `photo_id` = ? and `facePhotoPath`= ? and x1 = ? and x2 = ? and y1 = ? and y2 = ?');
+		//$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_photo_module` WHERE `photo_id`  = ? and `tag_id` = ?');
+		$result=$stmt->execute(array(id,$faceclass,$class->getForingkey(),$facePhotoPath,$x1,$x2,$y1,$y2));
+		return ($result->numRows()==1);
+	}
+	
 	public static  function issetFacePhoto($class,$facePhotoPath,$x1,$x2,$y1,$y2){
 		//if(!self::issetTagPhotoId($class->getForingkey(),$id)){
 		$stmt = OCP\DB::prepare('SELECT *  FROM  `*PREFIX*facefinder_facedetaction_face_photo_module` WHERE `photo_id` = ? and `facePhotoPath`= ? and x1 = ? and x2 = ? and y1 = ? and y2 = ?');
 		//$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_photo_module` WHERE `photo_id`  = ? and `tag_id` = ?');
 		$result=$stmt->execute(array($class->getForingkey(),$facePhotoPath,$x1,$x2,$y1,$y2));
-		return ($result->numRows()==1);	}
+		return ($result->numRows()==1);
+	}
+	
+	public static  function issetFacePhotoIsNull($class,$facePhotoPath,$x1,$x2,$y1,$y2){
+		//if(!self::issetTagPhotoId($class->getForingkey(),$id)){
+		$stmt = OCP\DB::prepare('SELECT *  FROM  `*PREFIX*facefinder_facedetaction_face_photo_module` WHERE `photo_id` = ? and `facePhotoPath`= ? and x1 = ? and x2 = ? and y1 = ? and y2 = ? and faceclass is NULL');
+		//$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_photo_module` WHERE `photo_id`  = ? and `tag_id` = ?');
+		$result=$stmt->execute(array($class->getForingkey(),$facePhotoPath,$x1,$x2,$y1,$y2));
+		return ($result->numRows()==1);
+	}
 
 	
 	
