@@ -45,6 +45,7 @@ var FaceFinder={
 					   		});
 					   		
 					   	  $('#tool_right ul.start  i ').click(function (e) {
+					   		var dsfasdaf=	$(this).parent().parent().find('ul');
 					   		$(this).parent().parent().find('ul').slideToggle("slow");
 								  if($(this).hasClass('icon-arrow-up')){
 							   			$(this).removeClass('icon-arrow-up');
