@@ -2,7 +2,7 @@
 use OCA\FaceFinder;
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
-OCP\JSON::checkAppEnabled('facefinder');
+OCP\JSON::checkAppEnabled('EagleEye');
 if(OC_Filesystem::file_exists($_GET['image'])){
 	$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClassPath($_GET['image']);
 	echo OCP\JSON::success(array('data'=>$photo->getJSON()));

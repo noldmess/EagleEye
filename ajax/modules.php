@@ -1,7 +1,7 @@
 <?php
 use OCA\FaceFinder;
 OCP\JSON::checkLoggedIn();
-OCP\JSON::checkAppEnabled('facefinder');
+OCP\JSON::checkAppEnabled('EagleEye');
 $scriptArray=array();
 $Initialisemodul=OCA\FaceFinder\ModuleManeger::getInstance();
 $moduleclasses=$Initialisemodul->getModuleClass();

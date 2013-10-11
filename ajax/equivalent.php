@@ -8,7 +8,7 @@ function test($a, $b)
 }
 use OCA\FaceFinder;
 OCP\JSON::checkLoggedIn();
-OCP\JSON::checkAppEnabled('facefinder');
+OCP\JSON::checkAppEnabled('EagleEye');
 $dir=$_GET['dir'];
 $page=(int)$_GET['page'];
 

@@ -1,6 +1,6 @@
 <?php
 OCP\JSON::checkLoggedIn();
-OCP\JSON::checkAppEnabled('facefinder');
+OCP\JSON::checkAppEnabled('EagleEye');
 $year=(int)$_GET['year'];
 $month=(int)$_GET['month'];
 $day=(int)$_GET['day'];
