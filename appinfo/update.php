@@ -1,4 +1,5 @@
 <?php
+OCP\Util::writeLog("facefinder--------------->",'/appinfo/database.xml',OCP\Util::DEBUG);
 use OCA\FaceFinder;
 $currentVersion=OC_Appconfig::getValue('facefinder', 'installed_version');
 if (version_compare($currentVersion, '0.0.1', '>')) {
