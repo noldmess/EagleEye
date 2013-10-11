@@ -28,7 +28,7 @@ var FaceFinder={
 				//loading image
 				$('#photoOverView').addClass('loading');
 				//get information
-				$.getJSON(OC.linkTo('facefinder', 'ajax/new_1.php')+"?dir="+FaceFinder.getPath(), function(data) {
+				$.getJSON(OC.linkTo('EagleEye', 'ajax/new_1.php')+"?dir="+FaceFinder.getPath(), function(data) {
 					   if (data.status == 'success'){
 						   FaceFinder.addYearSidebar(data.data);
 	//					   only show first year
@@ -140,7 +140,7 @@ var FaceFinder={
 				yearnumder=year.attr('id');
 			$('#tool_right *').removeClass('active');
 			$(t).addClass('active');
-			$.getJSON(OC.linkTo('facefinder', 'ajax/PhotoByData.php')+"?dir="+FaceFinder.getPath()+"&year="+yearnumder+"&month="+monthnumder+"&day="+daynumder, function(data) {
+			$.getJSON(OC.linkTo('EagleEye', 'ajax/PhotoByData.php')+"?dir="+FaceFinder.getPath()+"&year="+yearnumder+"&month="+monthnumder+"&day="+daynumder, function(data) {
 				   if (data.status == 'success'){
 				   		//Create the year divs 
 					   $('#photoOverView * ').remove();

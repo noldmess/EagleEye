@@ -16,7 +16,7 @@ var Module={
 				//$."Tag".load(event);
 				//var you = new Person({ firstName: 'Mike' });
 				if(this.ModuleArray.length<=0){
-					$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
+					$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
 						if (data.status == 'success'){
 							this.ModuleArray=data.data;
 							Module.loadAll(this.ModuleArray,event);
@@ -38,7 +38,7 @@ var Module={
 			PhotoView.init();
 			//Dublikates initialise
 			Duplicatits.init();
-			$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
+			$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
 				if (data.status == 'success'){
 					$.each(data.data,function(index_year,data){
 							var classload=buildFromJSON(data);
@@ -54,7 +54,7 @@ var Module={
 			FaceFinder.hideView();
 			PhotoView.hideView();
 			Duplicatits.hideView();
-			$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
+			$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
 				if (data.status == 'success'){
 					$.each(data.data,function(index_year,data){
 							var classload=buildFromJSON(data);
@@ -72,7 +72,7 @@ var Module={
 		allInfo:function (img1,img2){
 			//$."Tag".load(event);
 			//var you = new Person({ firstName: 'Mike' });
-			$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
+			$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
 				if (data.status == 'success'){
 					$.each(data.data,function(index_year,data){
 							var classload=buildFromJSON(data);
@@ -100,7 +100,7 @@ var Module={
 		})
 	},	
 	resateView:function(){
-		$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
+		$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
 			if (data.status == 'success'){
 				$.each(data.data,function(index_year,data){
 						var classload=buildFromJSON(data);
@@ -111,7 +111,7 @@ var Module={
 		});
 	},
 	setEvents:function(){
-		$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
+		$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
 			if (data.status == 'success'){
 				$.each(data.data,function(index_year,data){
 						var classload=buildFromJSON(data);
@@ -123,7 +123,7 @@ var Module={
 	},
 	duplicatits:function(element,info){
 		FaceFinder.duplicatits(element,info);
-		$.getJSON(OC.linkTo('facefinder', 'ajax/modules.php'), function(data) {
+		$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
 			if (data.status == 'success'){
 				$.each(data.data,function(index_year,data){
 						var classload=buildFromJSON(data);

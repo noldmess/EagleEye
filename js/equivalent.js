@@ -6,7 +6,7 @@ $(document).ready(function() {
 			 
 			if($(data).val()==="1"){
 				
-				 $.getJSON(OC.linkTo('facefinder', 'ajax/removeequivalent.php')+"?img="+$(data).attr("alt"), function(data) {}); 
+				 $.getJSON(OC.linkTo('EagleEye', 'ajax/removeequivalent.php')+"?img="+$(data).attr("alt"), function(data) {}); 
 			 var div_equal=$(data).parent().parent();
 			  var equival=$(div_equal).parent();
 			if($(div_equal).find("a ").length==1){
@@ -22,7 +22,7 @@ $(document).ready(function() {
 		});
 	$('#equivalent').addClass('loading');
 	
-	$.getJSON(OC.linkTo('facefinder', 'ajax/equivalent.php'), function(data) {
+	$.getJSON(OC.linkTo('EagleEye', 'ajax/equivalent.php'), function(data) {
 		if (data.status == 'success'){
 		$.each(data.data,function(index_year,data){
 
