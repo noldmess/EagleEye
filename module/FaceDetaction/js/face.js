@@ -27,7 +27,13 @@ function face(){
 			$("#tool_righte").append('<div class="tool Face"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Face</div><div class="tool_items fix"><button class="back" style="display: inline-block;">Reanalise</button></div><div class="tool_items"><table class="table"></table></div></div>');
 			
 			$("#tool_righte div.tool.Face Button").click(function(e) {
-					alert("toDo");
+				$.getJSON(OC.linkTo('EagleEye', 'module/FaceDetaction/ajax/facereanalise.php')+'?image='+img, function(data) {
+					$("#tool_righte .tool.Tag .tool_items table *").remove();
+					$("#tool_righte .tool.Key .tool_items table *").remove();
+					 setTimeout(function(){
+						 face.getTag(img);
+							  }, 300);
+				};
 			});
 		}
 };
