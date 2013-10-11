@@ -3,9 +3,9 @@
 class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	private $path;
 	//Programs
-	private static $facedetect="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/facedetect/facedetect ";
-	private  static $facerec ="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/module/facerec/facerec";
-	private static  $facesave="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/module/facerece/facerec";
+	private static $facedetect="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/facedetect/facedetect";
+	private  static $facerec ="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/module/facerec/facerec"; 
+	private static  $facesave="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/module/facesave/faceresave"; 
 	private static $faceupdate="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/module/faceupdate/faceupdate";
 	
 	//Config data
@@ -140,7 +140,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 		$facefinderDir =self::getFaceFinderDir();
 		//$learn_list = "/var/www/html/facefinder/module/test.sdfd";//tedfsf.ext";//$facefinderDir."/learn_list.ext";
 			$cmd=FaceDetaction_ModuleClass::$facerec.' '.FaceDetaction_ModuleClass::$learn_list ." ".$facefinderDir.$imgToSava."-".$num.".png";
-			OCP\Util::writeLog("test2",$cmd,OCP\Util::DEBUG);
+			OCP\Util::writeLog("test2",$cmd,OCP\Util::ERROR);
 			$fp = popen($cmd,'r');
 			$ret="fehler";
 			if($fp!==false){
@@ -166,7 +166,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 			    pclose($fp);
 			
 			}else{
-				OCP\Util::writeLog("asdasdasdas","sdfsdfdsf",OCP\Util::DEBUG);
+				OCP\Util::writeLog("asdasdasdas","sdfsdfdsf",OCP\Util::ERROR);
 			}
 			return $ret;
 		}
@@ -175,7 +175,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 			$facefinderDir =self::getFaceFinderDir();
 			//$learn_list = "/var/www/html/facefinder/module/startSet";//tedfsf.ext";//$facefinderDir."/learn_list.ext";
 			$cmd=FaceDetaction_ModuleClass::$facesave.' '.FaceDetaction_ModuleClass::$startSet.' '.FaceDetaction_ModuleClass::$learn_list;
-			OCP\Util::writeLog("test1",$cmd,OCP\Util::DEBUG);
+			OCP\Util::writeLog("test1",$cmd,OCP\Util::ERROR);
 			$fp = popen($cmd,'r');
 			if($fp!==false){
 				while(!feof($fp))
@@ -188,7 +188,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 				pclose($fp);
 					
 			}else{
-				OCP\Util::writeLog("asdasdasdas","sdfsdfdsf",OCP\Util::DEBUG);
+				OCP\Util::writeLog("asdasdasdas","sdfsdfdsf",OCP\Util::ERROR);
 			}
 		}
 	
@@ -197,7 +197,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 		public static function updateLearnFaceRec(){
 			$facefinderDir =self::getFaceFinderDir();
 			$cmd=FaceDetaction_ModuleClass::$faceupdate.' '.FaceDetaction_ModuleClass::$add_learn_list.' '.FaceDetaction_ModuleClass::$learn_list.' '.FaceDetaction_ModuleClass::$learn_list;
-			OCP\Util::writeLog("test4",$cmd,OCP\Util::DEBUG);
+			OCP\Util::writeLog("test4",$cmd,OCP\Util::ERROR);
 			$fp = popen($cmd,'r');
 			if($fp!==false){
 				while(!feof($fp))
