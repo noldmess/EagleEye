@@ -4,7 +4,7 @@
 	<name>Eagle Eye</name>
 	<licence>AGPL</licence>
 	<author>Aaron Messner</author>
-	<require>0.5.5</require>
+	<require>5.0</require>
 	<shipped>true</shipped>
 	<description>Dedicated pictures application</description>
 	<standalone/>
