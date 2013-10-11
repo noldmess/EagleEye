@@ -258,7 +258,7 @@ public function test($a, $b)
 		 */
 		 public  static function createDBtabels($classname){
 			self::removeDBtabels();
-			OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/Kamera/config/'.$classname.'.xml');
+			OC_DB::createDbFromStructure(OC_App::getAppPath('EagleEye').'/module/Kamera/config/'.$classname.'.xml');
 			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_kamera_photo_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
 			$stmt->execute();
 			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_kamera_photo_module`  ADD FOREIGN KEY (kamera_id) REFERENCES *PREFIX*facefinder_kamera_module(id) ON UPDATE CASCADE ON DELETE SET NULL');
