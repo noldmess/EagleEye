@@ -263,7 +263,6 @@ public static function doBackgroundJob($array){
 		$stmt = OCP\DB::prepare('UPDATE `*PREFIX*facefinder_facedetaction_face_photo_module` SET tag_id=? ,faceclass=? WHERE `photo_id` = ? and `facePhotoPath`= ? and x1 = ? and x2 = ? and y1 = ? and y2 = ?');
 		//$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_photo_module` WHERE `photo_id`  = ? and `tag_id` = ?');
 		$result=$stmt->execute(array(id,$faceclass,$class->getForingkey(),$facePhotoPath,$x1,$x2,$y1,$y2));
-		return ($result->numRows()==1);
 	}
 	
 	public static  function issetFacePhoto($class,$facePhotoPath,$x1,$x2,$y1,$y2){
