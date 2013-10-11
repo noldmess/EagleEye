@@ -186,14 +186,14 @@ public static function doBackgroundJob($array){
 						}
 					}else{
 						OCP\Util::writeLog("facefinder","not found",OCP\Util::DEBUG);
-						if(self::issetFacePhoto($newClass,$imgToSava."-".$facecount.".png",$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1'])))
+						if(!self::issetFacePhoto($newClass,$imgToSava."-".$facecount.".png",$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1'])))
 							self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['x2'],$section['y1'],$section['y2']);
 					}
 		
 				}else{
 					if($face['threshold']<140){
 						OCP\Util::writeLog("facefinder","not found",OCP\Util::DEBUG);
-						if(self::issetFacePhoto($newClass,$imgToSava."-".$facecount.".png",$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1'])))
+						if(!self::issetFacePhoto($newClass,$imgToSava."-".$facecount.".png",$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1'])))
 							self::insertFacePhoto(null,$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],$section['x2'],$section['y1'],$section['y2']);
 					}
 				}
