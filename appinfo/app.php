@@ -51,7 +51,7 @@ OCP\App::addNavigationEntry( array(
  'order' => 1,
  'href' =>  \OCP\Util::linkToRoute('facefinder', 'index.php'),
  'icon' => OCP\Util::imagePath('facefinder', 'lcg.png'),
- 'name' => "FaceFinder"
+ 'name' => "Eagle Eye"
 ));
 
 //$array=OCP\BackgroundJob::allQueuedTasks ();
