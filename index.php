@@ -82,13 +82,13 @@ foreach ($pathArray as $path){
 }
 
 if(isset($_GET['search'])){
-	OCP\Util::addStyle('facefinder', 'search');
+	OCP\Util::addStyle('EagleEye', 'search');
 	//OCP\Util::addScript('facefinder', 'search');
-	$tmpl = new OCP\Template( 'facefinder', 'search', 'user' );
-	OCP\Util::addScript('facefinder', 'photoview');
+	$tmpl = new OCP\Template( 'EagleEye', 'search', 'user' );
+	OCP\Util::addScript('EagleEye', 'photoview');
 	$tmpl->printPage();	
 }else{
-	$tmpl = new OC_Template( 'facefinder', 'index', 'user' );
+	$tmpl = new OC_Template( 'EagleEye', 'index', 'user' );
 	//uset to get a start diferent folders
 	$path=array();
 	if(isset($_GET['dir'])){
