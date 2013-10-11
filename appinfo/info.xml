@@ -1,10 +1,10 @@
 <?xml version="1.0"?> 
 <info>
 	<id>facefinder</id>
-	<name>FaceFinder</name>
+	<name>Eagle Eye</name>
 	<licence>AGPL</licence>
 	<author>Aaron Messner</author>
-	<require>4.9</require>
+	<require>0.5.5</require>
 	<shipped>true</shipped>
 	<description>Dedicated pictures application</description>
 	<standalone/>
