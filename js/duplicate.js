@@ -42,7 +42,7 @@ var Duplicatits={
 			$.each($('#duplicate table input[name="remove"]'),function(imgID, value){
 				var dasd=imgID;
 				if($(value).attr('value')!==undefined){
-					$.getJSON(OC.linkTo('facefinder', 'ajax/removeequivalent.php')+"?img="+$(value).attr('value'), function(data) {
+					$.getJSON(OC.linkTo('EagleEye', 'ajax/removeequivalent.php')+"?img="+$(value).attr('value'), function(data) {
 						if (data.status == 'success'){
 							$(value).parent().parent().remove();
 							$.each($('#duplicate table img[alt="'+$(value).attr('value')+'"]'),function(imgID, value){
@@ -96,7 +96,7 @@ var Duplicatits={
 			var page=parseInt(data[1]);
 			if(isNaN(page))
 				page=0;
-			$.getJSON(OC.linkTo('facefinder', 'ajax/equivalent.php')+"?dir="+Duplicatits.getPath()+"&page="+page,function(data) {
+			$.getJSON(OC.linkTo('EagleEye', 'ajax/equivalent.php')+"?dir="+Duplicatits.getPath()+"&page="+page,function(data) {
 				if (data.status == 'success'){
 					if(data.data.length!==0){
 							$.each(data.data,function(index_year,data){
@@ -108,7 +108,7 @@ var Duplicatits={
 								var path2_length=img2.path.length-30;
 								if(path2_length<0)
 									path2_length=0;
-								$("#duplicate table #data").append('<tr class="line"><td><p class="path" alt="'+img1.path+'">'+img1.path.substr(path1_length)+'</p></td><td><table><tr><td>'+img1.height+' px Height</td></tr><tr><td>'+img1.width+' px Width</td><tr><td>'+Duplicatits.getReadableFileSizeString(img1.filesize)+'</td><td></td></tr></table></td><td><div class="image"><img checked="checked" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+img1.path+'" alt="'+img1.photo_id+'"></div></td><td><a><button><img checked="checked" src="'+OC.linkTo('facefinder', 'img/scale.gif')+'"><br>'+Math.round(data.prozent*100)+'%</button><br/></a><input type="hidden" name="remove"></td><td><div class="image"><img checked="checked" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+img2.path+'" alt="'+img2.photo_id+'"></div></td> <td><p class="path" alt="'+img2.path+'">'+img2.path.substr(path2_length)+'</td><td><table><tr><td>'+img2.height+' px Height</td></tr><tr><td>'+img2.width+' px  Width</td><tr><td>'+Duplicatits.getReadableFileSizeString(img2.filesize)+'</p></td><td></td></tr></table></td></tr>');
+								$("#duplicate table #data").append('<tr class="line"><td><p class="path" alt="'+img1.path+'">'+img1.path.substr(path1_length)+'</p></td><td><table><tr><td>'+img1.height+' px Height</td></tr><tr><td>'+img1.width+' px Width</td><tr><td>'+Duplicatits.getReadableFileSizeString(img1.filesize)+'</td><td></td></tr></table></td><td><div class="image"><img checked="checked" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+img1.path+'" alt="'+img1.photo_id+'"></div></td><td><a><button><img checked="checked" src="'+OC.linkTo('EagleEye', 'img/scale.gif')+'"><br>'+Math.round(data.prozent*100)+'%</button><br/></a><input type="hidden" name="remove"></td><td><div class="image"><img checked="checked" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+img2.path+'" alt="'+img2.photo_id+'"></div></td> <td><p class="path" alt="'+img2.path+'">'+img2.path.substr(path2_length)+'</td><td><table><tr><td>'+img2.height+' px Height</td></tr><tr><td>'+img2.width+' px  Width</td><tr><td>'+Duplicatits.getReadableFileSizeString(img2.filesize)+'</p></td><td></td></tr></table></td></tr>');
 								//.append('<table><tbody><tr><td>'+img1.height+'</td><td>'+img1.width+'</td><td>'+img1.filesize+'</td></tr></tbody></table></tr>');
 							});
 							//show entire paht
@@ -209,7 +209,7 @@ var Duplicatits={
 	    		var img_alt2 =$($(test).children()[4]).find('img').attr('alt');
 	    		var line=$(t).parent().parent().parent().index();
 	    		$("#fancybox-tmp input").attr('value',line);
-	    		$.getJSON(OC.linkTo('facefinder', 'ajax/pairduplicates.php')+'?image1='+img_alt1+'&image2='+img_alt2, function(data) {
+	    		$.getJSON(OC.linkTo('EagleEye', 'ajax/pairduplicates.php')+'?image1='+img_alt1+'&image2='+img_alt2, function(data) {
 	    			$("#fancybox-tmp div").append('<table class="table table-hover"><thead><tr><th>Name</th><th>Image 1</th><th>Similarity </th><th>Image 2</th></tr></thead> <tbody></tbody></table>');
 	    			Module.duplicatits($("#fancybox-tmp tbody"),data);
 	    			$('#fancybox-tmp').fadeIn("fast");
