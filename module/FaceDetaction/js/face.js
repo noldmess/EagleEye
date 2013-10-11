@@ -1,8 +1,3 @@
-$(document).ready(function() {
-	
-});
-
-
 function face(){
 		this.load=function(image){
 			$("#tool_righte .tool.Face .tool_items table *").remove();
@@ -11,6 +6,9 @@ function face(){
 			setTimeout(function(){
 				face.getTag(image);
 				  }, 300);
+			$('#photo img').click(function(e) {
+				tag.maketag(e);
+			});
 		},
 		this.hideView=function (event){
 			$("#photo div.draggable_face").remove();
@@ -26,7 +24,11 @@ function face(){
 		this.duplicatits=function(element,data){
 		},
 		this.init=function(){
-			$("#tool_righte").append('<div class="tool Face"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Face</div><div class="tool_items"><table class="table"></table></div></div>');
+			$("#tool_righte").append('<div class="tool Face"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Face</div><div class="tool_items fix"><button class="back" style="display: inline-block;">Reanalise</button></div><div class="tool_items"><table class="table"></table></div></div>');
+			
+			$("#tool_righte div.tool.Face Button")..click(function(e) {
+					alert("toDo");
+			});
 		}
 };
 
