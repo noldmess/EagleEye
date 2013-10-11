@@ -276,9 +276,9 @@ public static function doBackgroundJob($array){
 	
 	public static  function issetFacePhotoIsNull($class,$facePhotoPath,$x1,$x2,$y1,$y2){
 		//if(!self::issetTagPhotoId($class->getForingkey(),$id)){
-		$stmt = OCP\DB::prepare('SELECT *  FROM  `*PREFIX*facefinder_facedetaction_face_photo_module` WHERE `photo_id` = ? and `facePhotoPath`= ? and x1 = ? and x2 = ? and y1 = ? and y2 = ? and faceclass is NULL');
+		$stmt = OCP\DB::prepare('SELECT *  FROM  `*PREFIX*facefinder_facedetaction_face_photo_module` WHERE `photo_id` = ? and `facePhotoPath`= ? and  faceclass is NULL');
 		//$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_photo_module` WHERE `photo_id`  = ? and `tag_id` = ?');
-		$result=$stmt->execute(array($class->getForingkey(),$facePhotoPath,$x1,$x2,$y1,$y2));
+		$result=$stmt->execute(array($class->getForingkey(),$facePhotoPath));
 		return ($result->numRows()==1);
 	}
 
