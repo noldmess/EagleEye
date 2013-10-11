@@ -36,7 +36,7 @@ class ModuleManeger {
 		 * @todo make initialise
 		 */
 	 private function   __construct() {
-		$this->ModuleClass=self::getModulsOfFolder("apps/facefinder/module/");
+		$this->ModuleClass=self::getModulsOfFolder("apps/EagleEye/module/");
 	}
 	
 	static public function  getInstance(){
