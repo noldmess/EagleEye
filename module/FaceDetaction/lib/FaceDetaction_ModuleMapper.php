@@ -443,6 +443,8 @@ public static function doBackgroundJob($array){
 			if (self::checkVersion() || !self::AllTableExist()){
 				//create all tables and update version number
 				OCP\Util::writeLog("EagleEye",OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext",OCP\Util::ERROR);
+				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfd", "x");
+				fclose($handle);
 				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfdl", "x");
 				fclose($handle);
 				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext", "x");
