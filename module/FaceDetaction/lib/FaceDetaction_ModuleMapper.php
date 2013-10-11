@@ -180,7 +180,7 @@ public static function doBackgroundJob($array){
 						Tag_ModuleMapper::update($class);
 						OCP\Util::writeLog("facefinder","found",OCP\Util::DEBUG);
 						if(self::issetFacePhotoIsNull($newClass,$imgToSava."-".$facecount.".png",$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']))){
-							self::insertFacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
+							self::Update2FacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
 						}else{
 							self::insertFacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
 						}
@@ -259,7 +259,7 @@ public static function doBackgroundJob($array){
 		//}
 	}
 	
-	public static  function UpdateFacePhoto($id,$class,$facePhotoPath,$faceclass,$x1=0,$x2=0,$y1=0,$y2=0){
+	public static  function Update2FacePhoto($id,$class,$facePhotoPath,$faceclass,$x1=0,$x2=0,$y1=0,$y2=0){
 		//if(!self::issetTagPhotoId($class->getForingkey(),$id)){
 		$stmt = OCP\DB::prepare('UPDATE `*PREFIX*facefinder_facedetaction_face_photo_module` SET tag_id=? ,faceclass=? WHERE `photo_id` = ? and `facePhotoPath`= ? and x1 = ? and x2 = ? and y1 = ? and y2 = ?');
 		//$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_photo_module` WHERE `photo_id`  = ? and `tag_id` = ?');
