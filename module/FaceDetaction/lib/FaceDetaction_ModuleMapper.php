@@ -444,7 +444,7 @@ public static function doBackgroundJob($array){
 			OCP\Util::writeLog("EagleEye","t2",OCP\Util::ERROR);
 			if (self::checkVersion() || !self::AllTableExist()){
 				//create all tables and update version number
-				OCP\Util::writeLog("EagleEye","t4",OCP\Util::ERROR);
+				OCP\Util::writeLog("EagleEye","t4 ".OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfd",OCP\Util::ERROR);
 				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfd", "x");
 				fclose($handle);
 				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfdl", "x");
