@@ -436,10 +436,11 @@ public static function doBackgroundJob($array){
 		$facefinderDir = \OC_User::getHome($user) . '/facefinder/';
 		if (!is_dir($facefinderDir)) {
 			mkdir($facefinderDir , 0755, true);
-			OCP\Util::writeLog("asdasdasdas",$facefinderDir,OCP\Util::ERROR);
-			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/eigenfaces_at.yml", "x");
+			OCP\Util::writeLog("EagleEye",OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext",OCP\Util::ERROR);
 			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfdl", "x");
-			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/tedfsddf.ext", "x");
+			fclose($handle);
+			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext", "x");
+			fclose($handle);
 		}
 		//check if module is already installed
 		if(OC_Appconfig::hasKey('facefinder',self::$classname)){

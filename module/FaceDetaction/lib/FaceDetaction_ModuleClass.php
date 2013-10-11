@@ -9,7 +9,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	private static $faceupdate="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/facerupdate/facerupdate";
 	//Config data
 	private static $haarcascade="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/haarcascade_frontalface_alt.xml";
-	private static  $add_learn_list = "/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/tedfsddf.ext";
+	private static  $add_learn_list = "/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/add_learn_list.ext";
 	private  static $learn_list = "/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/test.sdfd";
 	private  static $startSet="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/startSet";
 
