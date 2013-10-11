@@ -7,7 +7,7 @@ $id=(int)$_GET['id'];
 if($id>0){
 	$writemodul=OCA\FaceFinder\ModuleManeger::getInstance();
 	$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($_GET['id']);
-	echo OCP\JSON::success(array('data'=>$photo->getJSON(),OCP\Util::linkToAbsolute ("EagleEye","/module/FaceDetaction/config/install")));
+	echo OCP\JSON::success(array('data'=>$photo->getJSON(),OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/install"));
 }else{
 		OCP\JSON::error(array("message"=>"get image must be an intager"));
 }
