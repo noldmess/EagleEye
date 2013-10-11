@@ -28,7 +28,7 @@ function face(){
 			
 			$("#tool_righte div.tool.Face Button").click(function(e) {
 				var image = $('#photo img').attr("alt");
-				$.getJSON(OC.linkTo('EagleEye', 'module/FaceDetaction/ajax/facereanalise.php')+'?image='+img, function(data) {
+				$.getJSON(OC.linkTo('EagleEye', 'module/FaceDetaction/ajax/facereanalise.php')+'?image='+image, function(data) {
 					$("#tool_righte .tool.Tag .tool_items table *").remove();
 					$("#tool_righte .tool.Key .tool_items table *").remove();
 					 setTimeout(function(){
