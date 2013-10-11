@@ -1,7 +1,7 @@
 <?php
 
 /**
-* ownCloud - facefinder
+* ownCloud - EagleEye
 *
 * @author Aaron Messner
 * @copyright 2012 Aaron Messner aaron.messner@stuudent.uibk.ac.at
@@ -27,35 +27,35 @@
 //$l = OC_L10N::get('gallery');
 //OC::$CLASSPATH['OC_Share_Backend_Photo'] = 'gallery/lib/share.php';
 //test 
-//OCP\Util::addscript( 'facefinder', 'test' );
+//OCP\Util::addscript( 'EagleEye', 'test' );
 //Module Includs
-OC::$CLASSPATH['OCA\FaceFinder\ModuleManeger'] = 'facefinder/lib/modulemaneger.php';
-OC::$CLASSPATH['OCA\FaceFinder\ClassInterface'] = 'facefinder/lib/moduleClassInterface.php';
-OC::$CLASSPATH['OCA\FaceFinder\MapperInterface'] = 'facefinder/lib/moduleinterface.php';
+OC::$CLASSPATH['OCA\FaceFinder\ModuleManeger'] = 'EagleEye/lib/modulemaneger.php';
+OC::$CLASSPATH['OCA\FaceFinder\ClassInterface'] = 'EagleEye/lib/moduleClassInterface.php';
+OC::$CLASSPATH['OCA\FaceFinder\MapperInterface'] = 'EagleEye/lib/moduleinterface.php';
 
-OC::$CLASSPATH['OCA\FaceFinder\PhotoClass'] = 'facefinder/lib/photoclass.php';
-OC::$CLASSPATH['OCA\FaceFinder\FaceFinderPhoto'] = 'facefinder/lib/photo.php';
-//OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'facefinder/lib/hooks_handlers.php';
+OC::$CLASSPATH['OCA\FaceFinder\PhotoClass'] = 'EagleEye/lib/photoclass.php';
+OC::$CLASSPATH['OCA\FaceFinder\FaceFinderPhoto'] = 'EagleEye/lib/photo.php';
+//OC::$CLASSPATH['OC_Gallery_Hooks_Handlers'] = 'EagleEye/lib/hooks_handlers.php';
 
-OC::$CLASSPATH['OCA\FaceFinder\HooksHandlers'] = 'facefinder/lib/hooks_handlers.php';
-OC::$CLASSPATH['OCA\FaceFinder\BackgroundJob'] = 'facefinder/lib/backgroundJob.php';
+OC::$CLASSPATH['OCA\FaceFinder\HooksHandlers'] = 'EagleEye/lib/hooks_handlers.php';
+OC::$CLASSPATH['OCA\FaceFinder\BackgroundJob'] = 'EagleEye/lib/backgroundJob.php';
 
-OC::$CLASSPATH['OC_Search_Provider_FaceFinder'] = 'facefinder/lib/search.php';
-OC::$CLASSPATH['OC_FaceFinder_Scanner'] = 'facefinder/lib/scanner.php';
-OC::$CLASSPATH['OCA\FaceFinder\EquivalentResult'] = 'facefinder/lib/equivalent.php';
-OC::$CLASSPATH['OCA\FaceFinder\OC_Equal'] = 'facefinder/lib/equivalent.php';
-//$l = OC_L10N::get('facefinder');
-OCP\Util::addscript( 'facefinder', 'add' );
+OC::$CLASSPATH['OC_Search_Provider_FaceFinder'] = 'EagleEye/lib/search.php';
+OC::$CLASSPATH['OC_FaceFinder_Scanner'] = 'EagleEye/lib/scanner.php';
+OC::$CLASSPATH['OCA\FaceFinder\EquivalentResult'] = 'EagleEye/lib/equivalent.php';
+OC::$CLASSPATH['OCA\FaceFinder\OC_Equal'] = 'EagleEye/lib/equivalent.php';
+//$l = OC_L10N::get('EagleEye');
+OCP\Util::addscript( 'EagleEye', 'add' );
 OCP\App::addNavigationEntry( array(
- 'id' => 'facefinder',
+ 'id' => 'EagleEye',
  'order' => 1,
- 'href' =>  \OCP\Util::linkToRoute('facefinder', 'index.php'),
- 'icon' => OCP\Util::imagePath('facefinder', 'EagleEye.png'),
+ 'href' =>  \OCP\Util::linkToRoute('EagleEye', 'index.php'),
+ 'icon' => OCP\Util::imagePath('EagleEye', 'EagleEye.png'),
  'name' => "Eagle Eye"
 ));
 
 //$array=OCP\BackgroundJob::allQueuedTasks ();
-//OCP\Util::writeLog("facefinder",json_encode($array)."sdfsdf",OCP\Util::DEBUG);
+//OCP\Util::writeLog("EagleEye",json_encode($array)."sdfsdf",OCP\Util::DEBUG);
 OC_Search::registerProvider('OC_Search_Provider_FaceFinder');
 OCP\Util::connectHook('OC_Filesystem', 'post_write','OCA\FaceFinder\HooksHandlers','write');
 OCP\Util::connectHook('OC_Filesystem', 'post_delete','OCA\FaceFinder\HooksHandlers','delete');
