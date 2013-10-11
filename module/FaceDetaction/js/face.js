@@ -34,6 +34,7 @@ function face(){
 
 face.getTag=function(img){
 	$('#tool_righte .tool.Face .tool_items button').addClass('loading');
+	$('#tool_righte .tool.Face .tool_items button').text('Analysing');
 	$.getJSON(OC.linkTo('EagleEye', 'module/FaceDetaction/ajax/face.php')+'?image='+img, function(data) {
 		if (data.status == 'success'){
 			if(data.type == 'new'){
@@ -169,6 +170,7 @@ face.getTag=function(img){
 		}	
 		}
 		$('#tool_righte .tool.Face .tool_items button').removeClass('loading');
+		$('#tool_righte .tool.Face .tool_items button').text('Reanalysing');
 	});
 
 };
