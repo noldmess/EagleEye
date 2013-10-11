@@ -75,18 +75,18 @@ var FaceFinder={
 		$('#tool_right ul.start').append('<li id="all" class="year2">All Imags</li>');
 		$.each(data,function(index_year,data){
 	   		$('#tool_right ul.start').append('<li id="'+data.year+'" class="year2">'+data.year+' ('+data.number+')<a><i class="icon-white icon-arrow-down"></i></a><ul></ul></li>');
-	   		FaceFinder.addMonthSidebar(data.month,index_year);
+	   		FaceFinder.addMonthSidebar(data.month,index_year+1);
 		});
 	},
 	addMonthSidebar:function(data,index_year){
 		$.each(data,function(index_month,data){
-				$('#tool_right ul li.year2:eq('+index_year+1+') ul[class!="month2"]').append('<li  class="month2" id="'+data.monthnumber+'">'+data.month+' ('+data.number+')<ul class="month2"></ul></li>');
+				$('#tool_right ul li.year2:eq('+index_year+') ul[class!="month2"]').append('<li  class="month2" id="'+data.monthnumber+'">'+data.month+' ('+data.number+')<ul class="month2"></ul></li>');
     	  		FaceFinder.addDaySidebar(data.days,index_year,index_month);
 			});
 	},
 	addDaySidebar:function(data,index_year,index_month){
 		$.each(data,function(index_day,days){
-				$('#tool_right ul li.year2:eq('+index_year+1+') ul li.month2:eq('+index_month+') ul').append('<li id="'+days.day+'" class="day">'+days.day+' ('+days.number+')</li>');
+				$('#tool_right ul li.year2:eq('+index_year+') ul li.month2:eq('+index_month+') ul').append('<li id="'+days.day+'" class="day">'+days.day+' ('+days.number+')</li>');
 		});
 	},
 	addYearPhotoOverView:function(data){
