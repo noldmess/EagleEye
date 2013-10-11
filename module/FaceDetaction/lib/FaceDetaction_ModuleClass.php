@@ -64,9 +64,8 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	
 	public  function getFaces(){
 		//$-cmd='/var/www/html/facefinder/module/facedetect --cascade="/var/www/html/facefinder/module/haarcascade_frontalface_alt.xml" -nested-cascade=="/var/www/html/facefinder/module/haarcascade_frontalface_alt2.xml" '.$this->path;
-		OCP\Util::writeLog("4a",FaceDetaction_ModuleClass::$haarcascade,OCP\Util::DEBUG);
 		$cmd=FaceDetaction_ModuleClass::$facedetect.' --cascade="'.FaceDetaction_ModuleClass::$haarcascade.'"  '.$this->path;
-		OCP\Util::writeLog("test3",$cmd,OCP\Util::DEBUG);
+		OCP\Util::writeLog("test3",$cmd,OCP\Util::ERROR);
 		$fp = popen($cmd,'r');
 		$faces=array();
 		if($fp!==false){
