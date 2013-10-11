@@ -178,9 +178,9 @@ public static function doBackgroundJob($array){
 						$class=Tag_ModuleMapper::getClass($photo->getID());
 						if(!self::issetFacePhoto($newClass,$imgToSava."-".$facecount.".png",$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']))){
 							self::Update2FacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
-							OCP\Util::writeLog("facefinder","found1",OCP\Util::Error);
+							OCP\Util::writeLog("facefinder","found1",OCP\Util::ERROR);
 						}else{
-							OCP\Util::writeLog("facefinder","found2",OCP\Util::Error);
+							OCP\Util::writeLog("facefinder","found2",OCP\Util::ERROR);
 							self::insertFacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
 						}
 					}else{
