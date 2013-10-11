@@ -4,7 +4,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	private $path;
 	//Programs
 	private static $facedetect="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/facedetect/facedetect";
-	private  static $facerec ="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/module/facerec/facerec"; 
+	private  static $facerec ="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/module/facerec/facereca";
 	private static  $facesave="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/module/facesave/faceresave"; 
 	private static $faceupdate="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/module/faceupdate/faceupdate";
 	
