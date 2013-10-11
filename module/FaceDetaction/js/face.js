@@ -34,7 +34,7 @@ function face(){
 				$.getJSON(OC.linkTo('EagleEye', 'module/FaceDetaction/ajax/facereanalise.php')+'?image='+image, function(data) {
 					tag.getTag(image);
 					 setTimeout(function(){
-						 face.getTag(img);
+						 face.getTag(image);
 							  }, 300);
 				});
 			});
