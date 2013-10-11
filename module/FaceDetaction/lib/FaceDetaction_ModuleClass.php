@@ -235,7 +235,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 		 */
 		public static function addFaceToLearn($facePath,$faceClass){
 			//$image=OC_Filesystem::getLocalFile($path);
-			OCP\Util::writeLog("facefinder","Error to start Lefffffffffffffffrning",OCP\Util::ERROR);
+			OCP\Util::writeLog("facefinder","Error to start Lefffffffffffffffrning ".FaceDetaction_ModuleClass::$add_learn_lis,OCP\Util::ERROR);
 			$fh = fopen(FaceDetaction_ModuleClass::$add_learn_list, 'a');
 			fwrite ($fh,self::getFaceFinderDir().$facePath.";".$faceClass."\n");
 			fclose($fh);
