@@ -50,7 +50,7 @@ OCP\App::addNavigationEntry( array(
  'id' => 'EagleEye',
  'order' => 1,
  'href' =>  \OCP\Util::linkToRoute('EagleEye', 'index.php'),
- 'icon' => OCP\Util::imagePath('EagleEye', 'EagleEye.png'),
+ 'icon' =>  \OCP\Util::imagePath('EagleEye', 'EagleEye.png'),
  'name' => "Eagle Eye"
 ));
 
