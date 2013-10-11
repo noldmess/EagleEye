@@ -144,7 +144,7 @@ class EXIF_ModuleMapper implements OCA\FaceFinder\MapperInterface{
 		
 		
 		public static function getClass($foringkey){
-			$stmt = \OCP\DB::prepare('select * from oc_facefinder as base  inner join oc_facefinder_exif_photo_module as exifphoto on (base.photo_id=exifphoto.photo_id) inner join oc_facefinder_exif_module as exif on (exifphoto.exif_id=exif.id) where exifphoto.photo_id=?');
+			$stmt = \OCP\DB::prepare('select * from *PREFIX*facefinder as base  inner join *PREFIX*facefinder_exif_photo_module as exifphoto on (base.photo_id=exifphoto.photo_id) inner join *PREFIX*facefinder_exif_module as exif on (exifphoto.exif_id=exif.id) where exifphoto.photo_id=?');
 			$result = $stmt->execute(array($foringkey));
 			$tagarray=array();
 			while (($row = $result->fetchRow())!= false) {
@@ -269,7 +269,7 @@ class EXIF_ModuleMapper implements OCA\FaceFinder\MapperInterface{
 		public  static function createDBtabels($classname){
 			self::removeDBtabels();
 			OCP\Util::writeLog("facefinder","not found ".self::$classname,OCP\Util::ERROR);
-			OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/Exif/config/'.self::$classname.'.xml');
+			OC_DB::createDbFromStructure(OC_App::getAppPath('EagleEye').'/module/Exif/config/'.self::$classname.'.xml');
 			OCP\Util::writeLog("facefinder","not found",OCP\Util::ERROR);
 			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_exif_photo_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE ON UPDATE CASCADE');
 			$stmt->execute();
