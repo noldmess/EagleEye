@@ -87,10 +87,7 @@ margin-right: auto;
 }
 
 #photo .draggable_face_2 a{
-	background:#efefef;
 	opacity:0.5;
-	top: -8px;
-	left:-8px;
 	position: absolute;
 	display: inline;
 	
