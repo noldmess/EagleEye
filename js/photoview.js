@@ -4,14 +4,6 @@ var PhotoView={
 			$('#tool_righte').hide();
 			$("span.right").append('<a href=""><button class="back" style=""><i class="icon-th"></i> Back</button></a>');
 			$('button.back').hide();
-			/*$("button.back").click(function(e){
-				goBack(e);
-			})*/
-			/*$(document).keypress(function(e) {
-				if (e.keyCode == 27) {
-					goBack(e);
-				}
-			});*/
 		},
 		hideView:function (event){
 			$('button.back').hide();

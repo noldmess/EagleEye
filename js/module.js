@@ -1,9 +1,3 @@
-/*$(document).ready(function() {
-	setTimeout(function(){
-		Module.toolSlide();
-		  }, 500);
-	
-});*/
 var Module={
 		ModuleArray:"",
 		loadAll:function(data,event){
