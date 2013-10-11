@@ -3,7 +3,7 @@
 <?php
 use OCA\FaceFinder;
 OCP\JSON::checkLoggedIn();
-OCP\JSON::checkAppEnabled('facefinder');
+OCP\JSON::checkAppEnabled('EagleEye');
 $writemodul=OCA\FaceFinder\ModuleManeger::getInstance();
 $moduleclasses=$writemodul->getModuleClass();
 $tag=null;

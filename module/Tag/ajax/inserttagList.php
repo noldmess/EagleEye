@@ -2,7 +2,7 @@
 use OCA\FaceFinder;
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
-OCP\JSON::checkAppEnabled('facefinder');
+OCP\JSON::checkAppEnabled('EagleEye');
 if(is_array($_POST['imagelist'])){
 	$writemodul=OCA\FaceFinder\ModuleManeger::getInstance();
 	$moduleclasses=$writemodul->getModuleClass();

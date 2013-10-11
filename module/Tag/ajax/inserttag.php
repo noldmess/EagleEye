@@ -2,7 +2,7 @@
 use OCA\FaceFinder;
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
-OCP\JSON::checkAppEnabled('facefinder');
+OCP\JSON::checkAppEnabled('EagleEye');
 $id=(int)$_GET['image'];
 if($id>0){
 		$writemodul=OCA\FaceFinder\ModuleManeger::getInstance();
