@@ -5,4 +5,3 @@ $this->create('facefinder', '/')->action(
 			require __DIR__ . '/../index.php';
 		}
 );
-
