@@ -29,8 +29,9 @@ function face(){
 			$("#tool_righte div.tool.Face Button").click(function(e) {
 				$('#tool_righte .tool.Face .tool_items button').addClass('loading');
 				var  image= $('#photo img').attr("alt");
-				 $("#tool_righte .tool.Tag .tool_items table *").remove();
-					$("#tool_righte .tool.Key .tool_items table *").remove();
+				$("#tool_righte .tool.Tag .tool_items table *").remove();
+				$("#tool_righte .tool.Key .tool_items table *").remove();
+				$("#tool_righte .tool.Face .tool_items table *").remove();
 				$.getJSON(OC.linkTo('EagleEye', 'module/FaceDetaction/ajax/facereanalise.php')+'?image='+image, function(data) {
 					tag.getTag(image);
 					 setTimeout(function(){
