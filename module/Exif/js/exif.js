@@ -18,7 +18,7 @@ function exif() {
 		}
 		$("#tool_righte .tool.Exif .tool_items").addClass('load');
 		$("#tool_righte .tool.Exif .tool_items table *").remove();
-		$.getJSON(OC.linkTo('facefinder', '/module/Exif/ajax/EXIF.php')+'?image='+image, function(data) {
+		$.getJSON(OC.linkTo('EagleEye', '/module/Exif/ajax/EXIF.php')+'?image='+image, function(data) {
 			if (data.status == 'success'){
 				if(data.data.length>0){
 					$('#tool_righte .tool.Exif .tool_items table').append('<thead>'
