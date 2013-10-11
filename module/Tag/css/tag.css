@@ -75,12 +75,6 @@ height: 100px; width: 100px; opacity: 1;border: solid 1px red;
 	*/
 }
 
-#photo .draggable2 a{
-	height: 100px;
-	width: 100px;
-	background:#efefef;
-	opacity:0.5;
-}
 
 #photo .draggable_fix{
 	border-radius: 7px;
