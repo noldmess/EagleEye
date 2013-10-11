@@ -439,6 +439,7 @@ public static function doBackgroundJob($array){
 			OCP\Util::writeLog("asdasdasdas",$facefinderDir,OCP\Util::ERROR);
 			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/eigenfaces_at.yml", "x");
 			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfdl", "x");
+			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/tedfsddf.ext", "x");
 		}
 		//check if module is already installed
 		if(OC_Appconfig::hasKey('facefinder',self::$classname)){
