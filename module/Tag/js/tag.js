@@ -202,7 +202,7 @@ function tag() {
 					$('#photoff').show();
 					var path = tag.getPath();
 					$.getJSON(OC.linkTo('EagleEye',
-							'/module/Tag/ajax/allImagesTags.php')
+							'module/Tag/ajax/allImagesTags.php')
 							+ '?dir=' + path, function(data) {
 						$('#photoOverView').addClass('loading');
 						$('#photoOverView * ').remove();
@@ -312,7 +312,7 @@ tag.setTagInImage = function(div, tag_name) {
 	$("#tool_righte .tool.Key .tool_items tbody").remove();
 	$("#tool_righte .tool.Key .tool_items thead").remove();
 	$("#photo div").remove(".draggable");
-	$.getJSON(OC.linkTo('EagleEye', '/module/Tag/ajax/inserttagposition.php')
+	$.getJSON(OC.linkTo('EagleEye', 'module/Tag/ajax/inserttagposition.php')
 			+ "?image=" + image + "&tag=" + tag_name + "&x1=" + x1 + "&x2="
 			+ width + "&y1=" + y1 + "&y2=" + height, function(data) {
 		var image = $('#photoview img').attr("alt");
@@ -326,7 +326,7 @@ tag.getTag = function(img) {
 			'checked', false);
 	$
 			.getJSON(
-					OC.linkTo('EagleEye', '/module/Tag/ajax/tag.php')
+					OC.linkTo('EagleEye', 'module/Tag/ajax/tag.php')
 							+ '?image=' + img,
 					function(data) {
 						$(
@@ -518,7 +518,7 @@ tag.removeTag = function(tagDiv) {
 	if ($("div[id='" + tag + "']")) {
 		$("div[id^='" + tag + "']").remove();
 	}
-	$.getJSON(OC.linkTo('EagleEye', '/module/Tag/ajax/removetag.php')
+	$.getJSON(OC.linkTo('EagleEye', 'module/Tag/ajax/removetag.php')
 			+ "?image=" + image + "&tag=" + tag, function(data) {
 	});
 };
@@ -529,7 +529,7 @@ tag.removeTagDiv = function(tagDiv) {
 	var tag = $(tagDiv).attr("name");
 	var sdfsdf = $(tagDiv).parent().parent().parent();
 	$(tagDiv).parent().parent().parent().remove(".tag_in_photo");
-	$.getJSON(OC.linkTo('EagleEye', '/module/Tag/ajax/removetag.php')
+	$.getJSON(OC.linkTo('EagleEye', 'module/Tag/ajax/removetag.php')
 			+ "?image=" + image + "&tag=" + tag + "&imagepaht=" + imagepaht,
 			function(data) {
 				tag.getTag();
@@ -551,7 +551,7 @@ tag.loadImagesTag = function(tagelement) {
 	$('#tool_right *').removeClass('active');
 	var dsdf = $('#tool_right ul li[id="' + tagelement.id + '"]');
 	$('#tool_right ul li[id="' + tagelement.id + '"]').addClass('active');
-	$.getJSON(OC.linkTo('EagleEye', '/module/Tag/ajax/allImagesTags.php')
+	$.getJSON(OC.linkTo('EagleEye', 'module/Tag/ajax/allImagesTags.php')
 			+ '?dir=' + path + '&tag=' + tagelement.id, function(data) {
 		$('#photoOverView').addClass('loading');
 		$('#photoOverView * ').remove();
@@ -596,7 +596,7 @@ tag.key = function() {
 	$("#tool_righte div.tool.Key  input[type='text']").val('');
 	var image = $('#photoview img').attr("alt");
 
-	$.getJSON(OC.linkTo('EagleEye', '/module/Tag/ajax/inserttag.php')
+	$.getJSON(OC.linkTo('EagleEye', 'module/Tag/ajax/inserttag.php')
 			+ "?image=" + image + "&tag=" + tag_value, function(data) {
 		$("#tool_righte .tool.Key .tool_items table *").remove();
 		$("#tool_righte .tool.Tag .tool_items table *").remove();
