@@ -179,7 +179,7 @@ public static function doBackgroundJob($array){
 						$class->addTag("2#025",$tag['tag'],$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
 						Tag_ModuleMapper::update($class);
 						OCP\Util::writeLog("facefinder","found",OCP\Util::DEBUG);
-						if(!self::issetFacePhotoIsNull($newClass,$imgToSava."-".$facecount.".png",$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']))){
+						if(self::issetFacePhotoIsNull($newClass,$imgToSava."-".$facecount.".png",$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']))){
 							self::Update2FacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
 						}else{
 							self::insertFacePhoto($tag['tag_id'],$newClass,$imgToSava."-".$facecount.".png",null,$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
