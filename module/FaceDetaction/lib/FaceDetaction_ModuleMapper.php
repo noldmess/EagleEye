@@ -436,17 +436,17 @@ public static function doBackgroundJob($array){
 		$facefinderDir = \OC_User::getHome($user) . '/facefinder/';
 		if (!is_dir($facefinderDir)) {
 			mkdir($facefinderDir , 0755, true);
-			OCP\Util::writeLog("EagleEye",OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext",OCP\Util::ERROR);
-			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfdl", "x");
-			fclose($handle);
-			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext", "x");
-			fclose($handle);
 		}
 		//check if module is already installed
 		if(OC_Appconfig::hasKey('facefinder',self::$classname)){
 			//check if the module is in the correct version and all Tables exist
 			if (self::checkVersion() || !self::AllTableExist()){
 				//create all tables and update version number
+				OCP\Util::writeLog("EagleEye",OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext",OCP\Util::ERROR);
+				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfdl", "x");
+				fclose($handle);
+				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext", "x");
+				fclose($handle);
 				self::createDBtabels(self::$classname);
 				OC_Appconfig::setValue('facefinder',self::$classname,self::getVersion());
 				FaceDetaction_ModuleClass::classLearnFaceRec();
@@ -456,6 +456,11 @@ public static function doBackgroundJob($array){
 			}
 		}else{
 			//create all tables and update version number
+			OCP\Util::writeLog("EagleEye",OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext",OCP\Util::ERROR);
+			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfdl", "x");
+			fclose($handle);
+			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext", "x");
+			fclose($handle);
 			self::createDBtabels(self::$classname);
 			OC_Appconfig::setValue('facefinder',self::$classname,self::getVersion());
 			FaceDetaction_ModuleClass::classLearnFaceRec();
