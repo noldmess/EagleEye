@@ -139,7 +139,7 @@ face.getTag=function(img){
 				 removeTagDiv(tagDiv);
 				 OC.Notification.show("Updating face Data Set");
 				 $('#content').css( 'cursor', 'wait' );
-				 $.getJSON(OC.linkTo('facefinder', 'module/FaceDetaction/ajax/faceupdate.php')+"?face_id="+face_id, function(data) {
+				 $.getJSON(OC.linkTo('EagleEye', 'module/FaceDetaction/ajax/faceupdate.php')+"?face_id="+face_id, function(data) {
 					 var image=$('#photoview img').attr("alt");
 					 $("#photo div.draggable_face").remove();
 					 $("#photo div.tag_in_photo").remove();
