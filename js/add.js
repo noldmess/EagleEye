@@ -8,14 +8,14 @@ $(document).ready(function(){
 	}
 	
 	if (typeof FileActions !== 'undefined') {
-		FileActions.register('dir', 'Facefinder', OC.PERMISSION_DELETE, function () {
+		FileActions.register('dir', 'EagleEye', OC.PERMISSION_DELETE, function () {
 			//image for action 
 		return OC.imagePath('facefinder', 'EagleEye.png');
 		}, function (filename) {
 			//action 
 			window.location = OC.linkTo('facefinder', 'index.php')+'?dir='+ encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/' + encodeURIComponent(filename);
 		});
-		FileActions.register('image/jpeg', 'Facefinder', OC.PERMISSION_DELETE, function () {
+		FileActions.register('image/jpeg', 'EagleEye', OC.PERMISSION_DELETE, function () {
 			//image for action 
 			return OC.imagePath('facefinder', 'EagleEye.png');
 		}, function (filename) {
