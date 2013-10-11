@@ -167,6 +167,8 @@ public static function doBackgroundJob($array){
 				$face=$newClass->classFaceRec($facecount);
 				//if the face class is biger then 41 then the image in new
 				OCP\Util::writeLog("facefinderddddddddddd",$face['threshold']." x1:".$section['x1']." x2:".$section['x2']." y1:".$section['y1']." y2:".$section['y2'],OCP\Util::DEBUG);
+				if(self::issetFacePhotoselfo($newClass,$imgToSava."-".$facecount.".png",$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1'])))
+						OCP\Util::writeLog("facefinder","fsdfsdfsdfsdfsfd",OCP\Util::ERROR);
 				if($face['class']>41 && $face['threshold']<70){
 					OCP\Util::writeLog("facefinder FaceClass",$face['class'],OCP\Util::DEBUG);
 					$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($id_photo);
@@ -250,6 +252,13 @@ public static function doBackgroundJob($array){
 			
 		//}
 	}
+	
+	public static  function issetFacePhoto($class,$facePhotoPath,$x1,$x2,$y1,$y2){
+		//if(!self::issetTagPhotoId($class->getForingkey(),$id)){
+		$stmt = OCP\DB::prepare('SELECT *  FROM  `*PREFIX*facefinder_facedetaction_face_photo_module` WHERE `photo_id` = ? and `facePhotoPath`= ? and x1 = ? and x2 = ? and y1 = ? andy2 = ? and');
+		//$stmt = OCP\DB::prepare('SELECT *  FROM `*PREFIX*facefinder_tag_photo_module` WHERE `photo_id`  = ? and `tag_id` = ?');
+		$result=$stmt->execute(array($class->getForingkey(),$id,$facePhotoPath,$x1,$x2,$y1,$y2));
+		return ($result->numRows()==1);	}
 
 	
 	
