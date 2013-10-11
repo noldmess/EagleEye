@@ -494,7 +494,28 @@ public static function doBackgroundJob($array){
 
 	public  static function createDBtabels($classname){
 		self::removeDBtabels();
-		OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/FaceDetaction/config/'.$classname.'.xml');
+		OC_DB::createDbFromStructure(OC_App::getAppPath('EagleEye').'/module/FaceDetaction/config/'.$classname.'.xml');
+		OCP\Util::writeLog("4a",OCP\Util::linkToAbsolute ("EagleEye","/module/FaceDetaction/config/install"),OCP\Util::DEBUG);
+	//	$cmd=FaceDetaction_ModuleClass::$facedetect.' --cascade="'.FaceDetaction_ModuleClass::$haarcascade.'"  '.$this->path;
+	/*	OCP\Util::writeLog("test3",$cmd,OCP\Util::DEBUG);
+		$fp = popen($cmd,'r');
+		$faces=array();
+		if($fp!==false){
+			while(!feof($fp))
+			{
+				// send the current file part to the browser
+				$buffer = fgetss($fp, 4096);
+				OCP\Util::writeLog("faceFinder_proces ",$buffer,OCP\Util::DEBUG);
+				$face=preg_split(  "/ /" ,  $buffer  );
+				if(sizeof($face)>1){
+					$face[2] = str_replace(array("\n"), '', $face[2]);
+					$faces[]=$face;
+				}
+				flush();
+			}
+			OCP\Util::writeLog("4a",json_encode($faces),OCP\Util::ERROR);
+			//unset($faces[sizeof($faces)-1]);
+			pclose($fp);*/
 		$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_facedetaction_module_cache`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE');
 		$stmt->execute();
 		$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_facedetaction_face_photo_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE SET NULL ON UPDATE CASCADE');

@@ -3,16 +3,16 @@
 class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	private $path;
 	//Programs
-	private static $facedetect="/var/www/html/facefinder/module/facedetect";
-	private  static $facerec ="/var/www/html/facefinder/module/facerec";
-	private static  $facesave="/var/www/html/facefinder/module/facesave";
-	private static $faceupdate="/var/www/html/facefinder/module/faceupdate";
+	private static $facedetect="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/facedetect";
+	private  static $facerec ="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/module/facerec";
+	private static  $facesave="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/module/facesave";
+	private static $faceupdate="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/module/faceupdate";
 	
 	//Config data
-	private static $haarcascade="/var/www/html/facefinder/module/haarcascade_frontalface_alt.xml";
-	private static  $add_learn_list = "/var/www/html/facefinder/module/tedfsddf.ext";
-	private  static $learn_list = "/var/www/html/facefinder/module/test.sdfd";
-	private  static $startSet="/var/www/html/facefinder/module/startSet";
+	private static $haarcascade="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/haarcascade_frontalface_alt.xml";
+	private static  $add_learn_list = "/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/module/tedfsddf.ext";
+	private  static $learn_list = "/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/test.sdfd";
+	private  static $startSet="/var/www/html/owncloud/apps/EagleEye/module/FaceDetaction/config/startSet";
 
 	private $faces;
 	private $id;
@@ -64,6 +64,7 @@ class FaceDetaction_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	
 	public  function getFaces(){
 		//$-cmd='/var/www/html/facefinder/module/facedetect --cascade="/var/www/html/facefinder/module/haarcascade_frontalface_alt.xml" -nested-cascade=="/var/www/html/facefinder/module/haarcascade_frontalface_alt2.xml" '.$this->path;
+		OCP\Util::writeLog("4a",FaceDetaction_ModuleClass::$haarcascade,OCP\Util::ERROR);
 		$cmd=FaceDetaction_ModuleClass::$facedetect.' --cascade="'.FaceDetaction_ModuleClass::$haarcascade.'"  '.$this->path;
 		OCP\Util::writeLog("test3",$cmd,OCP\Util::DEBUG);
 		$fp = popen($cmd,'r');
