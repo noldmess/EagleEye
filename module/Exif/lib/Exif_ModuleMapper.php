@@ -268,7 +268,7 @@ class EXIF_ModuleMapper implements OCA\FaceFinder\MapperInterface{
 		 */
 		public  static function createDBtabels($classname){
 			self::removeDBtabels();
-			OCP\Util::writeLog("facefinder","not found",OCP\Util::ERROR);
+			OCP\Util::writeLog("facefinder","not found ".self::$classname,OCP\Util::ERROR);
 			OC_DB::createDbFromStructure(OC_App::getAppPath('facefinder').'/module/Exif/config/'.self::$classname.'.xml');
 			OCP\Util::writeLog("facefinder","not found",OCP\Util::ERROR);
 			$stmt = OCP\DB::prepare('ALTER TABLE`*PREFIX*facefinder_exif_photo_module`  ADD FOREIGN KEY (photo_id) REFERENCES *PREFIX*facefinder(photo_id) ON DELETE CASCADE ON UPDATE CASCADE');
