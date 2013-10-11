@@ -30,7 +30,7 @@ var PhotoView={
 	 		$('#photo').addClass('loading');
 	 		$('#photo img').remove();
 	 		helpold2=helpold;
-	 		$.getJSON(OC.linkTo('facefinder', 'ajax/photoview.php')+'?id='+parseInt(event[1]), function(data) {
+	 		$.getJSON(OC.linkTo('EagleEye', 'ajax/photoview.php')+'?id='+parseInt(event[1]), function(data) {
 				if (data.status == 'success'){
 					var img = new Image();
 					img.src=OC.linkTo('gallery', 'ajax/image.php')+'?file='+oc_current_user+''+data.data.path;
