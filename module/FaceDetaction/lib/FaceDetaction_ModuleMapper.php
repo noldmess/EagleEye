@@ -446,11 +446,11 @@ public static function doBackgroundJob($array){
 				//create all tables and update version number
 				OCP\Util::writeLog("EagleEye","t4 ".OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfd",OCP\Util::ERROR);
 				chmod(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/",0755);
-				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfd", "x");
+				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfd", "a");
 				fclose($handle);
-				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfdl", "x");
+				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfdl", "a");
 				fclose($handle);
-				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext", "x");
+				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext", "a");
 				fclose($handle);
 				self::createDBtabels(self::$classname);
 				OC_Appconfig::setValue('facefinder',self::$classname,self::getVersion());
@@ -464,9 +464,9 @@ public static function doBackgroundJob($array){
 			chmod(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/",0755);
 			//create all tables and update version number
 			OCP\Util::writeLog("EagleEye",OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext",OCP\Util::ERROR);
-			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfdl", "x");
+			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfdl", "a");
 			fclose($handle);
-			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext", "x");
+			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext", "a");
 			fclose($handle);
 			self::createDBtabels(self::$classname);
 			OC_Appconfig::setValue('facefinder',self::$classname,self::getVersion());
