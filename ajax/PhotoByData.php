@@ -28,6 +28,7 @@ if($day==!0){
 $sql.='order by date_photo ASC';
 $stmta = \OCP\DB::prepare($sql);
 $result = $stmta->execute($sqlvar);
+echo $sql;
 $images=array();
 while (($row = $result->fetchRow())!= false) {
 	$images[]=array("id"=>$row['photo_id'],"path"=>$row['path']);
