@@ -50,7 +50,7 @@ OCP\App::addNavigationEntry( array(
  'id' => 'facefinder',
  'order' => 1,
  'href' =>  \OCP\Util::linkToRoute('facefinder', 'index.php'),
- 'icon' => OCP\Util::imagePath('facefinder', 'lcg.png'),
+ 'icon' => OCP\Util::imagePath('facefinder', 'EagleEye.png'),
  'name' => "Eagle Eye"
 ));
 

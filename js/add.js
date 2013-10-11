@@ -10,14 +10,14 @@ $(document).ready(function(){
 	if (typeof FileActions !== 'undefined') {
 		FileActions.register('dir', 'Facefinder', OC.PERMISSION_DELETE, function () {
 			//image for action 
-		return OC.imagePath('facefinder', 'lcg.png');
+		return OC.imagePath('facefinder', 'EagleEye.png');
 		}, function (filename) {
 			//action 
 			window.location = OC.linkTo('facefinder', 'index.php')+'?dir='+ encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/' + encodeURIComponent(filename);
 		});
 		FileActions.register('image/jpeg', 'Facefinder', OC.PERMISSION_DELETE, function () {
 			//image for action 
-			return OC.imagePath('facefinder', 'lcg.png');
+			return OC.imagePath('facefinder', 'EagleEye.png');
 		}, function (filename) {
 			//action 
 			var text=encodeURIComponent($('#dir').val()).replace(/%2F/g, '/');
