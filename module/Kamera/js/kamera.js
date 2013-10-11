@@ -17,7 +17,7 @@ function kamera() {
 			$('#tool_righte').show();
 		}
 		$("#tool_righte .tool.Camera .tool_items table *").remove();
-		$.getJSON(OC.linkTo('EagleEye', '/module/Kamera/ajax/kamera.php')+'?image='+image, function(data) {
+		$.getJSON(OC.linkTo('EagleEye', 'module/Kamera/ajax/kamera.php')+'?image='+image, function(data) {
 			if (data.status == 'success'){
 				if (data.data!=null){
 				$('#tool_righte .tool.Camera .tool_items table').append('<thead>'
