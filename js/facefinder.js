@@ -72,6 +72,7 @@ var FaceFinder={
 		return path
 	},
 	addYearSidebar:function(data){
+		$('#tool_right ul.start').append('<li id="'+all+'" class="year2">All Imags</li>');
 		$.each(data,function(index_year,data){
 	   		$('#tool_right ul.start').append('<li id="'+data.year+'" class="year2">'+data.year+' ('+data.number+')<a><i class="icon-white icon-arrow-down"></i></a><ul></ul></li>');
 	   		FaceFinder.addMonthSidebar(data.month,index_year);
