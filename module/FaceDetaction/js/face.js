@@ -26,7 +26,7 @@ function face(){
 		this.init=function(){
 			$("#tool_righte").append('<div class="tool Face"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Face</div><div class="tool_items fix"><button class="back" style="display: inline-block;">Reanalise</button></div><div class="tool_items"><table class="table"></table></div></div>');
 			
-			$("#tool_righte div.tool.Face Button")..click(function(e) {
+			$("#tool_righte div.tool.Face Button").click(function(e) {
 					alert("toDo");
 			});
 		}
