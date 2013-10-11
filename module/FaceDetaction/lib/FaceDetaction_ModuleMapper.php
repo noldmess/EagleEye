@@ -173,6 +173,8 @@ public static function doBackgroundJob($array){
 					OCP\Util::writeLog("facefinder FaceClass",$face['class'],OCP\Util::DEBUG);
 					$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($id_photo);
 					$tag=self::getTagByFaceClass($face['class']);
+					$class->addTag("2#025",$tag['tag'],$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1']));
+					Tag_ModuleMapper::update($class);
 					if($tag['tag_id']!==null){
 						OCP\Util::writeLog("facefinder",json_encode($tag),OCP\Util::DEBUG);
 						$class=Tag_ModuleMapper::getClass($photo->getID());
