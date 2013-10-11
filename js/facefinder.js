@@ -149,8 +149,9 @@ var FaceFinder={
 				   		$('#photoOverView').removeClass('loading');
 				   		
 				   }
-		        });
+		       });
 			e.stopPropagation();
+			
 	},
 	duplicatits:function(element,data){
 		var icon_hash="";
