@@ -23,18 +23,18 @@
 
 use OCA\FaceFinder;
 
-OCP\User::checkLoggedIn();
-OCP\App::checkAppEnabled('facefinder');
+\OCP\User::checkLoggedIn();
+\OCP\App::checkAppEnabled('EagleEye');
 
-OCP\App::setActiveNavigationEntry( 'facefinder' );
-OCP\Util::addStyle('facefinder', 'styles');
-OCP\Util::addScript('facefinder', 'facefinder');
-OCP\Util::addScript('facefinder', 'module');
-OCP\Util::addScript('facefinder', 'photoview');
-OCP\Util::addStyle('facefinder', 'photoview');
-OCP\Util::addStyle('facefinder', 'duplicate');
-OCP\Util::addScript('facefinder', 'duplicate');
-OCP\Util::addScript('facefinder', 'singlePageHandler');
+\OCP\App::setActiveNavigationEntry( 'EagleEye' );
+OCP\Util::addStyle('EagleEye', 'styles');
+OCP\Util::addScript('EagleEye', 'facefinder');
+OCP\Util::addScript('EagleEye', 'module');
+OCP\Util::addScript('EagleEye', 'photoview');
+OCP\Util::addStyle('EagleEye', 'photoview');
+OCP\Util::addStyle('EagleEye', 'duplicate');
+OCP\Util::addScript('EagleEye', 'duplicate');
+OCP\Util::addScript('EagleEye', 'singlePageHandler');
 
 //OCP\Util::addStyle('facefinder', 'bootstrap.min');
 
@@ -49,13 +49,13 @@ foreach ($moduleclasses as $moduleclass){
 	//inport all Script files
 	foreach($arrayScript as $script){
 		//OCP\Util::addScript('facefinder/module/', $script);
-		OCP\Util::addScript('facefinder/module/'.$moduleclass['Name'], $script);
+		OCP\Util::addScript('EagleEye/module/'.$moduleclass['Name'], $script);
 	}
 	//inport all Style  files
 	if($arrayStyle!=null){
 		foreach($arrayStyle as $style){
 			//OCP\Util::addStyle('facefinder/module/', $style);
-			OCP\Util::addStyle('facefinder/module/'.$moduleclass['Name'], $style);
+			OCP\Util::addStyle('EagleEye/module/'.$moduleclass['Name'], $style);
 		}
 	}
 }
