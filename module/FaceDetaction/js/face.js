@@ -33,7 +33,7 @@ function face(){
 };
 
 face.getTag=function(img){
-	$('#tool_righte .tool.Face .tool_items').addClass('loading');
+	$('#tool_righte .tool.Face .tool_items [class!="fix"]').addClass('loading');
 	$.getJSON(OC.linkTo('EagleEye', 'module/FaceDetaction/ajax/face.php')+'?image='+img, function(data) {
 		if (data.status == 'success'){
 			if(data.type == 'new'){
