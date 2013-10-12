@@ -79,8 +79,6 @@ class EXIF_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 	
 	
 	public static function getFormat($name,$value){
-		$return=json_encode($value);
-		OCP\Util::writeLog("facefinder->>>>>>>>>>>>>>>>>><",$return,OCP\Util::ERROR);
 		$return=0;
 		switch ($name){
 			case 'ISOSpeedRatings':
