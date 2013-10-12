@@ -141,11 +141,14 @@ class EXIF_ModuleClass implements  OCA\FaceFinder\ClassInterface{
 				}
 				break;
 			default:
-				if(is_array($value))
+				if(is_array($value)){
 					$return=json_encode($value);
-				else
+					OCP\Util::writeLog("facefinder->>>>>>>>>>>>>>>>>><",$return,OCP\Util::ERROR);
+					
+				}else{
 					$return=$value;
-				break;
+				}
+					break;
 	
 		}
 		return $return;
