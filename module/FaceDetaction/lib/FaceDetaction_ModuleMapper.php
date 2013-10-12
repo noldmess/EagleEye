@@ -305,7 +305,7 @@ public static function doBackgroundJob($array){
 		$tagarray=array();
 		while (($row = $result->fetchRow())!= false) {
 			$tagarray[]=array('face_id'=>$row['face_id'],'name'=>$row['name'],"tag"=>$row['tag'],"tag_id"=>$row['tag_id'],"x1"=>$row['x1'],"x2"=>$row['x2'],"y1"=>$row['y1'],"y2"=>$row['y2'],"facePath"=>$row['facePhotoPath'],"faceclass"=>$row['faceclass']);
-			OCP\Util::writeLog("facefinder",'name'.$row['name']." tag".$row['tag'],OCP\Util::ERROR);
+			//OCP\Util::writeLog("facefinder",'name'.$row['name']." tag".$row['tag'],OCP\Util::ERROR);
 		}
 		//OCP\Util::writeLog("facefinder",json_encode($tagarray),OCP\Util::ERROR);
 		$class=FaceDetaction_ModuleClass::getInstanceBySQL(1,$tagarray,$foringkey);
