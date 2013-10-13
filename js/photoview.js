@@ -39,8 +39,9 @@ var PhotoView={
 					})
 					.error(function () {
 							OC.Notification.show("Image not found");
-							window.history.pushState({path:"#EagleEye" + $('#photo img').attr("name")},"","#EagleEye" + $('#photo img').attr("name"));
-							setTimeout(OC.Notification.hide(), 300);
+							alert(parseInt(event[1]));
+							window.history.pushState({path:"#EagleEye"},"","#EagleEye");
+							setTimeout(OC.Notification.hide(), 1000);
 					});
 					
 					$('#photoview img').ready(function(){
