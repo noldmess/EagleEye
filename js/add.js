@@ -45,7 +45,7 @@ $(document).ready(function(){
 				}
 				var params = {dir: encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename)};
 				url= OC.Router.generate('EagleEye',params);
-				window.location = url+ '/#photoview/'+data.data.id;
+				window.location = url+ '#photoview/'+data.data.id;
 			});
 		});
 			
