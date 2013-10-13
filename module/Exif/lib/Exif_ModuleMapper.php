@@ -170,7 +170,7 @@ class EXIF_ModuleMapper implements OCA\FaceFinder\MapperInterface{
 			$result=$stmt->execute(array($query."%",$query."%",\OCP\USER::getUser()));
 			while (($row = $result->fetchRow())!= false) {
 				//create a link for the search 
-				$link=OC_Search_Provider_FaceFinder::linkToSearch(urlencode(self::$classname),urlencode($row['name'],urlencode($row['valued']));
+				$link=OC_Search_Provider_FaceFinder::linkToSearch(urlencode(self::$classname),urlencode($row['name']),urlencode($row['valued']));
 				//$link = OCP\Util::linkTo('facefinder', 'index.php').'?search='.urlencode(self::$classname).'&name='.urlencode($row['name']).'&tag='.urlencode($row['valued']).'#search';
 				$results[]=new OC_Search_Result("Exif",$row['name']."-".$row['valued'],$link,"FaF.");
 			}
