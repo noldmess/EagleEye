@@ -23,7 +23,7 @@ $(document).ready(function(){
 			}else{
 				text="/%2F"
 			}
-			var params = {dir: encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)};
+			var params = {dir: encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename)};
 			alert(encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename));
 			url= OC.Router.generate('EagleEye',params);
 			window.location = url;
