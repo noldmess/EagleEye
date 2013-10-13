@@ -92,7 +92,7 @@ if(isset($_GET['search'])){
 	//uset to get a start diferent folders
 	$path=array();
 	if(isset($params['dir'])){
-		$dir=str_replace(OCP\User::getUser(), '', $params['dir']);
+		$dir=str_replace(OCP\User::getUser(), '', "/".$params['dir']);
 		$tok= strtok($dir,"/");
 		while ($tok !== false) {
 			$path[]=$tok;
