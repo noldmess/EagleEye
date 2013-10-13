@@ -1,6 +1,7 @@
 
 <?php
 use OCA\FaceFinder;
+echo $_['search']." ".$_['tag']." ".$_['name'];
 if(isset($_['search'])&&isset($_['tag'])&&(isset($_['name']))){
 	$Initialisemodul=OCA\FaceFinder\ModuleManeger::getInstance();
 	if($Initialisemodul->isModuleClass($_['search'])){
