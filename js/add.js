@@ -13,11 +13,7 @@ $(document).ready(function(){
 		return OC.imagePath('EagleEye', 'EagleEye.png');
 		}, function (filename) {
 			//action 
-			var d=encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)+encodeURIComponent(filename);
-			alert(encodeURIComponent($('#dir').val()).replace(/%2F/g, '/'));
-			alert(encodeURIComponent(filename).substr(1));
-			alert(d);
-			var params = {dir: d };
+			var params = {dir: encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)+encodeURIComponent(filename) };
 			url= OC.Router.generate('EagleEye',params);
 			window.location = url;
 		});
@@ -31,9 +27,7 @@ $(document).ready(function(){
 				text="";
 			//
 			$.getJSON(OC.linkTo('EagleEye', 'ajax/loadphotoview.php')+'?image='+text+'/'+filename, function(data) {
-				var d=encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/';
-				alert(d);
-				var params = {dir: d };
+				var params = {dir: encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)+encodeURIComponent(filename) };
 				url= OC.Router.generate('EagleEye',params);
 				window.location = url+'/#photoview/'+data.data.id;
 			});
