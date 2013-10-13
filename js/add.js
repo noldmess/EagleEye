@@ -13,7 +13,7 @@ $(document).ready(function(){
 		return OC.imagePath('EagleEye', 'EagleEye.png');
 		}, function (filename) {
 			//action 
-			var d=encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)+encodeURIComponent(filename).substr(1);
+			var d=encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)+encodeURIComponent(filename);
 			alert(encodeURIComponent($('#dir').val()).replace(/%2F/g, '/'));
 			alert(encodeURIComponent(filename).substr(1));
 			alert(d);
