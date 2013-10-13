@@ -1,11 +1,13 @@
 $(document).ready(function(){
-	/*if(typeof Gallery!=='undefined'){
+	if(typeof Gallery!=='undefined'){
 		$('.right').append('<button class="EagleEye" style="display: none;">EagleEye</button><a class="share" data-possible-permissions="31" title="Teilen" data-item="" data-item-type="gallery"></a>');
 		 	$('button.EagleEye').click(function(){
-		 		window.location = OC.linkTo('EagleEye', 'index.php')+'?dir='+encodeURIComponent(Gallery.currentAlbum).replace(/%2F/g, '/');
+		 		alert(oc_current_user);
+		 		alert(encodeURIComponent(Gallery.currentAlbum)replace(oc_current_user, ''));
+		 		//window.location = OC.linkTo('EagleEye', 'index.php')+'?dir='+encodeURIComponent(Gallery.currentAlbum).replace(/%2F/g, '/');
 	   });
 		 $('button.EagleEye').show();
-	}*/
+	}
 	
 	if (typeof FileActions !== 'undefined') {
 		FileActions.register('dir', 'EagleEye', OC.PERMISSION_DELETE, function () {
