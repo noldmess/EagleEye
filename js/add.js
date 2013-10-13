@@ -27,7 +27,7 @@ $(document).ready(function(){
 				text="";
 			//
 			$.getJSON(OC.linkTo('EagleEye', 'ajax/loadphotoview.php')+'?image='+text+'/'+filename, function(data) {
-				var params = {dir: encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)+encodeURIComponent(filename) };
+				var params = {dir: encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)};
 				url= OC.Router.generate('EagleEye',params);
 				window.location = url+'/#photoview/'+data.data.id;
 			});
