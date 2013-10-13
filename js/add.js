@@ -5,7 +5,7 @@ $(document).ready(function(){
 		 		alert(encodeURIComponent(Gallery.currentAlbum).replace(/%2F/g, '/'));
 		 		var params = {dir: encodeURIComponent(Gallery.currentAlbum).replace(/%2F/g, '/')};
 				url= OC.Router.generate('EagleEye',params);
-		 		window.location = OC.linkTo('EagleEye', 'index.php')+'?dir='+;
+		 		window.location = url;
 	   });
 		 $('button.EagleEye').show();
 	}
