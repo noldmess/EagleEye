@@ -81,7 +81,7 @@ foreach ($pathArray as $path){
 	}
 }
 
-if(isset($params['type'])){
+if(isset($params['type']) && $params['type']==="Search"){
 	OCP\Util::addStyle('EagleEye', 'search');
 	//OCP\Util::addScript('facefinder', 'search');
 	$tmpl = new OCP\Template( 'EagleEye', 'search', 'user' );
