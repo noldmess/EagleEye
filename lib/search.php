@@ -32,7 +32,7 @@ class OC_Search_Provider_FaceFinder extends  OC_Search_Provider{
 			return $searchResultarray;
 		}
 
-	static public  function linkToSearch($search,$name,$tag) {
+/*	static public  function linkToSearch($search,$name,$tag) {
 			return OCP\Util::linkToRoute('EagleEyeSearch',array("search"=>$search,"name"=>$name,"tag"=>$tag));
-	}
+	}*/
 }
