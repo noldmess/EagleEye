@@ -38,8 +38,9 @@ var PhotoView={
 							Module.load(parseInt(event[1]));
 					})
 					.error(function () {
-							alert("Error") ;
+							OC.Notification.show("Image not found");
 							window.history.pushState({path:"#EagleEye" + $('#photo img').attr("name")},"","#EagleEye" + $('#photo img').attr("name"));
+							setTimeout(OC.Notification.hide(), 300);
 					});
 					
 					$('#photoview img').ready(function(){
