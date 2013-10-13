@@ -7,7 +7,7 @@ $id=(int)$_GET['img'];
 if($id>0){
 	$user = \OCP\USER::getUser();
 	$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($_GET['img']);
-	if(!isset($photo)){
+	if(!OC_Filesystem::file_exists($photo->getPath())){
 		OCA\FaceFinder\FaceFinderPhoto::remove($photo);
 		echo OCP\JSON::success();
 	}else{
