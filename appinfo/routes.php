@@ -8,7 +8,7 @@ $this->create('EagleEyeView', '/V{dir}')->action(
     }
 );
 
-$this->create('', '/{search}/{name}/{tag}')->action(
+$this->create('EagleEyeSearch', '/{search}/{name}/{tag}')->action(
 		function($params){
 			require __DIR__ . '/../index.php';
 		}
