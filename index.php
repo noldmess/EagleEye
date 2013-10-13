@@ -81,7 +81,7 @@ foreach ($pathArray as $path){
 	}
 }
 
-if(isset($_GET['search'])){
+if(isset($params['type'])){
 	OCP\Util::addStyle('EagleEye', 'search');
 	//OCP\Util::addScript('facefinder', 'search');
 	$tmpl = new OCP\Template( 'EagleEye', 'search', 'user' );
@@ -91,7 +91,7 @@ if(isset($_GET['search'])){
 	$tmpl = new OC_Template( 'EagleEye', 'index', 'user' );
 	//uset to get a start diferent folders
 	$path=array();
-	if(isset( $params['dir'])){
+	if(isset( $params['dir'] && $params['type']==='View')){
 		$dir=str_replace(OCP\User::getUser(), '',  $params['dir']);
 		$tok= strtok($dir,"%252F");
 		while ($tok !== false) {
