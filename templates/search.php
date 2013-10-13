@@ -7,7 +7,6 @@ if(isset($_['search'])&&isset($_['tag'])&&(isset($_['name']))){
 		//$tag=htmlspecialchars(str_replace(array('/', '\\'), '',  $_GET['tag']));
 		
 		//$name=htmlspecialchars(str_replace(array('/', '\\'), '',  ));
-		echo $_['search']." ".$_['tag']." ".$_['name'];
 		$seachResult=$_['search']::searchArry($_['name'],$_['tag']);
 		$result=count($seachResult);
 		$searchbool=true;
