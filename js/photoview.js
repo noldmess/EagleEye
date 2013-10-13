@@ -41,7 +41,7 @@ var PhotoView={
 							OC.Notification.show("Image not found");
 							 $.getJSON(OC.linkTo('EagleEye', 'ajax/removeImageFromDB.php')+"?img="+parseInt(event[1]), function(data) {
 								 setTimeout(function(){OC.Notification.hide()}, 1000);
-								window.history.pushState({path:"#EagleEye"},"","#EagleEye");
+								window.history.pushState({path:""},"","");
 								
 							 }); 
 					});
