@@ -3,7 +3,7 @@ $(document).ready(function(){
 		$('.right').append('<button class="EagleEye" style="display: none;">EagleEye</button><a class="share" data-possible-permissions="31" title="Teilen" data-item="" data-item-type="gallery"></a>');
 		 	$('button.EagleEye').click(function(){
 		 		//window.location = OC.linkTo('EagleEye', 'index.php')+'?dir='+encodeURIComponent(Gallery.currentAlbum).replace(/%2F/g, '/');
-		 		var params = {dir: encodeURIComponent(Gallery.currentAlbum).replace(oc_current_user, '');
+		 		var params = {dir: encodeURIComponent(Gallery.currentAlbum).replace(oc_current_user, '')};
 				//	alert(encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename));
 					url= OC.Router.generate('EagleEye',params);
 					window.location = url;
