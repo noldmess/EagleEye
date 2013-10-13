@@ -49,7 +49,7 @@ OCP\Util::addscript( 'EagleEye', 'add' );
 OCP\App::addNavigationEntry( array(
  'id' => 'EagleEye',
  'order' => 1,
- 'href' =>  \OCP\Util::linkToRoute('EagleEye', 'index.php'),
+ 'href' =>  \OCP\Util::linkToRoute( 'EagleEye',  array("type"=>'View','dir'=>"")),
  'icon' =>  \OCP\Util::imagePath('EagleEye', 'EagleEye.png'),
  'name' => "Eagle Eye"
 ));
