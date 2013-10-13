@@ -18,10 +18,12 @@ $(document).ready(function(){
 			//var params = {dir: encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)+encodeURIComponent(filename)+"/"};
 			alert(encodeURIComponent($('#dir').val()));
 			alert(encodeURIComponent(filename));
-			if($('#dir').val().length<=1)
+			if($('#dir').val().length<=1){
 				text="";
-			else
-				text="/%2F/g"
+			}else{
+				text="/%2F"
+			}
+			var params = {dir: encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)};
 			alert(encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename));
 			url= OC.Router.generate('EagleEye',params);
 			window.location = url;
