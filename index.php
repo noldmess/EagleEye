@@ -91,7 +91,7 @@ if(isset($_GET['search'])){
 	$tmpl = new OC_Template( 'EagleEye', 'index', 'user' );
 	//uset to get a start diferent folders
 	$path=array();
-	if(isset($_GET['dir'])){
+	if(isset($params['dir'])){
 		$dir=str_replace(OCP\User::getUser(), '', $_GET['dir']);
 		$tok= strtok($dir,"/");
 		while ($tok !== false) {
