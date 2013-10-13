@@ -13,11 +13,11 @@ if(isset($_['patharray']) && $size>1 )
 	if($size-$count===0){
 ?>
 <div class="crumb last svg" title="<?php echo $path?>">
-	<a href="<?php echo \OCP\Util::linkTo('facefinder', 'index.php')."?dir=".$path?>"><?php echo $a?></a>
+	<a href="<?php echo \OCP\Util::linkToRoute( 'EagleEye', array('dir'=>$path));?>"><?php echo $a?></a>
 </div>
 <?php }else{?>
 <div class="crumb  svg ui-droppable" title="<?php echo $path?>">
-	<a href="<?php echo \OCP\Util::linkTo('facefinder', 'index.php')."?dir=".$path?>""><?php echo $a?></a>
+	<a href="<?php echo \OCP\Util::linkToRoute( 'EagleEye', array('dir'=>$path));?>""><?php echo $a?></a>
 </div>
 <?php
 }
