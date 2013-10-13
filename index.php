@@ -91,7 +91,7 @@ if(isset($params['type'])){
 	$tmpl = new OC_Template( 'EagleEye', 'index', 'user' );
 	//uset to get a start diferent folders
 	$path=array();
-	if(isset( $params['dir']) && $params['type']==='View'){
+	if(isset( $params['dir'])){
 		$dir=str_replace(OCP\User::getUser(), '',  $params['dir']);
 		$tok= strtok($dir,"%252F");
 		while ($tok !== false) {
