@@ -2,7 +2,7 @@
 
 <?php
 
-$this->create('EagleEyeView', '/{dir}')->post()->action(
+$this->create('EagleEyeView', '/{dir}')->action(
     function($params){
         require __DIR__ . '/../index.php';
     }
