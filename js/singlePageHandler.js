@@ -54,8 +54,12 @@ function checkURL(hash)
             break;
         }
     }else{
-    	  if(hash ==="")
-    	window.history.pushState({path:"EagleEye"},"","#EagleEye");
+    	  if(hash ===""){
+    		//window.history.pushState({path:"EagleEye"},"","#EagleEye");
+    		  FaceFinder.showView();
+      		FaceFinder.load(help);
+      		Module.resateView();
+    	  }
     }
       
         //.click();
