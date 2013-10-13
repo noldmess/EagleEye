@@ -68,6 +68,6 @@ function goBack(e){
 	$('#search').show();
 	Module.resateView();
 	//location.href = "#facefinder" + ;
-	window.history.pushState({path:"#facefinder" + $('#photo img').attr("name")},"","#facefinder" + $('#photo img').attr("name"));
+	window.history.pushState({path:"#facefinder" + $('#photo img').attr("name")},"","#EagleEye" + $('#photo img').attr("name"));
 	e.preventDefault();
 }
