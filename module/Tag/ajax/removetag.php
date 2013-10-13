@@ -14,7 +14,7 @@ if($id>0){
 	$tag = strtok(" ");
 	$tagid=$tag_module->getTagId($name,$tag);
 	$tag_module->removeTagPhoto($tagid,$class);
-	$class->writeTag($_GET['imagepaht']);
+	$class->writeTag($photo->getPath());
 }else{
 	OCP\JSON::error(array("message"=>"get image must be an intager"));
 }

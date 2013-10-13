@@ -1,6 +1,6 @@
 <div id="controls">
 <div class="crumb ui-droppable" title='/'>
-	<a href="<?php echo \OCP\Util::linkToRoute( 'EagleEye', array("type"=>'View','dir'=>""));?>"><img class="svg" src="/owncloud/core/img/places/home.svg"></img></a>
+	<a href="<?php echo \OCP\Util::linkToRoute( 'EagleEye', array("type"=>'View','dir'=>"%252F"));?>"><img class="svg" src="/owncloud/core/img/places/home.svg"></img></a>
 </div>
 <?php 
 $size=sizeof($_['patharray']);
@@ -13,7 +13,7 @@ if(isset($_['patharray']) && $size>1 )
 	if($size-$count===0){
 ?>
 <div class="crumb last svg" title="<?php echo $path?>">
-	<a href="<?php echo \OCP\Util::linkToRoute( 'EagleEye', array("type"=>'View','dir'=>str_replace("/", "%252F", $path)));?>"><?php echo $a?></a>
+	<a href="<?php echo \OCP\Util::linkToRoute( 'EagleEye', array("type"=>'View','dir'=>str_replace("/", "", $path)));?>"><?php echo $a?></a>
 </div>
 <?php }else{?>
 <div class="crumb  svg ui-droppable" title="<?php echo $path?>">
