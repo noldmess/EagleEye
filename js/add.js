@@ -2,8 +2,8 @@ $(document).ready(function(){
 	if(typeof Gallery!=='undefined'){
 		$('.right').append('<button class="EagleEye" style="display: none;">EagleEye</button><a class="share" data-possible-permissions="31" title="Teilen" data-item="" data-item-type="gallery"></a>');
 		 	$('button.EagleEye').click(function(){
-		 		var params = {type: 'View',dir: encodeURIComponent(Gallery.currentAlbum).replace(oc_current_user, '')};
-					url= OC.Router.generate('EagleEye',params);
+		 		var params = {dir: encodeURIComponent(Gallery.currentAlbum).replace(oc_current_user, '')};
+					url= OC.Router.generate('EagleEyeView',params);
 					window.location = url;
 	   });
 		 $('button.EagleEye').show();
@@ -20,11 +20,11 @@ $(document).ready(function(){
 			}else{
 				text="%2F"
 			}
-			var params = {type: 'View',dir: encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename)};
-			url= OC.Router.generate('EagleEye',params);
+			var params = {dir: encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename)};
+			url= OC.Router.generate('EagleEyeView',params);
 			window.location = url;
 		});
-		FileActions.register('image/jpeg', 'EagleEye', OC.PERMISSION_DELETE, function () {
+		FileActions.register('image/jpeg', 'EagleEyeView', OC.PERMISSION_DELETE, function () {
 			//image for action 
 			return OC.imagePath('EagleEye', 'EagleEye.png');
 		}, function (filename) {
@@ -39,8 +39,8 @@ $(document).ready(function(){
 				}else{
 					text="%2F"
 				}
-				var params = {type: ' View',dir: encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename)};
-				url= OC.Router.generate('EagleEye',params);
+				var params = {dir: encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename)};
+				url= OC.Router.generate('EagleEyeView',params);
 				window.location = url+ '#photoview/'+data.data.id;
 			});
 		});
