@@ -13,7 +13,14 @@ $(document).ready(function(){
 		return OC.imagePath('EagleEye', 'EagleEye.png');
 		}, function (filename) {
 			//action 
-			window.location = OC.linkTo('EagleEye', 'index.php')+'?dir='+ encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/' + encodeURIComponent(filename);
+			//window.location = OC.linkTo('EagleEye', 'index.php')+'?dir='+ encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/' + encodeURIComponent(filename);
+			var params = {dir: encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)+encodeURIComponent(filename)+"/"};
+			alert($('#dir').val());
+			alert(encodeURIComponent($('#dir').val());
+			alert(encodeURIComponent($('#dir').val()).replace(/%2F/g, '/'));
+			alert(encodeURIComponent(filename));
+			url= OC.Router.generate('EagleEye',params);
+			window.location = url;
 		});
 		FileActions.register('image/jpeg', 'EagleEye', OC.PERMISSION_DELETE, function () {
 			//image for action 
