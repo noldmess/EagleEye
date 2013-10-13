@@ -38,7 +38,8 @@ var PhotoView={
 							Module.load(parseInt(event[1]));
 					})
 					.error(function () {
-							alert("Error")   
+							alert("Error") ;
+							window.history.pushState({path:"#EagleEye" + $('#photo img').attr("name")},"","#EagleEye" + $('#photo img').attr("name"));
 					});
 					
 					$('#photoview img').ready(function(){
