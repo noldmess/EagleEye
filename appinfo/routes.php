@@ -1,6 +1,8 @@
+
+
 <?php
 
-$this->create('EagleEye', '/{dir}')->action(
+$this->create('EagleEye', '/')->action(
     function($params){
         require __DIR__ . '/../index.php';
     }
