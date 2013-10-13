@@ -35,7 +35,7 @@ function checkURL(hash)
         	PhotoView.showView();
         	PhotoView.ClickImg(help,helpold);
             break;
-        case "facefinder":
+        case "EagleEye":
     		FaceFinder.showView();
     		FaceFinder.load(help);
     		Module.resateView();
@@ -55,7 +55,7 @@ function checkURL(hash)
         }
     }else{
     	  if(hash ==="")
-    	window.history.pushState({path:"facefinder"},"","#facefinder");
+    	window.history.pushState({path:"EagleEye"},"","#EagleEye");
     }
       
         //.click();
