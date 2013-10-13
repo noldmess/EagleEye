@@ -16,10 +16,13 @@ $(document).ready(function(){
 			//window.location = OC.linkTo('EagleEye', 'index.php')+'?dir='+ encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/' + encodeURIComponent(filename);
 			
 			//var params = {dir: encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)+encodeURIComponent(filename)+"/"};
-			alert($('#dir').val());
 			alert(encodeURIComponent($('#dir').val()));
-			alert(encodeURIComponent($('#dir').val()).replace(/%2F/g, '/'));
 			alert(encodeURIComponent(filename));
+			if($('#dir').val().length<=1)
+				text="";
+			else
+				text="/%2F/g"
+			alert(encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename));
 			url= OC.Router.generate('EagleEye',params);
 			window.location = url;
 		});
