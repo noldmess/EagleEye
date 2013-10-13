@@ -81,11 +81,14 @@ foreach ($pathArray as $path){
 	}
 }
 
-if(isset($params['type']) && $params['type']==="Search"){
+if(isset($params['search']) && isset($params['name']) && isset($params['tag'])){
 	OCP\Util::addStyle('EagleEye', 'search');
 	//OCP\Util::addScript('facefinder', 'search');
 	$tmpl = new OCP\Template( 'EagleEye', 'search', 'user' );
 	OCP\Util::addScript('EagleEye', 'photoview');
+	$tmpl->assign('search', $params['search']);
+	$tmpl->assign('name', $params['name']);
+	$tmpl->assign('tag', $params['tag']);
 	$tmpl->printPage();	
 }else{
 	$tmpl = new OC_Template( 'EagleEye', 'index', 'user' );
