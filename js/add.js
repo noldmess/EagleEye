@@ -14,9 +14,10 @@ $(document).ready(function(){
 		}, function (filename) {
 			//action 
 			//window.location = OC.linkTo('EagleEye', 'index.php')+'?dir='+ encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/' + encodeURIComponent(filename);
-			var params = {dir: encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)+encodeURIComponent(filename)+"/"};
+			
+			//var params = {dir: encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)+encodeURIComponent(filename)+"/"};
 			alert($('#dir').val());
-			alert(encodeURIComponent($('#dir').val());
+			alert(encodeURIComponent($('#dir').val()));
 			alert(encodeURIComponent($('#dir').val()).replace(/%2F/g, '/'));
 			alert(encodeURIComponent(filename));
 			url= OC.Router.generate('EagleEye',params);
