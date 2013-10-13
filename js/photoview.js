@@ -39,10 +39,10 @@ var PhotoView={
 					})
 					.error(function () {
 							OC.Notification.show("Image not found");
-							alert();
-							 $.getJSON(OC.linkTo('facefinder', 'ajax/removeImageFromDB.php')+"?img="+parseInt(event[1]), function(data) {
+							 $.getJSON(OC.linkTo('EagleEye', 'ajax/removeImageFromDB.php')+"?img="+parseInt(event[1]), function(data) {
+								 setTimeout(function(){OC.Notification.hide()}, 1000);
 								window.history.pushState({path:"#EagleEye"},"","#EagleEye");
-								setTimeout(OC.Notification.hide(), 1000);
+								
 							 }); 
 					});
 					
