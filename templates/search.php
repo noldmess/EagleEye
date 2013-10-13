@@ -1,13 +1,13 @@
 
 <?php
 use OCA\FaceFinder;
-if(isset($_GET['search'])&&isset($_GET['tag'])&&(isset($_GET['name']))){
+if(isset($_['search'])&&isset($_['tag'])&&(isset($_['name']))){
 	$Initialisemodul=OCA\FaceFinder\ModuleManeger::getInstance();
-	if($Initialisemodul->isModuleClass($_GET['search'])){
+	if($Initialisemodul->isModuleClass($_['search'])){
 		//$tag=htmlspecialchars(str_replace(array('/', '\\'), '',  $_GET['tag']));
 		
 		//$name=htmlspecialchars(str_replace(array('/', '\\'), '',  ));
-		$seachResult=$_GET['search']::searchArry($_GET['name'],$_GET['tag']);
+		$seachResult=$_['search']::searchArry($_['name'],$_['tag']);
 		$result=count($seachResult);
 		$searchbool=true;
 	}
