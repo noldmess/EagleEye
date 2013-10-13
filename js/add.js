@@ -21,7 +21,7 @@ $(document).ready(function(){
 			if($('#dir').val().length<=1){
 				text="";
 			}else{
-				text="/%2F"
+				text="%2F"
 			}
 			var params = {dir: encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename)};
 			alert(encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename));
