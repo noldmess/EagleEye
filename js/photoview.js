@@ -39,9 +39,11 @@ var PhotoView={
 					})
 					.error(function () {
 							OC.Notification.show("Image not found");
-							alert(parseInt(event[1]));
-							window.history.pushState({path:"#EagleEye"},"","#EagleEye");
-							setTimeout(OC.Notification.hide(), 1000);
+							alert();
+							 $.getJSON(OC.linkTo('facefinder', 'ajax/removeequivalent.php')+"?img="+parseInt(event[1]), function(data) {
+								window.history.pushState({path:"#EagleEye"},"","#EagleEye");
+								setTimeout(OC.Notification.hide(), 1000);
+							 }); 
 					});
 					
 					$('#photoview img').ready(function(){
