@@ -4,7 +4,7 @@
 var FaceFinder={
 		init:function(){
 			$('option[value="time"]').click(function(e){
-				window.history.pushState({path:"facefinder"},"","#facefinder");
+				window.history.pushState({path:"EagleEye"},"","#EagleEye");
 			});
 		},
 		hideView:function (){

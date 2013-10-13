@@ -49,7 +49,7 @@ var PhotoView={
 				//TODO problem!!!!!!!
 				//nicht in funktion!
 				if(helpold2[0]===""){
-					helpold2[0]="facefinder";
+					helpold2[0]="EagleEye";
 				}
 				$('span.right a ').attr('href','#'+helpold2[0]+data.data.path);
 				
