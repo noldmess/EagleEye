@@ -1,6 +1,6 @@
 <div id="controls">
 <div class="crumb ui-droppable" title='/'>
-	<a href="<?php echo \OCP\Util::linkTo('facefinder', 'index.php')."?dir=/"?>"><img class="svg" src="/owncloud/core/img/places/home.svg"></img></a>
+	<a href="<?php echo \OCP\Util::linkToRoute( 'EagleEye', array('dir'=>""));?>"><img class="svg" src="/owncloud/core/img/places/home.svg"></img></a>
 </div>
 <?php 
 $size=sizeof($_['patharray']);
