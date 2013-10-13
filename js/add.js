@@ -16,15 +16,15 @@ $(document).ready(function(){
 			//window.location = OC.linkTo('EagleEye', 'index.php')+'?dir='+ encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/' + encodeURIComponent(filename);
 			
 			//var params = {dir: encodeURIComponent($('#dir').val()).replace(/%2F/g, '/').substr(1)+encodeURIComponent(filename)+"/"};
-			alert(encodeURIComponent($('#dir').val()));
-			alert(encodeURIComponent(filename));
+		//	alert(encodeURIComponent($('#dir').val()));
+		//	alert(encodeURIComponent(filename));
 			if($('#dir').val().length<=1){
 				text="";
 			}else{
 				text="%2F"
 			}
 			var params = {dir: encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename)};
-			alert(encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename));
+		//	alert(encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename));
 			url= OC.Router.generate('EagleEye',params);
 			window.location = url;
 		});
@@ -38,7 +38,14 @@ $(document).ready(function(){
 				text="";
 			//
 			$.getJSON(OC.linkTo('EagleEye', 'ajax/loadphotoview.php')+'?image='+text+'/'+filename, function(data) {
-				window.location = OC.linkTo('EagleEye', 'index.php')+'?dir='+ encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/#photoview/'+data.data.id;
+				if($('#dir').val().length<=1){
+					text="";
+				}else{
+					text="%2F"
+				}
+				var params = {dir: encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename)};
+				url= OC.Router.generate('EagleEye',params);
+				window.location = url+ '/#photoview/'+data.data.id;
 			});
 		});
 			
