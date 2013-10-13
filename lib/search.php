@@ -21,14 +21,18 @@
 */
 use OCA\FaceFinder;
 class OC_Search_Provider_FaceFinder extends  OC_Search_Provider{
-function search($query) {
-	$searchResultarray=array();
-	$Initialisemodul=OCA\FaceFinder\ModuleManeger::getInstance();
-	$moduleclasses=$Initialisemodul->getModuleClass();
-	foreach ($moduleclasses as $moduleclass){
-		$searchResultarray=array_merge($searchResultarray,$moduleclass['Mapper']::search($query));
+	function search($query) {
+		$searchResultarray=array();
+		$Initialisemodul=OCA\FaceFinder\ModuleManeger::getInstance();
+		$moduleclasses=$Initialisemodul->getModuleClass();
+		foreach ($moduleclasses as $moduleclass){
+			$searchResultarray=array_merge($searchResultarray,$moduleclass['Mapper']::search($query));
+			}
+			
+			return $searchResultarray;
 		}
-		
-		return $searchResultarray;
+
+	static public  function linkToSearch($search,$name,$tag) {
+			return OCP\Util::linkToRoute('EagleEyeSearch',array("search"=>$search,"name"=>$name,"tag"=>$tag));
 	}
 }
