@@ -13,8 +13,9 @@ $(document).ready(function(){
 		return OC.imagePath('EagleEye', 'EagleEye.png');
 		}, function (filename) {
 			//action 
-			d=encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/';
-			var params = {dir: d};
+			var d=encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/'+encodeURIComponent(filename);
+			alert(d);
+			var params = {dir: d };
 			url= OC.Router.generate('EagleEye',params);
 			window.location = url;
 		});
@@ -28,8 +29,9 @@ $(document).ready(function(){
 				text="";
 			//
 			$.getJSON(OC.linkTo('EagleEye', 'ajax/loadphotoview.php')+'?image='+text+'/'+filename, function(data) {
-				d=encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/';
-				var params = {dir:d };
+				var d=encodeURIComponent($('#dir').val()).replace(/%2F/g, '/')+ '/'+encodeURIComponent(filename);
+				alert(d);
+				var params = {dir: d };
 				url= OC.Router.generate('EagleEye',params);
 				window.location = url+'/#photoview/'+data.data.id;
 			});
