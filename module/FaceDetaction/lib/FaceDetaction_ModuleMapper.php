@@ -477,11 +477,8 @@ public static function doBackgroundJob($array){
 			OCP\Util::writeLog("EagleEye","t2",OCP\Util::ERROR);
 			if (self::checkVersion() || !self::AllTableExist()){
 				//create all tables and update version number
-				OCP\Util::writeLog("EagleEye","t4 ".OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfd",OCP\Util::ERROR);
 				chmod(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/",0777);
-				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfd", "a");
-				fclose($handle);
-				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfdl", "a");
+				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/learn_list.ext", "a");
 				fclose($handle);
 				$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext", "a");
 				fclose($handle);
@@ -497,7 +494,7 @@ public static function doBackgroundJob($array){
 			chmod(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/",0777);
 			//create all tables and update version number
 			OCP\Util::writeLog("EagleEye",OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext",OCP\Util::ERROR);
-			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/test.sdfdl", "a");
+			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/learn_list.ext", "a");
 			fclose($handle);
 			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext", "a");
 			fclose($handle);
