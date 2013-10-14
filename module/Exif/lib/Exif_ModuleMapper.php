@@ -227,7 +227,7 @@ class EXIF_ModuleMapper implements OCA\FaceFinder\MapperInterface{
 					}
 				}
 			}
-			$array+=array($count++=>array('photo_id'=>$path)+$help);
+			$array+=array($count++=>array('photo_id'=>$path));
 			$help1=sizeof($array);
 			$help2=sizeof($array);
 			$array_duplicatits=array();
