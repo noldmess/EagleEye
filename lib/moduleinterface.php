@@ -29,7 +29,7 @@ interface  MapperInterface {
 	/**
 	 * Remove the data in the module DB
 	 */
-	  public static function remove();
+	  public static function remove($class);
 	/**
 	* Update the data in the module DB
 	*/

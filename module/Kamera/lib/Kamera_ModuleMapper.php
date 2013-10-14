@@ -159,7 +159,7 @@ class Kamera_ModuleMapper implements OCA\FaceFinder\MapperInterface{
 
 
 
-	public static function remove(){
+	public static function remove($class){
 		/**
 		 * @todo
 		 */
