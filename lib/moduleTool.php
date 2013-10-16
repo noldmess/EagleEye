@@ -40,7 +40,7 @@ class ModuleTool {
 	}
 	
 	public function buildModuleTool(){
-		$html='<div class="tool '.$this->title.'>';
+		$html='<div class="tool '.$this->title.'">';
 		$html.=$this->getTitleDiv();
 		foreach($this->itemList as $item){
 			$html.=$item;
