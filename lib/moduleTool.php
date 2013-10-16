@@ -35,8 +35,8 @@ class ModuleTool {
 		$this->itamList[]='<div class="tool_items fix" style="">'.$html.'</div>';
 	}
 	
-	public function addScrollItems(){
-		$this->itamList[]='<div class="tool_items" style=""></div>';
+	public function addScrollItems($html){
+		$this->itamList[]='<div class="tool_items" style="">'.$html.'</div>';
 		
 	}
 	
