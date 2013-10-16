@@ -57,6 +57,7 @@ div.visible { opacity: 0.8;}
 	bottom: 0px;
 	right:0px;
 	float:left;
+	background: url("/owncloud/core/css/../img/noise.png") repeat scroll 0% 0% rgb(56, 60, 67);
 
 }
 
