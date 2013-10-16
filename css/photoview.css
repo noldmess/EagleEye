@@ -4,8 +4,7 @@
 	height:100%;
 	width:100%;
 	position: fixed ;
-	/*background-color:#f5f5f5;*/
-	background: url("/owncloud/core/css/../img/noise.png") repeat scroll 0% 0% rgb(56, 60, 67);
+	background-color:#f5f5f5;
 	display: block;
 }
 

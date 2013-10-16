@@ -57,7 +57,6 @@ div.visible { opacity: 0.8;}
 	bottom: 0px;
 	right:0px;
 	float:left;
-	background: url("/owncloud/core/css/../img/noise.png") repeat scroll 0% 0% rgb(56, 60, 67);
 
 }
 
@@ -72,7 +71,6 @@ div.visible { opacity: 0.8;}
 	float: left;
 	overflow:auto;
 	
-	
 }
 
 #photoOverView {
@@ -86,7 +84,7 @@ div.visible { opacity: 0.8;}
 }
 
 #photoOverView div.image  img {
-	box-shadow:2px 2px 2px rgb(0, 0, 0);
+	box-shadow:2px 2px 2px #666;
 	-moz-box-shadow: 2px 2px 2px #666;
 	-webkit-box-shadow: 2px 2px 2px #666;
 }
