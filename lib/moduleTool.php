@@ -31,8 +31,8 @@ class ModuleTool {
 		$this->title=$title;
 	}
 	
-	public function addFixItems(){
-		$this->itamList[]='<div class="tool_items fix" style=""></div>';
+	public function addFixItems($html){
+		$this->itamList[]='<div class="tool_items fix" style="">'.$html.'</div>';
 	}
 	
 	public function addScrollItems(){
@@ -45,7 +45,6 @@ class ModuleTool {
 		$html.=$this->getTitleDiv();
 		foreach($this->itamList as $item){
 			$html.=$item;
-			echo "sdfsdf";
 		}
 		$html.='</div>';
 		return $html;
