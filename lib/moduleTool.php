@@ -37,6 +37,7 @@ class ModuleTool {
 	
 	public function addScrollItems(){
 		array_push($this->itamList,'<div class="tool_items" style=""></div>');
+		
 	}
 	
 	public function buildModuleTool(){
@@ -44,6 +45,7 @@ class ModuleTool {
 		$html.=$this->getTitleDiv();
 		foreach($this->itamList as $item){
 			$html.=$item;
+			echo "sdfsdf";
 		}
 		$html.='</div>';
 		return $html;
