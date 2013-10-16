@@ -2,7 +2,7 @@
 use OCA\FaceFinder;
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
-$tool=new ModuleTool("Exif");
+$tool=new OCA\FaceFinder\ModuleTool("Exif");
 $tool->addscrollItems();
 echo $tool->buildModuleTool();
 ?>
