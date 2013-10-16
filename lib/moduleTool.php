@@ -46,6 +46,7 @@ class ModuleTool {
 			$html.=$item;
 		}
 		$html.='</div>';
+		return $html;
 	}
 	
 	private function getTitleDiv(){
