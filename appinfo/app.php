@@ -32,6 +32,7 @@
 OC::$CLASSPATH['OCA\FaceFinder\ModuleManeger'] = 'EagleEye/lib/modulemaneger.php';
 OC::$CLASSPATH['OCA\FaceFinder\ClassInterface'] = 'EagleEye/lib/moduleClassInterface.php';
 OC::$CLASSPATH['OCA\FaceFinder\MapperInterface'] = 'EagleEye/lib/moduleinterface.php';
+OC::$CLASSPATH['OCA\FaceFinder\ModuleTool'] = 'EagleEye/lib/moduleTool.php';
 
 OC::$CLASSPATH['OCA\FaceFinder\PhotoClass'] = 'EagleEye/lib/photoclass.php';
 OC::$CLASSPATH['OCA\FaceFinder\FaceFinderPhoto'] = 'EagleEye/lib/photo.php';
