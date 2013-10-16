@@ -3,7 +3,7 @@
 function exif() {
 	this.init=function(){
 		$("#tool_righte").append('<div class="tool Exif"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Exif</div><div class="tool_items"><table class="table"></table></div></div>');
-		$("#tool_righte").load(OC.linkTo('EagleEye', 'module/Exif/ajax/modulTool.php'));
+		//$("#tool_righte").load(OC.linkTo('EagleEye', 'module/Exif/ajax/modulTool.php'));
 	 	
 	},
 	this.hideView=function (event){
