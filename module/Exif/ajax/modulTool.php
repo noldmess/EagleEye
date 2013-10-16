@@ -5,6 +5,6 @@ OCP\JSON::callCheck();
 OCP\JSON::checkAppEnabled('EagleEye');
 
 $tool=new OCA\FaceFinder\ModuleTool("Exif");
-$tool->addscrollItems();
+$tool->addScrollItems();
 echo $tool->buildModuleTool();
 ?>
