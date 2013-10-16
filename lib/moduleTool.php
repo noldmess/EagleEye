@@ -32,11 +32,11 @@ class ModuleTool {
 	}
 	
 	public function addFixItems(){
-		array_push($this->$itamList,'<div class="tool_items fix" style=""></div>');
+		array_push($this->itamList,'<div class="tool_items fix" style=""></div>');
 	}
 	
 	public function addScrollItems(){
-		array_push($this->$itamList,'<div class="tool_items" style=""></div>');
+		array_push($this->itamList,'<div class="tool_items" style=""></div>');
 	}
 	
 	public function buildModuleTool(){
