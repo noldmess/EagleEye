@@ -35,7 +35,7 @@ class ModuleTool {
 		array_push($this->itamList,'<div class="tool_items fix" style=""></div>');
 	}
 	
-	public function addsSrollItems(){
+	public function addScrollItems(){
 		array_push($this->itamList,'<div class="tool_items" style=""></div>');
 	}
 	
