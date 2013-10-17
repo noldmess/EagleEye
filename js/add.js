@@ -39,7 +39,7 @@ $(document).ready(function(){
 				}else{
 					text="%2F"
 				}
-				var params = {dir: encodeURIComponent($('#dir').val())+text+encodeURIComponent(filename)};
+				var params = {dir: encodeURIComponent($('#dir').val())+text};
 				url= OC.Router.generate('EagleEyeView',params);
 				window.location = url+ '#photoview/'+data.data.id;
 			});
