@@ -493,11 +493,7 @@ public static function doBackgroundJob($array){
 			OCP\Util::writeLog("EagleEye","t3",OCP\Util::ERROR);
 			chmod(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/",0777);
 			//create all tables and update version number
-			OCP\Util::writeLog("EagleEye",OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext",OCP\Util::ERROR);
-			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/learn_list.ext", "a");
-			fclose($handle);
-			$handle = fopen(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext", "a");
-			fclose($handle);
+			OCP\Util::writeLog("EagleEye---------------------",OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext",OCP\Util::ERROR);
 			self::createDBtabels(self::$classname);
 			OC_Appconfig::setValue('facefinder',self::$classname,self::getVersion());
 			FaceDetaction_ModuleClass::classLearnFaceRec();
