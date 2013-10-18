@@ -169,7 +169,7 @@ public static function doBackgroundJob($array){
 				OCP\Util::writeLog("facefinderddddddddddd",$face['threshold']." x1:".$section['x1']." x2:".$section['x2']." y1:".$section['y1']." y2:".$section['y2'],OCP\Util::DEBUG);
 				if(self::issetFacePhoto($newClass,$imgToSava."-".$facecount.".png",$section['x1'],($section['x2']-$section['x1']),$section['y1'],($section['y2']-$section['y1'])))
 						OCP\Util::writeLog("facefinder","fsdfsdfsdfsdfsfd",OCP\Util::ERROR);
-				if($face['class']>41 && $face['threshold']<50){
+				if($face['class']>41 && $face['threshold']<70){
 					OCP\Util::writeLog("facefinder FaceClass",$face['class'],OCP\Util::DEBUG);
 					$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClass($id_photo);
 					$tag=self::getTagByFaceClass($face['class']);
@@ -493,7 +493,7 @@ public static function doBackgroundJob($array){
 			OCP\Util::writeLog("EagleEye","t3",OCP\Util::ERROR);
 			chmod(OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/",0777);
 			//create all tables and update version number
-			OCP\Util::writeLog("EagleEye---------------------",OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext",OCP\Util::ERROR);
+			OCP\Util::writeLog("EagleEye---------------------",OC_App::getAppPath('EagleEye')."/module/FaceDetaction/config/add_learn_list.ext",OCP\Util::DEBUG);
 			self::createDBtabels(self::$classname);
 			OC_Appconfig::setValue('facefinder',self::$classname,self::getVersion());
 			FaceDetaction_ModuleClass::classLearnFaceRec();
