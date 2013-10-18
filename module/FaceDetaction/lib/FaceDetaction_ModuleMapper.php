@@ -565,7 +565,7 @@ public static function doBackgroundJob($array){
 		
 		
 	public static function getArrayOfScript(){
-		return array("face");
+		return array("start"=>"face");
 	}
 
 
