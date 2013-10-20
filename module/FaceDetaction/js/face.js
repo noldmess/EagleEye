@@ -57,7 +57,7 @@ face.getTag=function(img){
 						  }, 300);
 			}else{
 			if(data.data.length>0){
-				var dsfsd =$('#tool_righte .tool.Face .tool_items table');
+				 $("#tool_righte .tool.Tag .tool_items table *").remove();
 				$('#tool_righte .tool.Face .tool_items table').append('<thead>'
 						+'<tr>'
 						+'	<th>Name</th>'
