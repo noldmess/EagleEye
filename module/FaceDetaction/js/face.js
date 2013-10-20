@@ -83,10 +83,7 @@ face.getTag=function(img){
 					 }
 			 });
 					$('#photo .draggable_face .draggable_face_2 a').click(function(e){
-						var sdfsdf=$(this).parent();
-						var sdfsdf=$(this).parent().parent().children('.addTag');
-						var sdfsdf=$(this).parent().parent().children('.addTag').children('input[name="query"]');
-						face.removeTagDiv(sdfsdf);
+						face.removeTagDiv($(this).parent().parent().children('.addTag').children('input[name="query"]'));
 						$(this).parent().remove();
 					 });
 					
@@ -137,11 +134,11 @@ face.getTag=function(img){
 				 $("#tool_righte .tool.Face .tool_items table *").remove();
 				 $("#tool_righte .tool.Tag .tool_items table *").remove();
 				var image=$('#photoview img').attr("alt");
-				setTimeout(function(){
+				/*setTimeout(function(){
 					 face.getTag(image);
 					 tag.getTag(image);
 					
-						  }, 300);
+						  }, 300);*/
 			});
 			
 			$('#tool_righte .tool.Face .tool_items tbody tr i.icon-edit').click(function(){
