@@ -69,7 +69,10 @@ static int read_csv(const string& filename, vector<Mat>& images, vector<int>& la
 int main(int argc, const char *argv[]) {
     // Check for valid command line arguments, print usage
     // if no arguments were given.
-
+    if (argc < 2) {
+        cout << "usage: " << argv[0] << " <csv.ext> <output_folder> " << endl;
+        exit(1);
+    }
     string output_folder;
   /*  if (argc == 3) {
         output_folder = string(argv[2]);
@@ -90,10 +93,6 @@ int main(int argc, const char *argv[]) {
         exit(1);
     }
     // Quit if there are not enough images for this demo.
-    if(images.size() <= 1) {
-        string error_message = "This demo needs at least 2 images to work. Please add more images to your data set!";
-        CV_Error(CV_StsError, error_message);
-    }
     // Get the height from the first image. We'll need this
     // later in code to reshape the images to their original
     // size:
