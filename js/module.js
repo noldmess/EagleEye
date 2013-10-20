@@ -16,7 +16,7 @@ var Module={
 				$('#tool_righte').show();
 			}
 			this.loadAll(function(){
-				$.each(data,function(index_year,molude){
+				$.each(Module.ModuleArray,function(index_year,molude){
 					var classload=buildFromJSON(molude);
 					classload.load(event);
 				});
