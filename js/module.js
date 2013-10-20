@@ -1,62 +1,67 @@
 var Module={
-		ModuleArray:"",
-		loadAll:function(data,event){
-			$.each(data,function(index_year,molude){
-				var classload=buildFromJSON(molude);
-				classload.load(event);
-			});
+		ModuleArray:{},
+		
+		loadAll:function(callback){
+			if(typeof this.ModuleArray.length==="undefined"){
+				$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
+					Module.ModuleArray=data.data;
+					if(callback != undefined && typeof callback == 'function') callback();
+				});
+			}else{
+				if(callback != undefined && typeof callback == 'function') callback();
+			}
 		},
 		load:function (event){
-				//$."Tag".load(event);
-				//var you = new Person({ firstName: 'Mike' });
-				if(this.ModuleArray.length<=0){
-					$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
-						if (data.status == 'success'){
-							this.ModuleArray=data.data;
-							Module.loadAll(this.ModuleArray,event);
-						}
-					});
-				}else{
-					Module.loadAll(this.ModuleArray,event);
-				}
+			if($('#tool_righte').is(":visible")){
+				$('#tool_righte').show();
+			}
+			this.loadAll(function(){
+				$.each(data,function(index_year,molude){
+					var classload=buildFromJSON(molude);
+					classload.load(event);
+				});
+			});
 			
 		},
 		
 		init:function (event){
 			//$."Tag".load(event);
 			//var you = new Person({ firstName: 'Mike' });
-			
-			//FaceFinder initialise 
-			FaceFinder.init();
-			//PhotoView initialise 
-			PhotoView.init();
-			//Dublikates initialise
-			Duplicatits.init();
-			$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
-				if (data.status == 'success'){
-					$.each(data.data,function(index_year,data){
-							var classload=buildFromJSON(data);
-							//classload.load(event);
-							classload.init();
-					});
-					Module.toolSlide();
-				}
-				
+			this.loadAll(function(){
+				//FaceFinder initialise 
+				FaceFinder.init();
+				//PhotoView initialise 
+				PhotoView.init();
+				//Dublikates initialise
+				Duplicatits.init();
+				//$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
+				//	if (data.status == 'success'){
+						$.each(Module.ModuleArray,function(index_year,data){
+								var classload=buildFromJSON(data);
+								//classload.load(event);
+								classload.init();
+					//	});
+						Module.toolSlide();
+					
+					
+				});
 			});
 		},
-		hideView:function (event){
-			FaceFinder.hideView();
-			PhotoView.hideView();
-			Duplicatits.hideView();
-			$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
-				if (data.status == 'success'){
-					$.each(data.data,function(index_year,data){
+		hideView:function (callback){
+			
+			this.loadAll(function(){
+				FaceFinder.hideView();
+				PhotoView.hideView();
+				Duplicatits.hideView();
+					$.each(Module.ModuleArray,function(index_year,data){
 							var classload=buildFromJSON(data);
 							classload.hideView();
 					});
-				}
 				
+			
+				if(callback != undefined && typeof callback == 'function') callback();
 			});
+			 
 		},
 		viewLoader:function (name){
 			var classload=buildFromJSON(name);
@@ -66,13 +71,12 @@ var Module={
 		allInfo:function (img1,img2){
 			//$."Tag".load(event);
 			//var you = new Person({ firstName: 'Mike' });
-			$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
-				if (data.status == 'success'){
-					$.each(data.data,function(index_year,data){
+			this.loadAll(function(){
+					$.each(Module.ModuleArray,function(index_year,data){
 							var classload=buildFromJSON(data);
 							classload.load(event);
 					});
-				}
+				
 				
 			});
 		},
@@ -94,24 +98,21 @@ var Module={
 		})
 	},	
 	resateView:function(){
-		$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
-			if (data.status == 'success'){
-				$.each(data.data,function(index_year,data){
+		this.loadAll(function(){
+				$.each(Module.ModuleArray,function(index_year,data){
 						var classload=buildFromJSON(data);
 						classload.resat();
 				});
-			}
 			
 		});
 	},
 	setEvents:function(){
-		$.getJSON(OC.linkTo('EagleEye', 'ajax/modules.php'), function(data) {
-			if (data.status == 'success'){
-				$.each(data.data,function(index_year,data){
+		this.loadAll(function(){
+				$.each(Module.ModuleArray,function(index_year,data){
 						var classload=buildFromJSON(data);
 						classload.setEvents();
 				});
-			}
+			
 			
 		});
 	},
