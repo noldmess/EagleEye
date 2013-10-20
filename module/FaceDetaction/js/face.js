@@ -43,7 +43,6 @@ function face(){
 };
 
 face.getTag=function(img){
-	$("#tool_righte .tool.Face .tool_items table *").remove();
 	$('#tool_righte .tool.Face .tool_items button').addClass('loading');
 	$('#tool_righte .tool.Face .tool_items button').text('Analysing');
 	$.getJSON(OC.linkTo('EagleEye', 'module/FaceDetaction/ajax/face.php')+'?image='+img, function(data) {
@@ -52,11 +51,13 @@ face.getTag=function(img){
 				 tag.getTag(img);
 				 $("#tool_righte .tool.Tag .tool_items table *").remove();
 				$("#tool_righte .tool.Key .tool_items table *").remove();
+				$("#tool_righte .tool.Face .tool_items table *").remove();
 				 setTimeout(function(){
 					 face.getTag(img);
 						  }, 300);
 			}else{
 			if(data.data.length>0){
+				var dsfsd =$('#tool_righte .tool.Face .tool_items table');
 				$('#tool_righte .tool.Face .tool_items table').append('<thead>'
 						+'<tr>'
 						+'	<th>Name</th>'
