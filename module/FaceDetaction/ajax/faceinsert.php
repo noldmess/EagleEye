@@ -31,7 +31,7 @@ if($id>0){
 	Tag_ModuleMapper::update($class);
 	$class->writeTag($photo->getPath());
 	//faster learn slover work!
-	if(FaceDetaction_ModuleClass::countNewFaces()>1)
+	//if(FaceDetaction_ModuleClass::countNewFaces()>0)
 		FaceDetaction_ModuleClass::updateLearnFaceRec();
 }else{
 	OCP\JSON::error(array("message"=>"get image must be an intager"));
