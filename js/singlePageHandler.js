@@ -29,30 +29,31 @@ function checkURL(hash)
         var help=veiwName.split("/");
        
       //  loadPage(hash);	// and load the new page
-        Module.hideView();
-        switch (help[0]) {
-        case "photoview":
-        	PhotoView.showView();
-        	PhotoView.ClickImg(help,helpold);
-            break;
-        case "EagleEye":
-    		FaceFinder.showView();
-    		FaceFinder.load(help);
-    		Module.resateView();
-            break;
-        case "duplicatits":
-    		Duplicatits.showView();
-    		Duplicatits.load(help);
-            break;
-        case "search":
-        	$('#search').show();
-            break;
-        case "":
-            break;
-        default:
-        	  Module.viewLoader(help[0]);
-            break;
-        }
+        Module.hideView(function(){
+	        switch (help[0]) {
+	        case "photoview":
+	        	PhotoView.showView();
+	        	PhotoView.ClickImg(help,helpold);
+	            break;
+	        case "EagleEye":
+	    		FaceFinder.showView();
+	    		FaceFinder.load(help);
+	    		Module.resateView();
+	            break;
+	        case "duplicatits":
+	    		Duplicatits.showView();
+	    		Duplicatits.load(help);
+	            break;
+	        case "search":
+	        	$('#search').show();
+	            break;
+	        case "":
+	            break;
+	        default:
+	        	  Module.viewLoader(help[0]);
+	            break;
+	        }
+        });
     }else{
     	  if(hash ===""){
     		window.history.pushState({path:"EagleEye"},"","#EagleEye");
