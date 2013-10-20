@@ -43,6 +43,7 @@ function face(){
 };
 
 face.getTag=function(img){
+	$("#tool_righte .tool.Face .tool_items table *").remove();
 	$('#tool_righte .tool.Face .tool_items button').addClass('loading');
 	$('#tool_righte .tool.Face .tool_items button').text('Analysing');
 	$.getJSON(OC.linkTo('EagleEye', 'module/FaceDetaction/ajax/face.php')+'?image='+img, function(data) {
