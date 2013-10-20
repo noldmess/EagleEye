@@ -129,16 +129,6 @@ face.getTag=function(img){
 				var name=$(this).attr("name");
 				 var tagDiv=$('i[name^="KEYWORDS '+name+'"]');
 				 removeTagDiv(tagDiv);
-				 $("#photo div.draggable_face").remove();
-				 $("#photo div.tag_in_photo").remove();
-				 $("#tool_righte .tool.Face .tool_items table *").remove();
-				 $("#tool_righte .tool.Tag .tool_items table *").remove();
-				var image=$('#photoview img').attr("alt");
-				/*setTimeout(function(){
-					 face.getTag(image);
-					 tag.getTag(image);
-					
-						  }, 300);*/
 			});
 			
 			$('#tool_righte .tool.Face .tool_items tbody tr i.icon-edit').click(function(){
