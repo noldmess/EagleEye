@@ -68,10 +68,6 @@ static int read_csv(const string& filename, vector<Mat>& images, vector<int>& la
 int main(int argc, const char *argv[]) {
     // Check for valid command line arguments, print usage
     // if no arguments were given.
-    if (argc < 2) {
-        cout << "usage: " << argv[0] << " <csv.ext> <output_folder> " << endl;
-        exit(1);
-    }
     //string output_folder;
   /*  if (argc == 3) {
         output_folder = string(argv[2]);
