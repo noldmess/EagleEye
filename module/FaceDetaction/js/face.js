@@ -123,7 +123,6 @@ face.getTag=function(img){
 				}
 		});
 		 //remove Event
-		 var dsfdf=$('#img_img ');
 			$('#tool_righte .tool.Face .tool_items tbody tr i.icon-remove-sign').click(function(){
 				face.removeTagDiv(this);
 				var name=$(this).attr("name");
