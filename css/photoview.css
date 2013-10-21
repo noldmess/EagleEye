@@ -1,15 +1,18 @@
 #photoview{
-	margin-top: 2.8em;
+	position:absolute;
+	display:inline-block;
+	margin-top:0em;
+	top: 2.8em;
+	left: 0em;
+	right: 0px;
+	bottom: 0px;
 	overflow: visible; 
-	height:100%;
-	width:100%;
-	position: fixed ;
 	background-color:#f5f5f5;
-	display: block;
+	/*background: url("/owncloud/core/css/../img/noise.png") repeat scroll 0% 0% rgb(56, 60, 67);*/
 }
 
 #photoview_load{
-	margin-top: 2.8em;
+	top: 2.8em;
 	overflow: visible; 
 	height:100%;
 	width:100%;
@@ -22,8 +25,8 @@
 	height: 90%;
 	top: 0em;
 	left: 0em;
-	bottom: 0px;
-}
+	bottom: 0px	
+	}
 
 
 
@@ -38,9 +41,12 @@ div.tool_title i{
 
 
 #photo{
-	height:100%;
-	margin-right:auto;
-	margin-left: auto;
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	margin:auto;
 }
 
 div.loading{
@@ -50,11 +56,11 @@ div.loading{
 
 
 #photo img{
+	position:relative;
 	margin:10px;
 	max-width: 95%;
 	max-height:90%;
-	margin-right:auto;
-	margin-left: auto;
+
 }
 
 
@@ -79,11 +85,11 @@ div.tool_title h1{
 }
 
 #tool_righte{
-	overflow-x:scroll;
+	overflow-y:scroll;
 	position:absolute;
 	width: 30%;
 	top: 0em;
-	right: 5em;
+	right: 0em;
 	bottom: 0px;
 	/*background-color: rgb(238, 238, 238);*/
 }
