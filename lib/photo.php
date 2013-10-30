@@ -23,7 +23,7 @@ namespace OCA\FaceFinder;
 use OCP;
 class FaceFinderPhoto{// implements OC_Module_Interface{
 	private  $paht;
-	private  static $version='0.0.1';
+	private  static $version='0.1.0';
 
 	/**
 	 * 
@@ -151,13 +151,13 @@ class FaceFinderPhoto{// implements OC_Module_Interface{
 						$day=0;
 						$images=array();
 						$rows=false;
-						$stmta = \OCP\DB::prepare('SELECT  Day(date_photo) as day,path,photo_id FROM`*PREFIX*facefinder`Where uid_owner LIKE ? AND YEAR(date_photo) = ? AND MONTH(date_photo) = ?  And  path like ? order by date_photo ASC');
+						$stmta = \OCP\DB::prepare('SELECT  Day(date_photo) as day,path,photo_id,width,height FROM`*PREFIX*facefinder`Where uid_owner LIKE ? AND YEAR(date_photo) = ? AND MONTH(date_photo) = ?  And  path like ? order by date_photo ASC');
 						$resultday = $stmta->execute(array(\OCP\USER::getUser(),$rowyear['year'],$rowmonth['month'],$dir."%"));
 						$countday=0;
 						while (($rowday = $resultday->fetchRow())!= false) {
 							
 								if($day==$rowday['day']){
-									$images[]=array("id"=>$rowday['photo_id'],"path"=>$rowday['path']);
+									$images[]=array("id"=>$rowday['photo_id'],"path"=>$rowday['path'],"Height"=>$rowday['height'],"width"=>$rowday['width']);
 								}else{
 									if($day!=0){
 										$days[]=array('day'=>$day,"number"=>$countday,"imags"=>$images);
@@ -166,7 +166,7 @@ class FaceFinderPhoto{// implements OC_Module_Interface{
 									}
 									$images=array();
 									$day=$rowday['day'];
-									$images[]=array("id"=>$rowday['photo_id'],"path"=>$rowday['path']);
+									$images[]=array("id"=>$rowday['photo_id'],"path"=>$rowday['path'],"Height"=>$rowday['height'],"width"=>$rowday['width']);
 								}
 								$countday++;
 						}
