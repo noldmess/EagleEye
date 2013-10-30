@@ -304,7 +304,7 @@ public function test($a, $b)
 			
 			
 			public static function getArrayOfScript(){
-				return array("kamera");
+				return array("start"=>"kamera");
 			}
 
 
