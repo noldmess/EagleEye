@@ -60,9 +60,11 @@ foreach ($moduleclasses as $moduleclass){
 	}
 }
 //test if all modules initialised
+$Testarray=array();
 foreach ($moduleclasses as $moduleclass){
-		$class=$moduleclass['Mapper']::initialiseDB();
+		$Testarray[$moduleclass['Mapper']]=$class=$moduleclass['Mapper']::initialiseDB();
 }
+
 $pathArray=OC_FaceFinder_Scanner::scan("");
 OCP\Util::writeLog("facefinder",json_encode($pathArray),OCP\Util::DEBUG);
 foreach ($pathArray as $path){
@@ -77,7 +79,15 @@ foreach ($pathArray as $path){
 				$moduleclass['Mapper']::insert($class);
 			}
 		}
-
+	}else{
+		$photo=OCA\FaceFinder\FaceFinderPhoto::getPhotoClassPath($path);
+		foreach ($moduleclasses as $moduleclass){
+			if($Testarray[$moduleclass['Mapper']]){
+				$class=$moduleclass['Class']::getInstanceByPath($path,$photo->getID());
+				$moduleclass['Mapper']::insert($class);
+				OCP\Util::writeLog("sdfsdfssssssssssssssssd","sdfdsfsdfsd",OCP\Util::DEBUG);
+			}
+		}
 	}
 }
 

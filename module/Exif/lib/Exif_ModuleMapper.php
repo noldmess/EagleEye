@@ -342,7 +342,7 @@ class EXIF_ModuleMapper implements OCA\FaceFinder\MapperInterface{
 		
 		
 		public static function getArrayOfScript(){
-			return array("exif");
+			return array("start"=>"exif");
 		}
 		
 		

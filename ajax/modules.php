@@ -8,9 +8,9 @@ $moduleclasses=$Initialisemodul->getModuleClass();
 
 foreach ($moduleclasses as $moduleclass){
 	$arrayScript=$moduleclass['Mapper']::getArrayOfScript();
-	foreach($arrayScript as $script){
-		$scriptArray[]=$script;
-	}
+	//foreach($arrayScript as $script){
+		$scriptArray[]=$arrayScript["start"];
+	//}
 }
 echo OCP\JSON::success(array('data'=>$scriptArray));
 ?>

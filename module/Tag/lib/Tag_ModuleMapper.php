@@ -434,7 +434,7 @@ class Tag_ModuleMapper implements OCA\FaceFinder\MapperInterface{
 			
 			
 		public static function getArrayOfScript(){
-			return array("tag");
+			return array("start"=>"tag");
 		}
 		
 		public static function getVersion(){

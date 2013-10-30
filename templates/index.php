@@ -49,9 +49,11 @@ if(isset($_['patharray']) && $size>1 )
 </div>
 <div id="photoview">
 	<div id="tool_left">
-		<div id="photo" ></div>
+		<div id="photo" >
+		</div>
 	</div>
-	<div id="tool_righte"></div>
+	<div id="tool_righte">
+	</div>
 </div>
 <div id="duplicate">
 <table class="table table-hover">

@@ -30,12 +30,12 @@ function tag() {
 					$(this).attr('title', $(this).data('tipText'));
 					$('.tooltip').remove();
 				}).mousemove(function(e) {
-			var mousex = e.pageX + 10; // Get X coordinates
-			var mousey = e.pageY + 10; // Get Y coordinates
-			$('.tooltip').css({
-				top : mousey,
-				left : mousex
-			})
+					var mousex = e.pageX + 10; // Get X coordinates
+					var mousey = e.pageY + 10; // Get Y coordinates
+					$('.tooltip').css({
+						top : mousey,
+						left : mousex
+					})
 		});
 
 	};
@@ -132,17 +132,12 @@ function tag() {
 
 			this.init = function() {
 				// Tool Box Tag
-				$("#tool_righte")
-						.append(
-								'<div class="tool Tag"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>IPTC</div><div class="tool_items">'
-										+ '<table class="table"></table></div></div>');
+				$("#tool_righte").append('<div class="tool Tag"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>IPTC</div><div class="tool_items">'+ '<table class="table"></table></div></div>');
 				// Tool Box Tag
 
 				// Tool Box Key
-				$("#tool_righte")
-						.append(
-								'<div class="tool Key"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Tags</div><div class="tool_items fix"><p><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input></p><p><input   type="checkbox"  value="" name="query" ><label for="male"> All tags Visible</label></input></p></div><div class="tool_items">'
-										+ '<table class="table"></table></div></div>');
+				$("#tool_righte").append('<div class="tool Key"><div class="tool_title"><i class="icon-white icon-arrow-up"></i>Tags</div><div class="tool_items fix"><p><input   type="text"  value="" name="query"  placeholder="Write Tag"></input><input type="submit" value=" Set Tag "></input></p><p><input   type="checkbox"  value="" name="query" ><label for="male"> All tags Visible</label></input></p></div><div class="tool_items">'+ '<table class="table"></table></div></div>');
+				
 				// evants for add tag
 				$("#tool_righte div.tool.Key input[type='submit']").click(
 						function(e) {
@@ -167,8 +162,7 @@ function tag() {
 				// Tool Box Key
 
 				// Add menu
-				$('span.right select[title="Select view"]').append(
-						'<option value="tag">Sort by Tag</option>');
+				$('span.right select[title="Select view"]').append('<option value="tag">Sort by Tag</option>');
 				// Event for menu
 				$('option[value="tag"]').click(function(e) {
 					$('button.remove').hide();
@@ -179,9 +173,7 @@ function tag() {
 				// Add menu
 
 				// Add form to add Tags in Photo Over view#
-				$("#moduleFildsinner")
-						.append(
-								'<div id="tag"><input   type="text"  value="" name="query"  placeholder="add Tag"></input><button class="submitTag">add Tag</button><input type="hidden" value="0" name="counterTag"></input></div>');
+				$("#moduleFildsinner").append('<div id="tag"><input   type="text"  value="" name="query"  placeholder="add Tag"></input><button class="submitTag">add Tag</button><input type="hidden" value="0" name="counterTag"></input></div>');
 				// event
 				$("button.submitTag").click(function(e) {
 					tag.checkbox();
@@ -274,7 +266,7 @@ tag.maketag = function(e) {
 
 		$('#photo .draggable').draggable({
 			cursor : 'move',
-			containment : '#img_img'
+			containment : '#photo'
 		});
 		$('#photo .draggable2').resizable({
 			minHeight : 100,
@@ -474,9 +466,7 @@ tag.getTag = function(img) {
 							}
 
 							$("#photo div.tag_in_photo").hide();
-							$(
-									'#tool_righte .tool.Key .tool_items tbody tr i.icon-remove-sign')
-									.click(function() {
+							$('#tool_righte .tool.Key .tool_items tbody tr i.icon-remove-sign').click(function() {
 										tag.removeTag(this);
 									});
 							$('#tool_righte .tool.Key .tool_items tbody tr')

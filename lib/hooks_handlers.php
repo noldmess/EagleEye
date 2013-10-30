@@ -29,14 +29,12 @@ class HooksHandlers {
 	 * @param  $params
 	 */
 	public static function write($params) {
-		OCP\Util::writeLog("facefinddddddddddddddddddder","write".$path,OCP\Util::DEBUG);
 		$path = $params['path'];
 		if(self::isPhoto($path)){
 		$photoOpject=PhotoClass::getInstanceByPaht($path);
 		if(FaceFinderPhoto::insert($photoOpject)){
 			$photo=FaceFinderPhoto::getPhotoClassPath($path);
 			if(!is_null($photo)){
-				OCP\Util::writeLog("facefinder","<<<<<<".$path,OCP\Util::DEBUG);
 				$writemodul=ModuleManeger::getInstance();
 				$moduleclasses=$writemodul->getModuleClass();
 					foreach ($moduleclasses as $moduleclass){
