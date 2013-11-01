@@ -1,4 +1,5 @@
-facefinder
+EagleEye
 ==========
 
-facefinder
+EagleEye is a Application for OwnCloud.
+
