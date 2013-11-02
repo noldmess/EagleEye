@@ -11,6 +11,14 @@ $(document).ready(function() {
 
     });
 
+	$('span.right select[title="Select view"]').change(function(event){
+
+                                                $('button.remove').hide();
+                                                window.history.pushState({
+                                                path : event.target.value
+                                                }, "", "#"+event.target.value);
+          });
+
     setInterval("checkURL()",250);	//check for a change in the URL every 250 ms to detect if the history buttons have been used
 
 });
