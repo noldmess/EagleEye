@@ -27,7 +27,7 @@ if(isset($_['patharray']) && $size>1 )
 	<span class="right">
 	<label>Select view:</label>
 	<select title="Select view">
-		<option value="time">Sort by Time</option>
+		<option value="EagleEye">Sort by Time</option>
 		<!-- button class="time" style=""> Time </button> -->
 		</select>
 	</span>
