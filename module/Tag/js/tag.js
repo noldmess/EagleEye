@@ -172,7 +172,7 @@ function tag() {
 				});
 				var s=$('option');
 				var d=$('option[value="tag"]');
-				$('option[value="tag"]').bind('change', function(){
+				$('span.right select[title="Select view"]').change(function(event){
 					alert('hi!');
 				});
 				// Add menu
