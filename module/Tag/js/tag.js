@@ -171,7 +171,7 @@ function tag() {
 					}, "", "#tag");
 				});
 				var s=$('option');
-				var d=$('option[value="tag"]'):
+				var d=$('option[value="tag"]');
 				$('option[value="tag"]').bind('click', function(){
 					alert('hi!');
 				});
