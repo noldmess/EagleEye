@@ -173,7 +173,7 @@ function tag() {
 				var s=$('option');
 				var d=$('option[value="tag"]');
 				$('span.right select[title="Select view"]').change(function(event){
-					alert('hi!');
+					alert(event.target.value);
 				});
 				// Add menu
 
