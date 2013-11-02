@@ -172,7 +172,7 @@ function tag() {
 				});
 				var s=$('option');
 				var d=$('option[value="tag"]');
-				$('option[value="tag"]').bind('click', function(){
+				$('option[value="tag"]').bind('change', function(){
 					alert('hi!');
 				});
 				// Add menu
