@@ -170,10 +170,15 @@ function tag() {
 						path : "tag"
 					}, "", "#tag");
 				});
-				var s=$('option');
-				var d=$('option[value="tag"]');
+
+
 				$('span.right select[title="Select view"]').change(function(event){
-					alert(event.target.value);
+					if(event.target.value==="tag"){
+						$('button.remove').hide();
+						window.history.pushState({
+						path : "tag"
+						}, "", "#tag");
+					}
 				});
 				// Add menu
 
