@@ -2,9 +2,9 @@ var Duplicatits={
 		init:function(){
 			$('#duplicate').hide();
 			$('span.right select[title="Select view"]').append('<option value="duplicates">Finde Duplicates</option>');
-			$('option[value="duplicates"]').click(function(e){
+			/*$('option[value="duplicates"]').click(function(e){
 				window.history.pushState({path:"duplicatits"},"","#duplicatits");
-			});
+			});*/
 			
 			$("span.right ").append('<button class="remove" title="Remove">Remove (0)</button><input type="hidden" name="removecount">');
 			//TODO add size regulator
