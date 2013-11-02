@@ -170,6 +170,10 @@ function tag() {
 						path : "tag"
 					}, "", "#tag");
 				});
+				
+				$('option[value="tag"]').bind('click', function(){
+					alert('hi!');
+				});
 				// Add menu
 
 				// Add form to add Tags in Photo Over view#
