@@ -48,7 +48,7 @@ function checkURL(hash)
 	    		FaceFinder.load(help);
 	    		Module.resateView();
 	            break;
-	        case "duplicatits":
+	        case "duplicates":
 	    		Duplicatits.showView();
 	    		Duplicatits.load(help);
 	            break;
