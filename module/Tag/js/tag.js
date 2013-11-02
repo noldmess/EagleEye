@@ -164,6 +164,8 @@ function tag() {
 				// Add menu
 				$('span.right select[title="Select view"]').append('<option value="tag">Sort by Tag</option>');
 				// Event for menu
+				
+				//Fix for Chrome 
 				$('option[value="tag"]').click(function(e) {
 					$('button.remove').hide();
 					window.history.pushState({
