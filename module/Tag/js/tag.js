@@ -576,20 +576,30 @@ tag.sidebar = function(tags) {
 }
 
 tag.photoOverView = function(photos) {
-	$.each(photos, function(index_tag, image) {
+	var photosperpage = 12;
+	var pagephotos = photos.slice(0,photosperpage);
+	var nextpagephotos = photos.slice(photosperpage);
+	$("#loadMore").remove();
+	$.each(pagephotos, function(index_tag, image) {
 		// $('#photoOverView').append('<div class="image" ><div class="test"><a
 		// name="'+image.path+'" href="#photoview/'+image.id+'"><img
 		// src="'+OC.linkTo('gallery',
 		// 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.path+'"
 		// alt="'+image.id+'"></a><input type="checkbox" original-title=""
 		// alt="'+image.id+'" ></input></div></div>');
-		Module.addImagePhotoOverView(image);
+			Module.addImagePhotoOverView(image);
 		/*
 		 * $('#photoOverView a[name^="'+image.path+'"] img').click(function(){
 		 * PhotoView.ClickImg(this) });
 		 */
 
 	});
+	if(nextpagephotos.length > 0) {
+		$('#photoOverView').append('<div id="loadMore" class="image" ><div class="test"><div class="loadMore"><span style="font-style: italic;font-size: 20px;color: rgb(255, 255, 255);cursor: pointer;">Load '+Math.min(photosperpage,nextpagephotos.length)+' of '+nextpagephotos.length+' more photos</span></div></div></div>');
+		$(".loadMore").click(function () {
+			tag.photoOverView(nextpagephotos);
+		});
+	}
 	Module.setEvents();
 }
 

@@ -91,33 +91,47 @@ var FaceFinder={
 		});
 	},
 	addYearPhotoOverView:function(data){
-		$.each(data,function(index_year,data){
-	   		FaceFinder.addMonthPhotoOverView(data.month);
-   		});
+		var photos = [];
+		$.each(data,function(index_year,data_year){
+			$.each(data_year.month,function(index_month,data_month){
+				$.each(data_month.days,function(index_day,days){
+					photos = photos.concat(days.imags);
+				});
+			});
+		});
+		FaceFinder.addDataPhotoOverView(photos);
 		Module.setEvents();
 	},
 	addMonthPhotoOverView:function(data){
-		$.each(data,function(index_month,data){
-    	  		FaceFinder.addDayPhotoOverView(data.days);
+		var photos = [];
+		$.each(data,function(index_month,data_month){
+			$.each(data_month.days,function(index_day,days){
+				photos = photos.concat(days.imags);
 			});
+		});
+		FaceFinder.addDataPhotoOverView(photos);
 	},
 	addDayPhotoOverView:function(data){
+		var photos = [];
 		$.each(data,function(index_day,days){
-		   $.each(days.imags,function(index,image){
-			   Module.addImagePhotoOverView(image);
-			   //$("#photoOverView").append('<div class="image" ><div class="test"><a name="'+image.imagsname+'" href="#photoview/'+image.imagsid+'"><img name="'+image.imagsname+'" src="'+OC.linkTo('gallery', 'ajax/thumbnail.php')+'?file='+oc_current_user+'/'+image.imagsname+'"  alt="'+image.imagsid+'"></a><input type="checkbox" original-title="" alt="'+image.imagsid+'" ></input></div></div>');
-			 /*	$('#photoOverView  img[alt="'+image.imagsid+'"]').click(function(){
-			 			//window.history.pushState({path:"photoview"},"","#photoview");
-			 			//PhotoView.ClickImg(this)});*/
-		   });
-		
+			photos = photos.concat(days.imags);
 		});
-
+		FaceFinder.addDataPhotoOverView(photos);
 	},
-	addDataPhotoOverView:function(data){
-		$.each(data,function(index_day,image){
+	addDataPhotoOverView:function(photos){
+		var photosperpage = 12;
+		var pagephotos = photos.slice(0,photosperpage);
+		var nextpagephotos = photos.slice(photosperpage);
+		$("#loadMore").remove();
+		$.each(pagephotos,function(index_day,image){
 			Module.addImagePhotoOverView(image);
 			});
+		if(nextpagephotos.length > 0) {
+			$('#photoOverView').append('<div id="loadMore" class="image" ><div class="test"><div class="loadMore"><span style="font-style: italic;font-size: 20px;color: rgb(255, 255, 255);cursor: pointer;">Load '+Math.min(photosperpage,nextpagephotos.length)+' of '+nextpagephotos.length+' more photos</span></div></div></div>');
+			$(".loadMore").click(function () {
+				FaceFinder.addDataPhotoOverView(nextpagephotos);
+			});
+		}
 		Module.setEvents();
 	},
 	loadData:function(e,t){
