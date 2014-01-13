@@ -56,6 +56,17 @@
 	    <notnull>true</notnull>
 	    <length>256</length>
       </field>
+      <index>
+        <name>index_uid_owner_path</name>
+        <field>
+          <name>uid_owner</name>
+          <sorting>ascending</sorting>
+        </field>
+        <field>
+          <name>path</name>
+          <sorting>ascending</sorting>
+        </field>
+      </index>
     </declaration>
   </table>
 </database>
