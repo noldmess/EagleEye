@@ -94,7 +94,7 @@ class FaceFinderPhoto{// implements OC_Module_Interface{
 	}
 	
 	public static function getPhotoClassPath($paht){
-		$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `path` LIKE ?');
+		$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` = ? AND `path` = ?');
 		$result = $stmt->execute(array(\OCP\USER::getUser(), $paht));
 		$class=null;
 		while (($row = $result->fetchRow())!= false) {
@@ -108,7 +108,7 @@ class FaceFinderPhoto{// implements OC_Module_Interface{
 	 * @return boolean
 	 */
 	public static  function  issetPhotoId($paht){
-		$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` LIKE ? AND `path` LIKE ?');
+		$stmt = \OCP\DB::prepare('SELECT * FROM `*PREFIX*facefinder` WHERE `uid_owner` = ? AND `path` = ?');
 		$result = $stmt->execute(array(\OCP\USER::getUser(), $paht));
 		return ($result->numRows()==1);
 	
